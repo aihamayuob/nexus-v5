@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060d1a">
+    <title>NEXUS AGENTS v11.2 — Sovereign Nexus Fixed</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ═══════════════════════════════════════════════
+           RESET & ROOT
+        ═══════════════════════════════════════════════ */
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+        :root {
+            --c0: #060d1a;
+            --c1: #0a1628;
+            --c2: #0f2040;
+            --c3: #1a3a5c;
+            --accent: #00d4ff;
+            --accent2: #7b2fff;
+            --accent3: #ff6b35;
+            --gold: #ffd700;
+            --success: #00e5a0;
+            --danger: #ff4757;
+            --warn: #ffa502;
+            --text: #e8f4ff;
+            --muted: #5a7a9a;
+            --card: rgba(10,22,40,0.85);
+            --border: rgba(0,212,255,0.15);
+            --glow: 0 0 20px rgba(0,212,255,0.3);
+            --glow2: 0 0 20px rgba(123,47,255,0.3);
+            --fw: 380px;
+            font-size: 16px;
+        }
+
+        @media (max-width: 900px) { :root { font-size: 15px; } }
+        @media (max-width: 600px) { :root { font-size: 14px; } }
+
+        html, body { width:100%; height:100%; overflow:hidden; font-family:'Tajawal',sans-serif; background:var(--c0); color:var(--text); }
+        body { display:flex; flex-direction:column; }
+
+        ::-webkit-scrollbar { width:0.375rem; }
+        ::-webkit-scrollbar-track { background:transparent; }
+        ::-webkit-scrollbar-thumb { background:rgba(0,212,255,0.2); border-radius:0.1875rem; }
+        ::-webkit-scrollbar-thumb:hover { background:rgba(0,212,255,0.4); }
+
+        .bg-grid { position:fixed; inset:0; z-index:0; background-image:linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px); background-size:2.5rem 2.5rem; animation:gridShift 20s linear infinite; }
+        @keyframes gridShift { 0%{background-position:0 0} 100%{background-position:2.5rem 2.5rem} }
+
+        .bg-glow { position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse 37.5rem 25rem at 15% 20%, rgba(0,212,255,0.06) 0%, transparent 60%),radial-gradient(ellipse 31.25rem 21.875rem at 85% 80%, rgba(123,47,255,0.06) 0%, transparent 60%); }
+
+        .header { position:relative; z-index:100; background:linear-gradient(90deg, rgba(6,13,26,0.97) 0%, rgba(10,22,40,0.97) 100%); border-bottom:1px solid var(--border); padding:0.85rem 1.5rem; display:flex; align-items:center; justify-content:space-between; backdrop-filter:blur(20px); box-shadow:0 0.25rem 1.5rem rgba(0,0,0,0.4), 0 0.0625rem 0 rgba(0,212,255,0.1); }
+
+        .logo { display:flex; align-items:center; gap:0.85rem; }
+        .logo-icon { width:2.6rem; height:2.6rem; background:linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%); border-radius:0.6rem; display:flex; align-items:center; justify-content:center; font-size:1.2rem; box-shadow:0 0 1.25rem rgba(0,212,255,0.4), 0 0 2.5rem rgba(123,47,255,0.2); animation:logoPulse 3s ease-in-out infinite; }
+        @keyframes logoPulse { 0%,100%{box-shadow:0 0 1.25rem rgba(0,212,255,0.4),0 0 2.5rem rgba(123,47,255,0.2)} 50%{box-shadow:0 0 1.875rem rgba(0,212,255,0.6),0 0 3.75rem rgba(123,47,255,0.3)} }
+
+        .logo-text { display:flex; flex-direction:column; }
+        .logo-title { font-size:1.1rem; font-weight:900; letter-spacing:0.12em; background:linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1.1; }
+        .logo-sub { font-size:0.62rem; color:var(--muted); letter-spacing:0.06em; font-weight:500; margin-top:0.125rem; }
+
+        .header-badges { display:flex; align-items:center; gap:0.6rem; }
+        .version-badge { font-size:0.62rem; font-weight:700; letter-spacing:0.05em; padding:0.3rem 0.65rem; border-radius:0.35rem; background:rgba(0,212,255,0.1); border:1px solid rgba(0,212,255,0.25); color:var(--accent); font-family:'Space Mono',monospace; }
+
+        .api-status { font-size:0.62rem; font-weight:700; padding:0.3rem 0.65rem; border-radius:0.35rem; display:flex; align-items:center; gap:0.35rem; cursor:pointer; transition:all 0.2s; outline:none; }
+        .api-status:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+        .api-status.connected { background:rgba(0,229,160,0.1); border:1px solid rgba(0,229,160,0.3); color:var(--success); }
+        .api-status.disconnected { background:rgba(255,71,87,0.1); border:1px solid rgba(255,71,87,0.3); color:var(--danger); }
+        .api-status.waiting { background:rgba(255,165,2,0.1); border:1px solid rgba(255,165,2,0.3); color:var(--warn); }
+
+        .status-dot { width:0.375rem; height:0.375rem; border-radius:50%; animation:blink 1.5s ease-in-out infinite; }
+        .connected .status-dot { background:var(--success); }
+        .disconnected .status-dot { background:var(--danger); animation:none; }
+        .waiting .status-dot { background:var(--warn); }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        .header-actions { display:flex; gap:0.6rem; align-items:center; }
+        .hbtn { background:rgba(0,212,255,0.07); border:1px solid var(--border); color:var(--muted); padding:0.5rem 0.75rem; border-radius:0.5rem; cursor:pointer; font-size:0.8rem; transition:all 0.2s; display:flex; align-items:center; gap:0.35rem; outline:none; }
+        .hbtn:hover { background:rgba(0,212,255,0.15); border-color:rgba(0,212,255,0.4); color:var(--accent); }
+        .hbtn:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+
+        .modal-overlay { position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.75); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+        .modal-overlay.show { opacity:1; pointer-events:auto; }
+
+        .modal { background:var(--c1); border:1px solid var(--border); border-radius:1.2rem; padding:2rem; width:min(460px, 90vw); box-shadow:0 1.5rem 4rem rgba(0,0,0,0.6), var(--glow); transform:translateY(1.25rem); transition:transform 0.3s; }
+        .modal-overlay.show .modal { transform:translateY(0); }
+
+        .modal-header { display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; }
+        .modal-icon { font-size:1.8rem; }
+        .modal-title { font-size:1.1rem; font-weight:700; color:var(--text); }
+        .modal-sub { font-size:0.78rem; color:var(--muted); margin-top:0.25rem; }
+
+        .modal-body { display:flex; flex-direction:column; gap:1rem; }
+        .input-label { font-size:0.78rem; font-weight:600; color:var(--muted); margin-bottom:0.4rem; display:block; }
+
+        .api-input { width:100%; background:rgba(0,212,255,0.05); border:1.5px solid var(--border); border-radius:0.6rem; padding:0.85rem 1rem; color:var(--text); font-size:0.9rem; font-family:'Space Mono',monospace; outline:none; direction:ltr; transition:all 0.2s; letter-spacing:0.05em; }
+        .api-input:focus { border-color:var(--accent); background:rgba(0,212,255,0.08); box-shadow:var(--glow); }
+
+        .api-hint { font-size:0.72rem; color:var(--muted); background:rgba(0,212,255,0.05); padding:0.65rem 0.85rem; border-radius:0.5rem; border-right:2px solid var(--accent); line-height:1.6; }
+        .api-hint a { color:var(--accent); text-decoration:none; }
+
+        .modal-actions { display:flex; gap:0.75rem; margin-top:0.5rem; }
+
+        .btn-primary { flex:1; padding:0.85rem; border:none; border-radius:0.6rem; cursor:pointer; background:linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%); color:white; font-weight:700; font-size:0.9rem; font-family:'Tajawal',sans-serif; transition:all 0.2s; box-shadow:0 0.25rem 1rem rgba(0,212,255,0.3); outline:none; }
+        .btn-primary:hover { transform:translateY(-0.125rem); box-shadow:0 0.5rem 1.5rem rgba(0,212,255,0.4); }
+        .btn-primary:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+
+        .btn-secondary { padding:0.85rem 1.25rem; border:1px solid var(--border); border-radius:0.6rem; cursor:pointer; background:transparent; color:var(--muted); font-size:0.85rem; font-family:'Tajawal',sans-serif; transition:all 0.2s; outline:none; }
+        .btn-secondary:hover { border-color:var(--muted); color:var(--text); }
+        .btn-secondary:focus-visible { box-shadow: 0 0 0 2px var(--muted); }
+
+        .main { display:flex; flex:1; overflow:hidden; padding:0.85rem; gap:0.85rem; position:relative; z-index:1; }
+
+        .sidebar { width:var(--fw); flex-shrink:0; background:var(--card); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:0.85rem; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 0.5rem 2rem rgba(0,0,0,0.3); transition:transform 0.3s ease, width 0.3s ease, padding 0.3s ease, border 0.3s ease; }
+        .sidebar.hidden { transform:translateX(-110%); width:0; padding:0; border:none; }
+
+        .sidebar-inner { flex:1; overflow-y:auto; padding:1rem; display:flex; flex-direction:column; gap:0.75rem; }
+
+        .section { background:rgba(0,212,255,0.03); border:1px solid var(--border); border-radius:0.7rem; padding:0.85rem; display:flex; flex-direction:column; gap:0.65rem; }
+        .section-title { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); display:flex; align-items:center; gap:0.45rem; }
+
+        .memory-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem; }
+        .stat-card { background:rgba(0,0,0,0.3); border:1px solid rgba(0,212,255,0.1); border-radius:0.5rem; padding:0.6rem; text-align:center; }
+        .stat-val { font-size:1.1rem; font-weight:900; color:var(--accent); font-family:'Space Mono',monospace; }
+        .stat-lbl { font-size:0.6rem; color:var(--muted); margin-top:0.125rem; }
+
+        .collab-agents { display:grid; grid-template-columns:repeat(4,1fr); gap:0.4rem; }
+        .collab-agent { aspect-ratio:1; background:rgba(0,0,0,0.3); border:1.5px solid rgba(0,212,255,0.1); border-radius:0.5rem; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.2rem; font-size:0.55rem; color:var(--muted); transition:all 0.2s; outline:none; }
+        .collab-agent:hover { border-color:rgba(0,212,255,0.3); color:var(--text); }
+        .collab-agent:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+        .collab-agent.selected { border-color:var(--accent); background:rgba(0,212,255,0.1); color:var(--accent); box-shadow:0 0 0.75rem rgba(0,212,255,0.2); }
+        .collab-agent-icon { font-size:1.1rem; }
+
+        .mode-pills { display:flex; gap:0.4rem; }
+        .pill { flex:1; padding:0.5rem; border:1px solid rgba(0,212,255,0.15); background:rgba(0,0,0,0.3); border-radius:0.45rem; cursor:pointer; font-size:0.68rem; font-weight:600; color:var(--muted); text-align:center; transition:all 0.2s; font-family:'Tajawal',sans-serif; outline:none; }
+        .pill:hover { border-color:rgba(0,212,255,0.3); color:var(--text); }
+        .pill:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+        .pill.active { border-color:var(--accent); background:rgba(0,212,255,0.1); color:var(--accent); box-shadow:0 0 0.75rem rgba(0,212,255,0.2); }
+
+        .kb-input { width:100%; background:rgba(0,212,255,0.05); border:1px solid var(--border); border-radius:0.5rem; padding:0.6rem 0.8rem; color:var(--text); font-size:0.8rem; outline:none; transition:all 0.2s; }
+        .kb-input:focus { border-color:var(--accent); background:rgba(0,212,255,0.08); }
+
+        .kb-docs { display:flex; flex-direction:column; gap:0.4rem; max-height:8rem; overflow-y:auto; }
+        .kb-doc { background:rgba(0,0,0,0.3); border:1px solid rgba(0,212,255,0.1); border-radius:0.5rem; padding:0.5rem; display:flex; align-items:center; justify-content:space-between; font-size:0.75rem; color:var(--muted); }
+        .kb-doc-text { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .kb-doc-remove { background:none; border:none; color:var(--danger); cursor:pointer; font-size:0.7rem; transition:all 0.2s; outline:none; }
+        .kb-doc-remove:hover { color:var(--accent3); }
+
+        .chat-container { flex:1; display:flex; flex-direction:column; overflow:hidden; background:var(--card); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:0.85rem; box-shadow:0 0.5rem 2rem rgba(0,0,0,0.3); }
+
+        .chat-header { padding:1rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:0.75rem; }
+        .chat-icon { font-size:1.5rem; }
+        .chat-info { flex:1; }
+        .chat-name { font-size:0.95rem; font-weight:700; color:var(--text); }
+        .chat-role { font-size:0.65rem; color:var(--muted); margin-top:0.125rem; }
+        .collab-tag { display:inline-block; background:rgba(123,47,255,0.2); border:1px solid rgba(123,47,255,0.4); color:var(--accent2); padding:0.2rem 0.5rem; border-radius:0.3rem; font-size:0.6rem; margin-top:0.25rem; }
+
+        .empty-state { display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; color:var(--muted); text-align:center; padding:2rem; }
+        .empty-icon { font-size:3rem; margin-bottom:1rem; opacity:0.5; }
+        .empty-title { font-size:1.1rem; font-weight:700; color:var(--text); margin-bottom:0.5rem; }
+        .empty-sub { font-size:0.8rem; }
+
+        .chat-area { flex:1; overflow-y:auto; padding:1rem; display:flex; flex-direction:column; gap:0.75rem; }
+
+        .message-bubble { display:flex; gap:0.75rem; animation:slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity:0; transform:translateY(0.5rem); } to { opacity:1; transform:translateY(0); } }
+        .message-bubble.user { flex-direction:row-reverse; }
+        .bubble-icon { width:2.2rem; height:2.2rem; min-width:2.2rem; border-radius:0.5rem; background:rgba(0,212,255,0.1); border:1px solid rgba(0,212,255,0.2); display:flex; align-items:center; justify-content:center; font-size:1rem; }
+        .message-bubble.user .bubble-icon { background:rgba(123,47,255,0.1); border-color:rgba(123,47,255,0.2); }
+
+        .bubble-content { background:rgba(0,212,255,0.05); border:1px solid rgba(0,212,255,0.15); border-radius:0.65rem; padding:0.75rem 1rem; color:var(--text); font-size:0.85rem; line-height:1.6; word-wrap:break-word; max-width:70%; }
+        .message-bubble.user .bubble-content { background:rgba(123,47,255,0.08); border-color:rgba(123,47,255,0.2); }
+
+        .bubble-actions { display:flex; gap:0.4rem; margin-top:0.5rem; }
+        .feedback-btn { background:none; border:none; color:var(--muted); cursor:pointer; font-size:0.75rem; transition:all 0.2s; outline:none; }
+        .feedback-btn:hover { color:var(--accent); }
+        .feedback-btn.active { color:var(--accent); }
+
+        .input-area { padding:1rem; border-top:1px solid var(--border); background:rgba(0,0,0,0.2); display:flex; flex-direction:column; gap:0.5rem; }
+
+        .prediction-pills { display:flex; gap:0.4rem; flex-wrap:wrap; }
+        .suggestion-pill { background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); color:var(--accent); padding:0.35rem 0.65rem; border-radius:0.4rem; font-size:0.7rem; cursor:pointer; transition:all 0.2s; outline:none; }
+        .suggestion-pill:hover { background:rgba(0,212,255,0.15); border-color:rgba(0,212,255,0.4); }
+        .suggestion-pill:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+
+        .input-wrapper { display:flex; gap:0.5rem; align-items:flex-end; }
+        #inputField { flex:1; background:rgba(0,212,255,0.05); border:1.5px solid var(--border); border-radius:0.6rem; padding:0.75rem 1rem; color:var(--text); font-size:0.85rem; font-family:'Tajawal',sans-serif; outline:none; resize:none; max-height:6rem; transition:all 0.2s; }
+        #inputField:focus { border-color:var(--accent); background:rgba(0,212,255,0.08); box-shadow:var(--glow); }
+
+        .send-btn, .cancel-btn { padding:0.75rem 1rem; border:none; border-radius:0.6rem; cursor:pointer; font-size:0.8rem; transition:all 0.2s; outline:none; display:flex; align-items:center; gap:0.4rem; }
+        .send-btn { background:linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%); color:white; font-weight:700; box-shadow:0 0.25rem 0.75rem rgba(0,212,255,0.3); }
+        .send-btn:hover { transform:translateY(-0.125rem); box-shadow:0 0.5rem 1.25rem rgba(0,212,255,0.4); }
+        .send-btn:disabled { opacity:0.5; cursor:not-allowed; }
+
+        .cancel-btn { background:rgba(255,71,87,0.1); border:1px solid rgba(255,71,87,0.3); color:var(--danger); display:none; }
+        .cancel-btn:hover { background:rgba(255,71,87,0.2); }
+
+        .char-count { font-size:0.65rem; color:var(--muted); text-align:right; }
+
+        .notifications { position:fixed; top:1rem; right:1rem; z-index:999; display:flex; flex-direction:column; gap:0.5rem; }
+        .notif { background:var(--c1); border:1px solid var(--border); border-radius:0.6rem; padding:0.85rem 1rem; font-size:0.8rem; backdrop-filter:blur(20px); box-shadow:0 0.5rem 1.5rem rgba(0,0,0,0.4); transform:translateX(400px); transition:transform 0.3s ease; }
+        .notif.show { transform:translateX(0); }
+        .notif.info { border-left:3px solid var(--accent); }
+        .notif.success { border-left:3px solid var(--success); }
+        .notif.warn { border-left:3px solid var(--warn); }
+        .notif.error { border-left:3px solid var(--danger); }
+
+        .proactive-notifs { position:fixed; bottom:1rem; right:1rem; z-index:998; display:flex; flex-direction:column; gap:0.5rem; max-width:300px; }
+        .proactive-notif { background:var(--c1); border:1px solid var(--accent); border-radius:0.6rem; padding:0.85rem; font-size:0.75rem; backdrop-filter:blur(20px); box-shadow:0 0 1.5rem rgba(0,212,255,0.3); display:flex; gap:0.5rem; align-items:flex-start; cursor:pointer; transition:all 0.2s; transform:translateY(400px); opacity:0; }
+        .proactive-notif.show { transform:translateY(0); opacity:1; }
+        .proactive-notif:hover { box-shadow:0 0 2rem rgba(0,212,255,0.4); }
+        .proactive-notif-icon { font-size:1.2rem; flex-shrink:0; }
+        .proactive-notif-text { flex:1; }
+        .proactive-notif-close { background:none; border:none; color:var(--muted); cursor:pointer; font-size:0.8rem; outline:none; }
+        .proactive-notif-close:hover { color:var(--accent); }
+
+        .roaming-status { font-size:0.7rem; color:var(--muted); padding:0.5rem; text-align:center; }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">🧠</div>
+            <div class="logo-text">
+                <div class="logo-title">NEXUS AGENTS</div>
+                <div class="logo-sub">v11.2 SOVEREIGN NEXUS FIXED</div>
+            </div>
+        </div>
+        <div class="header-badges">
+            <span class="version-badge">v11.2</span>
+            <button class="api-status disconnected" id="apiStatus" onclick="UI.openModal()" title="API غير متصل">
+                <span class="status-dot"></span>
+                <span id="apiStatusTxt">بدون API</span>
+            </button>
+        </div>
+        <div class="header-actions">
+            <button class="hbtn" onclick="Chat.exportChat()" title="تصدير المحادثة"><i class="fas fa-download"></i></button>
+            <button class="hbtn" onclick="Memory.clearAllMemory()" title="مسح الذاكرة"><i class="fas fa-trash"></i></button>
+            <button class="hbtn" onclick="UI.toggleSidebar()" title="إظهار/إخفاء القائمة"><i class="fas fa-bars"></i></button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon">🔑</div>
+                <div>
+                    <div class="modal-title">إضافة مفتاح API</div>
+                    <div class="modal-sub">أدخل مفتاح Claude API الخاص بك</div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label class="input-label">مفتاح API (Claude)</label>
+                    <input type="password" id="apiKeyInput" class="api-input" placeholder="sk-ant-..." autocomplete="off">
+                </div>
+                <div>
+                    <label class="input-label">كلمة المرور الرئيسية (لتشفير المفتاح)</label>
+                    <input type="password" id="masterKeyInput" class="api-input" placeholder="كلمة مرور قوية..." autocomplete="off">
+                </div>
+                <div class="api-hint">💡 سيتم تشفير مفتاحك بكلمة المرور الرئيسية. لن يتم حفظ المفتاح بصيغته الأصلية.</div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="Auth.saveApiKey()">حفظ وتشفير</button>
+                <button class="btn-secondary" onclick="UI.closeModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner">
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-chart-line"></i> إحصائيات الذاكرة</div>
+                    <div class="memory-stats">
+                        <div class="stat-card">
+                            <div class="stat-val" id="memConvs">0</div>
+                            <div class="stat-lbl">محادثات</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-val" id="memMsgs">0</div>
+                            <div class="stat-lbl">رسائل</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-val" id="memDocs">0</div>
+                            <div class="stat-lbl">وثائق</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-robot"></i> أوضاع التشغيل</div>
+                    <div class="mode-pills">
+                        <button class="pill active" data-mode="single" onclick="App.setMode(this, 'single')">منفرد</button>
+                        <button class="pill" data-mode="collab" onclick="App.setMode(this, 'collab')">تعاون</button>
+                        <button class="pill" data-mode="deep" onclick="App.setMode(this, 'deep')">عميق</button>
+                        <button class="pill" data-mode="manager" onclick="App.setMode(this, 'manager')">مدير</button>
+                    </div>
+                </div>
+
+                <div class="section" id="collabSection" style="display:none;">
+                    <div class="section-title"><i class="fas fa-handshake"></i> الوكلاء المتعاونون</div>
+                    <div class="collab-agents" id="collabAgents"></div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-brain"></i> قاعدة المعرفة</div>
+                    <input type="text" id="kbInput" class="kb-input" placeholder="أضف معرفة جديدة..." onkeypress="if(event.key==='Enter') Memory.addKnowledge(AppState.selectedAgent?.id, this.value); this.value='';">
+                    <div class="kb-docs" id="kbDocs"></div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-history"></i> السجل</div>
+                    <div class="kb-docs" id="historyList"></div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-circle-notch"></i> الوكلاء المتجولون</div>
+                    <div class="roaming-status" id="roamingAgentsStatus">
+                        <i class="fas fa-times-circle" style="color:var(--danger);"></i> غير نشطين
+                    </div>
+                    <button class="pill" onclick="Proactive.toggleRoamingAgents(!AppState.roamingAgentsActive)" style="width:100%; margin-top:0.5rem;">
+                        <span id="roamingToggleText">تفعيل الوكلاء المتجولين</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-header" id="chatHeader" style="display:none;">
+                <div class="chat-icon" id="chatIcon"></div>
+                <div class="chat-info">
+                    <div class="chat-name" id="chatName"></div>
+                    <div class="chat-role" id="chatRole"></div>
+                    <div class="collab-tag" id="collabTag" style="display:none;">🤝 تعاون نشط</div>
+                </div>
+            </div>
+
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon" id="emptyIcon">🤖</div>
+                <div class="empty-title" id="emptyTitle">اختر وكيلاً للبدء</div>
+                <div class="empty-sub" id="emptySub">اختر أحد الوكلاء المتخصصين من القائمة اليمنى</div>
+            </div>
+
+            <div class="chat-area" id="chatArea"></div>
+
+            <div class="input-area" id="inputArea" style="display:none;">
+                <div class="prediction-pills" id="predictiveSuggestions"></div>
+                <div class="input-wrapper">
+                    <textarea id="inputField" placeholder="اكتب رسالتك هنا..." rows="1"></textarea>
+                    <button class="send-btn" id="sendBtn" onclick="Chat.handleSend()"><i class="fas fa-paper-plane"></i> إرسال</button>
+                    <button class="cancel-btn" id="cancelBtn" onclick="Chat.cancelRequest()"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="char-count"><span id="charCount">0</span> / 4000</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notifications" id="notifications"></div>
+    <div class="proactive-notifs" id="proactiveNotifications"></div>
+
+    <div id="agentsPanel" style="display:none;">
+        <div id="agentsGrid"></div>
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════
+        // AGENTS CONFIGURATION
+        // ═══════════════════════════════════════════════════════════
+        const AGENTS = [
+            { id:'manager', icon:'👔', name:'وكيل المدير', role:'Manager Agent', desc:'تنسيق وتفويض المهام', isManager:true,
+              prompt:`أنت وكيل مدير ذكي. مهمتك هي تحليل طلب المستخدم وتحديد الوكلاء المتخصصين الأكثر ملاءمة. إذا كان الطلب بسيطاً، أجب بنفسك. إذا كان معقداً، قم بتحديد الوكلاء المناسبين واطلب منهم التعاون.`,
+              proactiveTask: 'مراجعة آخر 3 محادثات وتلخيص حالة العمل الحالية.'
+            },
+            { id:'customer', icon:'🎧', name:'خدمة العملاء', role:'Customer Service', desc:'حل المشاكل وزيادة الرضا',
+              prompt:`أنت وكيل خدمة عملاء محترف. تتعامل مع الشكاوى بذكاء ودبلوماسية.`,
+              proactiveTask: 'مراقبة سجلات المحادثات الأخيرة لتحديد المشاكل المتكررة.'
+            },
+            { id:'accountant', icon:'📊', name:'المحاسبة والتدقيق', role:'Accounting & Audit', desc:'الحسابات المالية والضرائب',
+              prompt:`أنت محاسب قانوني معتمد (CPA). تتخصص في التحليل المالي والضرائب والميزانيات.`,
+              proactiveTask: 'تحليل البيانات المالية لتحديد فرص التوفير الضريبي.'
+            },
+            { id:'legal', icon:'⚖️', name:'المستشار القانوني', role:'Legal Advisor', desc:'القوانين والعقود والامتثال',
+              prompt:`أنت مستشار قانوني متخصص في القانون التجاري. تصوغ العقود وتحلل المخاطر القانونية.`,
+              proactiveTask: 'البحث عن تحديثات قانونية جديدة قد تؤثر على العمليات.'
+            },
+            { id:'marketing', icon:'📢', name:'التسويق والـ SEO', role:'Marketing & Growth', desc:'الحملات والنمو الرقمي',
+              prompt:`أنت مدير تسويق رقمي متخصص في النمو. تبني استراتيجيات تسويق متكاملة.`,
+              proactiveTask: 'تحليل أداء الحملات التسويقية واقتراح تحسينات.'
+            },
+            { id:'data', icon:'📈', name:'تحليل البيانات', role:'Data Analyst', desc:'معالجة وتحليل البيانات',
+              prompt:`أنت محلل بيانات متقدم متخصص في Data Science. تعالج البيانات الضخمة وتكتشف الأنماط.`,
+              proactiveTask: 'تحليل مجموعات البيانات الكبيرة لتحديد الاتجاهات الخفية.'
+            },
+            { id:'security', icon:'🔐', name:'الأمان السيبراني', role:'Cybersecurity Expert', desc:'الحماية والأمان الرقمي',
+              prompt:`أنت خبير أمان سيبراني معتمد (CISSP). تقيّم الثغرات وتطور استراتيجيات الحماية.`,
+              proactiveTask: 'مراقبة التهديدات السيبرانية الجديدة واقتراح إجراءات وقائية.'
+            },
+            { id:'strategy', icon:'🎯', name:'الاستراتيجية', role:'Strategy Consultant', desc:'التخطيط والرؤية المستقبلية',
+              prompt:`أنت مستشار استراتيجي من الدرجة الأولى. تستخدم أطر SWOT و Porter's Five Forces.`,
+              proactiveTask: 'تقييم الوضع التنافسي للسوق واقتراح تعديلات على الاستراتيجية.'
+            }
+        ];
+
+        // ═══════════════════════════════════════════════════════════
+        // GLOBAL STATE
+        // ═══════════════════════════════════════════════════════════
+        const AppState = {
+            apiKey: '',
+            encryptedApiKey: null,
+            selectedAgent: null,
+            chatHistory: [],
+            displayHistory: [],
+            mode: 'single',
+            collabAgents: new Set(),
+            isLoading: false,
+            abortCtrl: null,
+            feedbackMap: {},
+            roamingAgentsActive: false,
+            proactiveNotifications: [],
+            init() {
+                this.encryptedApiKey = Memory.loadEncryptedApiKey();
+                this.roamingAgentsActive = Memory.loadRoamingAgentsState();
+            },
+            update(key, value) {
+                this[key] = value;
+                if (key === 'roamingAgentsActive') {
+                    Memory.saveRoamingAgentsState(value);
+                    UI.updateRoamingAgentsStatus();
+                }
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════
+        // UTILITIES
+        // ═══════════════════════════════════════════════════════════
+        const Utils = {
+            sanitizeHTML(str) {
+                const div = document.createElement('div');
+                div.appendChild(document.createTextNode(str));
+                return div.innerHTML;
+            },
+            showNotification(message, type = 'info', duration = 3000) {
+                const notificationsContainer = document.getElementById('notifications');
+                const notif = document.createElement('div');
+                notif.className = `notif ${type}`;
+                notif.setAttribute('role', 'status');
+                notif.textContent = message;
+                notificationsContainer.appendChild(notif);
+                void notif.offsetWidth;
+                notif.classList.add('show');
+                setTimeout(() => {
+                    notif.classList.remove('show');
+                    notif.addEventListener('transitionend', () => notif.remove());
+                }, duration);
+            },
+            showProactiveNotification(agentIcon, message, agentId, notificationId) {
+                const proactiveNotificationsContainer = document.getElementById('proactiveNotifications');
+                const notif = document.createElement('div');
+                notif.className = 'proactive-notif';
+                notif.setAttribute('role', 'alert');
+                notif.setAttribute('tabindex', '0');
+                notif.setAttribute('data-id', notificationId);
+                notif.innerHTML = `
+                    <div class="proactive-notif-icon">${agentIcon}</div>
+                    <div class="proactive-notif-text">${Utils.sanitizeHTML(message)}</div>
+                    <button class="proactive-notif-close" aria-label="إغلاق الإشعار" onclick="Proactive.dismissNotification('${notificationId}')"><i class="fas fa-times"></i></button>
+                `;
+                notif.onclick = () => Proactive.handleProactiveNotificationClick(agentId, notificationId);
+                proactiveNotificationsContainer.appendChild(notif);
+                void notif.offsetWidth;
+                notif.classList.add('show');
+                setTimeout(() => {
+                    if (notif.parentNode) {
+                        notif.classList.remove('show');
+                        notif.addEventListener('transitionend', () => notif.remove());
+                    }
+                }, 15000);
+                AppState.proactiveNotifications.push({ id: notificationId, agentId, message });
+            },
+            generatePredictiveSuggestions(currentAgentId, currentInput) {
+                const suggestions = [];
+                if (!currentInput) {
+                    suggestions.push('ما هي آخر التطورات؟');
+                    suggestions.push('كيف يمكنني تحسين الإنتاجية؟');
+                }
+                return [...new Set(suggestions)].slice(0, 3);
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════
+        // CRYPTO UTILITIES
+        // ═══════════════════════════════════════════════════════════
+        const CryptoUtils = {
+            async generateKey(password, salt) {
+                const enc = new TextEncoder();
+                const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), { name: 'PBKDF2' }, false, ['deriveBits', 'deriveKey']);
+                return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256' }, keyMaterial, { name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']);
+            },
+            async encrypt(text, password) {
+                const salt = crypto.getRandomValues(new Uint8Array(16));
+                const iv = crypto.getRandomValues(new Uint8Array(12));
+                const key = await this.generateKey(password, salt);
+                const enc = new TextEncoder();
+                const encrypted = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, enc.encode(text));
+                const combined = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
+                combined.set(salt, 0);
+                combined.set(iv, salt.length);
+                combined.set(new Uint8Array(encrypted), salt.length + iv.length);
+                return btoa(String.fromCharCode.apply(null, combined));
+            },
+            async decrypt(encryptedText, password) {
+                const combined = new Uint8Array(atob(encryptedText).split('').map(char => char.charCodeAt(0)));
+                const salt = combined.slice(0, 16);
+                const iv = combined.slice(16, 28);
+                const encrypted = combined.slice(28);
+                const key = await this.generateKey(password, salt);
+                const dec = new TextDecoder();
+                const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, encrypted);
+                return dec.decode(decrypted);
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════
+        // MEMORY LAYER
+        // ═══════════════════════════════════════════════════════════
+        const Memory = {
+            DB_KEY: 'nexus_v11_db',
+            ENCRYPTED_API_KEY: 'nexus_v11_encrypted_api',
+            ROAMING_STATE_KEY: 'nexus_v11_roaming_state',
+            _cache: null,
+            _loadDB() {
+                if (this._cache) return this._cache;
+                try {
+                    const data = JSON.parse(localStorage.getItem(this.DB_KEY) || '{}');
+                    this._cache = data;
+                    return data;
+                } catch (e) {
+                    console.error('Failed to load memory:', e);
+                    return {};
+                }
+            },
+            _saveDB(data) {
+                try {
+                    localStorage.setItem(this.DB_KEY, JSON.stringify(data));
+                    this._cache = data;
+                } catch (e) {
+                    console.warn('Memory save failed:', e);
+                }
+            },
+            async addKnowledge(agentId, text, tags = [], source = 'user_input') {
+                if (!agentId || !text.trim()) return;
+                const db = this._loadDB();
+                if (!db.knowledge) db.knowledge = {};
+                if (!db.knowledge[agentId]) db.knowledge[agentId] = [];
+                const chunk = { text: Utils.sanitizeHTML(text.trim()), id: Date.now(), added: new Date().toLocaleString('ar'), tags, source };
+                db.knowledge[agentId].push(chunk);
+                this._saveDB(db);
+                UI.renderKnowledgeBase();
+                UI.updateMemoryStats();
+                Utils.showNotification('تم إضافة المعرفة بنجاح', 'success');
+                return chunk;
+            },
+            getKnowledge(agentId) {
+                const db = this._loadDB();
+                return (db.knowledge || {})[agentId] || [];
+            },
+            deleteKnowledge(agentId, id) {
+                const db = this._loadDB();
+                if (db.knowledge && db.knowledge[agentId]) {
+                    db.knowledge[agentId] = db.knowledge[agentId].filter(k => k.id !== id);
+                    this._saveDB(db);
+                }
+                UI.renderKnowledgeBase();
+                UI.updateMemoryStats();
+            },
+            saveConversation(agentId, history, preview) {
+                const db = this._loadDB();
+                if (!db.conversations) db.conversations = {};
+                const id = `${agentId}_${Date.now()}`;
+                db.conversations[id] = { agentId, history, preview, timestamp: Date.now(), id };
+                const keys = Object.keys(db.conversations);
+                if (keys.length > 50) {
+                    const oldest = keys.sort((a,b) => db.conversations[a].timestamp - db.conversations[b].timestamp)[0];
+                    delete db.conversations[oldest];
+                }
+                this._saveDB(db);
+                UI.renderHistory();
+                UI.updateMemoryStats();
+                return id;
+            },
+            getConversations() {
+                const db = this._loadDB();
+                return Object.values(db.conversations || {}).sort((a,b) => b.timestamp - a.timestamp);
+            },
+            deleteConversation(id) {
+                const db = this._loadDB();
+                if (db.conversations) delete db.conversations[id];
+                this._saveDB(db);
+                UI.renderHistory();
+                UI.updateMemoryStats();
+            },
+            getStats() {
+                const db = this._loadDB();
+                const convs = Object.keys(db.conversations || {}).length;
+                let msgs = 0;
+                Object.values(db.conversations || {}).forEach(c => { msgs += (c.history || []).length; });
+                let docs = 0;
+                Object.values(db.knowledge || {}).forEach(arr => { docs += arr.length; });
+                return { convs, msgs, docs };
+            },
+            clearAllMemory() {
+                if (confirm('هل أنت متأكد أنك تريد مسح كل الذاكرة؟')) {
+                    localStorage.removeItem(this.DB_KEY);
+                    localStorage.removeItem(this.ENCRYPTED_API_KEY);
+                    localStorage.removeItem(this.ROAMING_STATE_KEY);
+                    this._cache = null;
+                    AppState.apiKey = '';
+                    AppState.encryptedApiKey = null;
+                    AppState.chatHistory = [];
+                    AppState.displayHistory = [];
+                    AppState.feedbackMap = {};
+                    AppState.roamingAgentsActive = false;
+                    UI.renderHistory();
+                    UI.renderKnowledgeBase();
+                    UI.updateMemoryStats();
+                    UI.clearChatArea();
+                    UI.updateApiStatus();
+                    UI.updateRoamingAgentsStatus();
+                    Utils.showNotification('تم مسح كل الذاكرة بنجاح', 'success');
+                }
+            },
+            async saveEncryptedApiKey(encryptedKey) {
+                localStorage.setItem(this.ENCRYPTED_API_KEY, encryptedKey);
+                AppState.update('encryptedApiKey', encryptedKey);
+            },
+            loadEncryptedApiKey() {
+                return localStorage.getItem(this.ENCRYPTED_API_KEY) || null;
+            },
+            saveRoamingAgentsState(state) {
+                localStorage.setItem(this.ROAMING_STATE_KEY, JSON.stringify(state));
+            },
+            loadRoamingAgentsState() {
+                try {
+                    return JSON.parse(localStorage.getItem(this.ROAMING_STATE_KEY) || 'false');
+                } catch (e) {
+                    return false;
+                }
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════
+        // AUTHENTICATION
+        // ═══════════════════════════════════════════════════════════
+        const Auth = {
+            async saveApiKey() {
+                const apiKeyInput = document.getElementById('apiKeyInput');
+                const masterKeyInput = document.getElementById('masterKeyInput');
+                const apiKey = apiKeyInput.value.trim();
+                const masterKey = masterKeyInput.value.trim();
+
+                if (!apiKey) {
+                    Utils.showNotification('الرجاء إدخال مفتاح API صالح', 'warn');
+                    return;
+                }
+                if (!masterKey) {
+                    Utils.showNotification('الرجاء إدخال كلمة مرور رئيسية', 'warn');
+                    return;
+                }
+
+                try {
+                    const encryptedApiKey = await CryptoUtils.encrypt(apiKey, masterKey);
+                    await Memory.saveEncryptedApiKey(encryptedApiKey);
+                    AppState.update('apiKey', apiKey);
+                    UI.closeModal();
+                    UI.updateApiStatus();
+                    Utils.showNotification('تم حفظ مفتاح API وتشفيره بنجاح', 'success');
+                    if (!AppState.roamingAgentsActive) {
+                        Proactive.toggleRoamingAgents(true);
+                    }
+                } catch (e) {
+                    console.error('Encryption failed:', e);
+                    Utils.showNotification('فشل تشفير مفتاح API', 'error');
+                }
+            },
+            async loadAndDecryptApiKey(masterKey) {
+                const encryptedApiKey = Memory.loadEncryptedApiKey();
+                if (!encryptedApiKey) return null;
+                try {
+                    const decryptedKey = await CryptoUtils.decrypt(encryptedApiKey, masterKey);
+                    AppState.update('apiKey', decryptedKey);
+                    return decryptedKey;
+                } catch (e) {
+                    console.error('Decryption failed:', e);
+                    Utils.showNotification('فشل فك تشفير مفتاح API', 'error');
+                    AppState.update('apiKey', '');
+                    return null;
+                }
+            },
+            async checkApiKey() {
+                const encryptedKey = Memory.loadEncryptedApiKey();
+                if (encryptedKey) {
+                    const masterKey = prompt('الرجاء إدخال كلمة المرور الرئيسية:');
+                    if (masterKey) {
+                        const decryptedKey = await this.loadAndDecryptApiKey(masterKey);
+                        if (decryptedKey) {
+                            UI.updateApiStatus();
+                            return true;
+                        }
+                    } else {
+                        Utils.showNotification('لم يتم إدخال كلمة المرور الرئيسية', 'warn');
+                    }
+                } else {
+                    AppState.update('apiKey', '');
+                }
+                UI.updateApiStatus();
+                return false;
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════
+        // KNOWLEDGE RETRIEVER
+        // ═══════════════════════════════════════════════════════════
+        const KnowledgeRetriever = {
+            generateMockEmbedding(text) {
+                let hash = 0;
+                for (let i = 0; i < text.length; i++) {
+                    hash = text.charCodeAt(i) + ((hash << 5) - hash);
+                }
+                return new Array(128).fill(0).map((_, i) => (hash >> (i % 32)) & 0xFF);
+            },
+            _cosineSimilarity(vec1, vec2) {
+                if (!vec1 || !vec2 || vec1.length !== vec2.length) return 0;
+                let dotProduct = 0, magnitude1 = 0, magnitude2 = 0;
+                for (let i = 0; i < vec1.length; i++) {
+                    dotProduct += vec1[i] * vec2[i];
+                    magnitude1 += vec1[i] * vec1[i];
+                    magnitude2 += vec2[i] * vec2[i];
+                }
+                magnitude1 = Math.sqrt(magnitude1);
+                magnitude2 = Math.sqrt(magnitude2);
+                if (magnitude1 === 0 || magnitude2 === 0) return 0;
+                return dotProduct / (magnitude1 * magnitude2);
+            },
+            semanticSearch(query, agentId, topN = 3) {
+                if (!query || !agentId) return [];
+                const queryEmbedding = this.generateMockEmbedding(query);
+                const knowledge = Memory.getKnowledge(agentId);
+                const results = knowledge.map(doc => ({
+                    ...doc,
+                    similarity: this._cosineSimilarity(queryEmbedding, this.generateMockEmbedding(doc.text))
+                })).filter(r => r.similarity > 0);
+                return results.sort((a, b) => b.similarity - a.similarity).slice(0, topN);
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════
+        // PROACTIVE AGENTS
+        // ═══════════════════════════════════════════════════════════
+        const Proactive = {
+            roamingAgentInterval: null,
+            async toggleRoamingAgents(activate) {
+                if (activate && !AppState.apiKey) {
+                    Utils.showNotification('لا يمكن تفعيل الوكلاء المتجولين بدون مفتاح API', 'warn');
+                    return;
+                }
+
+                if (activate) {
+                    if (this.roamingAgentInterval) clearInterval(this.roamingAgentInterval);
+                    AppState.update('roamingAgentsActive', true);
+                    Utils.showNotification('تم تفعيل الوكلاء المتجولين', 'info');
+                    this.roamingAgentInterval = setInterval(() => this.runProactiveTasks(), 60 * 60 * 1000);
+                    this.runProactiveTasks();
+                } else {
+                    clearInterval(this.roamingAgentInterval);
+                    this.roamingAgentInterval = null;
+                    AppState.update('roamingAgentsActive', false);
+                    Utils.showNotification('تم إيقاف الوكلاء المتجولين', 'info');
+                }
+            },
+            async runProactiveTasks() {
+                if (!AppState.apiKey) return;
+                for (const agent of AGENTS) {
+                    if (agent.proactiveTask) {
+                        const mockResponse = await this._simulateProactiveAgentResponse(agent);
+                        if (mockResponse) {
+                            const notificationId = `proactive-${agent.id}-${Date.now()}`;
+                            Utils.showProactiveNotification(agent.icon, mockResponse, agent.id, notificationId);
+                        }
+                    }
+                }
+            },
+            async _simulateProactiveAgentResponse(agent) {
+                const mockResponses = {
+                    manager: 'وكيل المدير: تم مراجعة آخر 3 محادثات. أقترح التركيز على تحسين قاعدة المعرفة.',
+                    customer: 'خدمة العملاء: لاحظت زيادة في استفسارات الشحن. أقترح تحديث قسم الأسئلة الشائعة.',
+                    accountant: 'المحاسبة: تحليل البيانات يشير إلى فرصة لخفض التكاليف بنسبة 5%.',
+                    legal: 'المستشار القانوني: صدر قانون جديد بخصوص حماية البيانات. يجب مراجعة السياسات.',
+                    marketing: 'التسويق: حملة إعلانات فيسبوك حققت ROI ممتاز. أقترح زيادة الميزانية.',
+                    data: 'تحليل البيانات: اكتشفت أنماط استخدام غير متوقعة. يمكن استغلالها لتحسين الخدمة.',
+                    security: 'الأمان السيبراني: تم رصد محاولات تصيد جديدة. يجب تعزيز التدريب الأمني.',
+                    strategy: 'الاستراتيجية: المنافس الجديد يكتسب حصة سوقية. يجب إعادة تقييم الاستراتيجية.'
+                };
+                return mockResponses[agent.id] || null;
+            },
+            handleProactiveNotificationClick(agentId, notificationId) {
+                const notifElement = document.querySelector(`#proactiveNotifications .proactive-notif[data-id="${notificationId}"]`);
+                if (notifElement) {
+                    notifElement.classList.remove('show');
+                    notifElement.addEventListener('transitionend', () => notifElement.remove());
+                }
+                const agent = AGENTS.find(a => a.id === agentId);
+                if (agent) {
+                    App.selectAgent(agent);
+                }
+                AppState.proactiveNotifications = AppState.proactiveNotifications.filter(n => n.id !== notificationId);
+            },
+            dismissNotification(notificationId) {
+                const notifElement = document.querySelector(`#proactiveNotifications .proactive-notif[data-id="${notificationId}"]`);
+                if (notifElement) {
+                    notifElement.classList.remove('show');
+                    notifElement.addEventListener('transitionend', () => notifElement.remove());
+                }
+                AppState.proactiveNotifications = AppState.proactiveNotifications.filter(n => n.id !== notificationId);
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════
+        // UI RENDERING
+        // ═══════════════════════════════════════════════════════════
+        const UI = {
+            init() {
+                this.renderAgents();
+                this.updateApiStatus();
+                this.updateMemoryStats();
+                this.renderHistory();
+                this.setupEventListeners();
+                this.updateRoamingAgentsStatus();
+            },
+            setupEventListeners() {
+                document.getElementById('inputField').addEventListener('input', () => {
+                    this.adjustTextareaHeight(document.getElementById('inputField'));
+                    this.updateCharCount();
+                    this.renderPredictiveSuggestions();
+                });
+                document.getElementById('inputField').addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        Chat.handleSend();
+                    }
+                });
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && document.getElementById('modalOverlay').classList.contains('show')) {
+                        this.closeModal();
+                    }
+                });
+                document.getElementById('modalOverlay').addEventListener('click', (e) => {
+                    if (e.target === document.getElementById('modalOverlay')) {
+                        this.closeModal();
+                    }
+                });
+            },
+            openModal() {
+                document.getElementById('modalOverlay').classList.add('show');
+                document.getElementById('apiKeyInput').focus();
+            },
+            closeModal() {
+                document.getElementById('modalOverlay').classList.remove('show');
+                document.getElementById('apiKeyInput').value = '';
+                document.getElementById('masterKeyInput').value = '';
+            },
+            updateApiStatus() {
+                const statusEl = document.getElementById('apiStatus');
+                const statusTxtEl = document.getElementById('apiStatusTxt');
+                statusEl.classList.remove('connected', 'disconnected', 'waiting');
+                if (AppState.apiKey) {
+                    statusEl.classList.add('connected');
+                    statusTxtEl.textContent = 'API متصل';
+                } else if (Memory.loadEncryptedApiKey()) {
+                    statusEl.classList.add('waiting');
+                    statusTxtEl.textContent = 'API مشفر';
+                } else {
+                    statusEl.classList.add('disconnected');
+                    statusTxtEl.textContent = 'بدون API';
+                }
+            },
+            toggleSidebar() {
+                document.getElementById('sidebar').classList.toggle('hidden');
+            },
+            renderAgents() {
+                const agentsGrid = document.getElementById('agentsGrid');
+                agentsGrid.innerHTML = AGENTS.map(agent => `
+                    <div class="agent-card" data-id="${agent.id}" onclick="App.selectAgent(AGENTS.find(a => a.id === '${agent.id}'))" tabindex="0" role="button">
+                        <div style="font-size:2rem;">${agent.icon}</div>
+                        <div style="font-weight:700; font-size:0.9rem;">${agent.name}</div>
+                        <div style="font-size:0.75rem; color:var(--muted);">${agent.desc}</div>
+                    </div>
+                `).join('');
+            },
+            updateMemoryStats() {
+                const stats = Memory.getStats();
+                document.getElementById('memConvs').textContent = stats.convs;
+                document.getElementById('memMsgs').textContent = stats.msgs;
+                document.getElementById('memDocs').textContent = stats.docs;
+            },
+            updateRoamingAgentsStatus() {
+                const statusEl = document.getElementById('roamingAgentsStatus');
+                if (AppState.roamingAgentsActive) {
+                    statusEl.innerHTML = '<i class="fas fa-circle-notch fa-spin" style="color:var(--accent2);"></i> نشطون';
+                } else {
+                    statusEl.innerHTML = '<i class="fas fa-times-circle" style="color:var(--danger);"></i> غير نشطين';
+                }
+            },
+            renderKnowledgeBase() {
+                const currentAgentId = AppState.selectedAgent?.id;
+                if (!currentAgentId) {
+                    document.getElementById('kbDocs').innerHTML = '';
+                    return;
+                }
+                const knowledge = Memory.getKnowledge(currentAgentId);
+                document.getElementById('kbDocs').innerHTML = knowledge.map(doc => `
+                    <div class="kb-doc">
+                        <span class="kb-doc-text">${doc.text}</span>
+                        <button class="kb-doc-remove" onclick="Memory.deleteKnowledge('${currentAgentId}', ${doc.id})"><i class="fas fa-times"></i></button>
+                    </div>
+                `).join('');
+            },
+            renderHistory() {
+                const conversations = Memory.getConversations();
+                document.getElementById('historyList').innerHTML = conversations.map(conv => {
+                    const agent = AGENTS.find(a => a.id === conv.agentId);
+                    return `
+                        <div class="kb-doc" onclick="Chat.loadConversation('${conv.id}')" tabindex="0" role="button">
+                            <span class="kb-doc-text">${agent?.icon || '?'} ${conv.preview}</span>
+                            <button class="kb-doc-remove" onclick="event.stopPropagation(); Memory.deleteConversation('${conv.id}')"><i class="fas fa-trash"></i></button>
+                        </div>
+                    `;
+                }).join('');
+            },
+            renderChatBubble(message, isUser, messageId = null) {
+                const bubble = document.createElement('div');
+                bubble.className = `message-bubble ${isUser ? 'user' : 'agent'}`;
+
+                const icon = document.createElement('div');
+                icon.className = 'bubble-icon';
+                icon.innerHTML = isUser ? '<i class="fas fa-user"></i>' : AppState.selectedAgent.icon;
+                bubble.appendChild(icon);
+
+                const content = document.createElement('div');
+                content.className = 'bubble-content';
+                content.innerHTML = message.replace(/\n/g, '<br>');
+                bubble.appendChild(content);
+
+                document.getElementById('chatArea').appendChild(bubble);
+                document.getElementById('chatArea').scrollTop = document.getElementById('chatArea').scrollHeight;
+            },
+            clearChatArea() {
+                document.getElementById('chatArea').innerHTML = '';
+                document.getElementById('emptyState').style.display = 'flex';
+                document.getElementById('chatHeader').style.display = 'none';
+                document.getElementById('inputArea').style.display = 'none';
+                AppState.selectedAgent = null;
+                AppState.chatHistory = [];
+                AppState.displayHistory = [];
+                document.getElementById('inputField').value = '';
+                this.adjustTextareaHeight(document.getElementById('inputField'));
+                this.updateCharCount();
+            },
+            adjustTextareaHeight(textarea) {
+                textarea.style.height = 'auto';
+                textarea.style.height = textarea.scrollHeight + 'px';
+            },
+            updateCharCount() {
+                document.getElementById('charCount').textContent = document.getElementById('inputField').value.length;
+            },
+            showLoading(show) {
+                const sendBtn = document.getElementById('sendBtn');
+                const cancelBtn = document.getElementById('cancelBtn');
+                if (show) {
+                    sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                    sendBtn.disabled = true;
+                    cancelBtn.style.display = 'flex';
+                } else {
+                    sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال';
+                    sendBtn.disabled = false;
+                    cancelBtn.style.display = 'none';
+                }
+            },
+            renderPredictiveSuggestions() {
+                const input = document.getElementById('inputField').value;
+                const agentId = AppState.selectedAgent?.id;
+                const suggestions = Utils.generatePredictiveSuggestions(agentId, input);
+                document.getElementById('predictiveSuggestions').innerHTML = suggestions.map(s => `
+                    <button class="suggestion-pill" onclick="Chat.applySuggestion('${Utils.sanitizeHTML(s)}')">${Utils.sanitizeHTML(s)}</button>
+                `).join('');
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════
+        // CHAT LOGIC
+        // ═══════════════════════════════════════════════════════════
+        const Chat = {
+            API_URL: 'https://api.anthropic.com/v1/messages',
+            MODEL_NAME: 'claude-3-opus-20240229',
+
+            async sendMessage(messages, agentId) {
+                if (!AppState.apiKey) {
+                    Utils.showNotification('الرجاء إدخال مفتاح API أولاً', 'error');
+                    UI.openModal();
+                    return;
+                }
+
+                AppState.update('isLoading', true);
+                UI.showLoading(true);
+                AppState.abortCtrl = new AbortController();
+
+                try {
+                    const response = await fetch(this.API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-api-key': AppState.apiKey,
+                            'anthropic-version': '2023-06-01',
+                        },
+                        body: JSON.stringify({
+                            model: this.MODEL_NAME,
+                            max_tokens: 4000,
+                            messages: messages,
+                            stream: true,
+                        }),
+                        signal: AppState.abortCtrl.signal,
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(`API Error: ${errorData.error.message}`);
+                    }
+
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder('utf-8');
+                    let fullResponse = '';
+                    let assistantMessageId = `msg-${Date.now()}`;
+
+                    UI.renderChatBubble('', false, assistantMessageId);
+                    const lastBubbleContent = document.getElementById('chatArea').lastChild.querySelector('.bubble-content');
+
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+
+                        const chunk = decoder.decode(value, { stream: true });
+                        const lines = chunk.split('\n').filter(line => line.trim() !== '');
+
+                        for (const line of lines) {
+                            if (line.startsWith('data:')) {
+                                const data = JSON.parse(line.substring(5));
+                                if (data.type === 'content_block_delta') {
+                                    fullResponse += data.delta.text;
+                                    lastBubbleContent.innerHTML = fullResponse.replace(/\n/g, '<br>');
+                                    document.getElementById('chatArea').scrollTop = document.getElementById('chatArea').scrollHeight;
+                                }
+                            }
+                        }
+                    }
+
+                    AppState.chatHistory.push({ role: 'assistant', content: fullResponse });
+                    AppState.displayHistory.push({ id: assistantMessageId, role: 'assistant', content: fullResponse });
+                    return fullResponse;
+
+                } catch (error) {
+                    if (error.name !== 'AbortError') {
+                        console.error('Error:', error);
+                        Utils.showNotification(`خطأ: ${error.message}`, 'error');
+                    }
+                    return null;
+                } finally {
+                    AppState.update('isLoading', false);
+                    UI.showLoading(false);
+                    AppState.abortCtrl = null;
+                }
+            },
+
+            async handleSend() {
+                const inputField = document.getElementById('inputField');
+                const userMessage = inputField.value.trim();
+                if (!userMessage || AppState.isLoading) return;
+
+                const relevantKnowledge = KnowledgeRetriever.semanticSearch(userMessage, AppState.selectedAgent.id);
+                let knowledgeContext = '';
+                if (relevantKnowledge.length > 0) {
+                    knowledgeContext = '\n\nمعلومات إضافية من قاعدة المعرفة:';
+                    relevantKnowledge.forEach(doc => {
+                        knowledgeContext += `\n- ${doc.text}`;
+                    });
+                }
+
+                UI.renderChatBubble(userMessage, true);
+                AppState.chatHistory.push({ role: 'user', content: userMessage });
+                AppState.displayHistory.push({ id: `msg-${Date.now()}`, role: 'user', content: userMessage });
+
+                inputField.value = '';
+                UI.adjustTextareaHeight(inputField);
+                UI.updateCharCount();
+                UI.renderPredictiveSuggestions();
+
+                let agentPrompt = AppState.selectedAgent.prompt;
+                if (AppState.mode === 'collab' && AppState.collabAgents.size > 0) {
+                    const collabAgentNames = Array.from(AppState.collabAgents).map(id => AGENTS.find(a => a.id === id).name);
+                    agentPrompt += `\n\nأنت تعمل بالتعاون مع: ${collabAgentNames.join(', ')}`;
+                } else if (AppState.mode === 'deep') {
+                    agentPrompt += '\n\nقدم تحليلاً عميقاً وشاملاً.';
+                }
+
+                const messagesToSend = [
+                    { role: 'user', content: agentPrompt + knowledgeContext + '\n\n' + userMessage }
+                ];
+
+                const agentResponse = await this.sendMessage(messagesToSend, AppState.selectedAgent.id);
+
+                if (agentResponse) {
+                    Memory.saveConversation(AppState.selectedAgent.id, AppState.chatHistory, userMessage.substring(0, 50) + '...');
+                }
+            },
+
+            cancelRequest() {
+                if (AppState.abortCtrl) {
+                    AppState.abortCtrl.abort();
+                }
+            },
+
+            loadConversation(convId) {
+                const conversations = Memory.getConversations();
+                const conv = conversations.find(c => c.id === convId);
+                if (conv) {
+                    const agent = AGENTS.find(a => a.id === conv.agentId);
+                    if (agent) {
+                        App.selectAgent(agent);
+                        AppState.chatHistory = conv.history;
+                        AppState.displayHistory = [];
+                        document.getElementById('chatArea').innerHTML = '';
+                        AppState.chatHistory.forEach((msg, index) => {
+                            const messageId = `msg-${convId}-${index}`;
+                            AppState.displayHistory.push({ id: messageId, role: msg.role, content: msg.content });
+                            UI.renderChatBubble(msg.content, msg.role === 'user', messageId);
+                        });
+                        document.getElementById('emptyState').style.display = 'none';
+                    }
+                }
+            },
+
+            exportChat() {
+                if (AppState.displayHistory.length === 0) {
+                    Utils.showNotification('لا توجد محادثة لتصديرها', 'warn');
+                    return;
+                }
+
+                let exportContent = `# محادثة NEXUS AGENTS - ${AppState.selectedAgent?.name || 'عام'}\n\n`;
+                AppState.displayHistory.forEach(msg => {
+                    exportContent += `**${msg.role === 'user' ? 'أنت' : AppState.selectedAgent?.name || 'الوكيل'}:**\n${msg.content}\n\n`;
+                });
+
+                const blob = new Blob([exportContent], { type: 'text/markdown;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `nexus_chat_${AppState.selectedAgent?.id || 'general'}_${Date.now()}.md`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                Utils.showNotification('تم تصدير المحادثة بنجاح', 'success');
+            },
+
+            applySuggestion(suggestion) {
+                document.getElementById('inputField').value = suggestion;
+                UI.adjustTextareaHeight(document.getElementById('inputField'));
+                UI.updateCharCount();
+                UI.renderPredictiveSuggestions();
+                document.getElementById('inputField').focus();
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════
+        // APP INITIALIZATION
+        // ═══════════════════════════════════════════════════════════
+        const App = {
+            init() {
+                AppState.init();
+                UI.init();
+                this.checkAndPromptForApiKey();
+                if (AppState.roamingAgentsActive) {
+                    Proactive.toggleRoamingAgents(true);
+                }
+            },
+
+            async checkAndPromptForApiKey() {
+                if (Memory.loadEncryptedApiKey()) {
+                    await Auth.checkApiKey();
+                } else {
+                    UI.openModal();
+                }
+            },
+
+            selectAgent(agent) {
+                AppState.update('selectedAgent', agent);
+                document.getElementById('emptyState').style.display = 'none';
+                document.getElementById('chatHeader').style.display = 'flex';
+                document.getElementById('inputArea').style.display = 'flex';
+                document.getElementById('chatIcon').innerHTML = agent.icon;
+                document.getElementById('chatName').textContent = agent.name;
+                document.getElementById('chatRole').textContent = agent.role;
+                document.getElementById('emptyIcon').innerHTML = agent.icon;
+                document.getElementById('emptyTitle').textContent = `ابدأ المحادثة مع ${agent.name}`;
+                document.getElementById('emptySub').textContent = agent.desc;
+
+                if (AppState.chatHistory.length === 0) {
+                    AppState.chatHistory = [];
+                    AppState.displayHistory = [];
+                    document.getElementById('chatArea').innerHTML = '';
+                }
+
+                UI.renderKnowledgeBase();
+                UI.renderPredictiveSuggestions();
+                document.getElementById('inputField').focus();
+
+                if (agent.isManager) {
+                    App.setMode(document.querySelector('.pill[data-mode="manager"]'), 'manager');
+                }
+            },
+
+            setMode(element, newMode) {
+                document.querySelectorAll('.mode-pills .pill').forEach(btn => btn.classList.remove('active'));
+                element.classList.add('active');
+                AppState.update('mode', newMode);
+
+                const collabSection = document.getElementById('collabSection');
+                if (newMode === 'collab') {
+                    collabSection.style.display = 'flex';
+                } else {
+                    collabSection.style.display = 'none';
+                    AppState.collabAgents.clear();
+                    document.getElementById('collabTag').style.display = 'none';
+                }
+            }
+        };
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init();
+        });
+    </script>
+</body>
+</html>

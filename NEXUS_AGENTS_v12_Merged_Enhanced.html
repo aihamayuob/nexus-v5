@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS AGENTS v12.0 — Quantum Merge Edition</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--bg:#07111f;
+--panel:#0d1b2d;
+--accent:#00d4ff;
+--accent2:#7b2fff;
+--text:#e8f4ff;
+--muted:#7d93b2;
+--border:rgba(0,212,255,.15);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+font-family:'Tajawal',sans-serif;
+background:linear-gradient(135deg,#07111f,#08172a,#0b1e36);
+color:var(--text);
+height:100vh;
+display:flex;
+flex-direction:column;
+overflow:hidden;
+}
+
+header{
+padding:16px 20px;
+border-bottom:1px solid var(--border);
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(0,0,0,.25);
+backdrop-filter:blur(10px);
+}
+
+.logo{
+font-weight:900;
+font-size:22px;
+background:linear-gradient(90deg,var(--accent),var(--accent2));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+main{
+flex:1;
+display:grid;
+grid-template-columns:340px 1fr;
+gap:14px;
+padding:14px;
+overflow:hidden;
+}
+
+.sidebar,.chat{
+background:rgba(13,27,45,.8);
+border:1px solid var(--border);
+border-radius:18px;
+backdrop-filter:blur(12px);
+overflow:hidden;
+}
+
+.sidebar{
+padding:18px;
+overflow-y:auto;
+}
+
+.section-title{
+font-size:13px;
+color:var(--accent);
+margin-bottom:10px;
+font-weight:700;
+}
+
+.agent-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+.agent-card{
+padding:14px;
+border-radius:14px;
+border:1px solid var(--border);
+background:rgba(255,255,255,.03);
+cursor:pointer;
+transition:.25s;
+}
+
+.agent-card:hover{
+transform:translateY(-2px);
+border-color:var(--accent);
+}
+
+.chat{
+display:flex;
+flex-direction:column;
+}
+
+.chat-area{
+flex:1;
+overflow-y:auto;
+padding:20px;
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.msg{
+padding:14px 16px;
+border-radius:14px;
+max-width:78%;
+line-height:1.8;
+}
+
+.user{
+align-self:flex-end;
+background:linear-gradient(135deg,#173a55,#264f73);
+}
+
+.bot{
+align-self:flex-start;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.05);
+}
+
+.input-bar{
+padding:14px;
+display:flex;
+gap:10px;
+border-top:1px solid var(--border);
+}
+
+textarea{
+flex:1;
+resize:none;
+height:58px;
+background:#08111f;
+border:1px solid var(--border);
+border-radius:12px;
+padding:12px;
+color:white;
+font-family:inherit;
+}
+
+button{
+border:none;
+border-radius:12px;
+padding:0 20px;
+cursor:pointer;
+font-weight:700;
+background:linear-gradient(135deg,var(--accent),var(--accent2));
+color:white;
+}
+
+.kb-list{
+display:flex;
+flex-direction:column;
+gap:8px;
+margin-top:10px;
+}
+
+.kb-item{
+padding:10px;
+border-radius:10px;
+background:rgba(255,255,255,.04);
+font-size:13px;
+}
+
+.status{
+font-size:12px;
+color:var(--muted);
+margin-top:10px;
+}
+
+@media(max-width:900px){
+main{
+grid-template-columns:1fr;
+}
+.sidebar{
+max-height:240px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">NEXUS AGENTS v12.0</div>
+<div>Quantum Merge Edition</div>
+</header>
+
+<main>
+
+<aside class="sidebar">
+
+<div class="section-title">الوكلاء الذكيون</div>
+
+<div class="agent-grid" id="agentGrid"></div>
+
+<br>
+
+<div class="section-title">قاعدة المعرفة</div>
+
+<div class="kb-list" id="kbList"></div>
+
+<div class="status" id="memoryStats">
+جاهز
+</div>
+
+</aside>
+
+<section class="chat">
+
+<div class="chat-area" id="chatArea">
+<div class="msg bot">
+مرحباً، تم دمج النظامين مع بنية محسّنة للأداء والذاكرة والتعامل غير المتزامن.
+</div>
+</div>
+
+<div class="input-bar">
+<textarea id="promptInput" placeholder="اكتب رسالتك..."></textarea>
+<button id="sendBtn">إرسال</button>
+</div>
+
+</section>
+
+</main>
+
+<script>
+/* =====================================================
+   MODULAR DATA ARCHITECTURE
+===================================================== */
+
+const AGENTS = [
+{
+id:"architect",
+name:"Architect AI",
+icon:"🏗️",
+role:"System Design"
+},
+{
+id:"security",
+name:"Security AI",
+icon:"🛡️",
+role:"Cyber Defense"
+},
+{
+id:"research",
+name:"Research AI",
+icon:"📚",
+role:"Knowledge Mining"
+},
+{
+id:"creative",
+name:"Creative AI",
+icon:"🎨",
+role:"Creative Thinking"
+}
+];
+
+/* =====================================================
+   MEMOIZED STORAGE LAYER
+===================================================== */
+
+const StorageCache = (() => {
+
+const cache = new Map();
+
+function get(key, fallback=null){
+if(cache.has(key)) return cache.get(key);
+
+try{
+const raw = localStorage.getItem(key);
+const parsed = raw ? JSON.parse(raw) : fallback;
+cache.set(key, parsed);
+return parsed;
+}catch(err){
+console.error(err);
+return fallback;
+}
+}
+
+function set(key, value){
+cache.set(key, value);
+localStorage.setItem(key, JSON.stringify(value));
+}
+
+function clear(){
+cache.clear();
+localStorage.clear();
+}
+
+return { get, set, clear };
+
+})();
+
+/* =====================================================
+   CONTEXT WINDOW OPTIMIZER
+===================================================== */
+
+const ContextEngine = (() => {
+
+const MAX_CONTEXT_ITEMS = 6;
+const MAX_CHARS = 2500;
+
+function build(messages, knowledgeBase){
+
+const recent = messages.slice(-MAX_CONTEXT_ITEMS);
+
+const optimizedKB = knowledgeBase
+.map(k => k.text)
+.join("\\n")
+.slice(0, MAX_CHARS);
+
+return {
+recentMessages: recent,
+knowledgeBase: optimizedKB
+};
+}
+
+return { build };
+
+})();
+
+/* =====================================================
+   ASYNC MESSAGE QUEUE
+===================================================== */
+
+class AsyncQueue {
+
+constructor(){
+this.queue = [];
+this.processing = false;
+}
+
+enqueue(task){
+this.queue.push(task);
+this.process();
+}
+
+async process(){
+
+if(this.processing) return;
+
+this.processing = true;
+
+while(this.queue.length){
+
+const task = this.queue.shift();
+
+try{
+await task();
+}catch(err){
+console.error("Queue Error:", err);
+}
+
+await new Promise(r => setTimeout(r, 16));
+}
+
+this.processing = false;
+}
+
+}
+
+const MessageQueue = new AsyncQueue();
+
+/* =====================================================
+   APPLICATION STATE
+===================================================== */
+
+const AppState = {
+
+messages: StorageCache.get("nexus_messages", []),
+
+knowledgeBase: StorageCache.get("nexus_kb", [
+{
+id:1,
+text:"Claude API Integration"
+},
+{
+id:2,
+text:"Async Streaming Engine"
+}
+])
+
+};
+
+/* =====================================================
+   UI RENDER
+===================================================== */
+
+const agentGrid = document.getElementById("agentGrid");
+const kbList = document.getElementById("kbList");
+const chatArea = document.getElementById("chatArea");
+
+function renderAgents(){
+
+agentGrid.innerHTML = "";
+
+AGENTS.forEach(agent => {
+
+const card = document.createElement("div");
+card.className = "agent-card";
+
+card.innerHTML = `
+<div style="font-size:26px">${agent.icon}</div>
+<div style="margin-top:8px;font-weight:700">${agent.name}</div>
+<div style="font-size:12px;color:var(--muted)">${agent.role}</div>
+`;
+
+agentGrid.appendChild(card);
+
+});
+
+}
+
+function renderKB(){
+
+kbList.innerHTML = "";
+
+AppState.knowledgeBase.forEach(item => {
+
+const div = document.createElement("div");
+div.className = "kb-item";
+div.textContent = item.text;
+
+kbList.appendChild(div);
+
+});
+
+}
+
+function renderStoredMessages(){
+
+AppState.messages.forEach(m => {
+appendMessage(m.role, m.content, false);
+});
+
+}
+
+function appendMessage(role, text, save=true){
+
+const div = document.createElement("div");
+div.className = `msg ${role}`;
+div.textContent = text;
+
+chatArea.appendChild(div);
+chatArea.scrollTop = chatArea.scrollHeight;
+
+if(save){
+
+AppState.messages.push({
+role,
+content:text,
+timestamp:Date.now()
+});
+
+StorageCache.set("nexus_messages", AppState.messages);
+
+}
+
+updateStats();
+
+}
+
+function updateStats(){
+
+document.getElementById("memoryStats").textContent =
+`Messages: ${AppState.messages.length} | KB Docs: ${AppState.knowledgeBase.length}`;
+
+}
+
+/* =====================================================
+   STREAM ENGINE
+===================================================== */
+
+async function fakeStreamResponse(prompt){
+
+const context = ContextEngine.build(
+AppState.messages,
+AppState.knowledgeBase
+);
+
+const response =
+`تمت معالجة الطلب بنجاح.\n\n` +
+`السياق المحسّن يحتوي على ${context.recentMessages.length} رسالة.\n` +
+`تم ضغط قاعدة المعرفة لتقليل استهلاك الـ Tokens.\n\n` +
+`الطلب: ${prompt}`;
+
+return response;
+
+}
+
+/* =====================================================
+   SEND HANDLER
+===================================================== */
+
+async function handleSend(){
+
+const input = document.getElementById("promptInput");
+
+const text = input.value.trim();
+
+if(!text) return;
+
+appendMessage("user", text);
+
+input.value = "";
+
+MessageQueue.enqueue(async () => {
+
+const thinking = document.createElement("div");
+thinking.className = "msg bot";
+thinking.textContent = "⏳ جاري المعالجة...";
+
+chatArea.appendChild(thinking);
+
+const response = await fakeStreamResponse(text);
+
+thinking.remove();
+
+appendMessage("bot", response);
+
+});
+
+}
+
+/* =====================================================
+   EVENTS
+===================================================== */
+
+document.getElementById("sendBtn")
+.addEventListener("click", handleSend);
+
+document.getElementById("promptInput")
+.addEventListener("keydown", e => {
+
+if(e.key === "Enter" && !e.shiftKey){
+e.preventDefault();
+handleSend();
+}
+
+});
+
+/* =====================================================
+   INITIALIZATION
+===================================================== */
+
+renderAgents();
+renderKB();
+renderStoredMessages();
+updateStats();
+
+console.log("NEXUS AGENTS v12.0 LOADED");
+</script>
+
+</body>
+</html>

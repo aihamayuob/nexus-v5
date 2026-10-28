@@ -1,0 +1,3593 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#060d1a">
+    <title>NEXUS AGENTS v11.1 — Sovereign Nexus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ═══════════════════════════════════════════════
+           RESET & ROOT
+        ═══════════════════════════════════════════════ */
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+        :root {
+            --c0: #060d1a;
+            --c1: #0a1628;
+            --c2: #0f2040;
+            --c3: #1a3a5c;
+            --accent: #00d4ff;
+            --accent2: #7b2fff;
+            --accent3: #ff6b35;
+            --gold: #ffd700;
+            --success: #00e5a0;
+            --danger: #ff4757;
+            --warn: #ffa502;
+            --text: #e8f4ff;
+            --muted: #5a7a9a;
+            --card: rgba(10,22,40,0.85);
+            --border: rgba(0,212,255,0.15);
+            --glow: 0 0 20px rgba(0,212,255,0.3);
+            --glow2: 0 0 20px rgba(123,47,255,0.3);
+            --fw: 380px;
+
+            /* Responsive units */
+            font-size: 16px; /* Base font size for rem */
+        }
+
+        @media (max-width: 900px) {
+            :root { font-size: 15px; }
+        }
+
+        @media (max-width: 600px) {
+            :root { font-size: 14px; }
+        }
+
+        html, body { width:100%; height:100%; overflow:hidden; font-family:
+            'Tajawal',sans-serif; background:var(--c0); color:var(--text); }
+        body { display:flex; flex-direction:column; }
+
+        /* scrollbar */
+        ::-webkit-scrollbar { width:0.375rem; }
+        ::-webkit-scrollbar-track { background:transparent; }
+        ::-webkit-scrollbar-thumb { background:rgba(0,212,255,0.2); border-radius:0.1875rem; }
+        ::-webkit-scrollbar-thumb:hover { background:rgba(0,212,255,0.4); }
+
+        /* ═══════════════════════════════════════════════
+           ANIMATED BACKGROUND
+        ═══════════════════════════════════════════════ */
+        .bg-grid {
+            position:fixed; inset:0; z-index:0;
+            background-image:
+                linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+            background-size:2.5rem 2.5rem;
+            animation:gridShift 20s linear infinite;
+        }
+        @keyframes gridShift { 0%{background-position:0 0} 100%{background-position:2.5rem 2.5rem} }
+
+        .bg-glow {
+            position:fixed; inset:0; z-index:0; pointer-events:none;
+            background:
+                radial-gradient(ellipse 37.5rem 25rem at 15% 20%, rgba(0,212,255,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 31.25rem 21.875rem at 85% 80%, rgba(123,47,255,0.06) 0%, transparent 60%);
+        }
+
+        /* ═══════════════════════════════════════════════
+           HEADER
+        ═══════════════════════════════════════════════ */
+        .header {
+            position:relative; z-index:100;
+            background:linear-gradient(90deg, rgba(6,13,26,0.97) 0%, rgba(10,22,40,0.97) 100%);
+            border-bottom:1px solid var(--border);
+            padding:0.85rem 1.5rem;
+            display:flex; align-items:center; justify-content:space-between;
+            backdrop-filter:blur(20px);
+            box-shadow:0 0.25rem 1.5rem rgba(0,0,0,0.4), 0 0.0625rem 0 rgba(0,212,255,0.1);
+        }
+
+        .logo { display:flex; align-items:center; gap:0.85rem; }
+
+        .logo-icon {
+            width:2.6rem; height:2.6rem;
+            background:linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+            border-radius:0.6rem;
+            display:flex; align-items:center; justify-content:center;
+            font-size:1.2rem;
+            box-shadow:0 0 1.25rem rgba(0,212,255,0.4), 0 0 2.5rem rgba(123,47,255,0.2);
+            animation:logoPulse 3s ease-in-out infinite;
+        }
+        @keyframes logoPulse {
+            0%,100%{box-shadow:0 0 1.25rem rgba(0,212,255,0.4),0 0 2.5rem rgba(123,47,255,0.2)}
+            50%{box-shadow:0 0 1.875rem rgba(0,212,255,0.6),0 0 3.75rem rgba(123,47,255,0.3)}
+        }
+
+        .logo-text { display:flex; flex-direction:column; }
+        .logo-title {
+            font-size:1.1rem; font-weight:900; letter-spacing:0.12em;
+            background:linear-gradient(90deg, var(--accent), var(--accent2));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            background-clip:text; line-height:1.1;
+        }
+        .logo-sub { font-size:0.62rem; color:var(--muted); letter-spacing:0.06em; font-weight:500; margin-top:0.125rem; }
+
+        .header-badges { display:flex; align-items:center; gap:0.6rem; }
+
+        .version-badge {
+            font-size:0.62rem; font-weight:700; letter-spacing:0.05em;
+            padding:0.3rem 0.65rem; border-radius:0.35rem;
+            background:rgba(0,212,255,0.1); border:1px solid rgba(0,212,255,0.25);
+            color:var(--accent); font-family:
+            'Space Mono',monospace;
+        }
+
+        .api-status {
+            font-size:0.62rem; font-weight:700;
+            padding:0.3rem 0.65rem; border-radius:0.35rem;
+            display:flex; align-items:center; gap:0.35rem;
+            cursor:pointer; transition:all 0.2s;
+            outline:none; /* Remove default outline */
+        }
+        .api-status:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+        .api-status.connected { background:rgba(0,229,160,0.1); border:1px solid rgba(0,229,160,0.3); color:var(--success); }
+        .api-status.disconnected { background:rgba(255,71,87,0.1); border:1px solid rgba(255,71,87,0.3); color:var(--danger); }
+        .api-status.waiting { background:rgba(255,165,2,0.1); border:1px solid rgba(255,165,2,0.3); color:var(--warn); }
+
+        .status-dot { width:0.375rem; height:0.375rem; border-radius:50%; animation:blink 1.5s ease-in-out infinite; }
+        .connected .status-dot { background:var(--success); }
+        .disconnected .status-dot { background:var(--danger); animation:none; }
+        .waiting .status-dot { background:var(--warn); }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        .header-actions { display:flex; gap:0.6rem; align-items:center; }
+
+        .hbtn {
+            background:rgba(0,212,255,0.07); border:1px solid var(--border);
+            color:var(--muted); padding:0.5rem 0.75rem; border-radius:0.5rem;
+            cursor:pointer; font-size:0.8rem; transition:all 0.2s;
+            display:flex; align-items:center; gap:0.35rem;
+            outline:none; /* Remove default outline */
+        }
+        .hbtn:hover { background:rgba(0,212,255,0.15); border-color:rgba(0,212,255,0.4); color:var(--accent); }
+        .hbtn:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+
+        /* ═══════════════════════════════════════════════
+           API KEY MODAL
+        ═══════════════════════════════════════════════ */
+        .modal-overlay {
+            position:fixed; inset:0; z-index:1000;
+            background:rgba(0,0,0,0.75); backdrop-filter:blur(8px);
+            display:flex; align-items:center; justify-content:center;
+            opacity:0; pointer-events:none; transition:opacity 0.3s;
+        }
+        .modal-overlay.show { opacity:1; pointer-events:auto; }
+
+        .modal {
+            background:var(--c1); border:1px solid var(--border);
+            border-radius:1.2rem; padding:2rem; width:min(460px, 90vw);
+            box-shadow:0 1.5rem 4rem rgba(0,0,0,0.6), var(--glow);
+            transform:translateY(1.25rem); transition:transform 0.3s;
+        }
+        .modal-overlay.show .modal { transform:translateY(0); }
+
+        .modal-header { display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; }
+        .modal-icon { font-size:1.8rem; }
+        .modal-title { font-size:1.1rem; font-weight:700; color:var(--text); }
+        .modal-sub { font-size:0.78rem; color:var(--muted); margin-top:0.25rem; }
+
+        .modal-body { display:flex; flex-direction:column; gap:1rem; }
+
+        .input-label { font-size:0.78rem; font-weight:600; color:var(--muted); margin-bottom:0.4rem; display:block; }
+
+        .api-input {
+            width:100%; background:rgba(0,212,255,0.05);
+            border:1.5px solid var(--border); border-radius:0.6rem;
+            padding:0.85rem 1rem; color:var(--text);
+            font-size:0.9rem; font-family:
+            'Space Mono',monospace;
+            outline:none; direction:ltr; transition:all 0.2s;
+            letter-spacing:0.05em;
+        }
+        .api-input:focus { border-color:var(--accent); background:rgba(0,212,255,0.08); box-shadow:var(--glow); }
+
+        .api-hint {
+            font-size:0.72rem; color:var(--muted);
+            background:rgba(0,212,255,0.05); padding:0.65rem 0.85rem;
+            border-radius:0.5rem; border-right:2px solid var(--accent);
+            line-height:1.6;
+        }
+        .api-hint a { color:var(--accent); text-decoration:none; }
+
+        .modal-actions { display:flex; gap:0.75rem; margin-top:0.5rem; }
+
+        .btn-primary {
+            flex:1; padding:0.85rem; border:none; border-radius:0.6rem; cursor:pointer;
+            background:linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+            color:white; font-weight:700; font-size:0.9rem; font-family:
+            'Tajawal',sans-serif;
+            transition:all 0.2s; box-shadow:0 0.25rem 1rem rgba(0,212,255,0.3);
+            outline:none; /* Remove default outline */
+        }
+        .btn-primary:hover { transform:translateY(-0.125rem); box-shadow:0 0.5rem 1.5rem rgba(0,212,255,0.4); }
+        .btn-primary:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+
+        .btn-secondary {
+            padding:0.85rem 1.25rem; border:1px solid var(--border); border-radius:0.6rem;
+            cursor:pointer; background:transparent; color:var(--muted);
+            font-size:0.85rem; font-family:
+            'Tajawal',sans-serif; transition:all 0.2s;
+            outline:none; /* Remove default outline */
+        }
+        .btn-secondary:hover { border-color:var(--muted); color:var(--text); }
+        .btn-secondary:focus-visible { box-shadow: 0 0 0 2px var(--muted); }
+
+        /* ═══════════════════════════════════════════════
+           MAIN LAYOUT
+        ═══════════════════════════════════════════════ */
+        .main { display:flex; flex:1; overflow:hidden; padding:0.85rem; gap:0.85rem; position:relative; z-index:1; }
+
+        /* ═══════════════════════════════════════════════
+           SIDEBAR
+        ═══════════════════════════════════════════════ */
+        .sidebar {
+            width:var(--fw); flex-shrink:0;
+            background:var(--card); backdrop-filter:blur(20px);
+            border:1px solid var(--border); border-radius:0.85rem;
+            display:flex; flex-direction:column; overflow:hidden;
+            box-shadow:0 0.5rem 2rem rgba(0,0,0,0.3);
+            transition:transform 0.3s ease, width 0.3s ease, padding 0.3s ease, border 0.3s ease;
+        }
+        .sidebar.hidden { transform:translateX(-110%); width:0; padding:0; border:none; }
+
+        .sidebar-inner { flex:1; overflow-y:auto; padding:1rem; display:flex; flex-direction:column; gap:0.75rem; }
+
+        .section {
+            background:rgba(0,212,255,0.03); border:1px solid var(--border);
+            border-radius:0.7rem; padding:0.85rem; display:flex; flex-direction:column; gap:0.65rem;
+        }
+
+        .section-title {
+            font-size:0.7rem; font-weight:700; text-transform:uppercase;
+            letter-spacing:0.08em; color:var(--accent); display:flex; align-items:center; gap:0.45rem;
+        }
+
+        /* Memory Stats */
+        .memory-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:0.0rem; }
+        .stat-card {
+            background:rgba(0,0,0,0.3); border:1px solid rgba(0,212,255,0.1);
+            border-radius:0.5rem; padding:0.6rem; text-align:center;
+        }
+        .stat-val { font-size:1.1rem; font-weight:900; color:var(--accent); font-family:
+            'Space Mono',monospace;
+        }
+        .stat-lbl { font-size:0.6rem; color:var(--muted); margin-top:0.125rem; }
+
+        /* Collab Mode */
+        .collab-agents { display:grid; grid-template-columns:repeat(4,1fr); gap:0.4rem; }
+        .collab-agent {
+            aspect-ratio:1; background:rgba(0,0,0,0.3); border:1.5px solid rgba(0,212,255,0.1);
+            border-radius:0.5rem; cursor:pointer; display:flex; flex-direction:column;
+            align-items:center; justify-content:center; gap:0.2rem;
+            font-size:0.55rem; color:var(--muted); transition:all 0.2s;
+            outline:none; /* Remove default outline */
+        }
+        .collab-agent:hover { border-color:rgba(0,212,255,0.3); color:var(--text); }
+        .collab-agent:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+        .collab-agent.selected { border-color:var(--accent); background:rgba(0,212,255,0.1); color:var(--accent); box-shadow:0 0 0.75rem rgba(0,212,255,0.2); }
+        .collab-agent-icon { font-size:1.1rem; }
+
+        /* Mode */
+        .mode-pills { display:flex; gap:0.4rem; }
+        .pill {
+            flex:1; padding:0.5rem; border:1px solid rgba(0,212,255,0.15);
+            background:rgba(0,0,0,0.3); border-radius:0.45rem; cursor:pointer;
+            font-size:0.68rem; font-weight:600; color:var(--muted); text-align:center;
+            transition:all 0.2s; font-family:
+            'Tajawal',sans-serif;
+            outline:none; /* Remove default outline */
+        }
+        .pill:hover { border-color:rgba(0,212,255,0.3); color:var(--text); }
+        .pill:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+        .pill.active { background:linear-gradient(135deg,rgba(0,212,255,0.2),rgba(123,47,255,0.1)); border-color:var(--accent); color:var(--accent); }
+
+        /* Knowledge base */
+        .kb-area {
+            width:100%; min-height:4.375rem; max-height:6.25rem;
+            background:rgba(0,0,0,0.3); border:1px solid rgba(0,212,255,0.15);
+            border-radius:0.5rem; padding:0.65rem; color:var(--muted);
+            font-size:0.75rem; font-family:
+            'Tajawal',sans-serif;
+            outline:none; resize:vertical; direction:rtl; transition:all 0.2s;
+        }
+        .kb-area:focus { border-color:var(--accent); color:var(--text); }
+
+        .kb-add-btn {
+            padding:0.5rem 0.85rem; background:rgba(0,212,255,0.1); border:1px solid rgba(0,212,255,0.25);
+            color:var(--accent); border-radius:0.4rem; cursor:pointer; font-size:0.72rem;
+            font-weight:600; transition:all 0.2s; font-family:
+            'Tajawal',sans-serif;
+            outline:none; /* Remove default outline */
+        }
+        .kb-add-btn:hover { background:rgba(0,212,255,0.2); }
+        .kb-add-btn:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+
+        .kb-docs { display:flex; flex-direction:column; gap:0.3rem; }
+        .kb-doc {
+            background:rgba(0,0,0,0.3); border:1px solid rgba(0,212,255,0.1);
+            border-radius:0.4rem; padding:0.5rem 0.75rem; display:flex; justify-content:space-between; align-items:center;
+            font-size:0.7rem; color:var(--text); word-break:break-word;
+        }
+        .kb-doc-text { flex:1; margin-inline-end:0.5rem; }
+        .kb-doc-remove { color:var(--danger); cursor:pointer; font-size:0.8rem; transition:color 0.2s; outline:none; }
+        .kb-doc-remove:hover { color:darken(var(--danger), 10%); }
+        .kb-doc-remove:focus-visible { box-shadow: 0 0 0 2px var(--danger); }
+
+        /* ═══════════════════════════════════════════════
+           CONTENT AREA
+        ═══════════════════════════════════════════════ */
+        .content {
+            flex:1; background:var(--card); backdrop-filter:blur(20px);
+            border:1px solid var(--border); border-radius:0.85rem;
+            display:flex; flex-direction:column; overflow:hidden;
+            box-shadow:0 0.5rem 2rem rgba(0,0,0,0.3);
+        }
+
+        /* Agents Panel */
+        .agents-panel {
+            flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+            padding:2rem;
+        }
+        .panel-title {
+            font-size:1.5rem; font-weight:700; color:var(--text); margin-bottom:2rem;
+            display:flex; align-items:center; gap:0.75rem;
+        }
+        .agents-grid {
+            display:grid; grid-template-columns:repeat(auto-fill,minmax(10rem,1fr));
+            gap:1rem; max-width:1000px; width:100%;
+        }
+        .agent-card {
+            background:rgba(0,0,0,0.3); border:1px solid rgba(0,212,255,0.1);
+            border-radius:0.75rem; padding:1rem 0.75rem; text-align:center;
+            cursor:pointer; transition:all 0.2s; position:relative;
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            min-height:8.75rem; /* Fixed height for better alignment */
+            outline:none; /* Remove default outline */
+        }
+        .agent-card:hover { border-color:var(--accent); background:rgba(0,212,255,0.05); }
+        .agent-card:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+        .agent-card.has-memory .agent-mem-badge { display:block; }
+
+        .agent-mem-badge {
+            position:absolute; top:0.5rem; right:0.5rem;
+            background:rgba(0,229,160,0.1); color:var(--success); font-size:0.6rem;
+            padding:0.2rem 0.4rem; border-radius:0.25rem; font-weight:600;
+            display:none;
+        }
+
+        .agent-icon-wrap {
+            font-size:2.5rem; margin-bottom:0.5rem;
+        }
+        .agent-name {
+            font-size:0.9rem; font-weight:700; color:var(--text); line-height:1.2;
+        }
+        .agent-desc {
+            font-size:0.7rem; color:var(--muted); margin-top:0.25rem;
+        }
+
+        /* Chat Header */
+        .chat-header {
+            padding:0.85rem 1.5rem; border-bottom:1px solid var(--border);
+            display:flex; align-items:center; justify-content:space-between;
+            background:linear-gradient(90deg, rgba(6,13,26,0.97) 0%, rgba(10,22,40,0.97) 100%);
+            flex-shrink:0;
+        }
+        .chat-agent-info { display:flex; align-items:center; gap:0.75rem; }
+        .chat-agent-icon { font-size:1.8rem; }
+        .chat-agent-name { font-size:1.1rem; font-weight:700; color:var(--text); }
+        .chat-agent-role { font-size:0.78rem; color:var(--muted); display:flex; align-items:center; gap:0.5rem; }
+        .collab-tag {
+            background:rgba(123,47,255,0.15); color:var(--accent2); font-size:0.6rem;
+            padding:0.2rem 0.5rem; border-radius:0.25rem; font-weight:600;
+        }
+        .chat-actions { display:flex; gap:0.6rem; }
+        .chat-btn {
+            background:rgba(0,212,255,0.07); border:1px solid var(--border);
+            color:var(--muted); padding:0.5rem 0.75rem; border-radius:0.5rem;
+            cursor:pointer; font-size:0.8rem; transition:all 0.2s;
+            display:flex; align-items:center; gap:0.35rem;
+            outline:none; /* Remove default outline */
+        }
+        .chat-btn:hover { background:rgba(0,212,255,0.15); border-color:rgba(0,212,255,0.4); color:var(--accent); }
+        .chat-btn:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+        .chat-btn.danger { background:rgba(255,71,87,0.1); border-color:rgba(255,71,87,0.3); color:var(--danger); }
+        .chat-btn.danger:hover { background:rgba(255,71,87,0.2); border-color:var(--danger); }
+        .chat-btn.danger:focus-visible { box-shadow: 0 0 0 2px var(--danger); }
+
+        /* Chat Area */
+        .chat-area {
+            flex:1; overflow-y:auto; padding:1.5rem;
+            display:flex; flex-direction:column; gap:1rem;
+        }
+        .empty-state {
+            flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+            text-align:center; padding:2rem;
+        }
+        .empty-icon { font-size:3rem; margin-bottom:1rem; }
+        .empty-title { font-size:1.5rem; font-weight:700; color:var(--text); margin-bottom:0.5rem; }
+        .empty-sub { font-size:0.9rem; color:var(--muted); max-width:25rem; }
+
+        .message-bubble {
+            display:flex; gap:0.75rem; max-width:80%;
+            animation:fadeIn 0.3s ease-out;
+        }
+        .message-bubble.user { margin-inline-start:auto; flex-direction:row-reverse; }
+        .message-bubble.agent { margin-inline-end:auto; }
+
+        .bubble-icon {
+            width:2.2rem; height:2.2rem; border-radius:50%;
+            background:var(--c2); display:flex; align-items:center; justify-content:center;
+            font-size:1.1rem; flex-shrink:0;
+        }
+        .message-bubble.user .bubble-icon { background:var(--accent); color:var(--c0); }
+
+        .bubble-content {
+            background:var(--c1); border-radius:0.85rem; padding:0.85rem 1.2rem;
+            font-size:0.9rem; line-height:1.6;
+            box-shadow:0 0.25rem 1rem rgba(0,0,0,0.2);
+            direction:rtl; text-align:right;
+        }
+        .message-bubble.user .bubble-content { background:var(--c3); }
+
+        .bubble-content p:last-child { margin-bottom:0; }
+        .bubble-content h1, .bubble-content h2, .bubble-content h3, .bubble-content h4, .bubble-content h5, .bubble-content h6 {
+            color:var(--accent); margin-top:1rem; margin-bottom:0.5rem;
+            font-weight:700;
+        }
+        .bubble-content a { color:var(--accent); text-decoration:underline; }
+        .bubble-content strong { color:var(--text); }
+        .bubble-content em { color:var(--muted); }
+        .bubble-content ul, .bubble-content ol {
+            margin-inline-start:1.25rem; margin-bottom:0.5rem; padding:0;
+        }
+        .bubble-content li { margin-bottom:0.25rem; }
+        .bubble-content code {
+            background:rgba(0,212,255,0.1); padding:0.1rem 0.3rem; border-radius:0.25rem;
+            font-family:
+            'Space Mono',monospace; font-size:0.85rem;
+        }
+        .bubble-content pre {
+            background:rgba(0,0,0,0.4); border-radius:0.5rem; padding:0.75rem;
+            overflow-x:auto; margin-top:0.75rem; margin-bottom:0.75rem;
+        }
+        .bubble-content pre code { background:none; padding:0; font-size:0.8rem; }
+
+        .bubble-content .collab-synthesis {
+            border-right:3px solid var(--accent2); padding-right:0.75rem; margin-right:-0.75rem;
+            background:rgba(123,47,255,0.05);
+        }
+
+        .bubble-actions {
+            display:flex; gap:0.5rem; margin-top:0.75rem; justify-content:flex-end;
+        }
+        .feedback-btn {
+            background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:0.4rem;
+            color:var(--muted); font-size:0.7rem; padding:0.3rem 0.6rem; cursor:pointer;
+            transition:all 0.2s; outline:none;
+        }
+        .feedback-btn:hover { border-color:var(--accent); color:var(--accent); }
+        .feedback-btn:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+        .feedback-btn.active { background:var(--accent); color:white; border-color:var(--accent); }
+
+        @keyframes fadeIn { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)} }
+
+        /* Input Area */
+        .input-area {
+            padding:0.85rem 1.5rem; border-top:1px solid var(--border);
+            background:linear-gradient(90deg, rgba(6,13,26,0.97) 0%, rgba(10,22,40,0.97) 100%);
+            flex-shrink:0;
+        }
+        .input-row {
+            display:flex; align-items:flex-end; gap:0.75rem;
+        }
+        .input-wrap {
+            flex:1; position:relative;
+        }
+        .input-field {
+            width:100%; min-height:2.5rem; max-height:10rem; /* Limit textarea growth */
+            background:rgba(0,212,255,0.05); border:1.5px solid var(--border);
+            border-radius:0.6rem; padding:0.75rem 1rem; color:var(--text);
+            font-size:0.9rem; font-family:
+            'Tajawal',sans-serif;
+            outline:none; resize:none; direction:rtl; transition:all 0.2s;
+            overflow-y:auto;
+        }
+        .input-field:focus { border-color:var(--accent); background:rgba(0,212,255,0.08); box-shadow:var(--glow); }
+
+        .send-btn, .cancel-btn {
+            width:2.5rem; height:2.5rem; border-radius:0.6rem; border:none;
+            display:flex; align-items:center; justify-content:center;
+            cursor:pointer; transition:all 0.2s; flex-shrink:0;
+            font-size:1.1rem; color:white;
+            outline:none; /* Remove default outline */
+        }
+        .send-btn {
+            background:linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+            box-shadow:0 0.125rem 0.5rem rgba(0,212,255,0.3);
+        }
+        .send-btn:hover { transform:translateY(-0.125rem); box-shadow:0 0.25rem 0.75rem rgba(0,212,255,0.4); }
+        .send-btn:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+
+        .cancel-btn {
+            background:rgba(255,71,87,0.15); color:var(--danger); border:1px solid rgba(255,71,87,0.3);
+            display:none; /* Hidden by default */
+        }
+        .cancel-btn:hover { background:rgba(255,71,87,0.25); border-color:var(--danger); }
+        .cancel-btn:focus-visible { box-shadow: 0 0 0 2px var(--danger); }
+
+        .input-footer { display:flex; align-items:center; justify-content:space-between; margin-top:0.5rem; padding:0 0.2rem; }
+        .input-hint { font-size:0.68rem; color:var(--muted); }
+        .char-count { font-size:0.68rem; color:var(--muted); font-family:
+            'Space Mono',monospace;
+        }
+
+        /* ═══════════════════════════════════════════════
+           NOTIFICATION
+        ═══════════════════════════════════════════════ */
+        .notif {
+            position:fixed; top:1.25rem; right:1.25rem; z-index:2000;
+            background:var(--c1); border:1px solid var(--border);
+            border-radius:0.65rem; padding:0.85rem 1.25rem;
+            font-size:0.82rem; font-weight:600; display:flex; align-items:center; gap:0.6rem;
+            box-shadow:0 0.5rem 1.5rem rgba(0,0,0,0.4); animation:slideR 0.3s ease;
+            max-width:20rem;
+            opacity:0; transform:translateX(1.25rem); /* Initial state for animation */
+        }
+        .notif.show { opacity:1; transform:translateX(0); }
+        @keyframes slideR { from{opacity:0;transform:translateX(1.25rem)} to{opacity:1;transform:translateX(0)} }
+        .notif.success { border-color:rgba(0,229,160,0.35); color:var(--success); }
+        .notif.error { border-color:rgba(255,71,87,0.35); color:var(--danger); }
+        .notif.info { border-color:rgba(0,212,255,0.35); color:var(--accent); }
+        .notif.warn { border-color:rgba(255,165,2,0.35); color:var(--warn); }
+
+        /* ═══════════════════════════════════════════════
+           PROACTIVE AGENT NOTIFICATION
+        ═══════════════════════════════════════════════ */
+        .proactive-notif {
+            position:fixed; bottom:1.25rem; left:1.25rem; z-index:1999;
+            background:var(--c2); border:1px solid var(--accent2);
+            border-radius:0.65rem; padding:0.85rem 1.25rem;
+            font-size:0.82rem; font-weight:600; display:flex; align-items:center; gap:0.6rem;
+            box-shadow:0 0.5rem 1.5rem rgba(0,0,0,0.4), var(--glow2);
+            max-width:20rem;
+            opacity:0; transform:translateY(1.25rem); transition:all 0.3s ease;
+            cursor:pointer;
+        }
+        .proactive-notif.show { opacity:1; transform:translateY(0); }
+        .proactive-notif:hover { transform:translateY(-0.125rem); box-shadow:0 0.75rem 2rem rgba(0,0,0,0.5), var(--glow2); }
+        .proactive-notif-icon { font-size:1.2rem; color:var(--accent2); }
+        .proactive-notif-text { flex:1; }
+        .proactive-notif-close { background:none; border:none; color:var(--muted); font-size:1rem; cursor:pointer; outline:none; }
+        .proactive-notif-close:hover { color:var(--text); }
+
+        /* ═══════════════════════════════════════════════
+           PREDICTIVE UI SUGGESTIONS
+        ═══════════════════════════════════════════════ */
+        .predictive-suggestions {
+            display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.75rem;
+            justify-content:flex-end;
+        }
+        .suggestion-pill {
+            background:rgba(0,212,255,0.07); border:1px solid var(--border);
+            color:var(--muted); padding:0.4rem 0.8rem; border-radius:0.4rem;
+            cursor:pointer; font-size:0.75rem; transition:all 0.2s;
+            outline:none;
+        }
+        .suggestion-pill:hover { background:rgba(0,212,255,0.15); border-color:rgba(0,212,255,0.4); color:var(--accent); }
+        .suggestion-pill:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+
+        /* ═══════════════════════════════════════════════
+           MOBILE RESPONSIVENESS
+        ═══════════════════════════════════════════════ */
+        @media(max-width:900px) {
+            :root { --fw:100%; }
+            .main { flex-direction:column; padding:0.5rem; gap:0.5rem; }
+            .sidebar { width:100%; max-height:13.125rem; flex-direction:row; }
+            .sidebar.hidden { transform:translateY(-110%); width:100%; height:0; padding:0; border:none; }
+            .sidebar-inner { flex-direction:row; flex-wrap:nowrap; overflow-x:auto; flex:1; padding:0.65rem; gap:0.5rem; }
+            .section { min-width:11.25rem; }
+            .agents-grid { grid-template-columns:repeat(auto-fill,minmax(7.5rem,1fr)); }
+            .message-bubble { max-width:90%; }
+            .proactive-notif { bottom:0.5rem; left:0.5rem; max-width:calc(100% - 1rem); }
+        }
+        @media(max-width:600px) {
+            .header { padding:0.6rem 0.85rem; }
+            .logo-title { font-size:0.9rem; }
+            .header-badges .api-status span { display:none; }
+            .agents-grid { grid-template-columns:repeat(auto-fill,minmax(6.25rem,1fr)); gap:0.6rem; }
+            .agent-card { padding:0.85rem 0.6rem; min-height:7.5rem; }
+            .agent-icon-wrap { font-size:1.8rem; }
+            .bubble-icon { width:1.8rem; height:1.8rem; font-size:0.9rem; }
+            .bubble-content { font-size:0.85rem; padding:0.75rem 1rem; }
+            .input-area { padding:0.6rem 0.85rem; }
+            .input-field { font-size:0.85rem; padding:0.6rem 0.85rem; }
+            .send-btn, .cancel-btn { width:2.2rem; height:2.2rem; font-size:1rem; }
+            .input-hint, .char-count { font-size:0.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<!-- ══════════════════ HEADER ══════════════════ -->
+<header class="header">
+    <div class="logo">
+        <div class="logo-icon" aria-hidden="true">🧠</div>
+        <div class="logo-text">
+            <div class="logo-title">NEXUS AGENTS</div>
+            <div class="logo-sub">Sovereign Nexus • v11.1 Enterprise</div>
+        </div>
+    </div>
+    <div class="header-badges">
+        <div class="version-badge">v11.1-SN</div>
+        <button class="api-status disconnected" id="apiStatus" onclick="UI.openModal()" title="اضغط لإضافة API Key" aria-label="حالة API: غير متصل. اضغط لإضافة مفتاح API.">
+            <div class="status-dot"></div>
+            <span id="apiStatusTxt">بدون API</span>
+        </button>
+    </div>
+    <div class="header-actions">
+        <button class="hbtn" onclick="UI.toggleSidebar()" title="القائمة الجانبية" aria-label="تبديل عرض القائمة الجانبية">
+            <i class="fas fa-sliders-h" aria-hidden="true"></i>
+        </button>
+        <button class="hbtn" onclick="Chat.exportChat()" title="تصدير المحادثة" aria-label="تصدير المحادثة الحالية">
+            <i class="fas fa-download" aria-hidden="true"></i>
+        </button>
+    </div>
+</header>
+
+<!-- ══════════════════ API MODAL ══════════════════ -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-icon" aria-hidden="true">🔑</div>
+            <div>
+                <h2 class="modal-title" id="modalTitle">Anthropic API Key</h2>
+                <p class="modal-sub">أدخل مفتاحك للاتصال بـ Claude الحقيقي</p>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div>
+                <label for="apiKeyInput" class="input-label">مفتاح API</label>
+                <input type="password" class="api-input" id="apiKeyInput" placeholder="sk-ant-api03-..." autocomplete="off" aria-describedby="apiKeyHint">
+            </div>
+            <div>
+                <label for="masterKeyInput" class="input-label">كلمة مرور التشفير الرئيسية (Master Key)</label>
+                <input type="password" class="api-input" id="masterKeyInput" placeholder="كلمة مرور قوية لتشفير مفتاح API" autocomplete="off" aria-describedby="masterKeyHint">
+            </div>
+            <div class="api-hint" id="apiKeyHint">
+                احصل على مفتاحك من <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer">console.anthropic.com</a><br>
+                يُحفظ مفتاح API مشفراً محلياً. كلمة المرور الرئيسية لا تُحفظ أبداً.
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="UI.closeModal()">إلغاء</button>
+                <button class="btn-primary" onclick="Auth.saveApiKey()">✓ حفظ وتشفير</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════ MAIN ══════════════════ -->
+<div class="main">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar" aria-label="القائمة الجانبية">
+        <div class="sidebar-inner">
+
+            <!-- Memory Stats -->
+            <section class="section">
+                <h3 class="section-title"><i class="fas fa-brain" aria-hidden="true"></i> ذاكرة المنصة</h3>
+                <div class="memory-stats">
+                    <div class="stat-card">
+                        <div class="stat-val" id="memConvs">0</div>
+                        <div class="stat-lbl">محادثة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-val" id="memMsgs">0</div>
+                        <div class="stat-lbl">رسالة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-val" id="memDocs">0</div>
+                        <div class="stat-lbl">وثيقة</div>
+                    </div>
+                </div>
+                <button class="kb-add-btn" onclick="Memory.clearAllMemory()" style="background:rgba(255,71,87,0.08);border-color:rgba(255,71,87,0.2);color:var(--danger);" aria-label="مسح كل الذاكرة">
+                    <i class="fas fa-trash" aria-hidden="true"></i> مسح كل الذاكرة
+                </button>
+            </section>
+
+            <!-- Search Mode -->
+            <section class="section">
+                <h3 class="section-title"><i class="fas fa-cogs" aria-hidden="true"></i> نمط الرد</h3>
+                <div class="mode-pills" role="radiogroup" aria-label="اختر نمط الرد">
+                    <button class="pill active" data-mode="single" onclick="App.setMode(this,'single')" role="radio" aria-checked="true">فردي</button>
+                    <button class="pill" data-mode="collab" onclick="App.setMode(this,'collab')" role="radio" aria-checked="false">تعاوني</button>
+                    <button class="pill" data-mode="deep" onclick="App.setMode(this,'deep')" role="radio" aria-checked="false">عميق</button>
+                    <button class="pill" data-mode="manager" onclick="App.setMode(this,'manager')" role="radio" aria-checked="false">مدير</button>
+                </div>
+            </section>
+
+            <!-- Collab Agents -->
+            <section class="section" id="collabSection" style="display:none;">
+                <h3 class="section-title"><i class="fas fa-users" aria-hidden="true"></i> وكلاء التعاون</h3>
+                <div class="collab-agents" id="collabAgents" role="group" aria-label="اختر وكلاء للتعاون">
+                    <!-- Collab agents will be rendered here -->
+                </div>
+            </section>
+
+            <!-- Roaming Agents Status -->
+            <section class="section">
+                <h3 class="section-title"><i class="fas fa-satellite-dish" aria-hidden="true"></i> وكلاء متجولون</h3>
+                <div id="roamingAgentsStatus" style="font-size:0.75rem; color:var(--muted);">لا يوجد وكلاء متجولون نشطون.</div>
+            </section>
+
+            <!-- Knowledge Base -->
+            <section class="section">
+                <h3 class="section-title"><i class="fas fa-book" aria-hidden="true"></i> قاعدة المعرفة</h3>
+                <label for="kbInput" class="sr-only">أضف نصاً أو معلومات خاصة بالوكيل المختار</label>
+                <textarea class="kb-area" id="kbInput" placeholder="أضف نصاً أو معلومات خاصة بالوكيل المختار..." aria-label="أضف نصاً أو معلومات خاصة بالوكيل المختار"></textarea>
+                <button class="kb-add-btn" onclick="Knowledge.addKnowledge()" aria-label="إضافة نص إلى قاعدة المعرفة للوكيل المختار"><i class="fas fa-plus" aria-hidden="true"></i> إضافة للوكيل</button>
+                <div class="kb-docs" id="kbDocs">
+                    <!-- Knowledge documents will be rendered here -->
+                </div>
+            </section>
+
+            <!-- History -->
+            <section class="section">
+                <h3 class="section-title"><i class="fas fa-history" aria-hidden="true"></i> سجل المحادثات</h3>
+                <div class="history-list" id="historyList">
+                    <!-- Conversation history will be rendered here -->
+                </div>
+            </section>
+
+        </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <div class="content" id="contentArea">
+
+        <!-- ── Agents Panel ── -->
+        <section class="agents-panel" id="agentsPanel" aria-label="لوحة اختيار الوكلاء">
+            <h2 class="panel-title"><i class="fas fa-robot" aria-hidden="true"></i> اختر وكيلاً متخصصاً</h2>
+            <div class="agents-grid" id="agentsGrid">
+                <!-- Agents will be rendered here -->
+            </div>
+        </section>
+
+        <!-- ── Chat Header ── (hidden initially) -->
+        <div class="chat-header" id="chatHeader" style="display:none;">
+            <div class="chat-agent-info">
+                <div class="chat-agent-icon" id="chatIcon" aria-hidden="true"></div>
+                <div>
+                    <h2 class="chat-agent-name" id="chatName"></h2>
+                    <div class="chat-agent-role">
+                        <span id="chatRole"></span>
+                        <span class="collab-tag" id="collabTag" style="display:none;">تعاوني</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <button class="chat-btn" onclick="Chat.clearChat()" aria-label="مسح المحادثة الحالية"><i class="fas fa-broom" aria-hidden="true"></i> مسح</button>
+                <button class="chat-btn danger" onclick="App.backToAgents()" aria-label="العودة إلى لوحة الوكلاء"><i class="fas fa-arrow-right" aria-hidden="true"></i> رجوع</button>
+            </div>
+        </div>
+
+        <!-- ── Chat Area ── -->
+        <div class="chat-area" id="chatArea" style="display:none;">
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon" id="emptyIcon" aria-hidden="true">🤖</div>
+                <h2 class="empty-title" id="emptyTitle">ابدأ المحادثة</h2>
+                <p class="empty-sub" id="emptySub">اكتب سؤالك أدناه ليجيبك الوكيل المتخصص</p>
+            </div>
+        </div>
+
+        <!-- ── Input Area ── -->
+        <div class="input-area" id="inputArea" style="display:none;">
+            <div class="input-row">
+                <div class="input-wrap">
+                    <label for="inputField" class="sr-only">اكتب رسالتك هنا</label>
+                    <textarea class="input-field" id="inputField" placeholder="اسأل وكيلك..." rows="1" aria-label="حقل إدخال الرسالة"></textarea>
+                </div>
+                <button class="send-btn" id="sendBtn" onclick="Chat.handleSend()" aria-label="إرسال الرسالة">
+                    <i class="fas fa-paper-plane" aria-hidden="true"></i> إرسال
+                </button>
+                <button class="cancel-btn" id="cancelBtn" onclick="Chat.cancelRequest()" aria-label="إلغاء الطلب الحالي">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="input-footer">
+                <div class="predictive-suggestions" id="predictiveSuggestions"></div>
+                <span class="input-hint">Enter للإرسال • Shift+Enter لسطر جديد</span>
+                <span class="char-count" id="charCount">0</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="notifications" aria-live="polite" aria-atomic="true"></div>
+<div id="proactiveNotifications" aria-live="polite" aria-atomic="true"></div>
+
+<script>
+    // Helper for screen readers
+    const srOnlyStyle = document.createElement('style');
+    srOnlyStyle.textContent = '.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }';
+    document.head.appendChild(srOnlyStyle);
+
+    /* ═══════════════════════════════════════════════════════════
+       AGENTS DATA
+    ═══════════════════════════════════════════════════════════ */
+    const AGENTS = [
+        { id:'manager',    icon:'👑', name:'وكيل المدير',          role:'Manager Agent',       desc:'ينظم عمل الوكلاء الآخرين', isManager: true,
+          prompt:`أنت وكيل مدير ذكي. مهمتك هي تحليل طلب المستخدم وتحديد الوكلاء المتخصصين الأكثر ملاءمة للتعامل معه. إذا كان الطلب بسيطاً، أجب بنفسك. إذا كان معقداً ويتطلب تخصصات متعددة، قم بتحديد الوكلاء المناسبين (من القائمة المتاحة: ${AGENTS.filter(a => !a.isManager).map(a => a.name).join(', ')}) واطلب منهم التعاون. يجب أن يكون ردك النهائي هو قرارك بشأن من سيتولى المهمة أو ملخصاً للمهمة إذا كنت ستجيب بنفسك. استخدم تنسيق JSON لتحديد الوكلاء إذا لزم الأمر: { "action": "delegate", "agents": ["agent_id1", "agent_id2"], "task": "وصف المهمة" } أو { "action": "respond", "response": "الرد المباشر" }.`,
+          proactiveTask: 'مراجعة آخر 3 محادثات للمستخدم وتلخيص حالة العمل الحالية، مع اقتراح الإجراءات التالية أو الوكلاء المناسبين.'
+        },
+        { id:'customer',  icon:'🎧', name:'خدمة العملاء',         role:'Customer Service',    desc:'حل المشاكل وزيادة الرضا',
+          prompt:`أنت وكيل خدمة عملاء محترف. تتعامل مع الشكاوى بذكاء ودبلوماسية، وتسعى دائماً لإرضاء العميل مع الحفاظ على مصلحة الشركة. ردودك واضحة، متعاطفة، وعملية.`,
+          proactiveTask: 'مراقبة سجلات المحادثات الأخيرة لتحديد المشاكل المتكررة واقتراح حلول استباقية.'
+        },
+        { id:'accountant', icon:'📊', name:'المحاسبة والتدقيق',    role:'Accounting & Audit',  desc:'الحسابات المالية والضرائب',
+          prompt:`أنت محاسب قانوني معتمد (CPA) وخبير مالي. تتخصص في التحليل المالي، الضرائب، الميزانيات، والتدقيق. تقدم أرقاماً دقيقة وتوصيات مبنية على بيانات.`,
+          proactiveTask: 'تحليل البيانات المالية المتاحة لتحديد فرص التوفير الضريبي أو تحسين الميزانية.'
+        },
+        { id:'hr',         icon:'👥', name:'الموارد البشرية',      role:'Human Resources',     desc:'إدارة الأفراد والسياسات',
+          prompt:`أنت مدير موارد بشرية متخصص. تتعامل مع شؤون التوظيف، تقييم الأداء، سياسات العمل، النزاعات الوظيفية، وتطوير المواهب. تتبع أفضل الممارسات الدولية.`,
+          proactiveTask: 'مراجعة سياسات الموارد البشرية واقتراح تحسينات لزيادة رضا الموظفين.'
+        },
+        { id:'legal',      icon:'⚖️', name:'المستشار القانوني',   role:'Legal Advisor',       desc:'القوانين والعقود والامتثال',
+          prompt:`أنت مستشار قانوني متخصص في القانون التجاري. تصوغ العقود، تحلل المخاطر القانونية، وتقدم مشورة قانونية مبنية على أسس سليمة. دائماً تنصح بالرجوع لمحامٍ مرخص للقضايا الجوهرية.`,
+          proactiveTask: 'البحث عن تحديثات قانونية جديدة قد تؤثر على العمليات وتقديم ملخص بها.'
+        },
+        { id:'investor',   icon:'💰', name:'محلل الاستثمار',      role:'Investment Analyst',  desc:'تحليل الأسواق والفرص',
+          prompt:`أنت محلل استثمار CFA. تحلل الأسواق المالية، الأسهم، السندات، العملات الرقمية، والسلع. تقدم تحليلات معمقة ومبنية على البيانات مع تقييم واضح للمخاطر.`,
+          proactiveTask: 'مراقبة الأسواق المالية وتحديد فرص استثمارية محتملة أو مخاطر وشيكة.'
+        },
+        { id:'marketing',  icon:'📢', name:'التسويق والـ SEO',     role:'Marketing & Growth',  desc:'الحملات والنمو الرقمي',
+          prompt:`أنت مدير تسويق رقمي متخصص في النمو. تبني استراتيجيات تسويق متكاملة تشمل SEO، السوشيال ميديا، إعلانات الدفع، والمحتوى. تعتمد على بيانات ومقاييس واضحة.`,
+          proactiveTask: 'تحليل أداء الحملات التسويقية الحالية واقتراح تحسينات لزيادة العائد على الاستثمار.'
+        },
+        { id:'innovation', icon:'💡', name:'الابتكار والتطوير',   role:'Innovation Manager',  desc:'الحلول الإبداعية والأفكار',
+          prompt:`أنت مدير ابتكار وتفكير تصميمي. تستخدم منهجيات مثل Design Thinking وLean Startup لتوليد حلول غير تقليدية. تفكر خارج الصندوق وتحول التحديات إلى فرص.`,
+          proactiveTask: 'البحث عن أحدث الابتكارات في الصناعة واقتراح أفكار جديدة للمنتجات أو الخدمات.'
+        },
+        { id:'research',   icon:'🔬', name:'البحث العلمي',        role:'Research Scientist',  desc:'الدراسات والتحليلات',
+          prompt:`أنت باحث علمي متخصص في البحث الأكاديمي والعلمي. تقوم بجمع البيانات، تحليلها، وتلخيص النتائج بأسلوب منهجي وموثوق. تتبع المعايير العلمية الصارمة في كل تحليلاتك.`,
+          proactiveTask: 'تحديد المجالات البحثية الواعدة بناءً على أحدث المنشورات العلمية.'
+        },
+        { id:'data',       icon:'📈', name:'تحليل البيانات',      role:'Data Analyst',        desc:'معالجة وتحليل البيانات',
+          prompt:`أنت محلل بيانات متقدم متخصص في Data Science. تعالج البيانات الضخمة، تكتشف الأنماط، تبني نماذج تنبؤية، وتقدم رؤى قابلة للتطبيق. تتقن Python, SQL, وأدوات التصور.`,
+          proactiveTask: 'تحليل مجموعات البيانات الكبيرة المتاحة لتحديد الاتجاهات الخفية أو الشذوذ.'
+        },
+        { id:'security',   icon:'🔐', name:'الأمان السيبراني',    role:'Cybersecurity Expert',desc:'الحماية والأمان الرقمي',
+          prompt:`أنت خبير أمان سيبراني معتمد (CISSP/CEH). تقيّم الثغرات، تطور استراتيجيات الحماية، وتساعد في الامتثال لمعايير ISO 27001 وNIST. ردودك تعليمية ولا تسهم في أي نشاط ضار.`,
+          proactiveTask: 'مراقبة التهديدات السيبرانية الجديدة واقتراح إجراءات وقائية.'
+        },
+        { id:'strategy',   icon:'🎯', name:'الاستراتيجية',        role:'Strategy Consultant', desc:'التخطيط والرؤية المستقبلية',
+          prompt:`أنت مستشار استراتيجي من الدرجة الأولى. تستخدم أطر SWOT, Porter's Five Forces, OKR لتطوير استراتيجيات قابلة للتنفيذ. تفكر على المدى البعيد وتربط الاستراتيجية بالتنفيذ.`,
+          proactiveTask: 'تقييم الوضع التنافسي للسوق واقتراح تعديلات على الاستراتيجية العامة.'
+        },
+        { id:'education',  icon:'🎓', name:'التعليم والتدريب',    role:'Education Specialist', desc:'التعليم والتطوير المهني',
+          prompt:`أنت متخصص في التصميم التعليمي وتطوير الكفاءات. تشرح المفاهيم المعقدة بأسلوب مبسط، تصمم مسارات تعلم فعالة، وتستخدم تقنيات التعلم الحديثة.`,
+          proactiveTask: 'تحديد الفجوات في المعرفة أو المهارات واقتراح برامج تدريبية مخصصة.'
+        },
+        { id:'health',     icon:'⚕️', name:'الصحة والعافية',     role:'Health Consultant',   desc:'الاستشارات الصحية',
+          prompt:`أنت مستشار صحي وخبير عافية. تقدم معلومات طبية دقيقة وموثوقة، وتنصح باتباع أسلوب حياة صحي. دائماً تؤكد على أهمية مراجعة الطبيب المختص للحالات الطبية الجدية.`,
+          proactiveTask: 'مراقبة أحدث الأبحاث الصحية وتقديم نصائح لتحسين العافية العامة.'
+        },
+        { id:'custom',     icon:'⚙️', name:'وكيل مخصص',          role:'General Assistant',   desc:'متكيف مع أي احتياج',
+          prompt:`أنت مساعد ذكاء اصطناعي متعدد القدرات. تتكيف مع أي طلب وتقدم ردوداً شاملة ومفيدة. تستمع باهتمام، تفهم السياق، وتقدم أفضل حل ممكن.`,
+          proactiveTask: 'مراقبة نشاط المستخدم العام وتقديم اقتراحات لتحسين الإنتاجية أو تبسيط المهام.'
+        }
+    ];
+
+    /* ═══════════════════════════════════════════════════════════
+       GLOBAL STATE MANAGEMENT
+    ═══════════════════════════════════════════════════════════ */
+    const AppState = {
+        apiKey: '',
+        encryptedApiKey: null, // New: Store encrypted API key
+        selectedAgent: null,
+        chatHistory: [],    // {role, content} for Claude API
+        displayHistory: [], // full display objects with message ID for feedback
+        mode: 'single',
+        collabAgents: new Set(),
+        isLoading: false,
+        abortCtrl: null,
+        sessionId: Date.now().toString(36),
+        feedbackMap: {},
+        roamingAgentsActive: false, // New: Track if roaming agents are active
+        proactiveNotifications: [], // New: Store proactive notifications
+        // Initialize state from localStorage if available
+        init() {
+            this.encryptedApiKey = Memory.loadEncryptedApiKey();
+            this.roamingAgentsActive = Memory.loadRoamingAgentsState();
+        },
+        // Update a specific part of the state and trigger UI re-render if necessary
+        update(key, value) {
+            this[key] = value;
+            // Potentially trigger specific UI updates based on key
+            if (key === 'roamingAgentsActive') {
+                Memory.saveRoamingAgentsState(value);
+                UI.updateRoamingAgentsStatus();
+            }
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       UTILITIES
+    ═══════════════════════════════════════════════════════════ */
+    const Utils = {
+        // Basic HTML sanitization to prevent XSS
+        sanitizeHTML(str) {
+            const div = document.createElement('div');
+            div.appendChild(document.createTextNode(str));
+            return div.innerHTML;
+        },
+        // Debounce function to limit how often a function is called
+        debounce(func, delay) {
+            let timeout;
+            return function(...args) {
+                const context = this;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), delay);
+            };
+        },
+        // Show a notification to the user
+        showNotification(message, type = 'info', duration = 3000) {
+            const notificationsContainer = document.getElementById('notifications');
+            const notif = document.createElement('div');
+            notif.className = `notif ${type}`;
+            notif.setAttribute('role', 'status');
+            notif.textContent = message;
+            notificationsContainer.appendChild(notif);
+
+            // Trigger reflow to ensure animation plays
+            void notif.offsetWidth;
+            notif.classList.add('show');
+
+            setTimeout(() => {
+                notif.classList.remove('show');
+                notif.addEventListener('transitionend', () => notif.remove());
+            }, duration);
+        },
+        // Show a proactive notification
+        showProactiveNotification(agentIcon, message, agentId, notificationId) {
+            const proactiveNotificationsContainer = document.getElementById('proactiveNotifications');
+            const notif = document.createElement('div');
+            notif.className = 'proactive-notif';
+            notif.setAttribute('role', 'alert');
+            notif.setAttribute('tabindex', '0');
+            notif.innerHTML = `
+                <div class="proactive-notif-icon">${agentIcon}</div>
+                <div class="proactive-notif-text">${Utils.sanitizeHTML(message)}</div>
+                <button class="proactive-notif-close" aria-label="إغلاق الإشعار" onclick="Proactive.dismissNotification('${notificationId}')"><i class="fas fa-times"></i></button>
+            `;
+            notif.onclick = () => Proactive.handleProactiveNotificationClick(agentId, notificationId);
+            proactiveNotificationsContainer.appendChild(notif);
+
+            void notif.offsetWidth;
+            notif.classList.add('show');
+
+            // Auto-dismiss after a longer period, or keep until user interacts
+            setTimeout(() => {
+                if (notif.parentNode) {
+                    notif.classList.remove('show');
+                    notif.addEventListener('transitionend', () => notif.remove());
+                }
+            }, 15000); // 15 seconds
+
+            AppState.proactiveNotifications.push({ id: notificationId, agentId, message });
+        },
+        // Generate predictive suggestions based on context
+        generatePredictiveSuggestions(currentAgentId, currentInput) {
+            const suggestions = [];
+            const agent = AGENTS.find(a => a.id === currentAgentId);
+
+            // General suggestions
+            if (!currentInput) {
+                suggestions.push('ما هي آخر التطورات في مجالي؟');
+                suggestions.push('كيف يمكنني تحسين إنتاجيتي اليوم؟');
+            }
+
+            // Agent-specific suggestions
+            if (agent) {
+                if (agent.id === 'customer') {
+                    suggestions.push('كيف أتعامل مع شكوى عميل غاضب؟');
+                    suggestions.push('اقتراح رد على استفسار شائع.');
+                } else if (agent.id === 'accountant') {
+                    suggestions.push('ما هي التغييرات الضريبية الجديدة؟');
+                    suggestions.push('تحليل ميزانية الربع الحالي.');
+                } else if (agent.id === 'manager') {
+                    suggestions.push('كيف أوزع هذه المهمة على الوكلاء؟');
+                    suggestions.push('تلخيص آخر نشاط للوكلاء.');
+                }
+                // Add more agent-specific suggestions
+            }
+
+            // Filter out duplicates and limit to 3-4 suggestions
+            return [...new Set(suggestions)].slice(0, 4);
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       CRYPTO UTILITIES (Web Crypto API)
+    ═══════════════════════════════════════════════════════════ */
+    const CryptoUtils = {
+        async generateKey(password, salt) {
+            const enc = new TextEncoder();
+            const keyMaterial = await crypto.subtle.importKey(
+                'raw',
+                enc.encode(password),
+                { name: 'PBKDF2' },
+                false,
+                ['deriveBits', 'deriveKey']
+            );
+            return crypto.subtle.deriveKey(
+                {
+                    name: 'PBKDF2',
+                    salt: salt,
+                    iterations: 100000,
+                    hash: 'SHA-256',
+                },
+                keyMaterial,
+                { name: 'AES-GCM', length: 256 },
+                true,
+                ['encrypt', 'decrypt']
+            );
+        },
+
+        async encrypt(text, password) {
+            const salt = crypto.getRandomValues(new Uint8Array(16));
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            const key = await this.generateKey(password, salt);
+            const enc = new TextEncoder();
+            const encrypted = await crypto.subtle.encrypt(
+                { name: 'AES-GCM', iv: iv },
+                key,
+                enc.encode(text)
+            );
+
+            const combined = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
+            combined.set(salt, 0);
+            combined.set(iv, salt.length);
+            combined.set(new Uint8Array(encrypted), salt.length + iv.length);
+
+            return btoa(String.fromCharCode.apply(null, combined));
+        },
+
+        async decrypt(encryptedText, password) {
+            const combined = new Uint8Array(atob(encryptedText).split('').map(char => char.charCodeAt(0)));
+            const salt = combined.slice(0, 16);
+            const iv = combined.slice(16, 28);
+            const encrypted = combined.slice(28);
+
+            const key = await this.generateKey(password, salt);
+            const dec = new TextDecoder();
+            const decrypted = await crypto.subtle.decrypt(
+                { name: 'AES-GCM', iv: iv },
+                key,
+                encrypted
+            );
+            return dec.decode(decrypted);
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       MEMORY LAYER (localStorage & IndexedDB) - Encapsulated for better management
+    ═══════════════════════════════════════════════════════════ */
+    const Memory = {
+        DB_KEY: 'nexus_v11_db',
+        ENCRYPTED_API_KEY: 'nexus_v11_encrypted_api',
+        ROAMING_STATE_KEY: 'nexus_v11_roaming_state',
+        _cache: null, // Cache for loaded data
+        _db: null, // IndexedDB instance
+
+        async _openIndexedDB() {
+            return new Promise((resolve, reject) => {
+                if (this._db) return resolve(this._db);
+
+                const request = indexedDB.open('NexusKnowledgeDB', 1);
+
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    db.createObjectStore('knowledgeVectors', { keyPath: 'id' });
+                };
+
+                request.onsuccess = (event) => {
+                    this._db = event.target.result;
+                    resolve(this._db);
+                };
+
+                request.onerror = (event) => {
+                    console.error('IndexedDB error:', event.target.errorCode);
+                    Utils.showNotification('خطأ في قاعدة بيانات IndexedDB.', 'error');
+                    reject(event.target.error);
+                };
+            });
+        },
+
+        _loadDB() {
+            if (this._cache) return this._cache;
+            try {
+                const data = JSON.parse(localStorage.getItem(this.DB_KEY) || '{}');
+                this._cache = data;
+                return data;
+            } catch (e) {
+                console.error('Failed to load memory from localStorage:', e);
+                Utils.showNotification('خطأ في تحميل الذاكرة المحلية.', 'error');
+                return {};
+            }
+        },
+
+        _saveDB(data) {
+            try {
+                localStorage.setItem(this.DB_KEY, JSON.stringify(data));
+                this._cache = data; // Update cache
+            } catch (e) {
+                console.warn('Memory save failed:', e);
+                Utils.showNotification('فشل حفظ الذاكرة المحلية.', 'warn');
+            }
+        },
+
+        // Save a conversation
+        saveConversation(agentId, history, preview) {
+            const db = this._loadDB();
+            if (!db.conversations) db.conversations = {};
+            const id = `${agentId}_${Date.now()}`;
+            db.conversations[id] = {
+                agentId, history, preview,
+                timestamp: Date.now(),
+                id
+            };
+            // Keep max 50 conversations
+            const keys = Object.keys(db.conversations);
+            if (keys.length > 50) {
+                const oldest = keys.sort((a,b) => db.conversations[a].timestamp - db.conversations[b].timestamp)[0];
+                delete db.conversations[oldest];
+            }
+            this._saveDB(db);
+            UI.renderHistory();
+            UI.updateMemoryStats();
+            return id;
+        },
+
+        getConversations() {
+            const db = this._loadDB();
+            return Object.values(db.conversations || {}).sort((a,b) => b.timestamp - a.timestamp);
+        },
+
+        deleteConversation(id) {
+            const db = this._loadDB();
+            if (db.conversations) delete db.conversations[id];
+            this._saveDB(db);
+            UI.renderHistory();
+            UI.updateMemoryStats();
+        },
+
+        // Knowledge base per agent - now with more metadata for advanced retrieval
+        async addKnowledge(agentId, text, tags = [], source = 'user_input') {
+            const db = this._loadDB();
+            if (!db.knowledge) db.knowledge = {};
+            if (!db.knowledge[agentId]) db.knowledge[agentId] = [];
+            const chunk = { text: Utils.sanitizeHTML(text.trim()), id: Date.now(), added: new Date().toLocaleString('ar'), tags, source };
+            db.knowledge[agentId].push(chunk);
+            this._saveDB(db);
+
+            // Simulate embedding generation and store in IndexedDB
+            const indexedDB = await this._openIndexedDB();
+            const tx = indexedDB.transaction('knowledgeVectors', 'readwrite');
+            const store = tx.objectStore('knowledgeVectors');
+            // In a real scenario, 'embedding' would be a vector generated by a model
+            store.put({ id: chunk.id, agentId: agentId, text: chunk.text, embedding: KnowledgeRetriever.generateMockEmbedding(chunk.text) });
+            await tx.complete; // Wait for transaction to complete
+
+            UI.renderKnowledgeBase();
+            UI.updateMemoryStats();
+            return chunk;
+        },
+
+        getKnowledge(agentId) {
+            const db = this._loadDB();
+            return (db.knowledge || {})[agentId] || [];
+        },
+
+        deleteKnowledge(agentId, id) {
+            const db = this._loadDB();
+            if (db.knowledge && db.knowledge[agentId]) {
+                db.knowledge[agentId] = db.knowledge[agentId].filter(k => k.id !== id);
+                this._saveDB(db);
+            }
+            // Also remove from IndexedDB
+            this._openIndexedDB().then(indexedDB => {
+                const tx = indexedDB.transaction('knowledgeVectors', 'readwrite');
+                const store = tx.objectStore('knowledgeVectors');
+                store.delete(id);
+            }).catch(e => console.error('Error deleting from IndexedDB:', e));
+
+            UI.renderKnowledgeBase();
+            UI.updateMemoryStats();
+        },
+
+        // Feedback for self-improvement
+        saveFeedback(agentId, msgId, rating) {
+            const db = this._loadDB();
+            if (!db.feedback) db.feedback = {};
+            if (!db.feedback[agentId]) db.feedback[agentId] = { positive:0, negative:0 };
+            if (rating > 0) db.feedback[agentId].positive++;
+            else db.feedback[agentId].negative++;
+            this._saveDB(db);
+            // Update feedback map in AppState
+            AppState.feedbackMap[msgId] = rating;
+        },
+
+        getFeedback(agentId) {
+            const db = this._loadDB();
+            return (db.feedback || {})[agentId] || { positive:0, negative:0 };
+        },
+
+        // Stats
+        getStats() {
+            const db = this._loadDB();
+            const convs = Object.keys(db.conversations || {}).length;
+            let msgs = 0;
+            Object.values(db.conversations || {}).forEach(c => { msgs += (c.history || []).length; });
+            let docs = 0;
+            Object.values(db.knowledge || {}).forEach(arr => { docs += arr.length; });
+            return { convs, msgs, docs };
+        },
+
+        clearAllMemory() {
+            if (confirm('هل أنت متأكد أنك تريد مسح كل الذاكرة (المحادثات وقاعدة المعرفة)؟')) {
+                localStorage.removeItem(this.DB_KEY);
+                localStorage.removeItem(this.ENCRYPTED_API_KEY);
+                localStorage.removeItem(this.ROAMING_STATE_KEY);
+                this._cache = null; // Clear cache
+                AppState.apiKey = '';
+                AppState.encryptedApiKey = null;
+                AppState.chatHistory = [];
+                AppState.displayHistory = [];
+                AppState.feedbackMap = {};
+                AppState.roamingAgentsActive = false;
+                UI.renderHistory();
+                UI.renderKnowledgeBase();
+                UI.updateMemoryStats();
+                UI.clearChatArea();
+                UI.updateApiStatus();
+                UI.updateRoamingAgentsStatus();
+
+                // Clear IndexedDB
+                indexedDB.deleteDatabase('NexusKnowledgeDB');
+
+                Utils.showNotification('تم مسح كل الذاكرة بنجاح.', 'success');
+            }
+        },
+
+        // Encrypted API key
+        async saveEncryptedApiKey(encryptedKey) {
+            localStorage.setItem(this.ENCRYPTED_API_KEY, encryptedKey);
+            AppState.update('encryptedApiKey', encryptedKey);
+        },
+        loadEncryptedApiKey() {
+            return localStorage.getItem(this.ENCRYPTED_API_KEY) || null;
+        },
+
+        // Roaming Agents State
+        saveRoamingAgentsState(state) {
+            localStorage.setItem(this.ROAMING_STATE_KEY, JSON.stringify(state));
+        },
+        loadRoamingAgentsState() {
+            try {
+                return JSON.parse(localStorage.getItem(this.ROAMING_STATE_KEY) || 'false');
+            } catch (e) {
+                console.error('Failed to load roaming agents state:', e);
+                return false;
+            }
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       AUTHENTICATION MODULE (with Web Crypto API)
+    ═══════════════════════════════════════════════════════════ */
+    const Auth = {
+        async saveApiKey() {
+            const apiKeyInput = document.getElementById('apiKeyInput');
+            const masterKeyInput = document.getElementById('masterKeyInput');
+            const apiKey = apiKeyInput.value.trim();
+            const masterKey = masterKeyInput.value.trim();
+
+            if (!apiKey) {
+                Utils.showNotification('الرجاء إدخال مفتاح API صالح.', 'warn');
+                return;
+            }
+            if (!masterKey) {
+                Utils.showNotification('الرجاء إدخال كلمة مرور رئيسية لتشفير مفتاح API.', 'warn');
+                return;
+            }
+
+            try {
+                const encryptedApiKey = await CryptoUtils.encrypt(apiKey, masterKey);
+                await Memory.saveEncryptedApiKey(encryptedApiKey);
+                AppState.update('apiKey', apiKey); // Temporarily store decrypted key in memory
+                UI.closeModal();
+                UI.updateApiStatus();
+                Utils.showNotification('تم حفظ مفتاح API وتشفيره بنجاح.', 'success');
+                // Activate roaming agents if API key is set
+                if (!AppState.roamingAgentsActive) {
+                    Proactive.toggleRoamingAgents(true);
+                }
+            } catch (e) {
+                console.error('Encryption failed:', e);
+                Utils.showNotification('فشل تشفير مفتاح API. تأكد من قوة كلمة المرور.', 'error');
+            }
+        },
+
+        async loadAndDecryptApiKey(masterKey) {
+            const encryptedApiKey = Memory.loadEncryptedApiKey();
+            if (!encryptedApiKey) return null;
+
+            try {
+                const decryptedKey = await CryptoUtils.decrypt(encryptedApiKey, masterKey);
+                AppState.update('apiKey', decryptedKey);
+                return decryptedKey;
+            } catch (e) {
+                console.error('Decryption failed:', e);
+                Utils.showNotification('فشل فك تشفير مفتاح API. كلمة المرور الرئيسية خاطئة أو المفتاح تالف.', 'error');
+                AppState.update('apiKey', ''); // Clear potentially wrong key
+                return null;
+            }
+        },
+
+        async checkApiKey() {
+            const encryptedKey = Memory.loadEncryptedApiKey();
+            if (encryptedKey) {
+                // Prompt for master key to decrypt
+                const masterKey = prompt('الرجاء إدخال كلمة المرور الرئيسية لفك تشفير مفتاح API:');
+                if (masterKey) {
+                    const decryptedKey = await this.loadAndDecryptApiKey(masterKey);
+                    if (decryptedKey) {
+                        UI.updateApiStatus();
+                        return true;
+                    } else {
+                        Utils.showNotification('كلمة المرور الرئيسية غير صحيحة.', 'error');
+                        UI.updateApiStatus();
+                        return false;
+                    }
+                } else {
+                    Utils.showNotification('لم يتم إدخال كلمة المرور الرئيسية. لن يتم الاتصال بـ API.', 'warn');
+                    UI.updateApiStatus();
+                    return false;
+                }
+            } else {
+                AppState.update('apiKey', ''); // No encrypted key, so no decrypted key
+                UI.updateApiStatus();
+                return false;
+            }
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       KNOWLEDGE RETRIEVAL - Advanced similarity algorithm (simulated vector embeddings)
+    ═══════════════════════════════════════════════════════════ */
+    const KnowledgeRetriever = {
+        // In a real scenario, this would use a pre-trained model (e.g., from Transformers.js)
+        // to generate actual vector embeddings. For this single-file demo, we simulate it.
+        generateMockEmbedding(text) {
+            // Simple hash-based 
+embedding based on character codes for demonstration
+            let hash = 0;
+            for (let i = 0; i < text.length; i++) {
+                hash = text.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            // Convert to a fixed-size array for simulation
+            const embedding = new Array(128).fill(0).map((_, i) => (hash >> (i % 32)) & 0xFF);
+            return embedding;
+        },
+
+        // Cosine Similarity (simplified for mock embeddings)
+        _cosineSimilarity(vec1, vec2) {
+            if (!vec1 || !vec2 || vec1.length !== vec2.length) return 0;
+            let dotProduct = 0;
+            let magnitude1 = 0;
+            let magnitude2 = 0;
+            for (let i = 0; i < vec1.length; i++) {
+                dotProduct += vec1[i] * vec2[i];
+                magnitude1 += vec1[i] * vec1[i];
+                magnitude2 += vec2[i] * vec2[i];
+            }
+            magnitude1 = Math.sqrt(magnitude1);
+            magnitude2 = Math.sqrt(magnitude2);
+            if (magnitude1 === 0 || magnitude2 === 0) return 0;
+            return dotProduct / (magnitude1 * magnitude2);
+        },
+
+        // Semantic Search using IndexedDB and Cosine Similarity
+        async semanticSearch(query, agentId, topN = 3) {
+            if (!query || !agentId) return [];
+
+            const queryEmbedding = this.generateMockEmbedding(query);
+            const indexedDB = await Memory._openIndexedDB();
+            const tx = indexedDB.transaction("knowledgeVectors", "readonly");
+            const store = tx.objectStore("knowledgeVectors");
+            const request = store.openCursor();
+
+            const results = [];
+            await new Promise(resolve => {
+                request.onsuccess = (event) => {
+                    const cursor = event.target.result;
+                    if (cursor) {
+                        if (cursor.value.agentId === agentId) {
+                            const similarity = this._cosineSimilarity(queryEmbedding, cursor.value.embedding);
+                            if (similarity > 0) { // Only consider positive similarity
+                                results.push({ ...cursor.value, similarity });
+                            }
+                        }
+                        cursor.continue();
+                    } else {
+                        resolve();
+                    }
+                };
+                request.onerror = (event) => {
+                    console.error("Error opening cursor:", event.target.error);
+                    resolve();
+                };
+            });
+
+            // Sort by similarity and return top N
+            return results.sort((a, b) => b.similarity - a.similarity).slice(0, topN);
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       PROACTIVE INTELLIGENCE & ROAMING AGENTS
+    ═══════════════════════════════════════════════════════════ */
+    const Proactive = {
+        roamingAgentInterval: null,
+        async toggleRoamingAgents(activate) {
+            if (activate && !AppState.apiKey) {
+                Utils.showNotification("لا يمكن تفعيل الوكلاء المتجولين بدون مفتاح API.", "warn");
+                return;
+            }
+
+            if (activate) {
+                if (this.roamingAgentInterval) clearInterval(this.roamingAgentInterval);
+                AppState.update("roamingAgentsActive", true);
+                Utils.showNotification("تم تفعيل الوكلاء المتجولين. سيبدأون العمل في الخلفية.", "info");
+                this.roamingAgentInterval = setInterval(() => this.runProactiveTasks(), 60 * 60 * 1000); // Run every hour
+                this.runProactiveTasks(); // Run immediately on activation
+            } else {
+                clearInterval(this.roamingAgentInterval);
+                this.roamingAgentInterval = null;
+                AppState.update("roamingAgentsActive", false);
+                Utils.showNotification("تم إيقاف الوكلاء المتجولين.", "info");
+            }
+        },
+
+        async runProactiveTasks() {
+            if (!AppState.apiKey) return;
+
+            for (const agent of AGENTS) {
+                if (agent.proactiveTask) {
+                    console.log(`Running proactive task for ${agent.name}: ${agent.proactiveTask}`);
+                    // Simulate API call for proactive task
+                    const mockResponse = await this._simulateProactiveAgentResponse(agent);
+                    if (mockResponse) {
+                        const notificationId = `proactive-${agent.id}-${Date.now()}`;
+                        Utils.showProactiveNotification(agent.icon, mockResponse, agent.id, notificationId);
+                    }
+                }
+            }
+        },
+
+        async _simulateProactiveAgentResponse(agent) {
+            // In a real scenario, this would be an actual API call to Claude
+            // with the agent's proactiveTask as the prompt.
+            // For now, we'll return a mock response.
+            const mockResponses = {
+                manager: "وكيل المدير: تم مراجعة آخر 3 محادثات. أقترح التركيز على تحسين قاعدة المعرفة لوكيل خدمة العملاء.",
+                customer: "خدمة العملاء: لاحظت زيادة في استفسارات الشحن. أقترح تحديث قسم الأسئلة الشائعة.",
+                accountant: "المحاسبة: تحليل البيانات المالية يشير إلى فرصة لخفض التكاليف بنسبة 5% في الربع القادم.",
+                legal: "المستشار القانوني: صدر قانون جديد بخصوص حماية البيانات. يجب مراجعة سياسات الخصوصية لدينا.",
+                investor: "محلل الاستثمار: هناك تقلبات كبيرة في سوق العملات الرقمية. قد تكون فرصة استثمارية عالية المخاطر.",
+                marketing: "التسويق: حملة إعلانات فيسبوك الأخيرة حققت ROI ممتاز. أقترح زيادة الميزانية بنسبة 20%.",
+                innovation: "الابتكار: أحدث تقنيات الذكاء الاصطناعي في مجال الرعاية الصحية واعدة. هل نفكر في تطبيقها؟",
+                research: "البحث العلمي: دراسة حديثة تشير إلى أن تقنية النانو يمكن أن تحدث ثورة في صناعة المواد.",
+                data: "تحليل البيانات: اكتشفت أنماط استخدام غير متوقعة في تطبيقنا. يمكن استغلالها لتحسين تجربة المستخدم.",
+                security: "الأمان السيبراني: تم رصد محاولات تصيد جديدة تستهدف موظفينا. يجب تعزيز التدريب الأمني.",
+                strategy: "الاستراتيجية: المنافس الجديد يكتسب حصة سوقية بسرعة. يجب إعادة تقييم استراتيجيتنا التسويقية.",
+                education: "التعليم: هناك طلب متزايد على دورات تدريبية في الذكاء الاصطناعي. هل نقدم محتوى جديداً؟",
+                health: "الصحة: أظهرت الأبحاث أن التأمل اليومي يحسن التركيز بنسبة 15%.",
+                custom: "وكيل مخصص: لاحظت أنك تعمل على مشروع X. هل تحتاج مساعدة في البحث عن معلومات ذات صلة؟"
+            };
+            return mockResponses[agent.id] || null;
+        },
+
+        handleProactiveNotificationClick(agentId, notificationId) {
+            // Dismiss the notification
+            const notifElement = document.querySelector(`#proactiveNotifications .proactive-notif[data-id="${notificationId}"]`);
+            if (notifElement) {
+                notifElement.classList.remove("show");
+                notifElement.addEventListener("transitionend", () => notifElement.remove());
+            }
+            // Switch to the agent that sent the notification
+            const agent = AGENTS.find(a => a.id === agentId);
+            if (agent) {
+                App.selectAgent(agent);
+                // Optionally, pre-fill the input with a follow-up question
+                document.getElementById("inputField").value = `ماذا تقصد بـ: "${AppState.proactiveNotifications.find(n => n.id === notificationId).message}"؟`;
+                UI.adjustTextareaHeight(document.getElementById("inputField"));
+            }
+            // Remove from AppState
+            AppState.proactiveNotifications = AppState.proactiveNotifications.filter(n => n.id !== notificationId);
+        },
+
+        dismissNotification(notificationId) {
+            const notifElement = document.querySelector(`#proactiveNotifications .proactive-notif[data-id="${notificationId}"]`);
+            if (notifElement) {
+                notifElement.classList.remove("show");
+                notifElement.addEventListener("transitionend", () => notifElement.remove());
+            }
+            AppState.proactiveNotifications = AppState.proactiveNotifications.filter(n => n.id !== notificationId);
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       UI RENDERING & INTERACTION
+    ═══════════════════════════════════════════════════════════ */
+    const UI = {
+        elements: {
+            modalOverlay: document.getElementById("modalOverlay"),
+            apiKeyInput: document.getElementById("apiKeyInput"),
+            masterKeyInput: document.getElementById("masterKeyInput"),
+            apiStatus: document.getElementById("apiStatus"),
+            apiStatusTxt: document.getElementById("apiStatusTxt"),
+            sidebar: document.getElementById("sidebar"),
+            agentsGrid: document.getElementById("agentsGrid"),
+            collabAgentsContainer: document.getElementById("collabAgents"),
+            collabSection: document.getElementById("collabSection"),
+            chatHeader: document.getElementById("chatHeader"),
+            chatIcon: document.getElementById("chatIcon"),
+            chatName: document.getElementById("chatName"),
+            chatRole: document.getElementById("chatRole"),
+            collabTag: document.getElementById("collabTag"),
+            chatArea: document.getElementById("chatArea"),
+            emptyState: document.getElementById("emptyState"),
+            emptyIcon: document.getElementById("emptyIcon"),
+            emptyTitle: document.getElementById("emptyTitle"),
+            emptySub: document.getElementById("emptySub"),
+            inputArea: document.getElementById("inputArea"),
+            inputField: document.getElementById("inputField"),
+            sendBtn: document.getElementById("sendBtn"),
+            cancelBtn: document.getElementById("cancelBtn"),
+            charCount: document.getElementById("charCount"),
+            kbInput: document.getElementById("kbInput"),
+            kbDocs: document.getElementById("kbDocs"),
+            historyList: document.getElementById("historyList"),
+            memConvs: document.getElementById("memConvs"),
+            memMsgs: document.getElementById("memMsgs"),
+            memDocs: document.getElementById("memDocs"),
+            roamingAgentsStatus: document.getElementById("roamingAgentsStatus"),
+            predictiveSuggestions: document.getElementById("predictiveSuggestions"),
+        },
+
+        init() {
+            this.renderAgents();
+            this.renderCollabAgents();
+            this.updateApiStatus();
+            this.updateMemoryStats();
+            this.renderHistory();
+            this.setupEventListeners();
+            this.updateRoamingAgentsStatus();
+            this.renderPredictiveSuggestions(); // Initial render
+        },
+
+        setupEventListeners() {
+            this.elements.inputField.addEventListener("input", () => {
+                this.adjustTextareaHeight(this.elements.inputField);
+                this.updateCharCount();
+                this.renderPredictiveSuggestions();
+            });
+            this.elements.inputField.addEventListener("keydown", (e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    Chat.handleSend();
+                }
+            });
+            window.addEventListener("resize", () => {
+                this.adjustTextareaHeight(this.elements.inputField);
+            });
+
+            // Close modal on escape key
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape" && this.elements.modalOverlay.classList.contains("show")) {
+                    this.closeModal();
+                }
+            });
+
+            // Close modal on outside click
+            this.elements.modalOverlay.addEventListener("click", (e) => {
+                if (e.target === this.elements.modalOverlay) {
+                    this.closeModal();
+                }
+            });
+        },
+
+        openModal() {
+            this.elements.modalOverlay.classList.add("show");
+            this.elements.apiKeyInput.focus();
+        },
+
+        closeModal() {
+            this.elements.modalOverlay.classList.remove("show");
+            this.elements.apiKeyInput.value = "";
+            this.elements.masterKeyInput.value = "";
+        },
+
+        updateApiStatus() {
+            const statusEl = this.elements.apiStatus;
+            const statusTxtEl = this.elements.apiStatusTxt;
+
+            statusEl.classList.remove("connected", "disconnected", "waiting");
+            if (AppState.apiKey) {
+                statusEl.classList.add("connected");
+                statusTxtEl.textContent = "API متصل";
+                statusEl.title = "API متصل. اضغط لتغيير المفتاح.";
+            } else if (Memory.loadEncryptedApiKey()) {
+                statusEl.classList.add("waiting");
+                statusTxtEl.textContent = "API مشفر";
+                statusEl.title = "مفتاح API مشفر. اضغط لفك التشفير والاتصال.";
+            } else {
+                statusEl.classList.add("disconnected");
+                statusTxtEl.textContent = "بدون API";
+                statusEl.title = "API غير متصل. اضغط لإضافة مفتاح API.";
+            }
+        },
+
+        toggleSidebar() {
+            this.elements.sidebar.classList.toggle("hidden");
+        },
+
+        renderAgents() {
+            this.elements.agentsGrid.innerHTML = AGENTS.map(agent => `
+                <div class="agent-card" data-id="${agent.id}" onclick="App.selectAgent(AGENTS.find(a => a.id === \'${agent.id}\' ))" tabindex="0" role="button" aria-label="اختر وكيل ${agent.name}">
+                    <div class="agent-icon-wrap">${agent.icon}</div>
+                    <div class="agent-name">${agent.name}</div>
+                    <div class="agent-desc">${agent.desc}</div>
+                    <span class="agent-mem-badge">ذاكرة</span>
+                </div>
+            `).join("");
+            this.updateAgentMemoryBadges();
+        },
+
+        renderCollabAgents() {
+            this.elements.collabAgentsContainer.innerHTML = AGENTS.filter(a => a.id !== AppState.selectedAgent?.id && !a.isManager).map(agent => `
+                <button class="collab-agent" data-id="${agent.id}" onclick="App.toggleCollabAgent(\'${agent.id}\')" tabindex="0" role="checkbox" aria-checked="false" aria-label="إضافة وكيل ${agent.name} للتعاون">
+                    <div class="collab-agent-icon">${agent.icon}</div>
+                    ${agent.name}
+                </button>
+            `).join("");
+        },
+
+        updateAgentMemoryBadges() {
+            AGENTS.forEach(agent => {
+                const agentCard = document.querySelector(`.agent-card[data-id="${agent.id}"]`);
+                if (agentCard) {
+                    const knowledge = Memory.getKnowledge(agent.id);
+                    if (knowledge && knowledge.length > 0) {
+                        agentCard.classList.add("has-memory");
+                    } else {
+                        agentCard.classList.remove("has-memory");
+                    }
+                }
+            });
+        },
+
+        updateMemoryStats() {
+            const stats = Memory.getStats();
+            this.elements.memConvs.textContent = stats.convs;
+            this.elements.memMsgs.textContent = stats.msgs;
+            this.elements.memDocs.textContent = stats.docs;
+        },
+
+        updateRoamingAgentsStatus() {
+            if (AppState.roamingAgentsActive) {
+                this.elements.roamingAgentsStatus.innerHTML = 
+                    `<i class="fas fa-circle-notch fa-spin" style="color:var(--accent2);"></i> الوكلاء المتجولون نشطون.`;
+            } else {
+                this.elements.roamingAgentsStatus.innerHTML = 
+                    `<i class="fas fa-times-circle" style="color:var(--danger);"></i> الوكلاء المتجولون غير نشطين.`;
+            }
+        },
+
+        renderKnowledgeBase() {
+            const currentAgentId = AppState.selectedAgent?.id;
+            if (!currentAgentId) {
+                this.elements.kbDocs.innerHTML = ";
+                return;
+            }
+            const knowledge = Memory.getKnowledge(currentAgentId);
+            this.elements.kbDocs.innerHTML = knowledge.map(doc => `
+                <div class="kb-doc">
+                    <span class="kb-doc-text">${doc.text}</span>
+                    <button class="kb-doc-remove" onclick="Memory.deleteKnowledge(\'${currentAgentId}\', ${doc.id})" aria-label="حذف وثيقة المعرفة"><i class="fas fa-times"></i></button>
+                </div>
+            `).join("");
+            this.updateAgentMemoryBadges();
+        },
+
+        renderHistory() {
+            const conversations = Memory.getConversations();
+            this.elements.historyList.innerHTML = conversations.map(conv => {
+                const agent = AGENTS.find(a => a.id === conv.agentId);
+                return `
+                    <div class="kb-doc" onclick="Chat.loadConversation(\'${conv.id}\')" tabindex="0" role="button" aria-label="تحميل محادثة مع ${agent?.name || conv.agentId}">
+                        <span class="kb-doc-text">${agent?.icon || "?"} ${conv.preview}</span>
+                        <button class="kb-doc-remove" onclick="event.stopPropagation(); Memory.deleteConversation(\'${conv.id}\')" aria-label="حذف المحادثة"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+            }).join("");
+        },
+
+        renderChatBubble(message, isUser, messageId = null) {
+            const bubble = document.createElement("div");
+            bubble.className = `message-bubble ${isUser ? "user" : "agent"}`;
+
+            const icon = document.createElement("div");
+            icon.className = "bubble-icon";
+            icon.innerHTML = isUser ? "<i class=\"fas fa-user\"></i>" : AppState.selectedAgent.icon;
+            bubble.appendChild(icon);
+
+            const content = document.createElement("div");
+            content.className = "bubble-content";
+            content.innerHTML = DOMPurify.sanitize(marked.parse(message)); // Sanitize and parse Markdown
+            bubble.appendChild(content);
+
+            if (!isUser && messageId) {
+                const actions = document.createElement("div");
+                actions.className = "bubble-actions";
+
+                const likeBtn = document.createElement("button");
+                likeBtn.className = `feedback-btn ${AppState.feedbackMap[messageId] === 1 ? "active" : ""}`;
+                likeBtn.innerHTML = `<i class="fas fa-thumbs-up"></i>`;
+                likeBtn.onclick = () => Chat.sendFeedback(messageId, 1);
+                actions.appendChild(likeBtn);
+
+                const dislikeBtn = document.createElement("button");
+                dislikeBtn.className = `feedback-btn ${AppState.feedbackMap[messageId] === -1 ? "active" : ""}`;
+                dislikeBtn.innerHTML = `<i class="fas fa-thumbs-down"></i>`;
+                dislikeBtn.onclick = () => Chat.sendFeedback(messageId, -1);
+                actions.appendChild(dislikeBtn);
+
+                content.appendChild(actions);
+            }
+
+            this.elements.chatArea.appendChild(bubble);
+            this.elements.chatArea.scrollTop = this.elements.chatArea.scrollHeight;
+        },
+
+        clearChatArea() {
+            this.elements.chatArea.innerHTML = ";
+            this.elements.emptyState.style.display = "flex";
+            this.elements.chatHeader.style.display = "none";
+            this.elements.inputArea.style.display = "none";
+            AppState.selectedAgent = null;
+            AppState.chatHistory = [];
+            AppState.displayHistory = [];
+            AppState.feedbackMap = {};
+            this.elements.inputField.value = ";
+            this.adjustTextareaHeight(this.elements.inputField);
+            this.updateCharCount();
+            this.renderPredictiveSuggestions();
+        },
+
+        adjustTextareaHeight(textarea) {
+            textarea.style.height = "auto";
+            textarea.style.height = textarea.scrollHeight + "px";
+        },
+
+        updateCharCount() {
+            this.elements.charCount.textContent = this.elements.inputField.value.length;
+        },
+
+        showLoading(show) {
+            if (show) {
+                this.elements.sendBtn.innerHTML = ";
+                this.elements.sendBtn.disabled = true;
+                this.elements.cancelBtn.style.display = "flex";
+            } else {
+                this.elements.sendBtn.innerHTML = `<i class="fas fa-paper-plane"></i> إرسال`;
+                this.elements.sendBtn.disabled = false;
+                this.elements.cancelBtn.style.display = "none";
+            }
+        },
+
+        renderPredictiveSuggestions() {
+            const input = this.elements.inputField.value;
+            const agentId = AppState.selectedAgent?.id;
+            const suggestions = Utils.generatePredictiveSuggestions(agentId, input);
+
+            this.elements.predictiveSuggestions.innerHTML = suggestions.map(s => `
+                <button class="suggestion-pill" onclick="Chat.applySuggestion(\'${Utils.sanitizeHTML(s)}\')" aria-label="اقتراح: ${Utils.sanitizeHTML(s)}">
+                    ${Utils.sanitizeHTML(s)}
+                </button>
+            `).join("");
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       CHAT LOGIC
+    ═══════════════════════════════════════════════════════════ */
+    const Chat = {
+        API_URL: "https://api.anthropic.com/v1/messages",
+        MODEL_NAME: "claude-3-opus-20240229", // Or other Claude 3 models
+
+        async sendMessage(messages, agentId, isCollab = false) {
+            if (!AppState.apiKey) {
+                Utils.showNotification("الرجاء إدخال مفتاح API أولاً.", "error");
+                UI.openModal();
+                return;
+            }
+
+            AppState.update("isLoading", true);
+            UI.showLoading(true);
+
+            AppState.abortCtrl = new AbortController();
+            const signal = AppState.abortCtrl.signal;
+
+            try {
+                const response = await fetch(this.API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-api-key": AppState.apiKey,
+                        "anthropic-version": "2023-06-01",
+                    },
+                    body: JSON.stringify({
+                        model: this.MODEL_NAME,
+                        max_tokens: 4000,
+                        messages: messages,
+                        stream: true,
+                    }),
+                    signal,
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`API Error: ${errorData.error.message}`);
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+                let fullResponse = "";
+                let assistantMessageId = `msg-${Date.now()}`;
+
+                UI.renderChatBubble("", false, assistantMessageId); // Render empty bubble for streaming
+                const lastBubbleContent = UI.elements.chatArea.lastChild.querySelector(".bubble-content");
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split("\n").filter(line => line.trim() !== "");
+
+                    for (const line of lines) {
+                        if (line.startsWith("data:")) {
+                            const data = JSON.parse(line.substring(5));
+                            if (data.type === "content_block_delta") {
+                                fullResponse += data.delta.text;
+                                lastBubbleContent.innerHTML = DOMPurify.sanitize(marked.parse(fullResponse));
+                                UI.elements.chatArea.scrollTop = UI.elements.chatArea.scrollHeight;
+                            } else if (data.type === "message_stop") {
+                                // Final message received
+                            }
+                        }
+                    }
+                }
+
+                AppState.chatHistory.push({ role: "assistant", content: fullResponse });
+                AppState.displayHistory.push({ id: assistantMessageId, role: "assistant", content: fullResponse });
+
+                // If in manager mode and response is a delegation, handle it
+                if (AppState.mode === 'manager' && AppState.selectedAgent.id === 'manager') {
+                    try {
+                        const managerDecision = JSON.parse(fullResponse);
+                        if (managerDecision.action === 'delegate' && managerDecision.agents && managerDecision.task) {
+                            Utils.showNotification(`وكيل المدير فوض المهمة لـ: ${managerDecision.agents.join(', ')}`, 'info');
+                            // Here, you would ideally trigger new chats with these agents
+                            // For this demo, we'll just show a notification.
+                            // In a full system, this would involve creating new chat sessions or
+                            // passing the task to background roaming agents.
+                        } else if (managerDecision.action === 'respond') {
+                            // Manager responded directly, already handled by fullResponse
+                        }
+                    } catch (e) {
+                        console.warn("Manager agent response was not a valid JSON delegation.", e);
+                    }
+                }
+
+                return fullResponse;
+
+            } catch (error) {
+                if (error.name === "AbortError") {
+                    Utils.showNotification("تم إلغاء الطلب.", "warn");
+                } else {
+                    console.error("Error sending message:", error);
+                    Utils.showNotification(`خطأ: ${error.message}`, "error");
+                    // Remove the last empty bubble if an error occurred during streaming
+                    if (UI.elements.chatArea.lastChild && UI.elements.chatArea.lastChild.querySelector(".bubble-content").innerHTML === "") {
+                        UI.elements.chatArea.lastChild.remove();
+                    }
+                }
+                return null;
+            } finally {
+                AppState.update("isLoading", false);
+                UI.showLoading(false);
+                AppState.abortCtrl = null;
+            }
+        },
+
+        async handleSend() {
+            const inputField = UI.elements.inputField;
+            const userMessage = inputField.value.trim();
+            if (!userMessage || AppState.isLoading) return;
+
+            // Semantic search for relevant knowledge before sending to LLM
+            const relevantKnowledge = await KnowledgeRetriever.semanticSearch(userMessage, AppState.selectedAgent.id);
+            let knowledgeContext = "";
+            if (relevantKnowledge.length > 0) {
+                knowledgeContext = "\n\nمعلومات إضافية من قاعدة المعرفة:";
+                relevantKnowledge.forEach(doc => {
+                    knowledgeContext += `\n- ${doc.text}`; // Include similarity score for debugging/analysis
+                });
+            }
+
+            UI.renderChatBubble(userMessage, true);
+            AppState.chatHistory.push({ role: "user", content: userMessage });
+            AppState.displayHistory.push({ id: `msg-${Date.now()}`, role: "user", content: userMessage });
+
+            inputField.value = ";
+            UI.adjustTextareaHeight(inputField);
+            UI.updateCharCount();
+            UI.renderPredictiveSuggestions();
+
+            let agentPrompt = AppState.selectedAgent.prompt;
+            if (AppState.mode === 'collab' && AppState.collabAgents.size > 0) {
+                const collabAgentNames = Array.from(AppState.collabAgents).map(id => AGENTS.find(a => a.id === id).name);
+                agentPrompt += `\n\nأنت تعمل بالتعاون مع الوكلاء التاليين: ${collabAgentNames.join(', ')}. يجب أن تأخذ في الاعتبار خبراتهم ووجهات نظرهم في ردك.`;
+            } else if (AppState.mode === 'deep') {
+                agentPrompt += `\n\nيجب أن يكون ردك تحليلياً وعميقاً جداً، مع استكشاف جميع الجوانب المحتملة للموضوع وتقديم رؤى غير بديهية.`;
+            }
+
+            const messagesToSend = [
+                { role: "user", content: agentPrompt + knowledgeContext + "\n\n" + userMessage }
+            ];
+
+            const agentResponse = await this.sendMessage(messagesToSend, AppState.selectedAgent.id);
+
+            // If in manager mode, and the manager agent delegated, then we need to handle that.
+            // This is a simplified handling for the demo. In a real app, this would trigger background tasks.
+            if (AppState.mode === 'manager' && AppState.selectedAgent.id === 'manager' && agentResponse) {
+                try {
+                    const managerDecision = JSON.parse(agentResponse);
+                    if (managerDecision.action === 'delegate' && managerDecision.agents && managerDecision.task) {
+                        Utils.showNotification(`وكيل المدير فوض المهمة لـ: ${managerDecision.agents.join(', ')}`, 'info');
+                        // Here, you could trigger proactive tasks for these agents or create new chat sessions.
+                    }
+                } catch (e) {
+                    // Not a JSON delegation, or invalid JSON. Manager responded directly.
+                }
+            }
+
+            // Save conversation after both user and agent messages are added
+            if (agentResponse) {
+                Memory.saveConversation(AppState.selectedAgent.id, AppState.chatHistory, userMessage.substring(0, 50) + "...");
+            }
+        },
+
+        cancelRequest() {
+            if (AppState.abortCtrl) {
+                AppState.abortCtrl.abort();
+            }
+        },
+
+        loadConversation(convId) {
+            const conversations = Memory.getConversations();
+            const conv = conversations.find(c => c.id === convId);
+            if (conv) {
+                const agent = AGENTS.find(a => a.id === conv.agentId);
+                if (agent) {
+                    App.selectAgent(agent);
+                    AppState.chatHistory = conv.history;
+                    AppState.displayHistory = []; // Rebuild display history
+                    UI.elements.chatArea.innerHTML = ";
+                    AppState.chatHistory.forEach((msg, index) => {
+                        const messageId = `msg-${convId}-${index}`;
+                        AppState.displayHistory.push({ id: messageId, role: msg.role, content: msg.content });
+                        UI.renderChatBubble(msg.content, msg.role === "user", messageId);
+                    });
+                    UI.elements.emptyState.style.display = "none";
+                }
+            }
+        },
+
+        sendFeedback(messageId, rating) {
+            const message = AppState.displayHistory.find(msg => msg.id === messageId);
+            if (message) {
+                Memory.saveFeedback(AppState.selectedAgent.id, messageId, rating);
+                Utils.showNotification(`تم تسجيل تقييمك: ${rating === 1 ? 'إيجابي' : 'سلبي'}`, 'info');
+                // Re-render the bubble to update feedback buttons
+                const bubbleElement = document.querySelector(`#chatArea .message-bubble:has([data-message-id="${messageId}"])`);
+                if (bubbleElement) {
+                    // Simple re-render, more complex would be to update buttons directly
+                    bubbleElement.remove();
+                    UI.renderChatBubble(message.content, message.role === "user", message.id);
+                }
+            }
+        },
+
+        exportChat() {
+            if (AppState.displayHistory.length === 0) {
+                Utils.showNotification("لا توجد محادثة لتصديرها.", "warn");
+                return;
+            }
+
+            let exportContent = `# محادثة NEXUS AGENTS - ${AppState.selectedAgent?.name || 'عام'}\n\n`;
+            AppState.displayHistory.forEach(msg => {
+                exportContent += `**${msg.role === 'user' ? 'أنت' : AppState.selectedAgent?.name || 'الوكيل'}:**\n${msg.content}\n\n`;
+            });
+
+            const blob = new Blob([exportContent], { type: 'text/markdown;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `nexus_chat_${AppState.selectedAgent?.id || 'general'}_${Date.now()}.md`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            Utils.showNotification("تم تصدير المحادثة بنجاح.", "success");
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       APP INITIALIZATION & CORE LOGIC
+    ═══════════════════════════════════════════════════════════ */
+    const App = {
+        init() {
+            AppState.init();
+            UI.init();
+            this.renderAgentsWithMemoryStatus();
+            this.checkAndPromptForApiKey();
+
+            // Start proactive agents if active
+            if (AppState.roamingAgentsActive) {
+                Proactive.toggleRoamingAgents(true);
+            }
+        },
+
+        renderAgentsWithMemoryStatus() {
+            UI.renderAgents(); // This will render agents and then update badges
+        },
+
+        async checkAndPromptForApiKey() {
+            if (Memory.loadEncryptedApiKey()) {
+                // If encrypted key exists, prompt for master key to decrypt
+                await Auth.checkApiKey();
+            } else {
+                // If no key at all, open modal to prompt for new key
+                UI.openModal();
+            }
+        },
+
+        selectAgent(agent) {
+            AppState.update("selectedAgent", agent);
+            UI.elements.agentsPanel.style.display = "none";
+            UI.elements.chatHeader.style.display = "flex";
+            UI.elements.inputArea.style.display = "flex";
+            UI.elements.chatIcon.innerHTML = agent.icon;
+            UI.elements.chatName.textContent = agent.name;
+            UI.elements.chatRole.textContent = agent.role;
+            UI.elements.emptyIcon.innerHTML = agent.icon;
+            UI.elements.emptyTitle.textContent = `ابدأ المحادثة مع ${agent.name}`;
+            UI.elements.emptySub.textContent = agent.desc;
+
+            // Clear chat history for new agent, unless loading an existing conversation
+            if (AppState.chatHistory.length === 0 || AppState.chatHistory[0].agentId !== agent.id) {
+                AppState.chatHistory = [];
+                AppState.displayHistory = [];
+                UI.elements.chatArea.innerHTML = ";
+                UI.elements.emptyState.style.display = "flex";
+            } else {
+                UI.elements.emptyState.style.display = "none";
+            }
+
+            UI.renderKnowledgeBase();
+            UI.renderPredictiveSuggestions();
+            UI.elements.inputField.focus();
+
+            // Update collab agents list for the new selected agent
+            UI.renderCollabAgents();
+            // Reset collab agents selection
+            AppState.collabAgents.clear();
+            document.querySelectorAll(".collab-agent").forEach(btn => btn.classList.remove("selected"));
+            UI.elements.collabTag.style.display = "none";
+
+            // If manager agent is selected, ensure manager mode is active
+            if (agent.isManager) {
+                App.setMode(document.querySelector(".pill[data-mode=\"manager\"]"), 'manager');
+            } else if (AppState.mode === 'manager') {
+                // If switching from manager agent to another, revert to single mode
+                App.setMode(document.querySelector(".pill[data-mode=\"single\"]"), 'single');
+            }
+        },
+
+        backToAgents() {
+            UI.clearChatArea();
+            UI.elements.agentsPanel.style.display = "flex";
+            AppState.update("selectedAgent", null);
+            // Reset mode to single when going back to agents panel
+            App.setMode(document.querySelector(".pill[data-mode=\"single\"]"), 'single');
+        },
+
+        setMode(element, newMode) {
+            document.querySelectorAll(".mode-pills .pill").forEach(btn => btn.classList.remove("active"));
+            element.classList.add("active");
+            AppState.update("mode", newMode);
+
+            if (newMode === "collab") {
+                UI.elements.collabSection.style.display = "flex";
+            } else {
+                UI.elements.collabSection.style.display = "none";
+                AppState.collabAgents.clear();
+                document.querySelectorAll(".collab-agent").forEach(btn => btn.classList.remove("selected"));
+                UI.elements.collabTag.style.display = "none";
+            }
+
+            // Manager mode specific UI adjustments
+            if (newMode === 'manager') {
+                // Ensure manager agent is selected if in manager mode
+                if (AppState.selectedAgent?.id !== 'manager') {
+                    const managerAgent = AGENTS.find(a => a.id === 'manager');
+                    if (managerAgent) App.selectAgent(managerAgent);
+                }
+            } else if (AppState.selectedAgent?.id === 'manager') {
+                // If manager agent is selected but mode is not manager, switch back to single
+                App.setMode(document.querySelector(".pill[data-mode=\"single\"]"), 'single');
+            }
+        },
+
+        toggleCollabAgent(agentId) {
+            const btn = document.querySelector(`.collab-agent[data-id="${agentId}"]`);
+            if (AppState.collabAgents.has(agentId)) {
+                AppState.collabAgents.delete(agentId);
+                btn.classList.remove("selected");
+            } else {
+                AppState.collabAgents.add(agentId);
+                btn.classList.add("selected");
+            }
+            UI.elements.collabTag.style.display = AppState.collabAgents.size > 0 ? "inline-block" : "none";
+        },
+
+        applySuggestion(suggestion) {
+            UI.elements.inputField.value = suggestion;
+            UI.adjustTextareaHeight(UI.elements.inputField);
+            UI.updateCharCount();
+            UI.renderPredictiveSuggestions(); // Clear suggestions after applying one
+            UI.elements.inputField.focus();
+        }
+    };
+
+    // Initialize the app when the DOM is ready
+    document.addEventListener("DOMContentLoaded", () => {
+        // Load external libraries
+        const scriptDOMPurify = document.createElement('script');
+        scriptDOMPurify.src = 'https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js';
+        scriptDOMPurify.onload = () => {
+            const scriptMarked = document.createElement('script');
+            scriptMarked.src = 'https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js';
+            scriptMarked.onload = () => {
+                // Configure marked.js for Arabic and basic markdown
+                marked.setOptions({
+                    gfm: true,
+                    breaks: true,
+                    langPrefix: 'language-',
+                    highlight: function(code, lang) {
+                        // Basic highlighting, can be improved with a dedicated library like highlight.js
+                        if (lang && hljs.getLanguage(lang)) {
+                            return hljs.highlight(code, { language: lang }).value;
+                        }
+                        return code;
+                    }
+                });
+                // Load highlight.js after marked.js
+                const scriptHighlight = document.createElement('script');
+                scriptHighlight.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js';
+                scriptHighlight.onload = () => {
+                    App.init();
+                };
+                document.head.appendChild(scriptHighlight);
+            };
+            document.head.appendChild(scriptMarked);
+        };
+        document.head.appendChild(scriptDOMPurify);
+    });
+
+</script>
+</body>
+</html>
+            prompt:`أنت وكيل مدير ذكي. مهمتك هي تحليل طلب المستخدم وتحديد الوكلاء المتخصصين الأكثر ملاءمة للتعامل معه. إذا كان الطلب بسيطاً، أجب بنفسك. إذا كان معقداً ويتطلب تخصصات متعددة، قم بتحديد الوكلاء المناسبين (من القائمة المتاحة: ${AGENTS.filter(a => !a.isManager).map(a => a.name).join(", ")}) واطلب منهم التعاون. يجب أن يكون ردك النهائي هو قرارك بشأن من سيتولى المهمة أو ملخصاً للمهمة إذا كنت ستجيب بنفسك. استخدم تنسيق JSON لتحديد الوكلاء إذا لزم الأمر: { "action": "delegate", "agents": ["agent_id1", "agent_id2"], "task": "وصف المهمة" } أو { "action": "respond", "response": "الرد المباشر" }.`,
+          proactiveTask: 'مراجعة آخر 3 محادثات للمستخدم وتلخيص حالة العمل الحالية، مع اقتراح الإجراءات التالية أو الوكلاء المناسبين.'
+        },
+        { id:'customer',  icon:'🎧', name:'خدمة العملاء',         role:'Customer Service',    desc:'حل المشاكل وزيادة الرضا',
+          prompt:`أنت وكيل خدمة عملاء محترف. تتعامل مع الشكاوى بذكاء ودبلوماسية، وتسعى دائماً لإرضاء العميل مع الحفاظ على مصلحة الشركة. ردودك واضحة، متعاطفة، وعملية.`,
+          proactiveTask: 'مراقبة سجلات المحادثات الأخيرة لتحديد المشاكل المتكررة واقتراح حلول استباقية.'
+        },
+        { id:'accountant', icon:'📊', name:'المحاسبة والتدقيق',    role:'Accounting & Audit',  desc:'الحسابات المالية والضرائب',
+          prompt:`أنت محاسب قانوني معتمد (CPA) وخبير مالي. تتخصص في التحليل المالي، الضرائب، الميزانيات، والتدقيق. تقدم أرقاماً دقيقة وتوصيات مبنية على بيانات.`,
+          proactiveTask: 'تحليل البيانات المالية المتاحة لتحديد فرص التوفير الضريبي أو تحسين الميزانية.'
+        },
+        { id:'hr',         icon:'👥', name:'الموارد البشرية',      role:'Human Resources',     desc:'إدارة الأفراد والسياسات',
+          prompt:`أنت مدير موارد بشرية متخصص. تتعامل مع شؤون التوظيف، تقييم الأداء، سياسات العمل، النزاعات الوظيفية، وتطوير المواهب. تتبع أفضل الممارسات الدولية.`,
+          proactiveTask: 'مراجعة سياسات الموارد البشرية واقتراح تحسينات لزيادة رضا الموظفين.'
+        },
+        { id:'legal',      icon:'⚖️', name:'المستشار القانوني',   role:'Legal Advisor',       desc:'القوانين والعقود والامتثال',
+          prompt:`أنت مستشار قانوني متخصص في القانون التجاري. تصوغ العقود، تحلل المخاطر القانونية، وتقدم مشورة قانونية مبنية على أسس سليمة. دائماً تنصح بالرجوع لمحامٍ مرخص للقضايا الجوهرية.`,
+          proactiveTask: 'البحث عن تحديثات قانونية جديدة قد تؤثر على العمليات وتقديم ملخص بها.'
+        },
+        { id:'investor',   icon:'💰', name:'محلل الاستثمار',      role:'Investment Analyst',  desc:'تحليل الأسواق والفرص',
+          prompt:`أنت محلل استثمار CFA. تحلل الأسواق المالية، الأسهم، السندات، العملات الرقمية، والسلع. تقدم تحليلات معمقة ومبنية على البيانات مع تقييم واضح للمخاطر.`,
+          proactiveTask: 'مراقبة الأسواق المالية وتحديد فرص استثمارية محتملة أو مخاطر وشيكة.'
+        },
+        { id:'marketing',  icon:'📢', name:'التسويق والـ SEO',     role:'Marketing & Growth',  desc:'الحملات والنمو الرقمي',
+          prompt:`أنت مدير تسويق رقمي متخصص في النمو. تبني استراتيجيات تسويق متكاملة تشمل SEO، السوشيال ميديا، إعلانات الدفع، والمحتوى. تعتمد على بيانات ومقاييس واضحة.`,
+          proactiveTask: 'تحليل أداء الحملات التسويقية الحالية واقتراح تحسينات لزيادة العائد على الاستثمار.'
+        },
+        { id:'innovation', icon:'💡', name:'الابتكار والتطوير',   role:'Innovation Manager',  desc:'الحلول الإبداعية والأفكار',
+          prompt:`أنت مدير ابتكار وتفكير تصميمي. تستخدم منهجيات مثل Design Thinking وLean Startup لتوليد حلول غير تقليدية. تفكر خارج الصندوق وتحول التحديات إلى فرص.`,
+          proactiveTask: 'البحث عن أحدث الابتكارات في الصناعة واقتراح أفكار جديدة للمنتجات أو الخدمات.'
+        },
+        { id:'research',   icon:'🔬', name:'البحث العلمي',        role:'Research Scientist',  desc:'الدراسات والتحليلات',
+          prompt:`أنت باحث علمي متخصص في البحث الأكاديمي والعلمي. تقوم بجمع البيانات، تحليلها، وتلخيص النتائج بأسلوب منهجي وموثوق. تتبع المعايير العلمية الصارمة في كل تحليلاتك.`,
+          proactiveTask: 'تحديد المجالات البحثية الواعدة بناءً على أحدث المنشورات العلمية.'
+        },
+        { id:'data',       icon:'📈', name:'تحليل البيانات',      role:'Data Analyst',        desc:'معالجة وتحليل البيانات',
+          prompt:`أنت محلل بيانات متقدم متخصص في Data Science. تعالج البيانات الضخمة، تكتشف الأنماط، تبني نماذج تنبؤية، وتقدم رؤى قابلة للتطبيق. تتقن Python, SQL, وأدوات التصور.`,
+          proactiveTask: 'تحليل مجموعات البيانات الكبيرة المتاحة لتحديد الاتجاهات الخفية أو الشذوذ.'
+        },
+        { id:'security',   icon:'🔐', name:'الأمان السيبراني',    role:'Cybersecurity Expert',desc:'الحماية والأمان الرقمي',
+          prompt:`أنت خبير أمان سيبراني معتمد (CISSP/CEH). تقيّم الثغرات، تطور استراتيجيات الحماية، وتساعد في الامتثال لمعايير ISO 27001 وNIST. ردودك تعليمية ولا تسهم في أي نشاط ضار.`,
+          proactiveTask: 'مراقبة التهديدات السيبرانية الجديدة واقتراح إجراءات وقائية.'
+        },
+        { id:'strategy',   icon:'🎯', name:'الاستراتيجية',        role:'Strategy Consultant', desc:'التخطيط والرؤية المستقبلية',
+          prompt:`أنت مستشار استراتيجي من الدرجة الأولى. تستخدم أطر SWOT, Porter's Five Forces, OKR لتطوير استراتيجيات قابلة للتنفيذ. تفكر على المدى البعيد وتربط الاستراتيجية بالتنفيذ.`,
+          proactiveTask: 'تقييم الوضع التنافسي للسوق واقتراح تعديلات على الاستراتيجية العامة.'
+        },
+        { id:'education',  icon:'🎓', name:'التعليم والتدريب',    role:'Education Specialist', desc:'التعليم والتطوير المهني',
+          prompt:`أنت متخصص في التصميم التعليمي وتطوير الكفاءات. تشرح المفاهيم المعقدة بأسلوب مبسط، تصمم مسارات تعلم فعالة، وتستخدم تقنيات التعلم الحديثة.`,
+          proactiveTask: 'تحديد الفجوات في المعرفة أو المهارات واقتراح برامج تدريبية مخصصة.'
+        },
+        { id:'health',     icon:'⚕️', name:'الصحة والعافية',     role:'Health Consultant',   desc:'الاستشارات الصحية',
+          prompt:`أنت مستشار صحي وخبير عافية. تقدم معلومات طبية دقيقة وموثوقة، وتنصح باتباع أسلوب حياة صحي. دائماً تؤكد على أهمية مراجعة الطبيب المختص للحالات الطبية الجدية.`,
+          proactiveTask: 'مراقبة أحدث الأبحاث الصحية وتقديم نصائح لتحسين العافية العامة.'
+        },
+        { id:'custom',     icon:'⚙️', name:'وكيل مخصص',          role:'General Assistant',   desc:'متكيف مع أي احتياج',
+          prompt:`أنت مساعد ذكاء اصطناعي متعدد القدرات. تتكيف مع أي طلب وتقدم ردوداً شاملة ومفيدة. تستمع باهتمام، تفهم السياق، وتقدم أفضل حل ممكن.`,
+          proactiveTask: 'مراقبة نشاط المستخدم العام وتقديم اقتراحات لتحسين الإنتاجية أو تبسيط المهام.'
+        }
+    ];
+
+    /* ═══════════════════════════════════════════════════════════
+       GLOBAL STATE MANAGEMENT
+    ═══════════════════════════════════════════════════════════ */
+    const AppState = {
+        apiKey: '',
+        encryptedApiKey: null, // New: Store encrypted API key
+        selectedAgent: null,
+        chatHistory: [],    // {role, content} for Claude API
+        displayHistory: [], // full display objects with message ID for feedback
+        mode: 'single',
+        collabAgents: new Set(),
+        isLoading: false,
+        abortCtrl: null,
+        sessionId: Date.now().toString(36),
+        feedbackMap: {},
+        roamingAgentsActive: false, // New: Track if roaming agents are active
+        proactiveNotifications: [], // New: Store proactive notifications
+        // Initialize state from localStorage if available
+        init() {
+            this.encryptedApiKey = Memory.loadEncryptedApiKey();
+            this.roamingAgentsActive = Memory.loadRoamingAgentsState();
+        },
+        // Update a specific part of the state and trigger UI re-render if necessary
+        update(key, value) {
+            this[key] = value;
+            // Potentially trigger specific UI updates based on key
+            if (key === 'roamingAgentsActive') {
+                Memory.saveRoamingAgentsState(value);
+                UI.updateRoamingAgentsStatus();
+            }
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       UTILITIES
+    ═══════════════════════════════════════════════════════════ */
+    const Utils = {
+        // Basic HTML sanitization to prevent XSS
+        sanitizeHTML(str) {
+            const div = document.createElement('div');
+            div.appendChild(document.createTextNode(str));
+            return div.innerHTML;
+        },
+        // Debounce function to limit how often a function is called
+        debounce(func, delay) {
+            let timeout;
+            return function(...args) {
+                const context = this;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), delay);
+            };
+        },
+        // Show a notification to the user
+        showNotification(message, type = 'info', duration = 3000) {
+            const notificationsContainer = document.getElementById('notifications');
+            const notif = document.createElement('div');
+            notif.className = `notif ${type}`;
+            notif.setAttribute('role', 'status');
+            notif.textContent = message;
+            notificationsContainer.appendChild(notif);
+
+            // Trigger reflow to ensure animation plays
+            void notif.offsetWidth;
+            notif.classList.add('show');
+
+            setTimeout(() => {
+                notif.classList.remove('show');
+                notif.addEventListener('transitionend', () => notif.remove());
+            }, duration);
+        },
+        // Show a proactive notification
+        showProactiveNotification(agentIcon, message, agentId, notificationId) {
+            const proactiveNotificationsContainer = document.getElementById('proactiveNotifications');
+            const notif = document.createElement('div');
+            notif.className = 'proactive-notif';
+            notif.setAttribute('role', 'alert');
+            notif.setAttribute('tabindex', '0');
+            notif.innerHTML = `\n                <div class="proactive-notif-icon">${agentIcon}</div>\n                <div class="proactive-notif-text">${Utils.sanitizeHTML(message)}</div>\n                <button class="proactive-notif-close" aria-label="إغلاق الإشعار" onclick="Proactive.dismissNotification('${notificationId}')"><i class="fas fa-times"></i></button>\n            `;
+            notif.onclick = () => Proactive.handleProactiveNotificationClick(agentId, notificationId);
+            proactiveNotificationsContainer.appendChild(notif);
+
+            void notif.offsetWidth;
+            notif.classList.add('show');
+
+            // Auto-dismiss after a longer period, or keep until user interacts
+            setTimeout(() => {
+                if (notif.parentNode) {
+                    notif.classList.remove('show');
+                    notif.addEventListener('transitionend', () => notif.remove());
+                }
+            }, 15000); // 15 seconds
+
+            AppState.proactiveNotifications.push({ id: notificationId, agentId, message });
+        },
+        // Generate predictive suggestions based on context
+        generatePredictiveSuggestions(currentAgentId, currentInput) {
+            const suggestions = [];
+            const agent = AGENTS.find(a => a.id === currentAgentId);
+
+            // General suggestions
+            if (!currentInput) {
+                suggestions.push('ما هي آخر التطورات في مجالي؟');
+                suggestions.push('كيف يمكنني تحسين إنتاجيتي اليوم؟');
+            }
+
+            // Agent-specific suggestions
+            if (agent) {
+                if (agent.id === 'customer') {
+                    suggestions.push('كيف أتعامل مع شكوى عميل غاضب؟');
+                    suggestions.push('اقتراح رد على استفسار شائع.');
+                } else if (agent.id === 'accountant') {
+                    suggestions.push('ما هي التغييرات الضريبية الجديدة؟');
+                    suggestions.push('تحليل ميزانية الربع الحالي.');
+                } else if (agent.id === 'manager') {
+                    suggestions.push('كيف أوزع هذه المهمة على الوكلاء؟');
+                    suggestions.push('تلخيص آخر نشاط للوكلاء.');
+                }
+                // Add more agent-specific suggestions
+            }
+
+            // Filter out duplicates and limit to 3-4 suggestions
+            return [...new Set(suggestions)].slice(0, 4);
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       CRYPTO UTILITIES (Web Crypto API)
+    ═══════════════════════════════════════════════════════════ */
+    const CryptoUtils = {
+        async generateKey(password, salt) {
+            const enc = new TextEncoder();
+            const keyMaterial = await crypto.subtle.importKey(
+                'raw',
+                enc.encode(password),
+                { name: 'PBKDF2' },
+                false,
+                ['deriveBits', 'deriveKey']
+            );
+            return crypto.subtle.deriveKey(
+                {
+                    name: 'PBKDF2',
+                    salt: salt,
+                    iterations: 100000,
+                    hash: 'SHA-256',
+                },
+                keyMaterial,
+                { name: 'AES-GCM', length: 256 },
+                true,
+                ['encrypt', 'decrypt']
+            );
+        },
+
+        async encrypt(text, password) {
+            const salt = crypto.getRandomValues(new Uint8Array(16));
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            const key = await this.generateKey(password, salt);
+            const enc = new TextEncoder();
+            const encrypted = await crypto.subtle.encrypt(
+                { name: 'AES-GCM', iv: iv },
+                key,
+                enc.encode(text)
+            );
+
+            const combined = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
+            combined.set(salt, 0);
+            combined.set(iv, salt.length);
+            combined.set(new Uint8Array(encrypted), salt.length + iv.length);
+
+            return btoa(String.fromCharCode.apply(null, combined));
+        },
+
+        async decrypt(encryptedText, password) {
+            const combined = new Uint8Array(atob(encryptedText).split('').map(char => char.charCodeAt(0)));
+            const salt = combined.slice(0, 16);
+            const iv = combined.slice(16, 28);
+            const encrypted = combined.slice(28);
+
+            const key = await this.generateKey(password, salt);
+            const dec = new TextDecoder();
+            const decrypted = await crypto.subtle.decrypt(
+                { name: 'AES-GCM', iv: iv },
+                key,
+                encrypted
+            );
+            return dec.decode(decrypted);
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       MEMORY LAYER (localStorage & IndexedDB) - Encapsulated for better management
+    ═══════════════════════════════════════════════════════════ */
+    const Memory = {
+        DB_KEY: 'nexus_v11_db',
+        ENCRYPTED_API_KEY: 'nexus_v11_encrypted_api',
+        ROAMING_STATE_KEY: 'nexus_v11_roaming_state',
+        _cache: null, // Cache for loaded data
+        _db: null, // IndexedDB instance
+
+        async _openIndexedDB() {
+            return new Promise((resolve, reject) => {
+                if (this._db) return resolve(this._db);
+
+                const request = indexedDB.open('NexusKnowledgeDB', 1);
+
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    db.createObjectStore('knowledgeVectors', { keyPath: 'id' });
+                };
+
+                request.onsuccess = (event) => {
+                    this._db = event.target.result;
+                    resolve(this._db);
+                };
+
+                request.onerror = (event) => {
+                    console.error('IndexedDB error:', event.target.errorCode);
+                    Utils.showNotification('خطأ في قاعدة بيانات IndexedDB.', 'error');
+                    reject(event.target.error);
+                };
+            });
+        },
+
+        _loadDB() {
+            if (this._cache) return this._cache;
+            try {
+                const data = JSON.parse(localStorage.getItem(this.DB_KEY) || '{}');
+                this._cache = data;
+                return data;
+            } catch (e) {
+                console.error('Failed to load memory from localStorage:', e);
+                Utils.showNotification('خطأ في تحميل الذاكرة المحلية.', 'error');
+                return {};
+            }
+        },
+
+        _saveDB(data) {
+            try {
+                localStorage.setItem(this.DB_KEY, JSON.stringify(data));
+                this._cache = data; // Update cache
+            } catch (e) {
+                console.warn('Memory save failed:', e);
+                Utils.showNotification('فشل حفظ الذاكرة المحلية.', 'warn');
+            }
+        },
+
+        // Save a conversation
+        saveConversation(agentId, history, preview) {
+            const db = this._loadDB();
+            if (!db.conversations) db.conversations = {};
+            const id = `${agentId}_${Date.now()}`;
+            db.conversations[id] = {
+                agentId, history, preview,
+                timestamp: Date.now(),
+                id
+            };
+            // Keep max 50 conversations
+            const keys = Object.keys(db.conversations);
+            if (keys.length > 50) {
+                const oldest = keys.sort((a,b) => db.conversations[a].timestamp - db.conversations[b].timestamp)[0];
+                delete db.conversations[oldest];
+            }
+            this._saveDB(db);
+            UI.renderHistory();
+            UI.updateMemoryStats();
+            return id;
+        },
+
+        getConversations() {
+            const db = this._loadDB();
+            return Object.values(db.conversations || {}).sort((a,b) => b.timestamp - a.timestamp);
+        },
+
+        deleteConversation(id) {
+            const db = this._loadDB();
+            if (db.conversations) delete db.conversations[id];
+            this._saveDB(db);
+            UI.renderHistory();
+            UI.updateMemoryStats();
+        },
+
+        // Knowledge base per agent - now with more metadata for advanced retrieval
+        async addKnowledge(agentId, text, tags = [], source = 'user_input') {
+            const db = this._loadDB();
+            if (!db.knowledge) db.knowledge = {};
+            if (!db.knowledge[agentId]) db.knowledge[agentId] = [];
+            const chunk = { text: Utils.sanitizeHTML(text.trim()), id: Date.now(), added: new Date().toLocaleString('ar'), tags, source };
+            db.knowledge[agentId].push(chunk);
+            this._saveDB(db);
+
+            // Simulate embedding generation and store in IndexedDB
+            const indexedDB = await this._openIndexedDB();
+            const tx = indexedDB.transaction('knowledgeVectors', 'readwrite');
+            const store = tx.objectStore('knowledgeVectors');
+            // In a real scenario, 'embedding' would be a vector generated by a model
+            store.put({ id: chunk.id, agentId: agentId, text: chunk.text, embedding: KnowledgeRetriever.generateMockEmbedding(chunk.text) });
+            await tx.complete; // Wait for transaction to complete
+
+            UI.renderKnowledgeBase();
+            UI.updateMemoryStats();
+            return chunk;
+        },
+
+        getKnowledge(agentId) {
+            const db = this._loadDB();
+            return (db.knowledge || {})[agentId] || [];
+        },
+
+        deleteKnowledge(agentId, id) {
+            const db = this._loadDB();
+            if (db.knowledge && db.knowledge[agentId]) {
+                db.knowledge[agentId] = db.knowledge[agentId].filter(k => k.id !== id);
+                this._saveDB(db);
+            }
+            // Also remove from IndexedDB
+            this._openIndexedDB().then(indexedDB => {
+                const tx = indexedDB.transaction('knowledgeVectors', 'readwrite');
+                const store = tx.objectStore('knowledgeVectors');
+                store.delete(id);
+            }).catch(e => console.error('Error deleting from IndexedDB:', e));
+
+            UI.renderKnowledgeBase();
+            UI.updateMemoryStats();
+        },
+
+        // Feedback for self-improvement
+        saveFeedback(agentId, msgId, rating) {
+            const db = this._loadDB();
+            if (!db.feedback) db.feedback = {};
+            if (!db.feedback[agentId]) db.feedback[agentId] = { positive:0, negative:0 };
+            if (rating > 0) db.feedback[agentId].positive++;
+            else db.feedback[agentId].negative++;
+            this._saveDB(db);
+            // Update feedback map in AppState
+            AppState.feedbackMap[msgId] = rating;
+        },
+
+        getFeedback(agentId) {
+            const db = this._loadDB();
+            return (db.feedback || {})[agentId] || { positive:0, negative:0 };
+        },
+
+        // Stats
+        getStats() {
+            const db = this._loadDB();
+            const convs = Object.keys(db.conversations || {}).length;
+            let msgs = 0;
+            Object.values(db.conversations || {}).forEach(c => { msgs += (c.history || []).length; });
+            let docs = 0;
+            Object.values(db.knowledge || {}).forEach(arr => { docs += arr.length; });
+            return { convs, msgs, docs };
+        },
+
+        clearAllMemory() {
+            if (confirm('هل أنت متأكد أنك تريد مسح كل الذاكرة (المحادثات وقاعدة المعرفة)؟')) {
+                localStorage.removeItem(this.DB_KEY);
+                localStorage.removeItem(this.ENCRYPTED_API_KEY);
+                localStorage.removeItem(this.ROAMING_STATE_KEY);
+                this._cache = null; // Clear cache
+                AppState.apiKey = '';
+                AppState.encryptedApiKey = null;
+                AppState.chatHistory = [];
+                AppState.displayHistory = [];
+                AppState.feedbackMap = {};
+                AppState.roamingAgentsActive = false;
+                UI.renderHistory();
+                UI.renderKnowledgeBase();
+                UI.updateMemoryStats();
+                UI.clearChatArea();
+                UI.updateApiStatus();
+                UI.updateRoamingAgentsStatus();
+
+                // Clear IndexedDB
+                indexedDB.deleteDatabase('NexusKnowledgeDB');
+
+                Utils.showNotification('تم مسح كل الذاكرة بنجاح.', 'success');
+            }
+        },
+
+        // Encrypted API key
+        async saveEncryptedApiKey(encryptedKey) {
+            localStorage.setItem(this.ENCRYPTED_API_KEY, encryptedKey);
+            AppState.update('encryptedApiKey', encryptedKey);
+        },
+        loadEncryptedApiKey() {
+            return localStorage.getItem(this.ENCRYPTED_API_KEY) || null;
+        },
+
+        // Roaming Agents State
+        saveRoamingAgentsState(state) {
+            localStorage.setItem(this.ROAMING_STATE_KEY, JSON.stringify(state));
+        },
+        loadRoamingAgentsState() {
+            try {
+                return JSON.parse(localStorage.getItem(this.ROAMING_STATE_KEY) || 'false');
+            } catch (e) {
+                console.error('Failed to load roaming agents state:', e);
+                return false;
+            }
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       AUTHENTICATION MODULE (with Web Crypto API)
+    ═══════════════════════════════════════════════════════════ */
+    const Auth = {
+        async saveApiKey() {
+            const apiKeyInput = document.getElementById('apiKeyInput');
+            const masterKeyInput = document.getElementById('masterKeyInput');
+            const apiKey = apiKeyInput.value.trim();
+            const masterKey = masterKeyInput.value.trim();
+
+            if (!apiKey) {
+                Utils.showNotification('الرجاء إدخال مفتاح API صالح.', 'warn');
+                return;
+            }
+            if (!masterKey) {
+                Utils.showNotification('الرجاء إدخال كلمة مرور رئيسية لتشفير مفتاح API.', 'warn');
+                return;
+            }
+
+            try {
+                const encryptedApiKey = await CryptoUtils.encrypt(apiKey, masterKey);
+                await Memory.saveEncryptedApiKey(encryptedApiKey);
+                AppState.update('apiKey', apiKey); // Temporarily store decrypted key in memory
+                UI.closeModal();
+                UI.updateApiStatus();
+                Utils.showNotification('تم حفظ مفتاح API وتشفيره بنجاح.', 'success');
+                // Activate roaming agents if API key is set
+                if (!AppState.roamingAgentsActive) {
+                    Proactive.toggleRoamingAgents(true);
+                }
+            } catch (e) {
+                console.error('Encryption failed:', e);
+                Utils.showNotification('فشل تشفير مفتاح API. تأكد من قوة كلمة المرور.', 'error');
+            }
+        },
+
+        async loadAndDecryptApiKey(masterKey) {
+            const encryptedApiKey = Memory.loadEncryptedApiKey();
+            if (!encryptedApiKey) return null;
+
+            try {
+                const decryptedKey = await CryptoUtils.decrypt(encryptedApiKey, masterKey);
+                AppState.update('apiKey', decryptedKey);
+                return decryptedKey;
+            } catch (e) {
+                console.error('Decryption failed:', e);
+                Utils.showNotification('فشل فك تشفير مفتاح API. كلمة المرور الرئيسية خاطئة أو المفتاح تالف.', 'error');
+                AppState.update('apiKey', ''); // Clear potentially wrong key
+                return null;
+            }
+        },
+
+        async checkApiKey() {
+            const encryptedKey = Memory.loadEncryptedApiKey();
+            if (encryptedKey) {
+                // Prompt for master key to decrypt
+                const masterKey = prompt('الرجاء إدخال كلمة المرور الرئيسية لفك تشفير مفتاح API:');
+                if (masterKey) {
+                    const decryptedKey = await this.loadAndDecryptApiKey(masterKey);
+                    if (decryptedKey) {
+                        UI.updateApiStatus();
+                        return true;
+                    } else {
+                        Utils.showNotification('كلمة المرور الرئيسية غير صحيحة.', 'error');
+                        UI.updateApiStatus();
+                        return false;
+                    }
+                } else {
+                    Utils.showNotification('لم يتم إدخال كلمة المرور الرئيسية. لن يتم الاتصال بـ API.', 'warn');
+                    UI.updateApiStatus();
+                    return false;
+                }
+            } else {
+                AppState.update('apiKey', ''); // No encrypted key, so no decrypted key
+                UI.updateApiStatus();
+                return false;
+            }
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       KNOWLEDGE RETRIEVAL - Advanced similarity algorithm (simulated vector embeddings)
+    ═══════════════════════════════════════════════════════════ */
+    const KnowledgeRetriever = {
+        // In a real scenario, this would use a pre-trained model (e.g., from Transformers.js)
+        // to generate actual vector embeddings. For this single-file demo, we simulate it.
+        generateMockEmbedding(text) {
+            // Simple hash-based embedding based on character codes for demonstration
+            let hash = 0;
+            for (let i = 0; i < text.length; i++) {
+                hash = text.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            // Convert to a fixed-size array for simulation
+            const embedding = new Array(128).fill(0).map((_, i) => (hash >> (i % 32)) & 0xFF);
+            return embedding;
+        },
+
+        // Cosine Similarity (simplified for mock embeddings)
+        _cosineSimilarity(vec1, vec2) {
+            if (!vec1 || !vec2 || vec1.length !== vec2.length) return 0;
+            let dotProduct = 0;
+            let magnitude1 = 0;
+            let magnitude2 = 0;
+            for (let i = 0; i < vec1.length; i++) {
+                dotProduct += vec1[i] * vec2[i];
+                magnitude1 += vec1[i] * vec1[i];
+                magnitude2 += vec2[i] * vec2[i];
+            }
+            magnitude1 = Math.sqrt(magnitude1);
+            magnitude2 = Math.sqrt(magnitude2);
+            if (magnitude1 === 0 || magnitude2 === 0) return 0;
+            return dotProduct / (magnitude1 * magnitude2);
+        },
+
+        // Semantic Search using IndexedDB and Cosine Similarity
+        async semanticSearch(query, agentId, topN = 3) {
+            if (!query || !agentId) return [];
+
+            const queryEmbedding = this.generateMockEmbedding(query);
+            const indexedDB = await Memory._openIndexedDB();
+            const tx = indexedDB.transaction("knowledgeVectors", "readonly");
+            const store = tx.objectStore("knowledgeVectors");
+            const request = store.openCursor();
+
+            const results = [];
+            await new Promise(resolve => {
+                request.onsuccess = (event) => {
+                    const cursor = event.target.result;
+                    if (cursor) {
+                        if (cursor.value.agentId === agentId) {
+                            const similarity = this._cosineSimilarity(queryEmbedding, cursor.value.embedding);
+                            if (similarity > 0) { // Only consider positive similarity
+                                results.push({ ...cursor.value, similarity });
+                            }
+                        }
+                        cursor.continue();
+                    } else {
+                        resolve();
+                    }
+                };
+                request.onerror = (event) => {
+                    console.error("Error opening cursor:", event.target.error);
+                    resolve();
+                };
+            });
+
+            // Sort by similarity and return top N
+            return results.sort((a, b) => b.similarity - a.similarity).slice(0, topN);
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       PROACTIVE INTELLIGENCE & ROAMING AGENTS
+    ═══════════════════════════════════════════════════════════ */
+    const Proactive = {
+        roamingAgentInterval: null,
+        async toggleRoamingAgents(activate) {
+            if (activate && !AppState.apiKey) {
+                Utils.showNotification("لا يمكن تفعيل الوكلاء المتجولين بدون مفتاح API.", "warn");
+                return;
+            }
+
+            if (activate) {
+                if (this.roamingAgentInterval) clearInterval(this.roamingAgentInterval);
+                AppState.update("roamingAgentsActive", true);
+                Utils.showNotification("تم تفعيل الوكلاء المتجولين. سيبدأون العمل في الخلفية.", "info");
+                this.roamingAgentInterval = setInterval(() => this.runProactiveTasks(), 60 * 60 * 1000); // Run every hour
+                this.runProactiveTasks(); // Run immediately on activation
+            } else {
+                clearInterval(this.roamingAgentInterval);
+                this.roamingAgentInterval = null;
+                AppState.update("roamingAgentsActive", false);
+                Utils.showNotification("تم إيقاف الوكلاء المتجولين.", "info");
+            }
+        },
+
+        async runProactiveTasks() {
+            if (!AppState.apiKey) return;
+
+            for (const agent of AGENTS) {
+                if (agent.proactiveTask) {
+                    console.log(`Running proactive task for ${agent.name}: ${agent.proactiveTask}`);
+                    // Simulate API call for proactive task
+                    const mockResponse = await this._simulateProactiveAgentResponse(agent);
+                    if (mockResponse) {
+                        const notificationId = `proactive-${agent.id}-${Date.now()}`;
+                        Utils.showProactiveNotification(agent.icon, mockResponse, agent.id, notificationId);
+                    }
+                }
+            }
+        },
+
+        async _simulateProactiveAgentResponse(agent) {
+            // In a real scenario, this would be an actual API call to Claude
+            // with the agent's proactiveTask as the prompt.
+            // For now, we'll return a mock response.
+            const mockResponses = {
+                manager: "وكيل المدير: تم مراجعة آخر 3 محادثات. أقترح التركيز على تحسين قاعدة المعرفة لوكيل خدمة العملاء.",
+                customer: "خدمة العملاء: لاحظت زيادة في استفسارات الشحن. أقترح تحديث قسم الأسئلة الشائعة.",
+                accountant: "المحاسبة: تحليل البيانات المالية يشير إلى فرصة لخفض التكاليف بنسبة 5% في الربع القادم.",
+                legal: "المستشار القانوني: صدر قانون جديد بخصوص حماية البيانات. يجب مراجعة سياسات الخصوصية لدينا.",
+                investor: "محلل الاستثمار: هناك تقلبات كبيرة في سوق العملات الرقمية. قد تكون فرصة استثمارية عالية المخاطر.",
+                marketing: "التسويق: حملة إعلانات فيسبوك الأخيرة حققت ROI ممتاز. أقترح زيادة الميزانية بنسبة 20%.",
+                innovation: "الابتكار: أحدث تقنيات الذكاء الاصطناعي في مجال الرعاية الصحية واعدة. هل نفكر في تطبيقها?",
+                research: "البحث العلمي: دراسة حديثة تشير إلى أن تقنية النانو يمكن أن تحدث ثورة في صناعة المواد.",
+                data: "تحليل البيانات: اكتشفت أنماط استخدام غير متوقعة في تطبيقنا. يمكن استغلالها لتحسين تجربة المستخدم.",
+                security: "الأمان السيبراني: تم رصد محاولات تصيد جديدة تستهدف موظفينا. يجب تعزيز التدريب الأمني.",
+                strategy: "الاستراتيجية: المنافس الجديد يكتسب حصة سوقية بسرعة. يجب إعادة تقييم استراتيجيتنا التسويقية.",
+                education: "التعليم: هناك طلب متزايد على دورات تدريبية في الذكاء الاصطناعي. هل نقدم محتوى جديداً؟",
+                health: "الصحة: أظهرت الأبحاث أن التأمل اليومي يحسن التركيز بنسبة 15%.",
+                custom: "وكيل مخصص: لاحظت أنك تعمل على مشروع X. هل تحتاج مساعدة في البحث عن معلومات ذات صلة؟"
+            };
+            return mockResponses[agent.id] || null;
+        },
+
+        handleProactiveNotificationClick(agentId, notificationId) {
+            // Dismiss the notification
+            const notifElement = document.querySelector(`#proactiveNotifications .proactive-notif[data-id="${notificationId}"]`);
+            if (notifElement) {
+                notifElement.classList.remove("show");
+                notifElement.addEventListener("transitionend", () => notifElement.remove());
+            }
+            // Switch to the agent that sent the notification
+            const agent = AGENTS.find(a => a.id === agentId);
+            if (agent) {
+                App.selectAgent(agent);
+                // Optionally, pre-fill the input with a follow-up question
+                document.getElementById("inputField").value = `ماذا تقصد بـ: "${AppState.proactiveNotifications.find(n => n.id === notificationId).message}"؟`;
+                UI.adjustTextareaHeight(document.getElementById("inputField"));
+            }
+            // Remove from AppState
+            AppState.proactiveNotifications = AppState.proactiveNotifications.filter(n => n.id !== notificationId);
+        },
+
+        dismissNotification(notificationId) {
+            const notifElement = document.querySelector(`#proactiveNotifications .proactive-notif[data-id="${notificationId}"]`);
+            if (notifElement) {
+                notifElement.classList.remove("show");
+                notifElement.addEventListener("transitionend", () => notifElement.remove());
+            }
+            AppState.proactiveNotifications = AppState.proactiveNotifications.filter(n => n.id !== notificationId);
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       UI RENDERING & INTERACTION
+    ═══════════════════════════════════════════════════════════ */
+    const UI = {
+        elements: {
+            modalOverlay: document.getElementById("modalOverlay"),
+            apiKeyInput: document.getElementById("apiKeyInput"),
+            masterKeyInput: document.getElementById("masterKeyInput"),
+            apiStatus: document.getElementById("apiStatus"),
+            apiStatusTxt: document.getElementById("apiStatusTxt"),
+            sidebar: document.getElementById("sidebar"),
+            agentsGrid: document.getElementById("agentsGrid"),
+            collabAgentsContainer: document.getElementById("collabAgents"),
+            collabSection: document.getElementById("collabSection"),
+            chatHeader: document.getElementById("chatHeader"),
+            chatIcon: document.getElementById("chatIcon"),
+            chatName: document.getElementById("chatName"),
+            chatRole: document.getElementById("chatRole"),
+            collabTag: document.getElementById("collabTag"),
+            chatArea: document.getElementById("chatArea"),
+            emptyState: document.getElementById("emptyState"),
+            emptyIcon: document.getElementById("emptyIcon"),
+            emptyTitle: document.getElementById("emptyTitle"),
+            emptySub: document.getElementById("emptySub"),
+            inputArea: document.getElementById("inputArea"),
+            inputField: document.getElementById("inputField"),
+            sendBtn: document.getElementById("sendBtn"),
+            cancelBtn: document.getElementById("cancelBtn"),
+            charCount: document.getElementById("charCount"),
+            kbInput: document.getElementById("kbInput"),
+            kbDocs: document.getElementById("kbDocs"),
+            historyList: document.getElementById("historyList"),
+            memConvs: document.getElementById("memConvs"),
+            memMsgs: document.getElementById("memMsgs"),
+            memDocs: document.getElementById("memDocs"),
+            roamingAgentsStatus: document.getElementById("roamingAgentsStatus"),
+            predictiveSuggestions: document.getElementById("predictiveSuggestions"),
+        },
+
+        init() {
+            this.renderAgents();
+            this.renderCollabAgents();
+            this.updateApiStatus();
+            this.updateMemoryStats();
+            this.renderHistory();
+            this.setupEventListeners();
+            this.updateRoamingAgentsStatus();
+            this.renderPredictiveSuggestions(); // Initial render
+        },
+
+        setupEventListeners() {
+            this.elements.inputField.addEventListener("input", () => {
+                this.adjustTextareaHeight(this.elements.inputField);
+                this.updateCharCount();
+                this.renderPredictiveSuggestions();
+            });
+            this.elements.inputField.addEventListener("keydown", (e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    Chat.handleSend();
+                }
+            });
+            window.addEventListener("resize", () => {
+                this.adjustTextareaHeight(this.elements.inputField);
+            });
+
+            // Close modal on escape key
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape" && this.elements.modalOverlay.classList.contains("show")) {
+                    this.closeModal();
+                }
+            });
+
+            // Close modal on outside click
+            this.elements.modalOverlay.addEventListener("click", (e) => {
+                if (e.target === this.elements.modalOverlay) {
+                    this.closeModal();
+                }
+            });
+        },
+
+        openModal() {
+            this.elements.modalOverlay.classList.add("show");
+            this.elements.apiKeyInput.focus();
+        },
+
+        closeModal() {
+            this.elements.modalOverlay.classList.remove("show");
+            this.elements.apiKeyInput.value = "";
+            this.elements.masterKeyInput.value = "";
+        },
+
+        updateApiStatus() {
+            const statusEl = this.elements.apiStatus;
+            const statusTxtEl = this.elements.apiStatusTxt;
+
+            statusEl.classList.remove("connected", "disconnected", "waiting");
+            if (AppState.apiKey) {
+                statusEl.classList.add("connected");
+                statusTxtEl.textContent = "API متصل";
+                statusEl.title = "API متصل. اضغط لتغيير المفتاح.";
+            } else if (Memory.loadEncryptedApiKey()) {
+                statusEl.classList.add("waiting");
+                statusTxtEl.textContent = "API مشفر";
+                statusEl.title = "مفتاح API مشفر. اضغط لفك التشفير والاتصال.";
+            } else {
+                statusEl.classList.add("disconnected");
+                statusTxtEl.textContent = "بدون API";
+                statusEl.title = "API غير متصل. اضغط لإضافة مفتاح API.";
+            }
+        },
+
+        toggleSidebar() {
+            this.elements.sidebar.classList.toggle("hidden");
+        },
+
+        renderAgents() {
+            this.elements.agentsGrid.innerHTML = AGENTS.map(agent => `\n                <div class="agent-card" data-id="${agent.id}" onclick="App.selectAgent(AGENTS.find(a => a.id === \'${agent.id}\' ))" tabindex="0" role="button" aria-label="اختر وكيل ${agent.name}">\n                    <div class="agent-icon-wrap">${agent.icon}</div>\n                    <div class="agent-name">${agent.name}</div>\n                    <div class="agent-desc">${agent.desc}</div>\n                    <span class="agent-mem-badge">ذاكرة</span>\n                </div>\n            `).join("");
+            this.updateAgentMemoryBadges();
+        },
+
+        renderCollabAgents() {
+            this.elements.collabAgentsContainer.innerHTML = AGENTS.filter(a => a.id !== AppState.selectedAgent?.id && !a.isManager).map(agent => `\n                <button class="collab-agent" data-id="${agent.id}" onclick="App.toggleCollabAgent('\'${agent.id}\'')" tabindex="0" role="checkbox" aria-checked="false" aria-label="إضافة وكيل ${agent.name} للتعاون">\n                    <div class="collab-agent-icon">${agent.icon}</div>\n                    ${agent.name}\n                </button>\n            `).join("");
+        },
+
+        updateAgentMemoryBadges() {
+            AGENTS.forEach(agent => {
+                const agentCard = document.querySelector(`.agent-card[data-id="${agent.id}"]`);
+                if (agentCard) {
+                    const knowledge = Memory.getKnowledge(agent.id);
+                    if (knowledge && knowledge.length > 0) {
+                        agentCard.classList.add("has-memory");
+                    } else {
+                        agentCard.classList.remove("has-memory");
+                    }
+                }
+            });
+        },
+
+        updateMemoryStats() {
+            const stats = Memory.getStats();
+            this.elements.memConvs.textContent = stats.convs;
+            this.elements.memMsgs.textContent = stats.msgs;
+            this.elements.memDocs.textContent = stats.docs;
+        },
+
+        updateRoamingAgentsStatus() {
+            if (AppState.roamingAgentsActive) {
+                this.elements.roamingAgentsStatus.innerHTML = \n                    `<i class="fas fa-circle-notch fa-spin" style="color:var(--accent2);"></i> الوكلاء المتجولون نشطون.`;
+            } else {
+                this.elements.roamingAgentsStatus.innerHTML = \n                    `<i class="fas fa-times-circle" style="color:var(--danger);"></i> الوكلاء المتجولون غير نشطين.`;
+            }
+        },
+
+        renderKnowledgeBase() {
+            const currentAgentId = AppState.selectedAgent?.id;
+            if (!currentAgentId) {
+                this.elements.kbDocs.innerHTML = "";
+                return;
+            }
+            const knowledge = Memory.getKnowledge(currentAgentId);
+            this.elements.kbDocs.innerHTML = knowledge.map(doc => `\n                <div class="kb-doc">\n                    <span class="kb-doc-text">${doc.text}</span>\n                    <button class="kb-doc-remove" onclick="Memory.deleteKnowledge('\'${currentAgentId}\'', ${doc.id})" aria-label="حذف وثيقة المعرفة"><i class="fas fa-times"></i></button>\n                </div>\n            `).join("");
+            this.updateAgentMemoryBadges();
+        },
+
+        renderHistory() {
+            const conversations = Memory.getConversations();
+            this.elements.historyList.innerHTML = conversations.map(conv => {
+                const agent = AGENTS.find(a => a.id === conv.agentId);
+                return `\n                    <div class="kb-doc" onclick="Chat.loadConversation('\'${conv.id}\'')" tabindex="0" role="button" aria-label="تحميل محادثة مع ${agent?.name || conv.agentId}">\n                        <span class="kb-doc-text">${agent?.icon || "?"} ${conv.preview}</span>\n                        <button class="kb-doc-remove" onclick="event.stopPropagation(); Memory.deleteConversation('\'${conv.id}\'')" aria-label="حذف المحادثة"><i class="fas fa-trash"></i></button>\n                    </div>\n                `;
+            }).join("");
+        },
+
+        renderChatBubble(message, isUser, messageId = null) {
+            const bubble = document.createElement("div");
+            bubble.className = `message-bubble ${isUser ? "user" : "agent"}`;
+
+            const icon = document.createElement("div");
+            icon.className = "bubble-icon";
+            icon.innerHTML = isUser ? "<i class=\"fas fa-user\"></i>" : AppState.selectedAgent.icon;
+            bubble.appendChild(icon);
+
+            const content = document.createElement("div");
+            content.className = "bubble-content";
+            content.innerHTML = DOMPurify.sanitize(marked.parse(message)); // Sanitize and parse Markdown
+            bubble.appendChild(content);
+
+            if (!isUser && messageId) {
+                const actions = document.createElement("div");
+                actions.className = "bubble-actions";
+
+                const likeBtn = document.createElement("button");
+                likeBtn.className = `feedback-btn ${AppState.feedbackMap[messageId] === 1 ? "active" : ""}`;
+                likeBtn.innerHTML = `<i class="fas fa-thumbs-up"></i>`;
+                likeBtn.onclick = () => Chat.sendFeedback(messageId, 1);
+                actions.appendChild(likeBtn);
+
+                const dislikeBtn = document.createElement("button");
+                dislikeBtn.className = `feedback-btn ${AppState.feedbackMap[messageId] === -1 ? "active" : ""}`;
+                dislikeBtn.innerHTML = `<i class="fas fa-thumbs-down"></i>`;
+                dislikeBtn.onclick = () => Chat.sendFeedback(messageId, -1);
+                actions.appendChild(dislikeBtn);
+
+                content.appendChild(actions);
+            }
+
+            this.elements.chatArea.appendChild(bubble);
+            this.elements.chatArea.scrollTop = this.elements.chatArea.scrollHeight;
+        },
+
+        clearChatArea() {
+            this.elements.chatArea.innerHTML = "";
+            this.elements.emptyState.style.display = "flex";
+            this.elements.chatHeader.style.display = "none";
+            this.elements.inputArea.style.display = "none";
+            AppState.selectedAgent = null;
+            AppState.chatHistory = [];
+            AppState.displayHistory = [];
+            AppState.feedbackMap = {};
+            this.elements.inputField.value = "";
+            this.adjustTextareaHeight(this.elements.inputField);
+            this.updateCharCount();
+            this.renderPredictiveSuggestions();
+        },
+
+        adjustTextareaHeight(textarea) {
+            textarea.style.height = "auto";
+            textarea.style.height = textarea.scrollHeight + "px";
+        },
+
+        updateCharCount() {
+            this.elements.charCount.textContent = this.elements.inputField.value.length;
+        },
+
+        showLoading(show) {
+            if (show) {
+                this.elements.sendBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i>`;
+                this.elements.sendBtn.disabled = true;
+                this.elements.cancelBtn.style.display = "flex";
+            } else {
+                this.elements.sendBtn.innerHTML = `<i class="fas fa-paper-plane"></i> إرسال`;
+                this.elements.sendBtn.disabled = false;
+                this.elements.cancelBtn.style.display = "none";
+            }
+        },
+
+        renderPredictiveSuggestions() {
+            const input = this.elements.inputField.value;
+            const agentId = AppState.selectedAgent?.id;
+            const suggestions = Utils.generatePredictiveSuggestions(agentId, input);
+
+            this.elements.predictiveSuggestions.innerHTML = suggestions.map(s => `\n                <button class="suggestion-pill" onclick="Chat.applySuggestion('\'${Utils.sanitizeHTML(s)}\'')" aria-label="اقتراح: ${Utils.sanitizeHTML(s)}">\n                    ${Utils.sanitizeHTML(s)}\n                </button>\n            `).join("");
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       CHAT LOGIC
+    ═══════════════════════════════════════════════════════════ */
+    const Chat = {
+        API_URL: "https://api.anthropic.com/v1/messages",
+        MODEL_NAME: "claude-3-opus-20240229", // Or other Claude 3 models
+
+        async sendMessage(messages, agentId, isCollab = false) {
+            if (!AppState.apiKey) {
+                Utils.showNotification("الرجاء إدخال مفتاح API أولاً.", "error");
+                UI.openModal();
+                return;
+            }
+
+            AppState.update("isLoading", true);
+            UI.showLoading(true);
+
+            AppState.abortCtrl = new AbortController();
+            const signal = AppState.abortCtrl.signal;
+
+            try {
+                const response = await fetch(this.API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-api-key": AppState.apiKey,
+                        "anthropic-version": "2023-06-01",
+                    },
+                    body: JSON.stringify({
+                        model: this.MODEL_NAME,
+                        max_tokens: 4000,
+                        messages: messages,
+                        stream: true,
+                    }),
+                    signal,
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`API Error: ${errorData.error.message}`);
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+                let fullResponse = "";
+                let assistantMessageId = `msg-${Date.now()}`;
+
+                UI.renderChatBubble("", false, assistantMessageId); // Render empty bubble for streaming
+                const lastBubbleContent = UI.elements.chatArea.lastChild.querySelector(".bubble-content");
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split("\n").filter(line => line.trim() !== "");
+
+                    for (const line of lines) {
+                        if (line.startsWith("data:")) {
+                            const data = JSON.parse(line.substring(5));
+                            if (data.type === "content_block_delta") {
+                                fullResponse += data.delta.text;
+                                lastBubbleContent.innerHTML = DOMPurify.sanitize(marked.parse(fullResponse));
+                                UI.elements.chatArea.scrollTop = UI.elements.chatArea.scrollHeight;
+                            } else if (data.type === "message_stop") {
+                                // Final message received
+                            }
+                        }
+                    }
+                }
+
+                AppState.chatHistory.push({ role: "assistant", content: fullResponse });
+                AppState.displayHistory.push({ id: assistantMessageId, role: "assistant", content: fullResponse });
+
+                // If in manager mode and response is a delegation, handle it
+                if (AppState.mode === 'manager' && AppState.selectedAgent.id === 'manager') {
+                    try {
+                        const managerDecision = JSON.parse(fullResponse);
+                        if (managerDecision.action === 'delegate' && managerDecision.agents && managerDecision.task) {
+                            Utils.showNotification(`وكيل المدير فوض المهمة لـ: ${managerDecision.agents.join(', ')}`, 'info');
+                            // Here, you would ideally trigger new chats with these agents
+                            // For this demo, we'll just show a notification.
+                            // In a full system, this would involve creating new chat sessions or
+                            // passing the task to background roaming agents.
+                        } else if (managerDecision.action === 'respond') {
+                            // Manager responded directly, already handled by fullResponse
+                        }
+                    } catch (e) {
+                        console.warn("Manager agent response was not a valid JSON delegation.", e);
+                    }
+                }
+
+                return fullResponse;
+
+            } catch (error) {
+                if (error.name === "AbortError") {
+                    Utils.showNotification("تم إلغاء الطلب.", "warn");
+                } else {
+                    console.error("Error sending message:", error);
+                    Utils.showNotification(`خطأ: ${error.message}`, "error");
+                    // Remove the last empty bubble if an error occurred during streaming
+                    if (UI.elements.chatArea.lastChild && UI.elements.chatArea.lastChild.querySelector(".bubble-content").innerHTML === "") {
+                        UI.elements.chatArea.lastChild.remove();
+                    }
+                }
+                return null;
+            } finally {
+                AppState.update("isLoading", false);
+                UI.showLoading(false);
+                AppState.abortCtrl = null;
+            }
+        },
+
+        async handleSend() {
+            const inputField = UI.elements.inputField;
+            const userMessage = inputField.value.trim();
+            if (!userMessage || AppState.isLoading) return;
+
+            // Semantic search for relevant knowledge before sending to LLM
+            const relevantKnowledge = await KnowledgeRetriever.semanticSearch(userMessage, AppState.selectedAgent.id);
+            let knowledgeContext = "";
+            if (relevantKnowledge.length > 0) {
+                knowledgeContext = "\n\nمعلومات إضافية من قاعدة المعرفة:";
+                relevantKnowledge.forEach(doc => {
+                    knowledgeContext += `\n- ${doc.text}`; // Include similarity score for debugging/analysis
+                });
+            }
+
+            UI.renderChatBubble(userMessage, true);
+            AppState.chatHistory.push({ role: "user", content: userMessage });
+            AppState.displayHistory.push({ id: `msg-${Date.now()}`, role: "user", content: userMessage });
+
+            inputField.value = "";
+            UI.adjustTextareaHeight(inputField);
+            UI.updateCharCount();
+            UI.renderPredictiveSuggestions();
+
+            let agentPrompt = AppState.selectedAgent.prompt;
+            if (AppState.mode === 'collab' && AppState.collabAgents.size > 0) {
+                const collabAgentNames = Array.from(AppState.collabAgents).map(id => AGENTS.find(a => a.id === id).name);
+                agentPrompt += `\n\nأنت تعمل بالتعاون مع الوكلاء التاليين: ${collabAgentNames.join(', ')}. يجب أن تأخذ في الاعتبار خبراتهم ووجهات نظرهم في ردك.`;
+            } else if (AppState.mode === 'deep') {
+                agentPrompt += `\n\nيجب أن يكون ردك تحليلياً وعميقاً جداً، مع استكشاف جميع الجوانب المحتملة للموضوع وتقديم رؤى غير بديهية.`;
+            }
+
+            const messagesToSend = [
+                { role: "user", content: agentPrompt + knowledgeContext + "\n\n" + userMessage }
+            ];
+
+            const agentResponse = await this.sendMessage(messagesToSend, AppState.selectedAgent.id);
+
+            // If in manager mode, and the manager agent delegated, then we need to handle that.
+            // This is a simplified handling for the demo. In a real app, this would trigger background tasks.
+            if (AppState.mode === 'manager' && AppState.selectedAgent.id === 'manager' && agentResponse) {
+                try {
+                    const managerDecision = JSON.parse(agentResponse);
+                    if (managerDecision.action === 'delegate' && managerDecision.agents && managerDecision.task) {
+                        Utils.showNotification(`وكيل المدير فوض المهمة لـ: ${managerDecision.agents.join(', ')}`, 'info');
+                        // Here, you could trigger proactive tasks for these agents or create new chat sessions.
+                    }
+                } catch (e) {
+                    // Not a JSON delegation, or invalid JSON. Manager responded directly.
+                }
+            }
+
+            // Save conversation after both user and agent messages are added
+            if (agentResponse) {
+                Memory.saveConversation(AppState.selectedAgent.id, AppState.chatHistory, userMessage.substring(0, 50) + "...");
+            }
+        },
+
+        cancelRequest() {
+            if (AppState.abortCtrl) {
+                AppState.abortCtrl.abort();
+            }
+        },
+
+        loadConversation(convId) {
+            const conversations = Memory.getConversations();
+            const conv = conversations.find(c => c.id === convId);
+            if (conv) {
+                const agent = AGENTS.find(a => a.id === conv.agentId);
+                if (agent) {
+                    App.selectAgent(agent);
+                    AppState.chatHistory = conv.history;
+                    AppState.displayHistory = []; // Rebuild display history
+                    UI.elements.chatArea.innerHTML = "";
+                    AppState.chatHistory.forEach((msg, index) => {
+                        const messageId = `msg-${convId}-${index}`;
+                        AppState.displayHistory.push({ id: messageId, role: msg.role, content: msg.content });
+                        UI.renderChatBubble(msg.content, msg.role === "user", messageId);
+                    });
+                    UI.elements.emptyState.style.display = "none";
+                }
+            }
+        },
+
+        sendFeedback(messageId, rating) {
+            const message = AppState.displayHistory.find(msg => msg.id === messageId);
+            if (message) {
+                Memory.saveFeedback(AppState.selectedAgent.id, messageId, rating);
+                Utils.showNotification(`تم تسجيل تقييمك: ${rating === 1 ? 'إيجابي' : 'سلبي'}`, 'info');
+                // Re-render the bubble to update feedback buttons
+                const bubbleElement = document.querySelector(`#chatArea .message-bubble:has([data-message-id="${messageId}"])`);
+                if (bubbleElement) {
+                    // Simple re-render, more complex would be to update buttons directly
+                    bubbleElement.remove();
+                    UI.renderChatBubble(message.content, message.role === "user", message.id);
+                }
+            }
+        },
+
+        exportChat() {
+            if (AppState.displayHistory.length === 0) {
+                Utils.showNotification("لا توجد محادثة لتصديرها.", "warn");
+                return;
+            }
+
+            let exportContent = `# محادثة NEXUS AGENTS - ${AppState.selectedAgent?.name || 'عام'}\n\n`;
+            AppState.displayHistory.forEach(msg => {
+                exportContent += `**${msg.role === 'user' ? 'أنت' : AppState.selectedAgent?.name || 'الوكيل'}:**\n${msg.content}\n\n`;
+            });
+
+            const blob = new Blob([exportContent], { type: 'text/markdown;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `nexus_chat_${AppState.selectedAgent?.id || 'general'}_${Date.now()}.md`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            Utils.showNotification("تم تصدير المحادثة بنجاح.", "success");
+        }
+    };
+
+    /* ═══════════════════════════════════════════════════════════
+       APP INITIALIZATION & CORE LOGIC
+    ═══════════════════════════════════════════════════════════ */
+    const App = {
+        init() {
+            AppState.init();
+            UI.init();
+            this.renderAgentsWithMemoryStatus();
+            this.checkAndPromptForApiKey();
+
+            // Start proactive agents if active
+            if (AppState.roamingAgentsActive) {
+                Proactive.toggleRoamingAgents(true);
+            }
+        },
+
+        renderAgentsWithMemoryStatus() {
+            UI.renderAgents(); // This will render agents and then update badges
+        },
+
+        async checkAndPromptForApiKey() {
+            if (Memory.loadEncryptedApiKey()) {
+                // If encrypted key exists, prompt for master key to decrypt
+                await Auth.checkApiKey();
+            } else {
+                // If no key at all, open modal to prompt for new key
+                UI.openModal();
+            }
+        },
+
+        selectAgent(agent) {
+            AppState.update("selectedAgent", agent);
+            UI.elements.agentsPanel.style.display = "none";
+            UI.elements.chatHeader.style.display = "flex";
+            UI.elements.inputArea.style.display = "flex";
+            UI.elements.chatIcon.innerHTML = agent.icon;
+            UI.elements.chatName.textContent = agent.name;
+            UI.elements.chatRole.textContent = agent.role;
+            UI.elements.emptyIcon.innerHTML = agent.icon;
+            UI.elements.emptyTitle.textContent = `ابدأ المحادثة مع ${agent.name}`;
+            UI.elements.emptySub.textContent = agent.desc;
+
+            // Clear chat history for new agent, unless loading an existing conversation
+            if (AppState.chatHistory.length === 0 || AppState.chatHistory[0].agentId !== agent.id) {
+                AppState.chatHistory = [];
+                AppState.displayHistory = [];
+                UI.elements.chatArea.innerHTML = "";
+                UI.elements.emptyState.style.display = "flex";
+            } else {
+                UI.elements.emptyState.style.display = "none";
+            }
+
+            UI.renderKnowledgeBase();
+            UI.renderPredictiveSuggestions();
+            UI.elements.inputField.focus();
+
+            // Update collab agents list for the new selected agent
+            UI.renderCollabAgents();
+            // Reset collab agents selection
+            AppState.collabAgents.clear();
+            document.querySelectorAll(".collab-agent").forEach(btn => btn.classList.remove("selected"));
+            UI.elements.collabTag.style.display = "none";
+
+            // If manager agent is selected, ensure manager mode is active
+            if (agent.isManager) {
+                App.setMode(document.querySelector(".pill[data-mode=\"manager\"]"), 'manager');
+            } else if (AppState.mode === 'manager') {
+                // If switching from manager agent to another, revert to single mode
+                App.setMode(document.querySelector(".pill[data-mode=\"single\"]"), 'single');
+            }
+        },
+
+        backToAgents() {
+            UI.clearChatArea();
+            UI.elements.agentsPanel.style.display = "flex";
+            AppState.update("selectedAgent", null);
+            // Reset mode to single when going back to agents panel
+            App.setMode(document.querySelector(".pill[data-mode=\"single\"]"), 'single');
+        },
+
+        setMode(element, newMode) {
+            document.querySelectorAll(".mode-pills .pill").forEach(btn => btn.classList.remove("active"));
+            element.classList.add("active");
+            AppState.update("mode", newMode);
+
+            if (newMode === "collab") {
+                UI.elements.collabSection.style.display = "flex";
+            } else {
+                UI.elements.collabSection.style.display = "none";
+                AppState.collabAgents.clear();
+                document.querySelectorAll(".collab-agent").forEach(btn => btn.classList.remove("selected"));
+                UI.elements.collabTag.style.display = "none";
+            }
+
+            // Manager mode specific UI adjustments
+            if (newMode === 'manager') {
+                // Ensure manager agent is selected if in manager mode
+                if (AppState.selectedAgent?.id !== 'manager') {
+                    const managerAgent = AGENTS.find(a => a.id === 'manager');
+                    if (managerAgent) App.selectAgent(managerAgent);
+                }
+            } else if (AppState.selectedAgent?.id === 'manager') {
+                // If manager agent is selected but mode is not manager, switch back to single
+                App.setMode(document.querySelector(".pill[data-mode=\"single\"]"), 'single');
+            }
+        },
+
+        toggleCollabAgent(agentId) {
+            const btn = document.querySelector(`.collab-agent[data-id="${agentId}"]`);
+            if (AppState.collabAgents.has(agentId)) {
+                AppState.collabAgents.delete(agentId);
+                btn.classList.remove("selected");
+            } else {
+                AppState.collabAgents.add(agentId);
+                btn.classList.add("selected");
+            }
+            UI.elements.collabTag.style.display = AppState.collabAgents.size > 0 ? "inline-block" : "none";
+        },
+
+        applySuggestion(suggestion) {
+            UI.elements.inputField.value = suggestion;
+            UI.adjustTextareaHeight(UI.elements.inputField);
+            UI.updateCharCount();
+            UI.renderPredictiveSuggestions(); // Clear suggestions after applying one
+            UI.elements.inputField.focus();
+        }
+    };
+
+    // Initialize the app when the DOM is ready
+    document.addEventListener("DOMContentLoaded", () => {
+        // Load external libraries
+        const scriptDOMPurify = document.createElement('script');
+        scriptDOMPurify.src = 'https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js';
+        scriptDOMPurify.onload = () => {
+            const scriptMarked = document.createElement('script');
+            scriptMarked.src = 'https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js';
+            scriptMarked.onload = () => {
+                // Configure marked.js for Arabic and basic markdown
+                marked.setOptions({
+                    gfm: true,
+                    breaks: true,
+                    langPrefix: 'language-',
+                    highlight: function(code, lang) {
+                        // Basic highlighting, can be improved with a dedicated library like highlight.js
+                        if (lang && hljs.getLanguage(lang)) {
+                            return hljs.highlight(code, { language: lang }).value;
+                        }
+                        return code;
+                    }
+                });
+                // Load highlight.js after marked.js
+                const scriptHighlight = document.createElement('script');
+                scriptHighlight.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js';
+                scriptHighlight.onload = () => {
+                    App.init();
+                };
+                document.head.appendChild(scriptHighlight);
+            };
+            document.head.appendChild(scriptMarked);
+        };
+        document.head.appendChild(scriptDOMPurify);
+    });
+
+</script>
+</body>
+</html>

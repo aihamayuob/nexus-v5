@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXUS AGENTS v17.0</title>
+  <style>
+    :root {
+      --bg: #07111b;
+      --panel: #0d1724;
+      --panel-2: #101d2d;
+      --border: rgba(120, 180, 255, 0.15);
+      --text: #e8f3ff;
+      --muted: #9ab0c9;
+      --primary: #25d0ff;
+      --primary-soft: rgba(37, 208, 255, 0.12);
+      --green: #36e6a5;
+      --orange: #ffaf52;
+      --red: #ff6b81;
+      --purple: #b98cff;
+      --shadow: 0 0 0 1px rgba(37, 208, 255, 0.05), 0 12px 40px rgba(0, 0, 0, 0.35);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background:
+        radial-gradient(circle at top right, rgba(37, 208, 255, 0.08), transparent 28%),
+        radial-gradient(circle at left bottom, rgba(185, 140, 255, 0.08), transparent 22%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Tahoma", "Segoe UI", sans-serif;
+      min-height: 100%;
+    }
+
+    body {
+      padding: 24px;
+    }
+
+    .app-shell {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .sidebar,
+    .main-panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .sidebar {
+      padding: 20px;
+      height: calc(100vh - 48px);
+      overflow: auto;
+      position: sticky;
+      top: 24px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 24px;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+    }
+
+    .brand p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .section-title {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 18px 0 12px;
+    }
+
+    .agents-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .agent-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .agent-card:hover,
+    .agent-card.active {
+      border-color: rgba(37, 208, 255, 0.4);
+      background: linear-gradient(180deg, rgba(37,208,255,0.10), rgba(255,255,255,0.02));
+      transform: translateY(-1px);
+    }
+
+    .agent-name {
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .agent-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 5px 10px;
+      font-size: 11px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border: 1px solid rgba(37, 208, 255, 0.18);
+    }
+
+    .stats-box {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+    }
+
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    .stat-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .main-panel {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      min-height: calc(100vh - 48px);
+      overflow: hidden;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.01);
+    }
+
+    .topbar h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .topbar p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      border-color: rgba(37, 208, 255, 0.35);
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, rgba(37,208,255,0.22), rgba(37,208,255,0.08));
+      color: var(--primary);
+      border-color: rgba(37,208,255,0.35);
+    }
+
+    .toolbar {
+      padding: 14px 20px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.01);
+    }
+
+    .control {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 180px;
+    }
+
+    .control label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .control select,
+    .control input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel);
+      color: var(--text);
+      padding: 10px 12px;
+      outline: none;
+    }
+
+    .knowledge-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 16px 20px 0;
+      padding: 14px;
+      border: 1px dashed rgba(37, 208, 255, 0.25);
+      border-radius: 14px;
+      background: rgba(37, 208, 255, 0.05);
+    }
+
+    .knowledge-bar small {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .chat-area {
+      padding: 20px;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .message {
+      max-width: 78%;
+      padding: 14px 16px;
+      border-radius: 16px;
+      line-height: 1.9;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    }
+
+    .message.user {
+      align-self: flex-start;
+      background: rgba(37, 208, 255, 0.10);
+    }
+
+    .message.assistant {
+      align-self: flex-end;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .message .role {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .composer {
+      border-top: 1px solid var(--border);
+      padding: 16px;
+      background: rgba(255,255,255,0.01);
+    }
+
+    .composer-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    textarea {
+      resize: none;
+      min-height: 100px;
+      max-height: 220px;
+      width: 100%;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      outline: none;
+      font-family: inherit;
+      line-height: 1.9;
+    }
+
+    .send-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 1100px) {
+      .app-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        top: 0;
+        height: auto;
+      }
+
+      .main-panel {
+        min-height: auto;
+      }
+
+      .message {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>NEXUS AGENTS v17.0</h1>
+        <p>منصة وكلاء ذكاء اصطناعي عربية بواجهة سايبر داكنة، دعم متعدد المزودين، وإمكانية تغذية الوكلاء بقاعدة معرفة مخصصة.</p>
+      </div>
+
+      <div class="section-title">الوكلاء المتخصصون</div>
+      <div class="agents-list" id="agentsList"></div>
+
+      <div class="section-title">إحصائيات سريعة</div>
+      <div class="stats-box">
+        <div class="stat-item"><span>إجمالي المحادثات</span><strong id="statConversations">12</strong></div>
+        <div class="stat-item"><span>إجمالي الرسائل</span><strong id="statMessages">84</strong></div>
+        <div class="stat-item"><span>الملاحظات</span><strong id="statFeedback">9</strong></div>
+        <div class="stat-item"><span>الأكثر استخداماً</span><strong id="statTopAgent">الوكيل المدير</strong></div>
+      </div>
+    </aside>
+
+    <main class="main-panel">
+      <div class="topbar">
+        <div>
+          <h2 id="currentAgentName">الوكيل المدير</h2>
+          <p id="currentAgentDesc">إدارة وتوجيه الوكلاء وصياغة القرارات الاستراتيجية.</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn" id="clearChatBtn">مسح المحادثة</button>
+          <button class="btn">المحادثات</button>
+          <button class="btn">الإعدادات</button>
+          <button class="btn btn-primary">وضع العمل المباشر</button>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="control">
+          <label for="providerSelect">المزود</label>
+          <select id="providerSelect">
+            <option value="anthropic">Anthropic</option>
+            <option value="openai" selected>OpenAI</option>
+            <option value="google">Google</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="modelInput">النموذج</label>
+          <input id="modelInput" type="text" value="gpt-4o" />
+        </div>
+
+        <div class="control">
+          <label for="modeSelect">الوضع</label>
+          <select id="modeSelect">
+            <option value="single">وكيل منفرد</option>
+            <option value="team">فريق وكلاء</option>
+            <option value="roaming">وضع الاستكشاف</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="knowledge-bar">
+        <div>
+          <strong>قاعدة المعرفة</strong>
+          <br />
+          <small>ارفع ملفاً نصياً لربطه بالوكيل الحالي. هذه الواجهة تجريبية وتُظهر المستندات محلياً داخل الصفحة.</small>
+        </div>
+        <div>
+          <label class="btn btn-primary" for="knowledgeFile">رفع مستند</label>
+          <input id="knowledgeFile" class="hidden" type="file" accept=".txt,.md,.json,.csv,.ts,.js,.py" />
+        </div>
+      </div>
+
+      <section class="chat-area" id="chatArea">
+        <div class="message assistant">
+          <span class="role">المساعد</span>
+          أهلاً. أنا <strong>الوكيل المدير</strong> حالياً. اختر أي وكيل من القائمة، أو ارفع مستنداً معرفياً، أو ابدأ محادثتك مباشرة. نعم، الواجهة داكنة لأننا نحترم عيون المطورين.
+        </div>
+      </section>
+
+      <div class="composer">
+        <div class="composer-box">
+          <textarea id="messageInput" placeholder="اكتب رسالتك هنا..."></textarea>
+          <div class="send-wrap">
+            <button class="btn btn-primary" id="sendBtn">إرسال</button>
+            <div class="hint">
+              الوكيل الحالي: <span id="agentIdHint">manager</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const agents = [
+      { id: 'manager', name: 'الوكيل المدير', description: 'إدارة وتوجيه الوكلاء وصياغة القرارات الاستراتيجية', provider: 'anthropic', model: 'claude-3-5-sonnet-20241022' },
+      { id: 'accountant', name: 'المحاسب', description: 'التحليل المالي والحسابات الدقيقة وإعداد التقارير', provider: 'openai', model: 'gpt-4o' },
+      { id: 'legal', name: 'القانوني', description: 'الاستشارات القانونية وصياغة العقود وتحليل المخاطر', provider: 'anthropic', model: 'claude-3-5-sonnet-20241022' },
+      { id: 'hr', name: 'الموارد البشرية', description: 'إدارة شؤون الموظفين والتوظيف وتطوير بيئة العمل', provider: 'openai', model: 'gpt-4o' },
+      { id: 'investor', name: 'المستثمر', description: 'تحليل الاستثمارات والأسواق المالية وتقييم المخاطر', provider: 'anthropic', model: 'claude-3-5-sonnet-20241022' },
+      { id: 'marketing', name: 'التسويق', description: 'استراتيجيات التسويق الرقمي والمبيعات وبناء العلامة', provider: 'openai', model: 'gpt-4o' },
+      { id: 'innovator', name: 'المبتكر', description: 'توليد الأفكار الإبداعية والابتكار وحل المشكلات', provider: 'google', model: 'gemini-1.5-pro' },
+      { id: 'researcher', name: 'الباحث', description: 'البحث العلمي المعمق وجمع البيانات وتحليل المصادر', provider: 'anthropic', model: 'claude-3-5-sonnet-20241022' },
+      { id: 'data_analyst', name: 'محلل البيانات', description: 'تحليل البيانات المعقدة واستخراج الأنماط والنماذج', provider: 'openai', model: 'gpt-4o' },
+      { id: 'security', name: 'الأمن', description: 'الأمن السيبراني وتحليل المخاطر الرقمية وحماية النظم', provider: 'anthropic', model: 'claude-3-5-sonnet-20241022' },
+      { id: 'strategy', name: 'الاستراتيجية', description: 'التخطيط الاستراتيجي للأعمال وتحليل السوق والمنافسين', provider: 'anthropic', model: 'claude-3-5-sonnet-20241022' },
+      { id: 'education', name: 'التعليم', description: 'التطوير المهني والتدريب وتصميم المناهج التعليمية', provider: 'openai', model: 'gpt-4o' },
+      { id: 'health', name: 'الصحة', description: 'الاستشارات الصحية والطبية العامة ومتابعة الصحة', provider: 'anthropic', model: 'claude-3-5-sonnet-20241022' },
+      { id: 'support', name: 'خدمة العملاء', description: 'دعم العملاء وحل المشكلات وتحسين تجربة المستخدم', provider: 'openai', model: 'gpt-4o-mini' }
+    ];
+
+    let currentAgent = agents[0];
+    let knowledgeStore = {};
+
+    const agentsList = document.getElementById('agentsList');
+    const currentAgentName = document.getElementById('currentAgentName');
+    const currentAgentDesc = document.getElementById('currentAgentDesc');
+    const providerSelect = document.getElementById('providerSelect');
+    const modelInput = document.getElementById('modelInput');
+    const chatArea = document.getElementById('chatArea');
+    const messageInput = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const clearChatBtn = document.getElementById('clearChatBtn');
+    const agentIdHint = document.getElementById('agentIdHint');
+    const knowledgeFile = document.getElementById('knowledgeFile');
+
+    function renderAgents() {
+      agentsList.innerHTML = '';
+      agents.forEach(agent => {
+        const card = document.createElement('div');
+        card.className = 'agent-card' + (agent.id === currentAgent.id ? ' active' : '');
+        card.innerHTML = `
+          <div class="agent-name">${agent.name}</div>
+          <div class="agent-desc">${agent.description}</div>
+          <span class="badge">${agent.provider} · ${agent.model}</span>
+        `;
+        card.addEventListener('click', () => selectAgent(agent.id));
+        agentsList.appendChild(card);
+      });
+    }
+
+    function selectAgent(agentId) {
+      const agent = agents.find(a => a.id === agentId);
+      if (!agent) return;
+
+      currentAgent = agent;
+      currentAgentName.textContent = agent.name;
+      currentAgentDesc.textContent = agent.description;
+      providerSelect.value = agent.provider;
+      modelInput.value = agent.model;
+      agentIdHint.textContent = agent.id;
+      renderAgents();
+
+      appendAssistantMessage(`تم التبديل إلى **${agent.name}**.\n\nالاختصاص: ${agent.description}\n\n${knowledgeStore[agent.id] ? 'هناك مستندات معرفية مرتبطة بهذا الوكيل.' : 'لا توجد مستندات معرفية مرتبطة بهذا الوكيل بعد.'}`);
+    }
+
+    function appendMessage(role, content) {
+      const msg = document.createElement('div');
+      msg.className = `message ${role}`;
+      msg.innerHTML = `<span class="role">${role === 'user' ? 'أنت' : 'المساعد'}</span>${formatText(content)}`;
+      chatArea.appendChild(msg);
+      chatArea.scrollTop = chatArea.scrollHeight;
+    }
+
+    function appendAssistantMessage(content) {
+      appendMessage('assistant', content);
+    }
+
+    function appendUserMessage(content) {
+      appendMessage('user', content);
+    }
+
+    function formatText(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function buildMockAgentReply(userText) {
+      const docs = knowledgeStore[currentAgent.id] || [];
+      const docNote = docs.length
+        ? `وقد اطلعت على ${docs.length} مستند/مستندات معرفية مرتبطة بهذا الوكيل.`
+        : 'ولا توجد حالياً مستندات معرفية مرتبطة بهذا الوكيل.';
+
+      return `أنت تتحدث الآن مع **${currentAgent.name}**.\n\nفهمت رسالتك: "${userText}"\n\nاختصاصي الحالي هو: ${currentAgent.description}.\n${docNote}\n\nهذه النسخة HTML هي **واجهة تجريبية** فقط، لذا الرد هنا محاكاة محلية. لربطها فعلياً مع SSE و API و PostgreSQL، سنوصل زر الإرسال بخادم `/api/chat` ونربط رفع المعرفة بمسار `/api/knowledge`.`;
+    }
+
+    sendBtn.addEventListener('click', () => {
+      const text = messageInput.value.trim();
+      if (!text) return;
+
+      appendUserMessage(text);
+      messageInput.value = '';
+
+      setTimeout(() => {
+        appendAssistantMessage(buildMockAgentReply(text));
+      }, 450);
+    });
+
+    messageInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendBtn.click();
+      }
+    });
+
+    clearChatBtn.addEventListener('click', () => {
+      chatArea.innerHTML = '';
+      appendAssistantMessage('تم مسح المحادثة. صفحة نظيفة، عقل نظيف، ديباغينغ أهدأ.');
+    });
+
+    knowledgeFile.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      try {
+        const content = await file.text();
+        if (!knowledgeStore[currentAgent.id]) knowledgeStore[currentAgent.id] = [];
+        knowledgeStore[currentAgent.id].push({
+          name: file.name,
+          content
+        });
+
+        appendAssistantMessage(`تم رفع المستند **${file.name}** وربطه بالوكيل **${currentAgent.name}** محلياً داخل الواجهة.`);
+      } catch (err) {
+        appendAssistantMessage('حدث خطأ أثناء قراءة الملف.');
+      }
+
+      e.target.value = '';
+    });
+
+    providerSelect.addEventListener('change', () => {
+      currentAgent.provider = providerSelect.value;
+      renderAgents();
+    });
+
+    modelInput.addEventListener('input', () => {
+      currentAgent.model = modelInput.value;
+      renderAgents();
+    });
+
+    renderAgents();
+  </script>
+</body>
+</html>

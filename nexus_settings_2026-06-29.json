@@ -1,0 +1,6 @@
+{
+  "provider": "anthropic",
+  "modelName": "claude-sonnet-4-5",
+  "encryptedKey": "",
+  "exportedAt": 1782710968137
+}
