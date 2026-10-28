@@ -1,0 +1,26 @@
+NEXUS-COMPLETE-HANDOFF-2026-10-18.zip: OK
+[PASS] zip sha256 == NEXUS-COMPLETE-HANDOFF-2026-10-18.zip.sha256
+[PASS] unzip -t: archive intact
+[PASS] archive extracts into an empty directory
+[PASS] single top-level directory
+[PASS] SHA256SUMS.txt: every listed file verifies
+[PASS] no missing / unlisted file: manifest lines=1008, files (excl. manifest)=1008
+[PASS] extracted tree == build tree (diff -r: no difference, no unexplained difference)
+[PASS] archive file entries == files + manifest
+[PASS] present: HANDOFF-TO-NEXT-CHAT.md
+[PASS] present: HANDOFF-MANIFEST.md
+[PASS] present: SHA256SUMS.txt
+[PASS] present: EXCLUSIONS.md
+[PASS] present: PROVENANCE-REPORT.md
+[PASS] present: INTEGRITY-CHECK-REPORT.md
+[PASS] present: 01-original-handoff-2026-10-17/NEXUS-HANDOFF-2026-10-17.zip
+[PASS] present: 04-cp20-prep-v2/NEXUS-CP20-PREP-2026-10-18.zip
+[PASS] present: 04-cp20-prep-v2/NEXUS-CP20-PREP-2026-10-18.zip.sha256
+[PASS] embedded original handoff ZIP still c7f40b58…8cbf
+[PASS] embedded CP-20 v2 ZIP matches its .sha256 (ef527631…c412)
+[PASS] secret scan on the EXTRACTED tree: 0 strict-pattern matches
+[PASS] extracted tree has no node_modules/dist/.git/.env
+[PASS] HANDOFF-TO-NEXT-CHAT.md carries the 'do not restart' instruction and ADR-006 PROPOSED status
+
+SUMMARY pass=22 fail=0
+SCOPE: post-zip package integrity only; no project test run; live repository not accessed.
