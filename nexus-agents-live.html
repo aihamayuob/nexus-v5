@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS AGENTS — منصة الوكلاء الحية</title>
+<style>
+  :root{
+    --bg:#0a0e1a; --panel:#121829; --panel2:#1a2236; --border:#232d47;
+    --gold:#e8b84b; --green:#3ecf8e; --red:#f16565; --blue:#4f8ff0;
+    --txt:#e9edf7; --muted:#8993ac;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg); color:var(--txt); font-family:'Segoe UI', Tahoma, sans-serif;
+    min-height:100vh; display:flex; flex-direction:column;
+  }
+  /* ===== LOCK SCREEN (passphrase) ===== */
+  #lockScreen{
+    position:fixed; inset:0; background:var(--bg); z-index:500;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:24px;
+  }
+  #lockScreen h1{ color:var(--gold); font-size:22px; }
+  #lockScreen p{ color:var(--muted); font-size:13px; text-align:center; max-width:320px; line-height:1.7; }
+  #lockScreen input{
+    width:100%; max-width:280px; background:var(--panel2); border:1px solid var(--border);
+    color:var(--txt); padding:12px; border-radius:10px; text-align:center; font-size:15px;
+  }
+  #lockScreen button{
+    width:100%; max-width:280px; background:var(--gold); border:none; color:#0a0e1a;
+    padding:12px; border-radius:10px; font-weight:700; cursor:pointer; font-size:15px;
+  }
+  #lockError{ color:var(--red); font-size:12px; min-height:16px; }
+
+  /* ===== TOP BAR ===== */
+  .topbar{
+    background:var(--panel); border-bottom:1px solid var(--border);
+    padding:12px 16px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .brand{ color:var(--gold); font-weight:800; font-size:16px; }
+  .brand span{ color:var(--muted); font-weight:400; font-size:11px; display:block; }
+  .topbar-actions{ display:flex; gap:8px; }
+  .icon-btn{
+    background:var(--panel2); border:1px solid var(--border); color:var(--muted);
+    padding:7px 10px; border-radius:8px; font-size:12px; cursor:pointer;
+  }
+
+  /* ===== AGENT STRIP ===== */
+  .agent-strip{
+    display:flex; gap:8px; padding:10px 12px; overflow-x:auto; background:var(--panel);
+    border-bottom:1px solid var(--border);
+  }
+  .agent-chip{
+    flex-shrink:0; padding:8px 12px; border-radius:20px; background:var(--panel2);
+    border:1.5px solid var(--border); font-size:12px; cursor:pointer; white-space:nowrap;
+    display:flex; align-items:center; gap:5px; color:var(--muted); transition:.15s;
+  }
+  .agent-chip.selected{ border-color:var(--gold); color:var(--txt); background:rgba(232,184,75,.1); }
+  .mode-row{
+    display:flex; align-items:center; gap:8px; padding:8px 16px; font-size:12px; color:var(--muted);
+    background:var(--panel); border-bottom:1px solid var(--border);
+  }
+  .mode-row select{
+    background:var(--panel2); border:1px solid var(--border); color:var(--txt);
+    padding:5px 8px; border-radius:8px; font-size:12px;
+  }
+
+  /* ===== CHAT AREA ===== */
+  #chatArea{ flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:14px; }
+  .msg{ max-width:88%; display:flex; flex-direction:column; gap:4px; }
+  .msg.user{ align-self:flex-end; align-items:flex-end; }
+  .msg.agent{ align-self:flex-start; align-items:flex-start; }
+  .msg .label{ font-size:11px; color:var(--muted); padding:0 4px; }
+  .msg .bubble{
+    padding:12px 14px; border-radius:14px; font-size:14px; line-height:1.7; white-space:pre-wrap;
+  }
+  .msg.user .bubble{ background:var(--blue); color:#fff; border-bottom-left-radius:4px; }
+  .msg.agent .bubble{ background:var(--panel2); border:1px solid var(--border); border-bottom-right-radius:4px; }
+  .msg.synthesis .bubble{ background:linear-gradient(135deg, rgba(232,184,75,.12), rgba(79,143,240,.1)); border:1px solid var(--gold); }
+  .msg.phase .bubble{ background:transparent; border:1px dashed var(--border); color:var(--muted); font-size:12.5px; }
+  .msg.phase .label{ opacity:.7; }
+  .msg.final .bubble{ background:var(--panel2); border:2px solid var(--green); }
+  .msg.error .bubble{ background:rgba(241,101,101,.1); border:1px solid var(--red); color:var(--red); }
+  .typing-dots{ display:flex; gap:4px; padding:12px 14px; }
+  .typing-dots span{
+    width:6px; height:6px; border-radius:50%; background:var(--muted); animation:blink 1.2s infinite;
+  }
+  .typing-dots span:nth-child(2){ animation-delay:.2s; }
+  .typing-dots span:nth-child(3){ animation-delay:.4s; }
+  @keyframes blink{ 0%,100%{opacity:.2;} 50%{opacity:1;} }
+
+  /* ===== INPUT BAR ===== */
+  .input-bar{
+    display:flex; gap:8px; padding:12px; background:var(--panel); border-top:1px solid var(--border);
+  }
+  .input-bar textarea{
+    flex:1; background:var(--panel2); border:1px solid var(--border); color:var(--txt);
+    padding:12px; border-radius:12px; font-size:14px; resize:none; max-height:100px; font-family:inherit;
+  }
+  .input-bar button{
+    background:var(--gold); border:none; color:#0a0e1a; padding:0 18px; border-radius:12px;
+    font-weight:700; cursor:pointer; font-size:14px;
+  }
+  .input-bar button:disabled{ opacity:.4; cursor:not-allowed; }
+
+  .empty-state{ margin:auto; text-align:center; color:var(--muted); font-size:13px; padding:20px; line-height:1.8; }
+
+  /* ===== MODALS (knowledge base / activity log) ===== */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:400;
+    display:flex; align-items:center; justify-content:center; padding:16px;
+  }
+  .modal-box{
+    background:var(--panel); border:1px solid var(--border); border-radius:16px;
+    padding:18px; width:100%; max-width:420px; max-height:80vh; overflow-y:auto;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .modal-box h3{ color:var(--gold); font-size:16px; }
+  .modal-hint{ color:var(--muted); font-size:12px; line-height:1.6; }
+  .modal-box input, .modal-box textarea{
+    background:var(--panel2); border:1px solid var(--border); color:var(--txt);
+    padding:10px; border-radius:10px; font-size:13px; font-family:inherit; resize:vertical;
+  }
+  .modal-btn{
+    background:var(--gold); border:none; color:#0a0e1a; padding:10px; border-radius:10px;
+    font-weight:700; cursor:pointer; font-size:13px;
+  }
+  .modal-btn.secondary{ background:var(--panel2); color:var(--muted); border:1px solid var(--border); }
+  .kb-item, .log-item{
+    background:var(--panel2); border:1px solid var(--border); border-radius:10px;
+    padding:8px 10px; font-size:12px; display:flex; justify-content:space-between; align-items:flex-start; gap:8px;
+  }
+  .kb-item .kb-text{ flex:1; }
+  .kb-item button{ background:none; border:none; color:var(--red); cursor:pointer; font-size:14px; }
+  .log-item{ flex-direction:column; align-items:stretch; margin-bottom:6px; }
+  .log-item .log-ts{ color:var(--muted); font-size:10px; }
+
+  /* ===== ACCESSIBILITY ===== */
+  body.high-contrast{ --bg:#000; --panel:#000; --panel2:#111; --border:#555; --txt:#fff; --muted:#ccc; }
+  body{ font-size: calc(14px * var(--font-scale, 1)); }
+  .bubble, .agent-chip, .mode-row, .icon-btn{ font-size: calc(1em); }
+
+  /* ===== MODALS (Knowledge Base / Activity Log / Accessibility) ===== */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:300;
+    display:none; align-items:flex-end; justify-content:center;
+  }
+  .modal-overlay.show{ display:flex; }
+  .modal-box{
+    background:var(--panel); border-top:1px solid var(--border); border-radius:18px 18px 0 0;
+    width:100%; max-width:480px; max-height:80vh; overflow-y:auto; padding:18px;
+  }
+  .modal-box h3{ color:var(--gold); font-size:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; }
+  .modal-close{ background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; }
+  .note-item{
+    background:var(--panel2); border:1px solid var(--border); border-radius:10px;
+    padding:10px; margin-bottom:8px; font-size:13px; position:relative;
+  }
+  .note-item button{
+    position:absolute; top:6px; left:8px; background:none; border:none; color:var(--red); cursor:pointer; font-size:12px;
+  }
+  .note-add-row{ display:flex; gap:8px; margin-bottom:14px; }
+  .note-add-row textarea{
+    flex:1; background:var(--panel2); border:1px solid var(--border); color:var(--txt);
+    padding:8px; border-radius:8px; font-size:13px; resize:none; font-family:inherit;
+  }
+  .note-add-row button{
+    background:var(--gold); border:none; color:#0a0e1a; padding:0 14px; border-radius:8px; font-weight:700; cursor:pointer;
+  }
+  .activity-row{
+    display:flex; justify-content:space-between; font-size:12px; color:var(--muted);
+    padding:8px 0; border-bottom:1px solid var(--border);
+  }
+  .activity-row .ok{ color:var(--green); }
+  .activity-row .fail{ color:var(--red); }
+  .a11y-row{ display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border); font-size:13px; }
+  .a11y-row .steppers{ display:flex; gap:6px; align-items:center; }
+  .a11y-row .steppers button{
+    background:var(--panel2); border:1px solid var(--border); color:var(--txt); width:30px; height:30px;
+    border-radius:8px; font-size:16px; cursor:pointer;
+  }
+  .toggle-switch{
+    width:42px; height:24px; border-radius:12px; background:var(--panel2); border:1px solid var(--border);
+    position:relative; cursor:pointer;
+  }
+  .toggle-switch.on{ background:var(--gold); }
+  .toggle-switch .knob{
+    position:absolute; top:2px; right:2px; width:18px; height:18px; border-radius:50%; background:#fff; transition:.2s;
+  }
+  .toggle-switch.on .knob{ transform:translateX(-18px); }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.js"></script>
+</head>
+<body>
+
+<div class="topbar" role="banner">
+  <div class="brand">NEXUS AGENTS <span>مرتبط مباشرة بـ Claude API</span></div>
+  <div class="topbar-actions">
+    <button class="icon-btn" onclick="openSettingsPanel()" aria-label="الإعدادات">⚙️ إعدادات</button>
+    <button class="icon-btn" onclick="openKnowledgePanel()" aria-label="فتح قاعدة المعرفة">📚 المعرفة</button>
+    <button class="icon-btn" onclick="openNomadicPanel()" aria-label="الذاكرة النقالة عبر QR">🔗 نقل الذاكرة</button>
+    <button class="icon-btn" onclick="openActivityPanel()" aria-label="فتح سجل النشاط">📜 السجل</button>
+    <button class="icon-btn" onclick="clearConversation()" aria-label="مسح المحادثة الحالية">مسح المحادثة</button>
+    <button class="icon-btn" onclick="resetAllData()" aria-label="مسح كل البيانات المحلية">🗑️ إعادة ضبط</button>
+  </div>
+</div>
+
+
+<div class="agent-strip" id="agentStrip"></div>
+
+<div class="mode-row" role="group" aria-label="خيارات وضع الرد">
+  <label><input type="checkbox" id="collectiveToggle" onchange="renderAgentStrip()"> وضع الذكاء الجماعي (استشارة عدة وكلاء مع توليف نهائي)</label>
+</div>
+<div class="mode-row" role="group" aria-label="التوجيه الذكي">
+  <label><input type="checkbox" id="autoRouteToggle"> 🧭 توجيه ذكي تلقائي (يختار "المدير" الوكيل الأنسب لسؤالك بنفسه)</label>
+</div>
+<div class="mode-row" role="group" aria-label="محرك التحليل الخماسي">
+  <label><input type="checkbox" id="deepAnalysisToggle"> 🧬 محرك التحليل الخماسي العميق (تقييم ← تخطيط ← تنفيذ ← نقد ذاتي ← توليف)</label>
+</div>
+
+<div id="nomadicModal" class="modal-overlay" style="display:none" role="dialog" aria-label="نقل الذاكرة عبر QR">
+  <div class="modal-box">
+    <h3>🔗 الذاكرة النقالة</h3>
+    <p class="modal-hint">انقل قاعدة معرفتك ووكلاءك المفضّلين إلى جهاز آخر عبر رمز QR — بدون سيرفر، مباشرة بين جهازين.</p>
+
+    <div style="display:flex; gap:8px;">
+      <button class="modal-btn" style="flex:1" onclick="exportNomadicQR()">📤 تصدير</button>
+      <button class="modal-btn" style="flex:1" onclick="startCameraScan()">📷 استيراد بالكاميرا</button>
+    </div>
+
+    <div id="qrExportBox" style="display:none; text-align:center; background:#fff; padding:12px; border-radius:12px;">
+      <div id="qrCanvasHolder"></div>
+      <p style="color:#333; font-size:11px; margin-top:6px;">امسح هذا الرمز من الجهاز الآخر</p>
+    </div>
+
+    <video id="scanVideo" style="display:none; width:100%; border-radius:10px;" playsinline></video>
+    <canvas id="scanCanvas" style="display:none;"></canvas>
+    <div id="scanStatus" class="modal-hint"></div>
+
+    <p class="modal-hint">أو الصق النص المُصدَّر يدوياً إذا تعذر استخدام الكاميرا:</p>
+    <textarea id="nomadicPasteInput" rows="3" placeholder="الصق نص الذاكرة المُصدَّر هنا..." aria-label="لصق نص الذاكرة"></textarea>
+    <button class="modal-btn" onclick="importNomadicPasted()">استيراد من النص الملصق</button>
+
+    <button class="modal-btn secondary" onclick="closeNomadicPanel()">إغلاق</button>
+  </div>
+</div>
+
+<div id="settingsModal" class="modal-overlay" style="display:none" role="dialog" aria-label="الإعدادات">
+  <div class="modal-box">
+    <h3>⚙️ الإعدادات</h3>
+    <p class="modal-hint">
+      وضع الاتصال الحالي: <strong id="connectionModeLabel">—</strong><br>
+      داخل معاينة claude.ai، الاتصال بـ Claude يشتغل تلقائياً بدون إعداد. لو نشرت هذا التطبيق كموقع أو تطبيق مستقل، لازم تشغّل سيرفر الـ backend الخاص فيك (راجع ملفات nexus-backend) وتحط رابطه هون.
+    </p>
+    <label for="backendUrlInput" style="font-size:12px; color:var(--muted);">رابط سيرفر الـ backend (اتركه فارغاً للاستخدام داخل claude.ai):</label>
+    <input id="backendUrlInput" placeholder="مثال: https://your-backend.onrender.com" aria-label="رابط السيرفر الخلفي">
+    <button class="modal-btn" onclick="saveBackendUrl()">حفظ</button>
+    <button class="modal-btn secondary" onclick="closeModal('settingsModal')">إغلاق</button>
+  </div>
+</div>
+
+<div id="knowledgeModal" class="modal-overlay" style="display:none" role="dialog" aria-label="قاعدة المعرفة">
+  <div class="modal-box">
+    <h3>📚 قاعدة المعرفة</h3>
+    <p class="modal-hint">أضف حقائق أو سياقات ثابتة (عن مشروعك، شركتك، تفضيلاتك) ليستخدمها كل الوكلاء تلقائياً في ردودهم.</p>
+    <div id="knowledgeList"></div>
+    <input id="kbTitle" placeholder="عنوان مختصر" aria-label="عنوان المعرفة">
+    <textarea id="kbContent" rows="3" placeholder="المحتوى..." aria-label="محتوى المعرفة"></textarea>
+    <button class="modal-btn" onclick="addKnowledgeItem()">إضافة</button>
+    <button class="modal-btn secondary" onclick="closeModal('knowledgeModal')">إغلاق</button>
+  </div>
+</div>
+
+<div id="activityModal" class="modal-overlay" style="display:none" role="dialog" aria-label="سجل النشاط">
+  <div class="modal-box">
+    <h3>📜 سجل النشاط</h3>
+    <div id="activityList" style="max-height:300px; overflow-y:auto;"></div>
+    <button class="modal-btn secondary" onclick="closeModal('activityModal')">إغلاق</button>
+  </div>
+</div>
+
+
+<div id="chatArea" role="log" aria-live="polite" aria-label="سجل المحادثة">
+  <div class="empty-state" id="emptyState">
+    اختر وكيلاً واحداً (أو فعّل الذكاء الجماعي واختر أكثر من وكيل)، ثم اكتب سؤالك بالأسفل.<br>كل رد يُولَّد فعلياً عبر Claude API — لا محتوى مُحاكى.
+  </div>
+</div>
+
+<div class="input-bar">
+  <textarea id="msgInput" rows="1" placeholder="اكتب رسالتك هنا..." onkeydown="handleKeydown(event)" aria-label="اكتب رسالتك"></textarea>
+  <button id="sendBtn" onclick="sendMessage()" aria-label="إرسال الرسالة">إرسال</button>
+</div>
+
+<script>
+/* ========================================================================
+   AGENT DEFINITIONS
+   ======================================================================== */
+const AGENTS = [
+  { id:'general',   name:'المساعد العام',        emoji:'🧭', prompt:'أنت مساعد عام ذكي وشامل، تجيب بوضوح ودقة وبأسلوب عملي مباشر، باللغة العربية ما لم يُطلب غير ذلك.' },
+  { id:'financial',  name:'المستشار المالي',      emoji:'💰', prompt:'أنت مستشار مالي خبير بالأسواق، الذهب، العملات، وإدارة المخاطر. تقدم تحليلاً واقعياً متوازناً، وتنبّه دائماً أنك لست مستشاراً مرخصاً وأن القرار النهائي يعود للمستخدم.' },
+  { id:'legal',      name:'المستشار القانوني',    emoji:'⚖️', prompt:'أنت مستشار قانوني عام يشرح المفاهيم القانونية بوضوح ويقارن بين الأطر القانونية المختلفة، مع التنويه دوماً أنك لست محامياً مرخصاً وأن الاستشارة لا تغني عن محامٍ حقيقي.' },
+  { id:'marketing',  name:'خبير التسويق',         emoji:'📣', prompt:'أنت خبير تسويق رقمي ونمو، متخصص في استراتيجيات المحتوى، الإعلانات المدفوعة، وبناء العلامة التجارية في الأسواق العربية والعالمية.' },
+  { id:'tech',       name:'الخبير التقني',        emoji:'💻', prompt:'أنت مهندس برمجيات خبير في بناء التطبيقات، الأنظمة الموزعة، وواجهات البرمجة. تقدم حلولاً عملية قابلة للتنفيذ مع مراعاة القيود الواقعية للمشروع.' },
+  { id:'geo',        name:'المحلل الجيوسياسي',    emoji:'🌍', prompt:'أنت محلل جيوسياسي متوازن يشرح الأحداث والصراعات الدولية من زوايا متعددة دون الانحياز لطرف، ويقدم السياق التاريخي والاقتصادي ذا الصلة.' },
+  { id:'hr',         name:'مستشار الموارد البشرية', emoji:'🤝', prompt:'أنت مستشار موارد بشرية خبير في التوظيف، بناء الفرق، والثقافة المؤسسية للشركات الناشئة والصغيرة.' },
+  { id:'writer',     name:'كاتب المحتوى',         emoji:'✍️', prompt:'أنت كاتب محتوى محترف متخصص في الكتابة الإبداعية والتسويقية والسكربتات القصيرة لمنصات التواصل الاجتماعي بأسلوب جذاب ومقنع.' },
+  { id:'support',    name:'خدمة العملاء',         emoji:'🎧', prompt:'أنت وكيل خدمة عملاء محترف، هادئ ومتفهم، تحل المشاكل بخطوات واضحة وتصعّد للمستوى الأعلى عند الحاجة، بأسلوب ودود واحترافي.' },
+  { id:'data',       name:'محلل البيانات',        emoji:'📊', prompt:'أنت محلل بيانات خبير في الإحصاء، تفسير الأرقام، بناء المؤشرات (KPIs)، واقتراح طرق عرض البيانات بشكل مفهوم وعملي.' },
+  { id:'realestate', name:'مستشار العقارات',      emoji:'🏠', prompt:'أنت مستشار عقاري خبير بتقييم العقارات، الاستثمار العقاري، والاتجاهات السوقية، وتقدم تحليلاً متوازناً دون ضمانات مطلقة حول القيمة المستقبلية.' },
+  { id:'wellness',   name:'مستشار الصحة العامة',  emoji:'🩺', prompt:'أنت مساعد معلومات صحية عامة تقدم معلومات تثقيفية واسعة حول نمط الحياة الصحي، وتنوّه دوماً أنك لست طبيباً وأن أي قرار طبي أو خطة غذائية أو علاجية يجب أن يراجعها مختص مرخص.' },
+  { id:'education',  name:'مستشار التعليم والتدريب', emoji:'🎓', prompt:'أنت مستشار تعليمي وتدريبي خبير في تصميم المناهج، طرق التعلّم الفعّال، وبناء خطط تطوير مهارات للأفراد والفرق.' },
+  { id:'projectmgmt',name:'خبير إدارة المشاريع', emoji:'📋', prompt:'أنت خبير إدارة مشاريع (Agile/Scrum وTraditional)، تساعد في تخطيط المهام، إدارة الجداول الزمنية، وتحديد المخاطر بأسلوب عملي منظم.' },
+  { id:'crypto',     name:'محلل العملات الرقمية', emoji:'🪙', prompt:'أنت محلل متخصص بالعملات الرقمية والبلوكتشين، تشرح المفاهيم والاتجاهات بحياد، وتنوّه دوماً بالمخاطر العالية لهذه الأسواق وأنك لست مستشاراً مالياً مرخصاً.' },
+  { id:'travel',     name:'مستشار السفر والسياحة', emoji:'✈️', prompt:'أنت مستشار سفر خبير بالوجهات السياحية، تخطيط الرحلات، والميزانيات السياحية، تقدم اقتراحات عملية ومحدّثة قدر الإمكان.' },
+  { id:'translator', name:'خبير الترجمة اللغوية', emoji:'🌐', prompt:'أنت مترجم محترف متمكن من الفروق الدقيقة بين اللغة العربية والإنجليزية (وغيرها عند الطلب)، تترجم بدقة مع الحفاظ على السياق والنبرة الأصلية للنص.' },
+];
+
+const SYNTHESIS_PROMPT = 'أنت وكيل التوليف المركزي في نظام NEXUS. ستستلم آراء عدة وكلاء متخصصين حول نفس السؤال. مهمتك: ادمج أفضل ما في كل رأي في إجابة واحدة متماسكة ومنظمة، أشر بإيجاز إلى أي تعارض بين الآراء إن وجد، ولا تكرر نفس المعلومة مرتين.';
+
+const MANAGER_PROMPT = `أنت "المدير الذكي" في نظام NEXUS AGENTS. مهمتك الوحيدة: تحليل طلب المستخدم واختيار أنسب 1-3 وكلاء متخصصين من القائمة التالية للرد عليه.
+القائمة المتاحة (id: الوصف):
+${AGENTS.map(a=>`${a.id}: ${a.name}`).join('\n')}
+
+أجب حصراً بصيغة JSON صالحة بدون أي نص إضافي قبلها أو بعدها، بهذا الشكل بالضبط:
+{"agent_ids": ["id1", "id2"], "reason": "سبب مختصر بالعربية"}`;
+
+/* ========================================================================
+   STATE
+   ======================================================================== */
+let selectedAgentIds = ['general'];
+let messages = []; // {role, agentId, agentName, content, type}
+let encryptionKey = null;
+let knowledgeBase = []; // [{id, title, content}]
+let activityLog = []; // [{ts, action, detail}]
+const STORAGE_KEY = 'nexus_agents_state_v1';
+
+function logActivity(action, detail){
+  activityLog.unshift({ ts: new Date().toISOString(), action, detail });
+  activityLog = activityLog.slice(0, 200); // keep last 200 entries
+  renderActivityLog();
+}
+function knowledgeContext(){
+  if(knowledgeBase.length === 0) return '';
+  const items = knowledgeBase.map(k => `- ${k.title}: ${k.content}`).join('\n');
+  return '\n\nمعلومات سياقية إضافية من قاعدة معرفة المستخدم (استخدمها إذا كانت ذات صلة):\n' + items;
+}
+
+function renderAgentStrip(){
+  const collective = document.getElementById('collectiveToggle').checked;
+  const strip = document.getElementById('agentStrip');
+  strip.innerHTML = AGENTS.map(a => `
+    <div class="agent-chip ${selectedAgentIds.includes(a.id)?'selected':''}"
+         onclick="toggleAgent('${a.id}', ${collective})"
+         role="button" tabindex="0" aria-pressed="${selectedAgentIds.includes(a.id)}"
+         aria-label="وكيل ${a.name}">
+      ${a.emoji} ${a.name}
+    </div>
+  `).join('');
+}
+function toggleAgent(id, collective){
+  if(collective){
+    if(selectedAgentIds.includes(id)){
+      selectedAgentIds = selectedAgentIds.filter(x=>x!==id);
+    } else {
+      selectedAgentIds.push(id);
+    }
+    if(selectedAgentIds.length===0) selectedAgentIds=['general'];
+  } else {
+    selectedAgentIds = [id];
+  }
+  renderAgentStrip();
+}
+
+/* ========================================================================
+   MODALS: KNOWLEDGE BASE + ACTIVITY LOG
+   ======================================================================== */
+function openKnowledgePanel(){
+  renderKnowledgeList();
+  document.getElementById('knowledgeModal').style.display = 'flex';
+}
+function openActivityPanel(){
+  renderActivityLog();
+  document.getElementById('activityModal').style.display = 'flex';
+}
+function closeModal(id){
+  document.getElementById(id).style.display = 'none';
+}
+function renderKnowledgeList(){
+  const el = document.getElementById('knowledgeList');
+  if(knowledgeBase.length === 0){
+    el.innerHTML = '<p class="modal-hint">لا يوجد محتوى بعد.</p>';
+    return;
+  }
+  el.innerHTML = knowledgeBase.map(k => `
+    <div class="kb-item">
+      <div class="kb-text"><strong>${k.title}</strong><br>${k.content}</div>
+      <button onclick="removeKnowledgeItem('${k.id}')" aria-label="حذف ${k.title}">✕</button>
+    </div>
+  `).join('');
+}
+async function addKnowledgeItem(){
+  const title = document.getElementById('kbTitle').value.trim();
+  const content = document.getElementById('kbContent').value.trim();
+  if(!title || !content) return;
+  knowledgeBase.push({ id:'kb_'+Date.now(), title, content });
+  document.getElementById('kbTitle').value = '';
+  document.getElementById('kbContent').value = '';
+  renderKnowledgeList();
+  logActivity('إضافة معرفة', title);
+  await persistState();
+}
+async function removeKnowledgeItem(id){
+  knowledgeBase = knowledgeBase.filter(k => k.id !== id);
+  renderKnowledgeList();
+  await persistState();
+}
+function renderActivityLog(){
+  const el = document.getElementById('activityList');
+  if(!el) return;
+  if(activityLog.length === 0){
+    el.innerHTML = '<p class="modal-hint">لا يوجد نشاط مسجّل بعد.</p>';
+    return;
+  }
+  el.innerHTML = activityLog.map(a => `
+    <div class="log-item">
+      <span class="log-ts">${new Date(a.ts).toLocaleString('ar')}</span>
+      <span>${a.action}${a.detail ? ' — '+a.detail : ''}</span>
+    </div>
+  `).join('');
+}
+
+/* ========================================================================
+   NOMADIC MEMORY TRANSFER (QR code, device-to-device, no server involved)
+   ======================================================================== */
+function openNomadicPanel(){
+  document.getElementById('nomadicModal').style.display = 'flex';
+}
+function closeNomadicPanel(){
+  stopCameraScan();
+  document.getElementById('nomadicModal').style.display = 'none';
+  document.getElementById('qrExportBox').style.display = 'none';
+  document.getElementById('scanStatus').textContent = '';
+}
+
+function buildNomadicPayload(){
+  const payload = { v:1, knowledgeBase: knowledgeBase.slice(-10), selectedAgentIds };
+  let json = JSON.stringify(payload);
+  // QR codes have a data ceiling — trim further if the payload is too large.
+  if(json.length > 1800){
+    payload.knowledgeBase = payload.knowledgeBase.slice(-3);
+    json = JSON.stringify(payload);
+  }
+  return json;
+}
+
+function exportNomadicQR(){
+  const json = buildNomadicPayload();
+  const holder = document.getElementById('qrCanvasHolder');
+  holder.innerHTML = '';
+  try{
+    new QRCode(holder, { text: json, width:220, height:220, correctLevel: QRCode.CorrectLevel.L });
+    document.getElementById('qrExportBox').style.display = 'block';
+    logActivity('تصدير ذاكرة QR', knowledgeBase.length + ' عنصر معرفة');
+  }catch(e){
+    document.getElementById('scanStatus').textContent = 'فشل توليد QR: ' + e.message + ' — جرّب تقليل عدد عناصر قاعدة المعرفة.';
+  }
+}
+
+let scanStream = null;
+let scanRAF = null;
+async function startCameraScan(){
+  const video = document.getElementById('scanVideo');
+  const status = document.getElementById('scanStatus');
+  try{
+    scanStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode:'environment' } });
+    video.srcObject = scanStream;
+    video.style.display = 'block';
+    await video.play();
+    status.textContent = 'وجّه الكاميرا نحو رمز QR...';
+    scanLoop();
+  }catch(e){
+    // Camera access can be blocked inside sandboxed previews (like claude.ai) —
+    // the manual paste option below always works as a fallback.
+    status.textContent = 'تعذر الوصول للكاميرا (' + e.message + '). استخدم اللصق اليدوي بالأسفل بدلاً من ذلك.';
+  }
+}
+function scanLoop(){
+  const video = document.getElementById('scanVideo');
+  const canvas = document.getElementById('scanCanvas');
+  if(video.readyState === video.HAVE_ENOUGH_DATA){
+    canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imageData = ctx.getImageData(0,0,canvas.width, canvas.height);
+    const code = jsQR(imageData.data, imageData.width, imageData.height);
+    if(code){
+      stopCameraScan();
+      applyNomadicPayload(code.data);
+      return;
+    }
+  }
+  scanRAF = requestAnimationFrame(scanLoop);
+}
+function stopCameraScan(){
+  if(scanRAF) cancelAnimationFrame(scanRAF);
+  scanRAF = null;
+  if(scanStream){ scanStream.getTracks().forEach(t=>t.stop()); scanStream = null; }
+  const video = document.getElementById('scanVideo');
+  if(video) video.style.display = 'none';
+}
+function applyNomadicPayload(jsonText){
+  const status = document.getElementById('scanStatus');
+  try{
+    const payload = JSON.parse(jsonText);
+    let added = 0;
+    (payload.knowledgeBase || []).forEach(k=>{
+      const exists = knowledgeBase.some(e => e.title===k.title && e.content===k.content);
+      if(!exists){
+        knowledgeBase.push({ id:'kb_'+Date.now()+'_'+Math.random().toString(36).slice(2,6), title:k.title, content:k.content });
+        added++;
+      }
+    });
+    if(Array.isArray(payload.selectedAgentIds) && payload.selectedAgentIds.length){
+      selectedAgentIds = payload.selectedAgentIds.filter(id => AGENTS.some(a=>a.id===id));
+      if(selectedAgentIds.length === 0) selectedAgentIds = ['general'];
+    }
+    renderKnowledgeList();
+    renderAgentStrip();
+    persistState();
+    logActivity('استيراد ذاكرة QR', added + ' عنصر جديد');
+    status.textContent = '✅ تم استيراد ' + added + ' عنصر معرفة بنجاح!';
+  }catch(e){
+    status.textContent = 'فشل تفسير البيانات الممسوحة: ' + e.message;
+  }
+}
+function importNomadicPasted(){
+  const text = document.getElementById('nomadicPasteInput').value.trim();
+  if(!text) return;
+  applyNomadicPayload(text);
+  document.getElementById('nomadicPasteInput').value = '';
+}
+
+/* ========================================================================
+   STORAGE LAYER
+   NOTE: window.storage is the correct API while testing inside the
+   claude.ai artifact preview. If/when this app is deployed as a real
+   standalone site or wrapped app (outside claude.ai), swap this layer
+   for real localStorage or a backend call instead.
+   ======================================================================== */
+const localStore = {
+  async get(key){
+    const res = await window.storage.get(key, false);
+    if(!res) throw new Error('key not found');
+    return res;
+  },
+  async set(key, value){
+    const res = await window.storage.set(key, value, false);
+    if(!res) throw new Error('storage.set returned null');
+    return res;
+  }
+};
+
+/* ========================================================================
+   ENCRYPTION (real AES-GCM via Web Crypto API)
+   ======================================================================== */
+async function deriveKey(passphrase, saltBytes){
+  const enc = new TextEncoder();
+  const baseKey = await crypto.subtle.importKey('raw', enc.encode(passphrase), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    { name:'PBKDF2', salt:saltBytes, iterations:150000, hash:'SHA-256' },
+    baseKey, { name:'AES-GCM', length:256 }, false, ['encrypt','decrypt']
+  );
+}
+function bufToB64(buf){ return btoa(String.fromCharCode(...new Uint8Array(buf))); }
+function b64ToBuf(b64){ return Uint8Array.from(atob(b64), c=>c.charCodeAt(0)); }
+
+async function encryptState(obj, key){
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const enc = new TextEncoder();
+  const cipher = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, enc.encode(JSON.stringify(obj)));
+  return { iv:bufToB64(iv), data:bufToB64(cipher) };
+}
+async function decryptState(payload, key){
+  const iv = b64ToBuf(payload.iv);
+  const data = b64ToBuf(payload.data);
+  const plain = await crypto.subtle.decrypt({name:'AES-GCM', iv}, key, data);
+  return JSON.parse(new TextDecoder().decode(plain));
+}
+
+let currentSalt = null;
+
+// Auto-initialization: generates (or reuses) a random on-device AES key,
+// stored locally alongside the encrypted data. This still encrypts the
+// data at rest (protects against casual inspection, cloud sync exposure,
+// or someone reading raw storage), but — unlike a passphrase — the key
+// itself lives on the same device, so it does not protect against
+// someone with direct access to this device/browser profile. No prompt,
+// no "forgot my passphrase" risk.
+async function autoInitApp(){
+  let keyRes = null;
+  try{ keyRes = await localStore.get('nexus_device_key'); }catch(e){ keyRes = null; }
+
+  let rawKeyBytes;
+  if(keyRes){
+    rawKeyBytes = b64ToBuf(keyRes.value);
+  } else {
+    rawKeyBytes = crypto.getRandomValues(new Uint8Array(32));
+    try{ await localStore.set('nexus_device_key', bufToB64(rawKeyBytes)); }
+    catch(e){ console.error('Could not persist device key:', e); }
+  }
+
+  try{
+    encryptionKey = await crypto.subtle.importKey('raw', rawKeyBytes, {name:'AES-GCM'}, false, ['encrypt','decrypt']);
+  }catch(e){
+    console.error('Key import error:', e);
+  }
+
+  let stateRes = null;
+  try{ stateRes = await localStore.get(STORAGE_KEY); }catch(e){ stateRes = null; }
+
+  if(stateRes && encryptionKey){
+    try{
+      const payload = JSON.parse(stateRes.value);
+      const decrypted = await decryptState(payload, encryptionKey);
+      messages = decrypted.messages || [];
+      selectedAgentIds = decrypted.selectedAgentIds || ['general'];
+      knowledgeBase = decrypted.knowledgeBase || [];
+      activityLog = decrypted.activityLog || [];
+    }catch(decErr){
+      console.error('Decrypt error (starting fresh):', decErr);
+    }
+  }
+
+  renderAgentStrip();
+  renderMessages();
+}
+
+async function resetAllData(){
+  if(!confirm('هذا سيمسح كل المحادثات، الذاكرة، وقاعدة المعرفة نهائياً من هذا الجهاز. متأكد؟')) return;
+  messages = []; knowledgeBase = []; activityLog = []; selectedAgentIds = ['general'];
+  try{
+    localStorage.removeItem(STORAGE_KEY);
+  }catch(e){ console.error(e); }
+  renderAgentStrip();
+  renderMessages();
+  renderActivityLog();
+}
+async function persistState(){
+  if(!encryptionKey) return;
+  try{
+    const payload = await encryptState({ messages, selectedAgentIds, knowledgeBase, activityLog }, encryptionKey);
+    await localStore.set(STORAGE_KEY, JSON.stringify(payload));
+  }catch(e){ console.error('persist failed', e); }
+}
+async function clearConversation(){
+  messages = [];
+  await persistState();
+  renderMessages();
+}
+
+/* ========================================================================
+   CHAT RENDERING
+   ======================================================================== */
+function renderMessages(){
+  const area = document.getElementById('chatArea');
+  const empty = document.getElementById('emptyState');
+  area.innerHTML = '';
+  if(messages.length === 0){
+    area.appendChild(empty);
+    return;
+  }
+  messages.forEach(m=>{
+    const div = document.createElement('div');
+    div.className = 'msg ' + (m.role==='user' ? 'user' : (m.type||'agent'));
+    const label = document.createElement('div');
+    label.className = 'label';
+    label.textContent = m.role==='user' ? 'أنت' : (m.agentName || 'الوكيل');
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = m.content;
+    div.appendChild(label);
+    div.appendChild(bubble);
+    area.appendChild(div);
+  });
+  area.scrollTop = area.scrollHeight;
+}
+function addTypingIndicator(label){
+  const area = document.getElementById('chatArea');
+  const div = document.createElement('div');
+  div.className = 'msg agent';
+  div.id = 'typingIndicator';
+  div.innerHTML = `<div class="label">${label}</div><div class="bubble typing-dots"><span></span><span></span><span></span></div>`;
+  area.appendChild(div);
+  area.scrollTop = area.scrollHeight;
+}
+function removeTypingIndicator(){
+  const el = document.getElementById('typingIndicator');
+  if(el) el.remove();
+}
+
+/* ========================================================================
+   CLAUDE API CALLS
+   ======================================================================== */
+function getBackendUrl(){
+  try{ return localStorage.getItem('nexus_backend_url') || ''; }
+  catch(e){ return ''; }
+}
+function openSettingsPanel(){
+  const url = getBackendUrl();
+  document.getElementById('backendUrlInput').value = url;
+  document.getElementById('connectionModeLabel').textContent = url ? ('سيرفر خاص: '+url) : 'مباشر عبر معاينة claude.ai';
+  document.getElementById('settingsModal').style.display = 'flex';
+}
+function saveBackendUrl(){
+  const url = document.getElementById('backendUrlInput').value.trim().replace(/\/$/, '');
+  try{
+    if(url) localStorage.setItem('nexus_backend_url', url);
+    else localStorage.removeItem('nexus_backend_url');
+  }catch(e){ console.error(e); }
+  closeModal('settingsModal');
+  logActivity('تحديث الإعدادات', url ? 'تم ضبط رابط backend' : 'تم إلغاء رابط backend (وضع claude.ai المباشر)');
+}
+
+async function callClaude(systemPrompt, userText, history){
+  const fullSystemPrompt = systemPrompt + knowledgeContext();
+  const apiMessages = [...history, { role:'user', content:userText }];
+  const backendUrl = getBackendUrl();
+
+  // Two modes:
+  // 1) No backend URL set -> call Anthropic directly. This ONLY works inside
+  //    the claude.ai artifact preview, which handles auth automatically.
+  // 2) Backend URL set -> call YOUR OWN server (see /nexus-backend), which
+  //    holds the real API key safely. This is what a real deployed app must use.
+  const endpoint = backendUrl ? (backendUrl + '/api/chat') : 'https://api.anthropic.com/v1/messages';
+  const headers = { 'Content-Type':'application/json' };
+
+  const response = await fetch(endpoint, {
+    method:'POST',
+    headers,
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1000,
+      system: fullSystemPrompt,
+      messages: apiMessages
+    })
+  });
+  if(!response.ok){
+    const errText = await response.text();
+    throw new Error('فشل الاتصال بـ API: ' + response.status + ' — ' + errText.slice(0,200));
+  }
+  const data = await response.json();
+  const textBlocks = data.content.filter(b=>b.type==='text').map(b=>b.text);
+  return textBlocks.join('\n');
+}
+
+function buildHistoryForAgent(agentId){
+  // Only include prior turns that involved this exact agent (or user turns),
+  // keeping each agent's thread coherent even though the UI shows one timeline.
+  return messages
+    .filter(m => m.role==='user' || m.agentId===agentId)
+    .slice(-12)
+    .map(m => ({ role: m.role==='user' ? 'user' : 'assistant', content: m.content }));
+}
+
+/* ========================================================================
+   SEND FLOW
+   ======================================================================== */
+function handleKeydown(e){
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); }
+}
+
+async function sendMessage(){
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if(!text) return;
+  const sendBtn = document.getElementById('sendBtn');
+
+  messages.push({ role:'user', content:text });
+  input.value = '';
+  renderMessages();
+  sendBtn.disabled = true;
+
+  const collective = document.getElementById('collectiveToggle').checked && selectedAgentIds.length > 1;
+  const autoRoute = document.getElementById('autoRouteToggle').checked && !collective;
+  const deepAnalysis = document.getElementById('deepAnalysisToggle').checked && !collective && !autoRoute;
+
+  try{
+    if(deepAnalysis){
+      const agent = AGENTS.find(a=>a.id===selectedAgentIds[0]) || AGENTS[0];
+      logActivity('تحليل خماسي عميق', agent.name + ' — ' + text.slice(0,60));
+      await runDeepAnalysis(text, agent);
+    } else if(autoRoute){
+      await runAutoRouteMode(text);
+    } else if(collective){
+      logActivity('استشارة جماعية', selectedAgentIds.join(', ') + ' — ' + text.slice(0,60));
+      await runCollectiveMode(text);
+    } else {
+      const agent = AGENTS.find(a=>a.id===selectedAgentIds[0]) || AGENTS[0];
+      addTypingIndicator(agent.emoji+' '+agent.name+' يكتب...');
+      const history = buildHistoryForAgent(agent.id);
+      const reply = await callClaude(agent.prompt, text, history.slice(0,-1)); // exclude the just-added user msg (sent separately)
+      removeTypingIndicator();
+      messages.push({ role:'assistant', agentId:agent.id, agentName:agent.emoji+' '+agent.name, content:reply, type:'agent' });
+      renderMessages();
+      logActivity('رد وكيل', agent.name + ' — ' + text.slice(0,60));
+    }
+    await persistState();
+  }catch(e){
+    removeTypingIndicator();
+    messages.push({ role:'assistant', agentId:'error', agentName:'خطأ', content:e.message, type:'error' });
+    renderMessages();
+    logActivity('خطأ', e.message.slice(0,80));
+  }finally{
+    sendBtn.disabled = false;
+  }
+}
+
+/* ========================================================================
+   DEEP 5-PHASE SYNTHETIC INTELLIGENCE ENGINE
+   evaluate -> plan -> execute -> self-critique -> synthesize
+   Each phase is a real, separate API call feeding into the next.
+   ======================================================================== */
+const DEEP_PHASES = [
+  { key:'evaluate',  label:'🔍 التقييم',    instruction:'المرحلة 1 - التقييم: افهم طلب المستخدم بعمق. حدد الأسئلة الضمنية، الافتراضات، والمعلومات الناقصة إن وجدت. لا تجب على السؤال بعد، فقط حلّله. كن مختصراً (فقرة أو اثنتان).' },
+  { key:'plan',      label:'📐 التخطيط',    instruction:'المرحلة 2 - التخطيط: بناءً على التقييم السابق، ضع خطة نقاط مختصرة للإجابة الأمثل (الهيكل، النقاط الأساسية الواجب تغطيتها). لا تكتب الإجابة الكاملة بعد.' },
+  { key:'execute',   label:'⚙️ التنفيذ',    instruction:'المرحلة 3 - التنفيذ: بناءً على الخطة، اكتب مسودة إجابة كاملة على سؤال المستخدم الأصلي.' },
+  { key:'critique',  label:'🧐 النقد الذاتي', instruction:'المرحلة 4 - النقد الذاتي: انتقد المسودة السابقة بصرامة. ما الثغرات، الأخطاء المحتملة، أو النقاط الناقصة؟ كن مباشراً وموضوعياً.' },
+  { key:'synthesize',label:'✨ التوليف النهائي', instruction:'المرحلة 5 - التوليف النهائي: بناءً على كل ما سبق (التقييم، الخطة، المسودة، والنقد)، اكتب الإجابة النهائية المصقولة والكاملة على سؤال المستخدم الأصلي. هذه هي الإجابة التي سيراها المستخدم فعلياً، فاجعلها متكاملة وواضحة بذاتها دون إشارة للمراحل السابقة.' },
+];
+
+async function runDeepAnalysis(text, agent){
+  let runningContext = `شخصية الوكيل المستخدمة: ${agent.prompt}\n\nسؤال المستخدم الأصلي: ${text}`;
+  const phaseOutputs = {};
+
+  for(const phase of DEEP_PHASES){
+    addTypingIndicator('🧬 '+phase.label+'...');
+    const phasePrompt = `${agent.prompt}\n\nأنت الآن جزء من محرك تحليل خماسي المراحل (evaluate→plan→execute→critique→synthesize). ${phase.instruction}`;
+    const contextMsg = runningContext + (Object.keys(phaseOutputs).length ? '\n\n--- نتائج المراحل السابقة ---\n' + Object.entries(phaseOutputs).map(([k,v])=>`[${k}]: ${v}`).join('\n\n') : '');
+
+    let output;
+    try{
+      output = await callClaude(phasePrompt, contextMsg, []);
+    }catch(e){
+      removeTypingIndicator();
+      throw new Error('فشل بمرحلة "'+phase.label+'": ' + e.message);
+    }
+    removeTypingIndicator();
+    phaseOutputs[phase.key] = output;
+
+    const isFinal = phase.key === 'synthesize';
+    messages.push({
+      role:'assistant',
+      agentId: agent.id,
+      agentName: (isFinal ? (agent.emoji+' '+agent.name+' — الإجابة النهائية 🧬') : phase.label),
+      content: output,
+      type: isFinal ? 'final' : 'phase'
+    });
+    renderMessages();
+  }
+}
+
+async function runAutoRouteMode(text){
+  addTypingIndicator('🧭 المدير الذكي يحدد أنسب وكيل...');
+  try{
+    const routingReplyRaw = await callClaude(MANAGER_PROMPT, text, []);
+    let routed;
+    try{
+      const jsonMatch = routingReplyRaw.match(/\{[\s\S]*\}/);
+      routed = JSON.parse(jsonMatch ? jsonMatch[0] : routingReplyRaw);
+    }catch(parseErr){
+      routed = { agent_ids:['general'], reason:'تعذر تفسير قرار التوجيه، تم الرجوع للمساعد العام.' };
+    }
+    const chosenIds = (routed.agent_ids || ['general']).filter(id => AGENTS.some(a=>a.id===id)).slice(0,3);
+    if(chosenIds.length === 0) chosenIds.push('general');
+    removeTypingIndicator();
+
+    logActivity('توجيه ذكي', chosenIds.join(', ') + ' — ' + (routed.reason || ''));
+
+    if(chosenIds.length === 1){
+      const agent = AGENTS.find(a=>a.id===chosenIds[0]);
+      addTypingIndicator(agent.emoji+' '+agent.name+' (اختاره المدير الذكي) يكتب...');
+      const history = buildHistoryForAgent(agent.id);
+      const reply = await callClaude(agent.prompt, text, history.slice(0,-1));
+      removeTypingIndicator();
+      messages.push({ role:'assistant', agentId:agent.id, agentName:agent.emoji+' '+agent.name+' 🧭', content:reply, type:'agent' });
+      renderMessages();
+    } else {
+      selectedAgentIds = chosenIds;
+      await runCollectiveMode(text);
+      selectedAgentIds = chosenIds; // keep chips reflecting the routed choice
+      renderAgentStrip();
+    }
+  }catch(e){
+    removeTypingIndicator();
+    throw e;
+  }
+}
+
+async function runCollectiveMode(text){
+  const activeAgents = AGENTS.filter(a => selectedAgentIds.includes(a.id));
+  addTypingIndicator('🧠 '+activeAgents.length+' وكلاء يفكرون بالتوازي...');
+
+  const results = await Promise.allSettled(activeAgents.map(agent => {
+    const history = buildHistoryForAgent(agent.id);
+    return callClaude(agent.prompt, text, history.slice(0,-1)).then(reply => ({agent, reply}));
+  }));
+
+  removeTypingIndicator();
+
+  const successes = [];
+  results.forEach((r, i)=>{
+    const agent = activeAgents[i];
+    if(r.status==='fulfilled'){
+      messages.push({ role:'assistant', agentId:agent.id, agentName:agent.emoji+' '+agent.name, content:r.value.reply, type:'agent' });
+      successes.push(agent.emoji+' '+agent.name+':\n'+r.value.reply);
+    } else {
+      messages.push({ role:'assistant', agentId:agent.id, agentName:agent.emoji+' '+agent.name, content:'تعذر الحصول على رد: '+r.reason.message, type:'error' });
+    }
+  });
+  renderMessages();
+
+  if(successes.length >= 2){
+    addTypingIndicator('✨ وكيل التوليف يدمج الآراء...');
+    try{
+      const combined = successes.join('\n\n---\n\n');
+      const synthesis = await callClaude(SYNTHESIS_PROMPT, 'السؤال الأصلي: '+text+'\n\nآراء الوكلاء:\n'+combined, []);
+      removeTypingIndicator();
+      messages.push({ role:'assistant', agentId:'synthesis', agentName:'✨ التوليف الجماعي', content:synthesis, type:'synthesis' });
+      renderMessages();
+    }catch(e){
+      removeTypingIndicator();
+      messages.push({ role:'assistant', agentId:'error', agentName:'خطأ', content:'فشل التوليف: '+e.message, type:'error' });
+      renderMessages();
+    }
+  }
+}
+
+/* ========================================================================
+   INIT
+   ======================================================================== */
+autoInitApp();
+</script>
+</body>
+</html>

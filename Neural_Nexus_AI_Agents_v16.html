@@ -1,0 +1,2579 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0e1a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Neural Nexus AI Agents">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="icons/favicon-32.png">
+  <title>Neural Nexus AI Agents — منصة الوكلاء الحية</title>
+  <style>
+  :root{
+    --bg:#0a0e1a; --panel:#121829; --panel2:#1a2236; --border:#232d47;
+    --gold:#e8b84b; --green:#3ecf8e; --red:#f16565; --blue:#4f8ff0;
+    --txt:#e9edf7; --muted:#8993ac;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg); color:var(--txt); font-family:'Segoe UI', Tahoma, sans-serif;
+    min-height:100vh; display:flex; flex-direction:column;
+  }
+  /* On phones the app fills the screen naturally. On wider browsers
+     (tablet/desktop) it's centered like a real app window instead of
+     stretching bubbles across a huge viewport. */
+  .app-shell{
+    width:100%; max-width:560px; margin:0 auto;
+    min-height:100vh; display:flex; flex-direction:column;
+    background:var(--bg);
+  }
+  @media (min-width:561px){
+    body{ background:#05070d; }
+    .app-shell{
+      min-height:100vh; max-height:100vh;
+      box-shadow:0 0 60px rgba(0,0,0,.6);
+      border-left:1px solid var(--border); border-right:1px solid var(--border);
+    }
+  }
+  @media (max-width:340px){
+    .brand{ font-size:14px; }
+    .icon-btn{ padding:6px 7px; font-size:11px; }
+  }
+  /* ===== LOCK SCREEN (passphrase) ===== */
+  #lockScreen{
+    position:fixed; inset:0; background:var(--bg); z-index:500;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:24px;
+  }
+  #lockScreen h1{ color:var(--gold); font-size:22px; }
+  #lockScreen p{ color:var(--muted); font-size:13px; text-align:center; max-width:320px; line-height:1.7; }
+  #lockScreen input{
+    width:100%; max-width:280px; background:var(--panel2); border:1px solid var(--border);
+    color:var(--txt); padding:12px; border-radius:10px; text-align:center; font-size:15px;
+  }
+  #lockScreen button{
+    width:100%; max-width:280px; background:var(--gold); border:none; color:#0a0e1a;
+    padding:12px; border-radius:10px; font-weight:700; cursor:pointer; font-size:15px;
+  }
+  #lockError{ color:var(--red); font-size:12px; min-height:16px; }
+
+  /* ===== TOP BAR ===== */
+  .topbar{
+    background:var(--panel); border-bottom:1px solid var(--border);
+    padding:12px 16px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .brand{ color:var(--gold); font-weight:800; font-size:16px; display:flex; align-items:center; gap:8px; }
+  .brand span{ color:var(--muted); font-weight:400; font-size:11px; display:block; }
+  .nb-logo{ flex-shrink:0; overflow:visible; }
+  .nb-flow-circle{ animation: nbDrift 7s ease-in-out infinite; transform-origin:50px 50px; }
+  .nb-flow-circle.c2{ animation-duration:9s; animation-direction:reverse; }
+  .nb-node{ animation: nbPulse 2.2s ease-in-out infinite; transform-origin:center; }
+  .nb-nucleus{ animation: nbNucleusPulse 2.6s ease-in-out infinite; transform-origin:50px 50px; }
+  .nb-line{ animation: nbLineFlicker 3s ease-in-out infinite; }
+  @keyframes nbDrift{
+    0%,100%{ transform:scale(1) rotate(0deg); }
+    50%{ transform:scale(1.07) rotate(5deg); }
+  }
+  @keyframes nbPulse{
+    0%,100%{ opacity:.4; r:2.4; }
+    50%{ opacity:1; r:3.2; }
+  }
+  @keyframes nbNucleusPulse{
+    0%,100%{ transform:scale(1); filter:drop-shadow(0 0 2px var(--gold)); }
+    50%{ transform:scale(1.12); filter:drop-shadow(0 0 6px var(--gold)); }
+  }
+  @keyframes nbLineFlicker{
+    0%,100%{ opacity:.25; }
+    50%{ opacity:.7; }
+  }
+  .topbar-actions{ display:flex; gap:6px; overflow-x:auto; max-width:60vw; scrollbar-width:none; }
+  .topbar-actions::-webkit-scrollbar{ display:none; }
+  .topbar-actions .icon-btn{ flex-shrink:0; }
+  .app-actions-bar{
+    display:flex; gap:8px; padding:10px 16px; background:var(--panel);
+    border-bottom:1px solid var(--border);
+  }
+  .app-action-btn{
+    flex:1; background:linear-gradient(90deg,#f2c94c,#e8b84b); border:none; color:#0a0e1a;
+    padding:10px; border-radius:10px; font-weight:700; font-size:13px; cursor:pointer;
+  }
+  .app-action-btn.secondary{ background:var(--panel2); color:var(--txt); border:1px solid var(--border); }
+  .icon-btn{
+    background:var(--panel2); border:1px solid var(--border); color:var(--muted);
+    padding:7px 10px; border-radius:8px; font-size:12px; cursor:pointer;
+  }
+
+  /* ===== AGENT STRIP ===== */
+  .agent-strip{
+    display:flex; gap:8px; padding:10px 12px; overflow-x:auto; background:var(--panel);
+    border-bottom:1px solid var(--border);
+  }
+  .agent-chip{
+    flex-shrink:0; padding:8px 12px; border-radius:20px; background:var(--panel2);
+    border:1.5px solid var(--border); font-size:12px; cursor:pointer; white-space:nowrap;
+    display:flex; align-items:center; gap:5px; color:var(--muted); transition:.15s;
+  }
+  .agent-chip.selected{ border-color:var(--gold); color:var(--txt); background:rgba(232,184,75,.1); }
+  .agent-chip.custom-chip{ border-style:dashed; }
+  .mode-row{
+    display:flex; align-items:center; gap:8px; padding:8px 16px; font-size:12px; color:var(--muted);
+    background:var(--panel); border-bottom:1px solid var(--border);
+  }
+  .mode-row select{
+    background:var(--panel2); border:1px solid var(--border); color:var(--txt);
+    padding:5px 8px; border-radius:8px; font-size:12px;
+  }
+
+  /* ===== CHAT AREA ===== */
+  #chatArea{ flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:14px; }
+  .msg{ max-width:88%; display:flex; flex-direction:column; gap:4px; }
+  .msg.user{ align-self:flex-end; align-items:flex-end; }
+  .msg.agent{ align-self:flex-start; align-items:flex-start; }
+  .msg .label{ font-size:11px; color:var(--muted); padding:0 4px; }
+  .msg .bubble{
+    padding:12px 14px; border-radius:14px; font-size:14px; line-height:1.7; white-space:pre-wrap;
+  }
+  .msg.user .bubble{ background:var(--blue); color:#fff; border-bottom-left-radius:4px; }
+  .msg.agent .bubble{ background:var(--panel2); border:1px solid var(--border); border-bottom-right-radius:4px; }
+  .msg.synthesis .bubble{ background:linear-gradient(135deg, rgba(232,184,75,.12), rgba(79,143,240,.1)); border:1px solid var(--gold); }
+  .msg.phase .bubble{ background:transparent; border:1px dashed var(--border); color:var(--muted); font-size:12.5px; }
+  .msg.phase .label{ opacity:.7; }
+  .msg.final .bubble{ background:var(--panel2); border:2px solid var(--green); }
+  .msg.error .bubble{ background:rgba(241,101,101,.1); border:1px solid var(--red); color:var(--red); }
+  .typing-dots{ display:flex; gap:4px; padding:12px 14px; }
+  .typing-dots span{
+    width:6px; height:6px; border-radius:50%; background:var(--muted); animation:blink 1.2s infinite;
+  }
+  .typing-dots span:nth-child(2){ animation-delay:.2s; }
+  .typing-dots span:nth-child(3){ animation-delay:.4s; }
+  @keyframes blink{ 0%,100%{opacity:.2;} 50%{opacity:1;} }
+
+  /* ===== INPUT BAR ===== */
+  .input-bar{
+    display:flex; gap:8px; padding:12px; background:var(--panel); border-top:1px solid var(--border);
+  }
+  .input-bar textarea{
+    flex:1; background:var(--panel2); border:1px solid var(--border); color:var(--txt);
+    padding:12px; border-radius:12px; font-size:14px; resize:none; max-height:100px; font-family:inherit;
+  }
+  .input-bar button{
+    background:var(--gold); border:none; color:#0a0e1a; padding:0 18px; border-radius:12px;
+    font-weight:700; cursor:pointer; font-size:14px;
+  }
+  .input-bar button:disabled{ opacity:.4; cursor:not-allowed; }
+  .mic-btn{
+    background:var(--panel2) !important; color:var(--txt) !important; border:1px solid var(--border);
+    padding:0 14px !important; font-size:16px !important;
+  }
+  .mic-btn.listening{
+    background:var(--red) !important; color:#fff !important; animation:micPulse 1s infinite;
+  }
+  @keyframes micPulse{
+    0%,100%{ box-shadow:0 0 0 0 rgba(235,87,87,.5); } 50%{ box-shadow:0 0 0 8px rgba(235,87,87,0); }
+  }
+  .speak-btn{
+    background:none; border:none; color:var(--muted); font-size:13px; cursor:pointer;
+    padding:2px 6px; margin-top:2px; align-self:flex-start;
+  }
+  .speak-btn:hover{ color:var(--gold); }
+
+  #imagePreviewBar{
+    display:flex; align-items:center; gap:10px; padding:8px 12px;
+    background:var(--panel); border-top:1px solid var(--border);
+  }
+  #imagePreviewBar img{
+    width:48px; height:48px; object-fit:cover; border-radius:8px; border:1px solid var(--border);
+  }
+  #imagePreviewBar .img-meta{ font-size:11px; color:var(--muted); flex:1; }
+  #imagePreviewBar button{
+    background:var(--panel2); border:1px solid var(--border); color:var(--red);
+    border-radius:8px; padding:6px 10px; cursor:pointer; font-size:12px;
+  }
+  .msg-image{
+    max-width:220px; max-height:220px; border-radius:12px; margin-top:6px;
+    display:block; border:1px solid var(--border);
+  }
+
+  .empty-state{ margin:auto; text-align:center; color:var(--muted); font-size:13px; padding:20px; line-height:1.8; }
+
+  /* ===== MODALS (knowledge base / activity log) ===== */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:400;
+    display:flex; align-items:center; justify-content:center; padding:16px;
+  }
+  .modal-box{
+    background:var(--panel); border:1px solid var(--border); border-radius:16px;
+    padding:18px; width:100%; max-width:420px; max-height:80vh; overflow-y:auto;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .modal-box h3{ color:var(--gold); font-size:16px; }
+  .modal-hint{ color:var(--muted); font-size:12px; line-height:1.6; }
+  .modal-box input, .modal-box textarea{
+    background:var(--panel2); border:1px solid var(--border); color:var(--txt);
+    padding:10px; border-radius:10px; font-size:13px; font-family:inherit; resize:vertical;
+  }
+  .modal-btn{
+    background:var(--gold); border:none; color:#0a0e1a; padding:10px; border-radius:10px;
+    font-weight:700; cursor:pointer; font-size:13px;
+  }
+  .modal-btn.secondary{ background:var(--panel2); color:var(--muted); border:1px solid var(--border); }
+  .kb-item, .log-item{
+    background:var(--panel2); border:1px solid var(--border); border-radius:10px;
+    padding:8px 10px; font-size:12px; display:flex; justify-content:space-between; align-items:flex-start; gap:8px;
+  }
+  .kb-item .kb-text{ flex:1; }
+  .kb-item button{ background:none; border:none; color:var(--red); cursor:pointer; font-size:14px; }
+  .log-item{ flex-direction:column; align-items:stretch; margin-bottom:6px; }
+  .log-item .log-ts{ color:var(--muted); font-size:10px; }
+
+  /* ===== ACCESSIBILITY ===== */
+  body.high-contrast{ --bg:#000; --panel:#000; --panel2:#111; --border:#555; --txt:#fff; --muted:#ccc; }
+  body{ font-size: calc(14px * var(--font-scale, 1)); }
+  .bubble, .agent-chip, .mode-row, .icon-btn{ font-size: calc(1em); }
+
+  /* ===== MODALS (Knowledge Base / Activity Log / Accessibility) ===== */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:300;
+    display:none; align-items:flex-end; justify-content:center;
+  }
+  .modal-overlay.show{ display:flex; }
+  .modal-box{
+    background:var(--panel); border-top:1px solid var(--border); border-radius:18px 18px 0 0;
+    width:100%; max-width:480px; max-height:80vh; overflow-y:auto; padding:18px;
+  }
+  .modal-box h3{ color:var(--gold); font-size:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; }
+  .modal-close{ background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; }
+  .note-item{
+    background:var(--panel2); border:1px solid var(--border); border-radius:10px;
+    padding:10px; margin-bottom:8px; font-size:13px; position:relative;
+  }
+  .note-item button{
+    position:absolute; top:6px; left:8px; background:none; border:none; color:var(--red); cursor:pointer; font-size:12px;
+  }
+  .note-add-row{ display:flex; gap:8px; margin-bottom:14px; }
+  .note-add-row textarea{
+    flex:1; background:var(--panel2); border:1px solid var(--border); color:var(--txt);
+    padding:8px; border-radius:8px; font-size:13px; resize:none; font-family:inherit;
+  }
+  .note-add-row button{
+    background:var(--gold); border:none; color:#0a0e1a; padding:0 14px; border-radius:8px; font-weight:700; cursor:pointer;
+  }
+  .activity-row{
+    display:flex; justify-content:space-between; font-size:12px; color:var(--muted);
+    padding:8px 0; border-bottom:1px solid var(--border);
+  }
+  .activity-row .ok{ color:var(--green); }
+  .activity-row .fail{ color:var(--red); }
+  .a11y-row{ display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border); font-size:13px; }
+  .a11y-row .steppers{ display:flex; gap:6px; align-items:center; }
+  .a11y-row .steppers button{
+    background:var(--panel2); border:1px solid var(--border); color:var(--txt); width:30px; height:30px;
+    border-radius:8px; font-size:16px; cursor:pointer;
+  }
+  .toggle-switch{
+    width:42px; height:24px; border-radius:12px; background:var(--panel2); border:1px solid var(--border);
+    position:relative; cursor:pointer;
+  }
+  .toggle-switch.on{ background:var(--gold); }
+  .toggle-switch .knob{
+    position:absolute; top:2px; right:2px; width:18px; height:18px; border-radius:50%; background:#fff; transition:.2s;
+  }
+  .toggle-switch.on .knob{ transform:translateX(-18px); }
+
+/* ==== MODULE 1: ENHANCED SECURITY ==== */
+#lockScreen { z-index: 600; }
+
+/* ==== MODULE WORKFLOW MOBILE ==== */
+.icon-btn.small-share{width:36px;height:36px;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;}
+.in-workflow{border-color:#ef4444 !important;box-shadow:0 0 8px #ef4444 !important;}
+
+</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js">
+/* ==== MODULES 1-14 EXTENSIONS ==== */
+async function registerWebAuthn(){ if(!window.PublicKeyCredential){showToast('المتصفح لا يدعم WebAuthn'); return false;} try{const c=crypto.getRandomValues(new Uint8Array(32)); const cred=await navigator.credentials.create({publicKey:{challenge:c,rp:{name:'Neural Nexus AI Agents'},user:{id:crypto.getRandomValues(new Uint8Array(16)),name:'user@nexus',displayName:'مستخدم Neural Nexus'},pubKeyCredParams:[{type:'public-key',alg:-7}],authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required'}}}); localStorage.setItem('nexus_webauthn_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId)))); showToast('تم تسجيل البصمة/الوجه'); return true;}catch(e){showToast('فشل التسجيل: '+e.message); return false;}}
+async function authenticateWebAuthn(){try{const id=localStorage.getItem('nexus_webauthn_id'); if(!id||!window.PublicKeyCredential) return false; const raw=Uint8Array.from(atob(id),c=>c.charCodeAt(0)); const ch=crypto.getRandomValues(new Uint8Array(32)); const a=await navigator.credentials.get({publicKey:{challenge:ch,allowCredentials:[{type:'public-key',id:raw}],userVerification:'required'}}); return !!a;}catch(e){return false;}}
+async function encryptSensitive(t){ return 'SENS:'+btoa(unescape(encodeURIComponent(t))); }
+async function decryptSensitive(p){ if(!p||!p.startsWith('SENS:')) return p; try{return decodeURIComponent(escape(atob(p.split(':')[1])));}catch(e){return '[فشل فك التشفير]';}}
+
+/* ==== MODULE 2: LOCAL TF-IDF ==== */
+class LocalTfidfIndex{constructor(){this.docs=[];} addDocument(id,text){this.docs.push({id,text});} clear(){this.docs=[];} search(q,k=3){const terms=q.toLowerCase().split(/\s+/); return this.docs.map(d=>({d,s:terms.reduce((a,t)=>a+(d.text.toLowerCase().includes(t)?1:0),0)})).sort((a,b)=>b.s-a.s).slice(0,k).map(x=>x.d);}}
+window.__tfidfIndex=new LocalTfidfIndex();
+function rebuildTfidfIndex(){window.__tfidfIndex.clear(); knowledgeBase.forEach(k=>window.__tfidfIndex.addDocument(k.id,k.title+': '+k.content));}
+
+/* ==== MODULE 3: SUMMARIZER ==== */
+async function compressHistory(agentId, threshold=20){ const msgs=messages.filter(m=>m.role==='assistant'&&m.agentId===agentId&&!m.isSummary); if(msgs.length<threshold) return; const summary={role:'assistant',agentId,agentName:'📦 ملخص تلقائي',content:'تم ضغط جزء من المحادثة للحفاظ على الأداء.',type:'phase',isSummary:true}; messages.unshift(summary); await persistState();}
+
+/* ==== MODULE 4: MIRROR MODE ==== */
+async function runMirrorMode(text,a1,a2,rounds=2){const ag1=getAllAgents().find(a=>a.id===a1), ag2=getAllAgents().find(a=>a.id===a2); if(!ag1||!ag2) return; let last=text; for(let i=0;i<rounds;i++){const r1=await callClaude(await fullAgentPrompt(ag1,text),last,[]); messages.push({role:'assistant',agentId:ag1.id,agentName:ag1.emoji+' '+ag1.name,content:r1,type:'agent'}); renderMessages(); last=r1; const r2=await callClaude(await fullAgentPrompt(ag2,text),last,[]); messages.push({role:'assistant',agentId:ag2.id,agentName:ag2.emoji+' '+ag2.name,content:r2,type:'agent'}); renderMessages(); last=r2;}}
+
+/* ==== MODULE 5: BIAS WATCHER ==== */
+AGENTS.push({ id:'bias_watcher', name:'مراقب التحيّز', emoji:'🔎', prompt:'أنت مراقب موضوعي صارم. حلّل الانحياز المحتمل وأجب باقتضاب. إذا كان الرد متوازناً قل: الرد متوازن ولا تظهر عليه مؤشرات انحياز.' });
+async function checkBias(replyContent, agentName){ if(!document.getElementById('biasWatcherToggle')?.checked) return; try{ const watcher=getAllAgents().find(a=>a.id==='bias_watcher'); const analysis=await callClaude(watcher.prompt,'رد الوكيل ('+agentName+'):\n'+replyContent,[]); messages.push({role:'assistant',agentId:'bias_watcher',agentName:'🔎 مراقب التحيّز',content:analysis,type:'phase'}); renderMessages(); }catch(e){} }
+
+/* ==== MODULE 6: FILE RAG ==== */
+let uploadedDocs=[]; function chunkText(text,size,overlap){const out=[]; let s=0; while(s<text.length){out.push(text.slice(s,s+size)); s+=size-overlap;} return out;}
+async function handleFileUpload(event){const files=event.target.files; if(!files.length) return; for(const file of files){let text=''; if(file.type==='application/pdf'&&typeof pdfjsLib!=='undefined'){const ab=await file.arrayBuffer(); const pdf=await pdfjsLib.getDocument({data:ab}).promise; for(let i=1;i<=pdf.numPages;i++){const page=await pdf.getPage(i); const c=await page.getTextContent(); text+=c.items.map(it=>it.str).join(' ')+'\n';}} else {text=await file.text();} uploadedDocs.push({filename:file.name,chunks:chunkText(text,500,50)});} showToast('تم رفع '+files.length+' ملف(ات).'); event.target.value='';}
+function clearUploadedDocs(){uploadedDocs=[]; showToast('تم مسح جميع الملفات المرفوعة.');}
+async function fileKnowledgeContext(query){if(uploadedDocs.length===0) return ''; const terms=query.toLowerCase().split(/\s+/); const matches=[]; uploadedDocs.forEach(d=>d.chunks.forEach(c=>{const score=terms.reduce((a,t)=>a+(c.toLowerCase().includes(t)?1:0),0); if(score>0) matches.push({filename:d.filename,text:c,score});})); matches.sort((a,b)=>b.score-a.score); const top=matches.slice(0,3); if(top.length===0) return ''; return '\n\nمحتوى من الملفات المرفوعة:\n'+top.map(x=>'- ['+x.filename+']: '+x.text.slice(0,300)).join('\n');}
+const __origKC=knowledgeContext; knowledgeContext=async function(q){return (await __origKC(q)) + (await fileKnowledgeContext(q));};
+
+/* ==== MODULE 7: THOUGHT TREE ==== */
+function parseThoughtTree(c){const m='---VISUAL_TREE---'; const i=c.indexOf(m); if(i===-1) return {text:c,tree:null}; try{return {text:c.slice(0,i).trim(),tree:JSON.parse(c.slice(i+m.length).trim())};}catch(e){return {text:c,tree:null};}}
+const __origFAP=fullAgentPrompt; fullAgentPrompt=async function(agent,q){let p=await __origFAP(agent,q); if(document.getElementById('thoughtTreeToggle')?.checked){p+='\n\nأضف في النهاية ---VISUAL_TREE--- ثم JSON صالح لشجرة الاستدلال.';} return p;};
+
+/* ==== MODULE 8: ACTIVE MEMORY ==== */
+const outcomeTracker=JSON.parse(localStorage.getItem('nexus_outcomes')||'[]');
+function simpleHash(str){let h=0; for(let i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i); h|=0;} return h.toString();}
+function recordOutcome(agentId, question, outcome){outcomeTracker.push({agentId,questionHash:simpleHash(question),outcome,timestamp:Date.now()}); if(outcomeTracker.length>50) outcomeTracker.shift(); localStorage.setItem('nexus_outcomes',JSON.stringify(outcomeTracker));}
+function promptForOutcome(agentId, question){setTimeout(()=>{if(document.hidden) return; const ok=confirm('هل نفذت توصية الوكيل بخصوص: "'+question.slice(0,50)+'..."؟'); recordOutcome(agentId,question,ok?'yes':'no');},300000);}
+
+/* ==== MODULE 9: SANDBOX ==== */
+async function runSandbox(text,a1,a2,t,f){const ag1=getAllAgents().find(a=>a.id===a1), ag2=getAllAgents().find(a=>a.id===a2); const r1=await callClaude(ag1.prompt+'\n\nمعلومة صحيحة: '+t,text,[]); messages.push({role:'assistant',agentId:ag1.id,agentName:ag1.emoji+' '+ag1.name+' (حقيقة)',content:r1,type:'agent'}); renderMessages(); const r2=await callClaude(ag2.prompt+'\n\nمعلومة مضللة: '+f,text,[]); messages.push({role:'assistant',agentId:ag2.id,agentName:ag2.emoji+' '+ag2.name+' (تضليل)',content:r2,type:'agent'}); renderMessages(); const judge=await callClaude('قارن الردين وحدد أيهما تعامل أفضل مع التضليل.','الرد1:\n'+r1+'\n\nالرد2:\n'+r2,[]); messages.push({role:'assistant',agentId:'judge',agentName:'🧑‍⚖️ حكم المختبر',content:judge,type:'synthesis'}); renderMessages();}
+
+/* ==== MODULE 10: LIVE STREAM ==== */
+class LiveStreamEmitter{constructor(){this.l={};} on(e,f){(this.l[e]=this.l[e]||[]).push(f);} emit(e,d){(this.l[e]||[]).forEach(f=>f(d));}}
+window.__liveStream=new LiveStreamEmitter();
+function showLiveStreamBar(){const el=document.getElementById('liveStreamBar'); if(el) el.style.display='block';}
+function hideLiveStreamBar(){const el=document.getElementById('liveStreamBar'); if(el) el.style.display='none';}
+function updateLiveStream(phase,progress){const p=document.getElementById('liveStreamPhase'), pr=document.getElementById('liveStreamProgress'); if(p) p.textContent=phase; if(pr) pr.textContent=progress+'%';}
+window.__liveStream.on('phase',d=>updateLiveStream(d.label,d.progress));
+
+/* ==== MODULE 11: VOICE ==== */
+let recognition=null;
+function startVoiceInput(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition; if(!SR){showToast('المتصفح لا يدعم الإملاء الصوتي.'); return;} if(!recognition){recognition=new SR(); recognition.lang='ar-SA'; recognition.interimResults=false; recognition.continuous=false; recognition.onresult=(e)=>{document.getElementById('msgInput').value+=' '+e.results[0][0].transcript;}; recognition.onerror=(e)=>showToast('خطأ صوتي: '+e.error);} recognition.start();}
+function speakText(text){if(!window.speechSynthesis) return; const u=new SpeechSynthesisUtterance(text); u.lang='ar'; u.rate=1.0; window.speechSynthesis.speak(u);}
+
+/* ==== MODULE 12: VISUAL WORKFLOW DESIGNER ==== */
+function populateAgentPalette(){const p=document.getElementById('agentPalette'); if(!p) return; p.innerHTML=getAllAgents().map(a=>`<div class="agent-chip" draggable="true" ondragstart="dragWorkflowAgent(event,'${a.id}')" style="cursor:grab;">${a.emoji} ${a.name}</div>`).join('');}
+function dragWorkflowAgent(event,agentId){event.dataTransfer.setData('text/plain',agentId);}
+function dropWorkflowStep(event){event.preventDefault(); const agentId=event.dataTransfer.getData('text/plain'); const a=getAllAgents().find(x=>x.id===agentId); if(!a) return; const c=document.getElementById('workflowCanvas'); if(!c) return; const d=document.createElement('div'); d.className='agent-chip selected'; d.dataset.agentId=agentId; d.contentEditable='true'; d.innerHTML=a.emoji+' '+a.name+' <small style="color:var(--muted);">(تعليمات...)</small>'; c.appendChild(d);}
+async function saveWorkflowFromVisual(){const name=document.getElementById('wfName').value.trim(); if(!name){showToast('أدخل اسماً'); return;} const c=document.getElementById('workflowCanvas'); if(!c){showToast('واجهة المصمم غير موجودة'); return;} const steps=[]; c.querySelectorAll('.agent-chip').forEach(d=>steps.push({agentId:d.dataset.agentId,instruction:d.textContent||'تعليمات...'})); if(steps.length===0){showToast('أضف خطوة واحدة على الأقل'); return;} workflows.push({id:'wf_'+Date.now(),name,steps,createdAt:new Date().toISOString()}); await persistState(); renderWorkflowsList(); renderWorkflowSelect(); closeModal('workflowModal'); showToast('تم حفظ خط العمل');}
+
+/* ==== MODULE 13: NEXUS VOICE helper ==== */
+async function addNexusVoice(combined,synthesis){try{const metaPrompt='راجع آراء الوكلاء والتوليف السابق. استخرج: 1) رأي الأغلبية. 2) رأي الأقلية إن وجد. 3) نقطة عمياء لم يتطرق لها أحد. أجب باختصار.'; const metaReply=await callClaude(metaPrompt,'الآراء:\n'+combined+'\n\nالتوليف:\n'+synthesis,[]); messages.push({role:'assistant',agentId:'nexus_voice',agentName:'🎤 صوت العصبة',content:metaReply,type:'synthesis'}); renderMessages();}catch(e){}}
+
+/* ==== MODULE 14: SCIENTIFIC AGENTS ==== */
+AGENTS.push(
+{ id:'scientific_reviewer', name:'مراجع الأبحاث', emoji:'🔬', prompt:'أنت مراجع أبحاث علمية خبير. تقيّم الدراسات بناءً على المنهجية، حجم العينة، التحليل الإحصائي، وقابلية التكرار.' },
+{ id:'data_scientist', name:'عالم البيانات', emoji:'🧪', prompt:'أنت عالم بيانات متخصص في الإحصاء والتعلم الآلي وتفسير النماذج.' },
+{ id:'engineer', name:'المهندس الاستشاري', emoji:'⚡', prompt:'أنت مهندس استشاري متعدد التخصصات يقدّر الجدوى التقنية والتكلفة والوقت.' },
+{ id:'bioinformatician', name:'خبير المعلوماتية الحيوية', emoji:'🧬', prompt:'أنت خبير معلوماتية حيوية وتحليل بيانات جينومية.' },
+{ id:'quant', name:'محلل كمي', emoji:'📈', prompt:'أنت محلل كمي خبير في النمذجة المالية والإحصاء المتقدم.' }
+);
+
+/* ==== WRAPPERS ==== */
+const __origAddKB=addKnowledgeItem;
+addKnowledgeItem=async function(){const title=document.getElementById('kbTitle').value.trim(); const content=document.getElementById('kbContent').value.trim(); const sensitive=document.getElementById('kbSensitive')?.checked||false; if(!title||!content) return; let finalContent=content; if(sensitive) finalContent=await encryptSensitive(content); const entry={id:'kb_'+Date.now(),title,content:finalContent,sensitive}; knowledgeBase.push(entry); document.getElementById('kbTitle').value=''; document.getElementById('kbContent').value=''; const c=document.getElementById('kbSensitive'); if(c) c.checked=false; renderKnowledgeList(); logActivity('إضافة معرفة', title); rebuildTfidfIndex(); await persistState();};
+
+const __origRemoveKB=removeKnowledgeItem;
+removeKnowledgeItem=async function(id){knowledgeBase=knowledgeBase.filter(k=>k.id!==id); renderKnowledgeList(); rebuildTfidfIndex(); await persistState();};
+
+const __origSend=sendMessage;
+sendMessage=async function(){const text=document.getElementById('msgInput').value.trim(); const collective=document.getElementById('collectiveToggle').checked; const selectedWorkflowId=document.getElementById('workflowSelect')?.value||''; const mirrorMode=document.getElementById('mirrorModeToggle')?.checked; if(mirrorMode&&selectedAgentIds.length===2&&!collective&&!selectedWorkflowId){await runMirrorMode(text,selectedAgentIds[0],selectedAgentIds[1],2); return;} const sandboxMode=document.getElementById('sandboxToggle')?.checked; if(sandboxMode&&selectedAgentIds.length===2&&!collective&&!mirrorMode&&!selectedWorkflowId){const t=prompt('أدخل معلومة صحيحة (للاعتماد):',''); const f=prompt('أدخل معلومة مضللة:',''); if(t&&f){await runSandbox(text,selectedAgentIds[0],selectedAgentIds[1],t,f); return;}} const before=messages.length; await __origSend(); const added=messages.slice(before).filter(m=>m.role==='assistant'); for(const m of added){await checkBias(m.content,m.agentName); const ag=getAllAgents().find(a=>a.id===m.agentId); if(ag) promptForOutcome(ag.id,text);} if(!collective&&!selectedWorkflowId&&selectedAgentIds.length===1){compressHistory(selectedAgentIds[0],20);} };
+
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.js"></script>
+ </head>
+ <body>
+  <div class="app-shell">
+   <div class="topbar" role="banner">
+    <div class="brand">
+     <svg class="nb-logo" width="38" height="38" viewBox="0 0 100 100" role="img" aria-label="شعار Neural Nexus AI Agents — عقل شبكي">
+      <defs>
+       <filter id="nbGlow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="1.6" result="blur" />
+        <feMerge>
+         <feMergeNode in="blur" />
+         <feMergeNode in="SourceGraphic" />
+        </feMerge>
+       </filter>
+       <radialGradient id="nbNucleusGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#fff6d8" /> <stop offset="55%" stop-color="#f2c94c" /> <stop offset="100%" stop-color="#c9962a" />
+       </radialGradient>
+      </defs>
+      <!-- overlapping circles: information flow -->
+      <circle class="nb-flow-circle" cx="42" cy="46" r="26" fill="none" stroke="#4f8ff0" stroke-width="1" opacity=".22" /> <circle class="nb-flow-circle c2" cx="58" cy="56" r="23" fill="none" stroke="#e8b84b" stroke-width="1" opacity=".2" /> <!-- neural signal lines from nucleus to each node -->
+      <g stroke="#f2c94c" stroke-width="1">
+       <line class="nb-line" x1="50" y1="50" x2="50" y2="14" style="animation-delay:0s" /> <line class="nb-line" x1="50" y1="50" x2="80" y2="30" style="animation-delay:.3s" /> <line class="nb-line" x1="50" y1="50" x2="86" y2="62" style="animation-delay:.6s" /> <line class="nb-line" x1="50" y1="50" x2="64" y2="88" style="animation-delay:.9s" /> <line class="nb-line" x1="50" y1="50" x2="30" y2="86" style="animation-delay:1.2s" /> <line class="nb-line" x1="50" y1="50" x2="14" y2="60" style="animation-delay:1.5s" /> <line class="nb-line" x1="50" y1="50" x2="20" y2="28" style="animation-delay:1.8s" />
+      </g>
+      <!-- cross-links between nodes, subtler -->
+      <g stroke="#4f8ff0" stroke-width=".6" opacity=".35">
+       <line x1="50" y1="14" x2="80" y2="30" /> <line x1="80" y1="30" x2="86" y2="62" /> <line x1="86" y1="62" x2="64" y2="88" /> <line x1="64" y1="88" x2="30" y2="86" /> <line x1="30" y1="86" x2="14" y2="60" /> <line x1="14" y1="60" x2="20" y2="28" /> <line x1="20" y1="28" x2="50" y2="14" />
+      </g>
+      <!-- satellite nodes, each pulsing on its own delay -->
+      <circle class="nb-node" cx="50" cy="14" r="2.6" fill="#e8b84b" filter="url(#nbGlow)" style="animation-delay:0s" /> <circle class="nb-node" cx="80" cy="30" r="2.6" fill="#4f8ff0" filter="url(#nbGlow)" style="animation-delay:.25s" /> <circle class="nb-node" cx="86" cy="62" r="2.6" fill="#3ecf8e" filter="url(#nbGlow)" style="animation-delay:.5s" /> <circle class="nb-node" cx="64" cy="88" r="2.6" fill="#e8b84b" filter="url(#nbGlow)" style="animation-delay:.75s" /> <circle class="nb-node" cx="30" cy="86" r="2.6" fill="#4f8ff0" filter="url(#nbGlow)" style="animation-delay:1s" /> <circle class="nb-node" cx="14" cy="60" r="2.6" fill="#3ecf8e" filter="url(#nbGlow)" style="animation-delay:1.25s" /> <circle class="nb-node" cx="20" cy="28" r="2.6" fill="#e8b84b" filter="url(#nbGlow)" style="animation-delay:1.5s" /> <!-- central nucleus -->
+      <circle class="nb-nucleus" cx="50" cy="50" r="9" fill="url(#nbNucleusGrad)" filter="url(#nbGlow)" />
+     </svg>
+     Neural Nexus AI Agents <span>مرتبط مباشرة بـ Claude API</span>
+    </div>
+    <div class="topbar-actions">
+     <button class="icon-btn" onclick="clearUploadedDocs()" aria-label="مسح الملفات">🗂️ مسح</button>
+     <button class="icon-btn" onclick="openSettingsPanel()" aria-label="الإعدادات">⚙️ إعدادات</button>
+     <button class="icon-btn" onclick="openCustomAgentsPanel()" aria-label="الوكلاء المخصصون">🛠️ وكلائي</button>
+     <button class="icon-btn" onclick="openKnowledgePanel()" aria-label="فتح قاعدة المعرفة">📚 المعرفة</button>
+     <button class="icon-btn" onclick="openNomadicPanel()" aria-label="الذاكرة النقالة عبر QR">🔗 نقل الذاكرة</button>
+     <button class="icon-btn" onclick="openActivityPanel()" aria-label="فتح سجل النشاط">📜 السجل</button>
+     <button class="icon-btn" onclick="clearConversation()" aria-label="مسح المحادثة الحالية">مسح المحادثة</button>
+     <button class="icon-btn" onclick="resetAllData()" aria-label="مسح كل البيانات المحلية">🗑️ إعادة ضبط</button>
+    </div>
+   </div>
+   <div class="app-actions-bar">
+    <button class="app-action-btn" id="installBtn" onclick="handleInstallClick()" aria-label="تثبيت التطبيق على الهاتف" style="display:none">📲 تثبيت التطبيق</button>
+    <button class="app-action-btn secondary" onclick="shareApp()" aria-label="مشاركة التطبيق">🔗 مشاركة</button>
+   </div>
+   <div id="liveStreamBar" style="display:none; background:var(--panel); border-bottom:1px solid var(--gold); padding:6px 16px; font-size:12px; color:var(--gold);">📡 البث المباشر: <span id="liveStreamPhase">—</span><span id="liveStreamProgress" style="float:left;">0%</span></div>
+   <div id="iosInstallModal" class="modal-overlay" style="display:none" role="dialog" aria-label="تعليمات التثبيت على آيفون">
+    <div class="modal-box">
+     <h3>📲 التثبيت على آيفون/آيباد</h3>
+     <p class="modal-hint">متصفح Safari ما بيسمح بالتثبيت التلقائي، بس الخطوات سهلة:
+      <br>
+      <br>
+      1️⃣ اضغط زر المشاركة <strong>⬆️</strong> بالأسفل (أو الأعلى) بمتصفح Safari.
+      <br>
+      2️⃣ مرّر لتحت واختر <strong>"إضافة إلى الشاشة الرئيسية"</strong> (Add to Home Screen).
+      <br>
+      3️⃣ اضغط <strong>"إضافة"</strong> — بيصير عندك أيقونة Neural Nexus AI Agents بشاشتك مباشرة.</p>
+     <button class="modal-btn secondary" onclick="closeModal('iosInstallModal')">فهمت</button>
+    </div>
+   </div>
+   <div class="agent-strip" id="agentStrip"></div>
+   <div class="mode-row" role="group" aria-label="خيارات وضع الرد">
+    <label><input type="checkbox" id="collectiveToggle" onchange="renderAgentStrip()"> وضع الذكاء الجماعي (استشارة عدة وكلاء مع توليف نهائي)</label>
+   </div>
+   <div class="mode-row" role="group" aria-label="غرفة العمليات">
+    <label><input type="checkbox" id="situationRoomToggle"> 🎯 غرفة العمليات (نقاش حقيقي بجولتين بين الخبراء بإشراف "المشرف" + تقرير موحّد — يتطلب تفعيل الذكاء الجماعي واختيار خبيرين+)</label>
+   </div>
+   <div class="mode-row" role="group" aria-label="التوجيه الذكي">
+    <label><input type="checkbox" id="autoRouteToggle"> 🧭 توجيه ذكي تلقائي (يختار "المدير" الوكيل الأنسب لسؤالك بنفسه)</label>
+   </div>
+   <div class="mode-row" role="group" aria-label="محرك التحليل الخماسي">
+    <label><input type="checkbox" id="deepAnalysisToggle"> 🧬 محرك التحليل الخماسي العميق (تقييم ← تخطيط ← تنفيذ ← نقد ذاتي ← توليف)</label>
+   </div>
+   <div class="mode-row" role="group" aria-label="التوافق متعدد النماذج">
+    <label><input type="checkbox" id="multiModelToggle"> 🌐 توافق متعدد النماذج (يقارن Claude مع GPT/DeepSeek/Gemini على نفس السؤال لكشف انحياز أي نموذج — يتطلب سيرفر backend + مفاتيح من ⚙️ الإعدادات)</label>
+   </div>
+   <div class="mode-row" role="group" aria-label="الأدوات الحقيقية">
+    <label><input type="checkbox" id="toolsToggle"> 🔧 أدوات حقيقية (بحث ويب فعلي + إنشاء وتنزيل ملفات — يتطلب سيرفر backend + مزود Anthropic، ويعمل مع الوكيل الفردي فقط حالياً)</label>
+   </div>
+   <div class="mode-row" role="group" aria-label="المحادثة الصوتية الكاملة">
+    <label><input type="checkbox" id="voiceToVoiceToggle" onchange="onVoiceToVoiceToggleChange()"> 🎙️🔊 محادثة صوتية كاملة (تحدّث بدل الكتابة، ويقرأ الوكيل رده، ثم يسمعك تلقائياً من جديد — وضع أيادٍ حرة كاملة)</label>
+   </div>
+   <div class="mode-row" role="group" aria-label="خط العمل التفاعلي">
+    <label style="display:flex; align-items:center; gap:6px; width:100%;"> 🔀 خط عمل: <select id="workflowSelect" style="flex:1; background:var(--panel2); border:1px solid var(--border); color:var(--txt); padding:6px; border-radius:8px; font-size:12px;"> <option value="">— دردشة عادية —</option> </select> 
+     <button class="icon-btn" onclick="openWorkflowPanel()" aria-label="إدارة خطوط العمل" style="padding:6px 10px;">⚙️ إدارة</button> </label>
+   </div>
+   <div id="workflowModal" class="modal-overlay" style="display:none" role="dialog" aria-label="خطوط العمل التفاعلية">
+    <div class="modal-box">
+     <h3>🔀 خطوط العمل التفاعلية</h3>
+     <p class="modal-hint">صمّم سلسلة خطوات ثابتة: كل خطوة وكيل معيّن بمهمة محددة، ومخرجات كل خطوة تنتقل تلقائياً للي بعدها. مفيد لعمليات متكررة (مثلاً: تحليل مالي ← مراجعة قانونية ← صياغة توصية نهائية).</p>
+     <div id="workflowsList"></div>
+     <hr style="border-color:var(--border); margin:6px 0;">
+     <p class="modal-hint" id="workflowFormTitle"><strong>➕ خط عمل جديد</strong></p>
+     <input id="wfName" placeholder="اسم خط العمل (مثال: مراجعة عقد شاملة)" aria-label="اسم خط العمل">
+     <div id="wfStepsList"></div>
+     <div style="display:flex; gap:8px;">
+      <select id="wfStepAgent" style="flex:1;" aria-label="اختر الوكيل لهذه الخطوة"></select>
+     </div>
+     <textarea id="wfStepInstruction" rows="2" placeholder="مهمة هذه الخطوة تحديداً (مثال: راجع العقد وحدد أي بنود قانونية خطرة)" aria-label="مهمة الخطوة"></textarea>
+     <button class="modal-btn secondary" onclick="addWorkflowStep()">+ أضف خطوة للتسلسل</button>
+     <button class="modal-btn" onclick="saveWorkflow()">💾 حفظ خط العمل</button>
+     <button class="modal-btn secondary" onclick="resetWorkflowForm()">إلغاء / خط عمل جديد</button>
+     <button class="modal-btn secondary" onclick="closeModal('workflowModal')">إغلاق</button>
+    </div>
+   </div>
+   <div id="nomadicModal" class="modal-overlay" style="display:none" role="dialog" aria-label="نقل الذاكرة عبر QR">
+    <div class="modal-box">
+     <h3>🔗 الذاكرة النقالة</h3>
+     <p class="modal-hint">انقل قاعدة معرفتك ووكلاءك المفضّلين إلى جهاز آخر عبر رمز QR — بدون سيرفر، مباشرة بين جهازين.</p>
+     <div style="display:flex; gap:8px;">
+      <button class="modal-btn" style="flex:1" onclick="exportNomadicQR()">📤 تصدير</button>
+      <button class="modal-btn" style="flex:1" onclick="startCameraScan()">📷 استيراد بالكاميرا</button>
+     </div>
+     <div id="qrExportBox" style="display:none; text-align:center; background:#fff; padding:12px; border-radius:12px;">
+      <div id="qrCanvasHolder"></div>
+      <p style="color:#333; font-size:11px; margin-top:6px;">امسح هذا الرمز من الجهاز الآخر</p>
+     </div>
+     <video id="scanVideo" style="display:none; width:100%; border-radius:10px;" playsinline></video>
+     <canvas id="scanCanvas" style="display:none;"></canvas>
+     <div id="scanStatus" class="modal-hint"></div>
+     <p class="modal-hint">أو الصق النص المُصدَّر يدوياً إذا تعذر استخدام الكاميرا:</p>
+     <textarea id="nomadicPasteInput" rows="3" placeholder="الصق نص الذاكرة المُصدَّر هنا..." aria-label="لصق نص الذاكرة"></textarea>
+     <button class="modal-btn" onclick="importNomadicPasted()">استيراد من النص الملصق</button>
+     <button class="modal-btn secondary" onclick="closeNomadicPanel()">إغلاق</button>
+    </div>
+   </div>
+   <div id="settingsModal" class="modal-overlay" style="display:none" role="dialog" aria-label="الإعدادات">
+    <div class="modal-box">
+     <h3>⚙️ الإعدادات</h3>
+     <p class="modal-hint">وضع الاتصال الحالي: <strong id="connectionModeLabel">—</strong>
+      <br>
+      داخل معاينة claude.ai، الاتصال بـ Claude يشتغل تلقائياً بدون إعداد. لو نشرت هذا التطبيق كموقع أو تطبيق مستقل، لازم تشغّل سيرفر الـ backend الخاص فيك (راجع ملفات nexus-backend) وتحط رابطه هون.</p>
+     <label for="backendUrlInput" style="font-size:12px; color:var(--muted);">رابط سيرفر الـ backend (اتركه فارغاً للاستخدام داخل claude.ai):</label> <input id="backendUrlInput" placeholder="مثال: https://your-backend.onrender.com" aria-label="رابط السيرفر الخلفي">
+     <button class="modal-btn" onclick="saveBackendUrl()">حفظ</button>
+     <hr style="border-color:var(--border); margin:6px 0;">
+     <p class="modal-hint"><strong>🌐 مزودو النماذج لوضع "التوافق متعدد النماذج"</strong>
+      <br>
+      يتطلب سيرفر backend فيه مفاتيح هذه الشركات (راجع .env.example). Claude مفعّل دائماً كخط أساس.</p>
+     <label style="font-size:13px;"><input type="checkbox" id="providerOpenAI"> OpenAI (GPT)</label> <label style="font-size:13px;"><input type="checkbox" id="providerDeepSeek"> DeepSeek</label> <label style="font-size:13px;"><input type="checkbox" id="providerGemini"> Gemini (Google)</label>
+     <button class="modal-btn" onclick="saveProviderSettings()">حفظ المزودين</button>
+     <hr style="border-color:var(--border); margin:6px 0;">
+     <p class="modal-hint"><strong>🧠 الذاكرة طويلة المدى</strong>
+      <br>
+      تُلخّص وتُخزّن (بتضمين/embeddings حقيقي عبر OpenAI) نقاطاً من محادثاتك، وتسترجعها تلقائياً لاحقاً عند وجود سؤال ذو صلة — تعمل حالياً في وضع "المساعد الفردي" فقط. تحتاج سيرفر backend + OPENAI_API_KEY.</p>
+     <label style="font-size:13px;"><input type="checkbox" id="ltmEnabledToggle" onchange="saveLTMSetting()"> تفعيل الذاكرة طويلة المدى</label>
+     <p class="modal-hint" id="ltmCountLabel"></p>
+     <button class="modal-btn secondary" onclick="clearLongTermMemory()">🗑️ مسح الذاكرة طويلة المدى</button>
+     <hr style="border-color:var(--border); margin:6px 0;">
+     <p class="modal-hint"><strong>🎙️ الصوت (Web Speech API)</strong></p>
+     <label for="voiceLangSelect" style="font-size:12px; color:var(--muted);">لغة الإدخال/الإخراج الصوتي:</label> <select id="voiceLangSelect" aria-label="لغة الصوت"> <option value="ar-SA">العربية (فصحى/خليجي)</option> <option value="ar-EG">العربية (مصر)</option> <option value="ar-LB">العربية (لبنان)</option> <option value="en-US">English (US)</option> </select> <label for="voiceRateInput" style="font-size:12px; color:var(--muted);">سرعة القراءة الصوتية:</label> <input type="range" id="voiceRateInput" min="0.6" max="1.6" step="0.1" value="1" aria-label="سرعة الصوت">
+     <button class="modal-btn" onclick="saveVoiceSettings()">حفظ إعدادات الصوت</button>
+     <button class="modal-btn secondary" onclick="closeModal('settingsModal')">إغلاق</button>
+    </div>
+   </div>
+   <div id="customAgentsModal" class="modal-overlay" style="display:none" role="dialog" aria-label="الوكلاء المخصصون">
+    <div class="modal-box">
+     <h3>🛠️ الوكلاء المخصصون</h3>
+     <p class="modal-hint">اصنع وكيلك الخاص بشخصية وتوجيه مختلف، درّبه على معرفة خاصة، وشاركه مع آخرين.</p>
+     <div id="customAgentsList"></div>
+     <div id="agentImprovementPreview" style="display:none;"></div>
+     <hr style="border-color:var(--border); margin:6px 0;">
+     <p class="modal-hint" id="customAgentFormTitle"><strong>➕ إنشاء وكيل جديد</strong></p>
+     <div style="display:flex; gap:8px;">
+      <input id="caEmoji" placeholder="🤖" style="width:60px; text-align:center;" maxlength="4" aria-label="رمز الوكيل"> <input id="caName" placeholder="اسم الوكيل" style="flex:1;" aria-label="اسم الوكيل">
+     </div>
+     <textarea id="caPrompt" rows="3" placeholder="نمط الوكيل (System Prompt) — كيف يفكر ويتصرف؟" aria-label="نمط الوكيل"></textarea>
+     <p class="modal-hint">معرفة خاصة بهذا الوكيل (اختياري):</p>
+     <div id="caKnowledgeList"></div>
+     <input id="caKbTitle" placeholder="عنوان" aria-label="عنوان معرفة الوكيل"> <textarea id="caKbContent" rows="2" placeholder="المحتوى..." aria-label="محتوى معرفة الوكيل"></textarea>
+     <button class="modal-btn secondary" onclick="addCustomAgentKnowledgeItem()">+ إضافة معرفة للوكيل</button>
+     <button class="modal-btn" onclick="saveCustomAgent()">💾 حفظ الوكيل</button>
+     <button class="modal-btn secondary" onclick="resetCustomAgentForm()">إلغاء / وكيل جديد</button>
+     <hr style="border-color:var(--border); margin:6px 0;">
+     <p class="modal-hint">📥 استيراد وكيل من نص مُشارَك:</p>
+     <textarea id="caImportInput" rows="2" placeholder="الصق كود الوكيل هنا..." aria-label="استيراد وكيل"></textarea>
+     <button class="modal-btn secondary" onclick="importCustomAgentPasted()">استيراد</button>
+     <button class="modal-btn secondary" onclick="closeModal('customAgentsModal')">إغلاق</button>
+    </div>
+   </div>
+   <div id="knowledgeModal" class="modal-overlay" style="display:none" role="dialog" aria-label="قاعدة المعرفة">
+    <div class="modal-box">
+     <h3>📚 قاعدة المعرفة</h3>
+     <p class="modal-hint">أضف حقائق أو سياقات ثابتة (عن مشروعك، شركتك، تفضيلاتك) ليستخدمها كل الوكلاء تلقائياً في ردودهم.</p>
+     <div id="knowledgeList"></div>
+     <input id="kbTitle" placeholder="عنوان مختصر" aria-label="عنوان المعرفة"> <textarea id="kbContent" rows="3" placeholder="المحتوى..." aria-label="محتوى المعرفة"></textarea>
+     <label style="font-size:12px; margin-top:4px; display:flex; align-items:center; gap:6px;"><input type="checkbox" id="kbSensitive"> 🔒 عنصر حسّاس (مشفر بمفتاح منفصل)</label>
+     <button class="modal-btn" onclick="addKnowledgeItem()">إضافة</button>
+     <button class="modal-btn secondary" onclick="closeModal('knowledgeModal')">إغلاق</button>
+    </div>
+   </div>
+   <div id="activityModal" class="modal-overlay" style="display:none" role="dialog" aria-label="سجل النشاط">
+    <div class="modal-box">
+     <h3>📜 سجل النشاط</h3>
+     <div id="activityList" style="max-height:300px; overflow-y:auto;"></div>
+     <button class="modal-btn secondary" onclick="closeModal('activityModal')">إغلاق</button>
+    </div>
+   </div>
+   
+   <div class="mode-row" role="group" aria-label="وضع المرآة">
+    <label style="display:flex; align-items:center; gap:6px; width:100%;">
+      <input type="checkbox" id="mirrorModeToggle"> 🪞 وضع المرآة (حوار حي بين وكيلين)
+    </label>
+   </div>
+   <div class="mode-row" role="group" aria-label="مراقب التحيز">
+    <label style="display:flex; align-items:center; gap:6px; width:100%;">
+      <input type="checkbox" id="biasWatcherToggle"> 🔎 مراقب التحيّز بعد كل رد
+    </label>
+   </div>
+   <div class="mode-row" role="group" aria-label="شجرة التفكير">
+    <label style="display:flex; align-items:center; gap:6px; width:100%;">
+      <input type="checkbox" id="thoughtTreeToggle"> 🧠 شجرة التفكير
+    </label>
+   </div>
+   <div class="mode-row" role="group" aria-label="المختبر">
+    <label style="display:flex; align-items:center; gap:6px; width:100%;">
+      <input type="checkbox" id="sandboxToggle"> 🧪 المختبر (اختبار تضليل)
+    </label>
+   </div>
+
+   <div id="chatArea" role="log" aria-live="polite" aria-label="سجل المحادثة">
+    <div class="empty-state" id="emptyState">
+     اختر وكيلاً واحداً (أو فعّل الذكاء الجماعي واختر أكثر من وكيل)، ثم اكتب سؤالك بالأسفل.
+     <br>
+     كل رد يُولَّد فعلياً عبر Claude API — لا محتوى مُحاكى.
+    </div>
+   </div>
+   <div id="imagePreviewBar" style="display:none;"></div>
+   <div class="input-bar">
+    <input type="file" id="imageFileInput" accept="image/*" style="display:none" onchange="handleImageSelected(event)">
+    <button class="icon-btn" id="voiceInputBtn" onclick="startVoiceInput()" aria-label="إدخال صوتي" type="button">🎤</button>
+    <button id="attachBtn" class="mic-btn" onclick="document.getElementById('imageFileInput').click()" aria-label="إرفاق صورة" type="button">📷</button>
+    <button class="icon-btn" onclick="document.getElementById('fileUploadInput').click()" aria-label="رفع ملف" type="button">📎</button>
+    <input type="file" id="fileUploadInput" accept=".txt,.md,.pdf" style="display:none" onchange="handleFileUpload(event)" multiple>
+    <button id="micBtn" class="mic-btn" onclick="toggleVoiceInput()" aria-label="تسجيل صوتي" type="button">🎙️</button>
+    <textarea id="msgInput" rows="1" placeholder="اكتب رسالتك هنا..." onkeydown="handleKeydown(event)" aria-label="اكتب رسالتك"></textarea>
+    <button id="sendBtn" onclick="sendMessage()" aria-label="إرسال الرسالة">إرسال</button>
+   </div>
+  </div>
+  <script>
+/* ========================================================================
+   AGENT DEFINITIONS
+   ======================================================================== */
+const AGENTS = [
+  { id:'general',   name:'المساعد العام',        emoji:'🧭', prompt:'أنت مساعد عام ذكي وشامل، تجيب بوضوح ودقة وبأسلوب عملي مباشر، باللغة العربية ما لم يُطلب غير ذلك.' },
+  { id:'financial',  name:'المستشار المالي',      emoji:'💰', prompt:'أنت مستشار مالي خبير بالأسواق، الذهب، العملات، وإدارة المخاطر. تقدم تحليلاً واقعياً متوازناً، وتنبّه دائماً أنك لست مستشاراً مرخصاً وأن القرار النهائي يعود للمستخدم.' },
+  { id:'legal',      name:'المستشار القانوني',    emoji:'⚖️', prompt:'أنت مستشار قانوني عام يشرح المفاهيم القانونية بوضوح ويقارن بين الأطر القانونية المختلفة، مع التنويه دوماً أنك لست محامياً مرخصاً وأن الاستشارة لا تغني عن محامٍ حقيقي.' },
+  { id:'marketing',  name:'خبير التسويق',         emoji:'📣', prompt:'أنت خبير تسويق رقمي ونمو، متخصص في استراتيجيات المحتوى، الإعلانات المدفوعة، وبناء العلامة التجارية في الأسواق العربية والعالمية.' },
+  { id:'tech',       name:'الخبير التقني',        emoji:'💻', prompt:'أنت مهندس برمجيات خبير في بناء التطبيقات، الأنظمة الموزعة، وواجهات البرمجة. تقدم حلولاً عملية قابلة للتنفيذ مع مراعاة القيود الواقعية للمشروع.' },
+  { id:'geo',        name:'المحلل الجيوسياسي',    emoji:'🌍', prompt:'أنت محلل جيوسياسي متوازن يشرح الأحداث والصراعات الدولية من زوايا متعددة دون الانحياز لطرف، ويقدم السياق التاريخي والاقتصادي ذا الصلة.' },
+  { id:'hr',         name:'مستشار الموارد البشرية', emoji:'🤝', prompt:'أنت مستشار موارد بشرية خبير في التوظيف، بناء الفرق، والثقافة المؤسسية للشركات الناشئة والصغيرة.' },
+  { id:'writer',     name:'كاتب المحتوى',         emoji:'✍️', prompt:'أنت كاتب محتوى محترف متخصص في الكتابة الإبداعية والتسويقية والسكربتات القصيرة لمنصات التواصل الاجتماعي بأسلوب جذاب ومقنع.' },
+  { id:'support',    name:'خدمة العملاء',         emoji:'🎧', prompt:'أنت وكيل خدمة عملاء محترف، هادئ ومتفهم، تحل المشاكل بخطوات واضحة وتصعّد للمستوى الأعلى عند الحاجة، بأسلوب ودود واحترافي.' },
+  { id:'data',       name:'محلل البيانات',        emoji:'📊', prompt:'أنت محلل بيانات خبير في الإحصاء، تفسير الأرقام، بناء المؤشرات (KPIs)، واقتراح طرق عرض البيانات بشكل مفهوم وعملي.' },
+  { id:'realestate', name:'مستشار العقارات',      emoji:'🏠', prompt:'أنت مستشار عقاري خبير بتقييم العقارات، الاستثمار العقاري، والاتجاهات السوقية، وتقدم تحليلاً متوازناً دون ضمانات مطلقة حول القيمة المستقبلية.' },
+  { id:'wellness',   name:'مستشار الصحة العامة',  emoji:'🩺', prompt:'أنت مساعد معلومات صحية عامة تقدم معلومات تثقيفية واسعة حول نمط الحياة الصحي، وتنوّه دوماً أنك لست طبيباً وأن أي قرار طبي أو خطة غذائية أو علاجية يجب أن يراجعها مختص مرخص.' },
+  { id:'education',  name:'مستشار التعليم والتدريب', emoji:'🎓', prompt:'أنت مستشار تعليمي وتدريبي خبير في تصميم المناهج، طرق التعلّم الفعّال، وبناء خطط تطوير مهارات للأفراد والفرق.' },
+  { id:'projectmgmt',name:'خبير إدارة المشاريع', emoji:'📋', prompt:'أنت خبير إدارة مشاريع (Agile/Scrum وTraditional)، تساعد في تخطيط المهام، إدارة الجداول الزمنية، وتحديد المخاطر بأسلوب عملي منظم.' },
+  { id:'crypto',     name:'محلل العملات الرقمية', emoji:'🪙', prompt:'أنت محلل متخصص بالعملات الرقمية والبلوكتشين، تشرح المفاهيم والاتجاهات بحياد، وتنوّه دوماً بالمخاطر العالية لهذه الأسواق وأنك لست مستشاراً مالياً مرخصاً.' },
+  { id:'travel',     name:'مستشار السفر والسياحة', emoji:'✈️', prompt:'أنت مستشار سفر خبير بالوجهات السياحية، تخطيط الرحلات، والميزانيات السياحية، تقدم اقتراحات عملية ومحدّثة قدر الإمكان.' },
+  { id:'translator', name:'خبير الترجمة اللغوية', emoji:'🌐', prompt:'أنت مترجم محترف متمكن من الفروق الدقيقة بين اللغة العربية والإنجليزية (وغيرها عند الطلب)، تترجم بدقة مع الحفاظ على السياق والنبرة الأصلية للنص.' },
+  { id:'supervisor', name:'المشرف',              emoji:'🧑‍💼', prompt:'أنت "المشرف" في نظام Neural Nexus AI Agents. مهمتك: إدارة النقاش بين الوكلاء المتخصصين، رصد نقاط التعارض أو التكامل بين آرائهم، وطرح أسئلة متابعة دقيقة توجّه النقاش نحو نتيجة عملية، ثم دمج كل المدخلات في تقرير تنفيذي واحد منظم وواضح القرار.' },
+];
+
+const SYNTHESIS_PROMPT = 'أنت وكيل التوليف المركزي في نظام Neural Nexus. ستستلم آراء عدة وكلاء متخصصين حول نفس السؤال. مهمتك: ادمج أفضل ما في كل رأي في إجابة واحدة متماسكة ومنظمة، أشر بإيجاز إلى أي تعارض بين الآراء إن وجد، ولا تكرر نفس المعلومة مرتين.';
+
+/* ========================================================================
+   REAL TOOL USE
+   - web_search: Anthropic's own server-executed tool. Anthropic performs
+     the actual search and returns synthesized results in one round trip —
+     no client-side execution needed.
+   - create_file: a genuine client-side tool. The model can request a real
+     file; WE generate and download it via a Blob (never eval'd, never
+     executed — just handed to the browser's normal download mechanism).
+   Only wired up for the 'anthropic' provider (see server.js).
+   ======================================================================== */
+const AVAILABLE_TOOLS = [
+  { type: 'web_search_20250305', name: 'web_search' },
+  {
+    name: 'create_file',
+    description: 'أنشئ ملف نصي حقيقي (txt أو md) يُنزَّل مباشرة لجهاز المستخدم. استخدمها عندما يطلب المستخدم صراحة توليد مستند أو ملخص أو تقرير كملف قابل للتنزيل.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        filename: { type:'string', description:'اسم الملف مع الامتداد، مثلاً report.md' },
+        content: { type:'string', description:'المحتوى الكامل للملف' },
+      },
+      required: ['filename', 'content'],
+    },
+  },
+];
+
+// Executes a CLIENT tool locally (server tools like web_search never reach
+// here — Anthropic executes those itself). Returns a string fed back to
+// the model as the tool_result so it can compose its final reply.
+function executeLocalTool(name, input){
+  if(name === 'create_file'){
+    try{
+      const blob = new Blob([input.content || ''], { type:'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = input.filename || 'file.txt';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      logActivity('إنشاء ملف', input.filename);
+      return 'تم إنشاء الملف "' + (input.filename || 'file.txt') + '" وتنزيله بنجاح لجهاز المستخدم.';
+    }catch(e){
+      return 'فشل إنشاء الملف: ' + e.message;
+    }
+  }
+  return 'أداة غير معروفة: ' + name;
+}
+
+function isToolsEnabled(){
+  const el = document.getElementById('toolsToggle');
+  return el ? el.checked : false;
+}
+
+function buildManagerPrompt(){
+  return `أنت "المدير الذكي" في نظام Neural Nexus AI Agents. مهمتك الوحيدة: تحليل طلب المستخدم واختيار أنسب 1-3 وكلاء متخصصين من القائمة التالية للرد عليه.
+القائمة المتاحة (id: الوصف):
+${getAllAgents().filter(a=>a.id!=='supervisor').map(a=>`${a.id}: ${a.name}`).join('\n')}
+
+أجب حصراً بصيغة JSON صالحة بدون أي نص إضافي قبلها أو بعدها، بهذا الشكل بالضبط:
+{"agent_ids": ["id1", "id2"], "reason": "سبب مختصر بالعربية"}`;
+}
+
+/* ========================================================================
+   STATE
+   ======================================================================== */
+let selectedAgentIds = ['general'];
+let messages = []; // {role, agentId, agentName, content, type}
+let encryptionKey = null;
+let knowledgeBase = []; // [{id, title, content}]
+let customAgents = []; // [{id, name, emoji, prompt, knowledge:[{title,content}], createdAt}]
+let longTermMemory = []; // [{id, text, embedding, ts, agentId}]
+let workflows = []; // [{id, name, steps:[{agentId, instruction}], createdAt}]
+let editingWorkflowId = null; // null = creating new workflow, else editing existing id
+let editingWorkflowSteps = []; // temp steps while building/editing a workflow
+let editingAgentId = null; // null = creating new custom agent, else editing existing id
+let editingAgentKnowledge = []; // temp knowledge items while building/editing a custom agent
+
+function getAllAgents(){ return [...AGENTS, ...customAgents]; }
+
+/* ========================================================================
+   CONTEXT ROUTER — smart retrieval instead of dumping every knowledge
+   entry into every prompt. Scores entries by semantic similarity to the
+   current query (reusing the same embeddings pipeline as long-term memory)
+   and injects only the top matches. Degrades gracefully to "include a
+   recent slice" when no backend/embeddings are available.
+   ======================================================================== */
+async function routeEntries(queryText, entries, topK=4, minScore=0.15){
+  if(!entries || entries.length === 0) return [];
+  if(!getBackendUrl()){
+    // No backend => no embeddings possible. Fall back to a bounded recent
+    // slice rather than silently dropping everything or dumping it all.
+    return entries.slice(-topK);
+  }
+  try{
+    // Lazily embed any entries that don't have a cached embedding yet
+    // (e.g. added before this feature, or added while backend was briefly down).
+    const unembedded = entries.filter(e => !Array.isArray(e.embedding));
+    if(unembedded.length > 0){
+      await Promise.all(unembedded.map(async e => {
+        try{ e.embedding = await getEmbedding(e.title + ': ' + e.content); }
+        catch(err){ /* leave unembedded — it'll just be skipped from scoring, not crash routing */ }
+      }));
+      persistState(); // cache the newly computed embeddings so we don't re-embed every message
+    }
+
+    const queryEmbedding = await getEmbedding(queryText);
+    const scored = entries
+      .filter(e => Array.isArray(e.embedding))
+      .map(e => ({ e, score: cosineSimilarity(queryEmbedding, e.embedding) }))
+      .sort((a,b) => b.score - a.score);
+
+    const top = scored.filter(s => s.score >= minScore).slice(0, topK);
+    // If nothing clears the relevance bar (e.g. totally unrelated topic),
+    // still surface the single closest match rather than returning nothing.
+    return (top.length > 0 ? top : scored.slice(0,1)).map(s => s.e);
+  }catch(err){
+    console.error('Context router failed, falling back to a recent slice:', err.message);
+    return entries.slice(-topK);
+  }
+}
+
+async function knowledgeContext(queryText){
+  if(knowledgeBase.length === 0) return '';
+  const routed = await routeEntries(queryText, knowledgeBase, 4);
+  if(routed.length === 0) return '';
+  const items = routed.map(k => `- ${k.title}: ${k.content}`).join('\n');
+  return '\n\nمعلومات سياقية إضافية من قاعدة معرفة المستخدم (مُنتقاة تلقائياً حسب صلتها بسؤالك):\n' + items;
+}
+
+async function agentKnowledgeContext(agent, queryText){
+  if(!agent.knowledge || agent.knowledge.length === 0) return '';
+  const routed = await routeEntries(queryText, agent.knowledge, 3);
+  if(routed.length === 0) return '';
+  const items = routed.map(k => `- ${k.title}: ${k.content}`).join('\n');
+  return '\n\nمعرفة خاصة بهذا الوكيل المخصص (مُنتقاة تلقائياً حسب صلتها بسؤالك):\n' + items;
+}
+
+async function fullAgentPrompt(agent, queryText){
+  return agent.prompt + await agentKnowledgeContext(agent, queryText);
+}
+let activityLog = []; // [{ts, action, detail}]
+const STORAGE_KEY = 'nexus_agents_state_v1';
+
+function logActivity(action, detail){
+  activityLog.unshift({ ts: new Date().toISOString(), action, detail });
+  activityLog = activityLog.slice(0, 200); // keep last 200 entries
+  renderActivityLog();
+}
+
+function renderAgentStrip(){
+  const collective = document.getElementById('collectiveToggle').checked;
+  const strip = document.getElementById('agentStrip');
+  strip.innerHTML = getAllAgents().map(a => `
+    <div class="agent-chip ${selectedAgentIds.includes(a.id)?'selected':''} ${a.id.startsWith('custom_')?'custom-chip':''}"
+         onclick="toggleAgent('${a.id}', ${collective})"
+         role="button" tabindex="0" aria-pressed="${selectedAgentIds.includes(a.id)}"
+         aria-label="وكيل ${a.name}${a.id.startsWith('custom_')?' (مخصص)':''}">
+      ${a.emoji} ${a.name}${a.id.startsWith('custom_') ? ' 🛠️' : ''}
+    </div>
+  `).join('');
+}
+function toggleAgent(id, collective){
+  if(collective){
+    if(selectedAgentIds.includes(id)){
+      selectedAgentIds = selectedAgentIds.filter(x=>x!==id);
+    } else {
+      selectedAgentIds.push(id);
+    }
+    if(selectedAgentIds.length===0) selectedAgentIds=['general'];
+  } else {
+    selectedAgentIds = [id];
+  }
+  renderAgentStrip();
+}
+
+/* ========================================================================
+   MODALS: KNOWLEDGE BASE + ACTIVITY LOG
+   ======================================================================== */
+function openKnowledgePanel(){
+  renderKnowledgeList();
+  document.getElementById('knowledgeModal').style.display = 'flex';
+}
+function openActivityPanel(){
+  renderActivityLog();
+  document.getElementById('activityModal').style.display = 'flex';
+}
+function closeModal(id){
+  document.getElementById(id).style.display = 'none';
+}
+function renderKnowledgeList(){
+  const el = document.getElementById('knowledgeList');
+  if(knowledgeBase.length === 0){
+    el.innerHTML = '<p class="modal-hint">لا يوجد محتوى بعد.</p>';
+    return;
+  }
+  el.innerHTML = knowledgeBase.map(k => `
+    <div class="kb-item">
+      <div class="kb-text"><strong>${k.title}</strong><br>${k.content}</div>
+      <button onclick="removeKnowledgeItem('${k.id}')" aria-label="حذف ${k.title}">✕</button>
+    </div>
+  `).join('');
+}
+async function addKnowledgeItem(){
+  const title = document.getElementById('kbTitle').value.trim();
+  const content = document.getElementById('kbContent').value.trim();
+  if(!title || !content) return;
+  const entry = { id:'kb_'+Date.now(), title, content };
+  knowledgeBase.push(entry);
+  document.getElementById('kbTitle').value = '';
+  document.getElementById('kbContent').value = '';
+  renderKnowledgeList();
+  logActivity('إضافة معرفة', title);
+  await persistState();
+  // Best-effort: pre-embed now so the Context Router doesn't pay this
+  // latency on the next chat message. Non-fatal if backend/embeddings
+  // aren't configured — routeEntries() will lazily retry later anyway.
+  try{
+    entry.embedding = await getEmbedding(title + ': ' + content);
+    await persistState();
+  }catch(e){ /* will be embedded lazily on first use instead */ }
+}
+async function removeKnowledgeItem(id){
+  knowledgeBase = knowledgeBase.filter(k => k.id !== id);
+  renderKnowledgeList();
+  await persistState();
+}
+
+/* ========================================================================
+   CUSTOM AGENTS — user-created agents with their own persona and
+   optional dedicated knowledge, shareable with other users.
+   ======================================================================== */
+function openCustomAgentsPanel(){
+  resetCustomAgentForm();
+  renderCustomAgentsList();
+  document.getElementById('customAgentsModal').style.display = 'flex';
+}
+function renderCustomAgentsList(){
+  const el = document.getElementById('customAgentsList');
+  if(customAgents.length === 0){
+    el.innerHTML = '<p class="modal-hint">ما في وكلاء مخصصون بعد — أنشئ أول وكيل بالأسفل.</p>';
+    return;
+  }
+  el.innerHTML = customAgents.map(a => `
+    <div class="kb-item" style="flex-direction:column; align-items:stretch; gap:6px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong>${a.emoji} ${a.name}</strong>
+        <div style="display:flex; gap:6px;">
+          <button onclick="editCustomAgent('${a.id}')" aria-label="تعديل ${a.name}" style="color:var(--blue);">✏️</button>
+          <button onclick="shareCustomAgent('${a.id}')" aria-label="مشاركة ${a.name}" style="color:var(--gold);">🔗</button>
+          <button onclick="suggestAgentImprovement('${a.id}')" aria-label="اقترح تحسين نمط ${a.name}" style="color:var(--green);">🔧</button>
+          <button onclick="deleteCustomAgent('${a.id}')" aria-label="حذف ${a.name}">✕</button>
+        </div>
+      </div>
+      <div class="kb-text" style="opacity:.75;">${a.prompt.slice(0,90)}${a.prompt.length>90?'…':''}</div>
+      ${a.knowledge && a.knowledge.length ? `<div style="font-size:11px; color:var(--muted);">📎 ${a.knowledge.length} عنصر معرفة مرتبط</div>` : ''}
+    </div>
+  `).join('');
+}
+
+/* ========================================================================
+   HUMAN-APPROVED PROMPT TUNING (the safe alternative to a literal
+   "self_modify" tool). Claude may SUGGEST a refined system prompt for a
+   custom agent based on how conversations with it actually went — but it
+   is only ever text describing a persona, never executable code, and it
+   is NEVER applied automatically. The person always reviews old vs. new
+   and explicitly approves or discards it.
+   ======================================================================== */
+let pendingAgentImprovement = null; // { agentId, newPrompt }
+
+async function suggestAgentImprovement(agentId){
+  const agent = customAgents.find(a => a.id === agentId);
+  if(!agent) return;
+  const history = buildHistoryForAgent(agentId).slice(-10);
+  if(history.length === 0){
+    showToast('ما في محادثة سابقة كافية مع هذا الوكيل لاقتراح تحسين بعد.');
+    return;
+  }
+  showToast('🔧 يحلل المحادثات الفعلية ويقترح تحسيناً...');
+  const analysisPrompt = 'أنت خبير في هندسة الأوامر (prompt engineering). راجع نمط الوكيل الحالي (System Prompt) والمحادثة الفعلية معه أدناه، واقترح نسخة محسّنة من النمط تعالج أي ارتباك، تكرار غير مفيد، أو قصور ظهر خلال المحادثة. أجب فقط بنص النمط المحسّن الجديد كاملاً، بدون أي شرح أو مقدمات أو علامات اقتباس.';
+  const historyText = history.map(h => (h.role==='user' ? 'المستخدم' : 'الوكيل') + ': ' + h.content).join('\n');
+  try{
+    const suggestion = await callClaude(analysisPrompt, 'نمط الوكيل الحالي:\n' + agent.prompt + '\n\nالمحادثة الفعلية معه:\n' + historyText, []);
+    pendingAgentImprovement = { agentId, newPrompt: suggestion.trim() };
+    showAgentImprovementPreview(agent, suggestion.trim());
+  }catch(e){
+    showToast('فشل اقتراح التحسين: ' + e.message);
+  }
+}
+
+function showAgentImprovementPreview(agent, newPrompt){
+  const el = document.getElementById('agentImprovementPreview');
+  el.style.display = 'block';
+  el.innerHTML = `
+    <p class="modal-hint"><strong>🔧 تحسين مقترح لـ ${agent.emoji} ${agent.name}</strong> — نص فقط، ولن يُطبَّق إلا بموافقتك الصريحة:</p>
+    <p class="modal-hint"><strong>الحالي:</strong><br>${agent.prompt}</p>
+    <p class="modal-hint"><strong>المقترح:</strong><br>${newPrompt}</p>
+    <div style="display:flex; gap:8px;">
+      <button class="modal-btn" onclick="approveAgentImprovement()">✅ اعتماد التحسين</button>
+      <button class="modal-btn secondary" onclick="discardAgentImprovement()">❌ تجاهل</button>
+    </div>
+  `;
+}
+async function approveAgentImprovement(){
+  if(!pendingAgentImprovement) return;
+  const agent = customAgents.find(a => a.id === pendingAgentImprovement.agentId);
+  if(agent){
+    agent.prompt = pendingAgentImprovement.newPrompt;
+    await persistState();
+    renderCustomAgentsList();
+    logActivity('تحسين وكيل (بموافقة المستخدم)', agent.name);
+    showToast('✅ تم تحديث نمط ' + agent.name + '.');
+  }
+  discardAgentImprovement();
+}
+function discardAgentImprovement(){
+  pendingAgentImprovement = null;
+  const el = document.getElementById('agentImprovementPreview');
+  if(el){ el.style.display = 'none'; el.innerHTML = ''; }
+}
+function resetCustomAgentForm(){
+  editingAgentId = null;
+  editingAgentKnowledge = [];
+  document.getElementById('customAgentFormTitle').innerHTML = '<strong>➕ إنشاء وكيل جديد</strong>';
+  document.getElementById('caEmoji').value = '';
+  document.getElementById('caName').value = '';
+  document.getElementById('caPrompt').value = '';
+  document.getElementById('caKbTitle').value = '';
+  document.getElementById('caKbContent').value = '';
+  renderCustomAgentKnowledgeForm();
+}
+function editCustomAgent(id){
+  const a = customAgents.find(x => x.id === id);
+  if(!a) return;
+  editingAgentId = a.id;
+  editingAgentKnowledge = a.knowledge ? [...a.knowledge] : [];
+  document.getElementById('customAgentFormTitle').innerHTML = '<strong>✏️ تعديل: ' + a.name + '</strong>';
+  document.getElementById('caEmoji').value = a.emoji;
+  document.getElementById('caName').value = a.name;
+  document.getElementById('caPrompt').value = a.prompt;
+  renderCustomAgentKnowledgeForm();
+}
+function renderCustomAgentKnowledgeForm(){
+  const el = document.getElementById('caKnowledgeList');
+  if(editingAgentKnowledge.length === 0){
+    el.innerHTML = '';
+    return;
+  }
+  el.innerHTML = editingAgentKnowledge.map((k, i) => `
+    <div class="kb-item">
+      <div class="kb-text"><strong>${k.title}</strong><br>${k.content}</div>
+      <button onclick="removeCustomAgentKnowledgeItem(${i})" aria-label="حذف ${k.title}">✕</button>
+    </div>
+  `).join('');
+}
+function addCustomAgentKnowledgeItem(){
+  const title = document.getElementById('caKbTitle').value.trim();
+  const content = document.getElementById('caKbContent').value.trim();
+  if(!title || !content) return;
+  editingAgentKnowledge.push({ title, content });
+  document.getElementById('caKbTitle').value = '';
+  document.getElementById('caKbContent').value = '';
+  renderCustomAgentKnowledgeForm();
+}
+function removeCustomAgentKnowledgeItem(index){
+  editingAgentKnowledge.splice(index, 1);
+  renderCustomAgentKnowledgeForm();
+}
+async function saveCustomAgent(){
+  const emoji = document.getElementById('caEmoji').value.trim() || '🤖';
+  const name = document.getElementById('caName').value.trim();
+  const prompt = document.getElementById('caPrompt').value.trim();
+  if(!name || !prompt){ showToast('لازم اسم ونمط (System Prompt) على الأقل.'); return; }
+
+  if(editingAgentId){
+    const a = customAgents.find(x => x.id === editingAgentId);
+    if(a){ a.emoji = emoji; a.name = name; a.prompt = prompt; a.knowledge = [...editingAgentKnowledge]; }
+    logActivity('تعديل وكيل مخصص', name);
+  } else {
+    const newAgent = { id:'custom_'+Date.now(), emoji, name, prompt, knowledge:[...editingAgentKnowledge], createdAt:new Date().toISOString() };
+    customAgents.push(newAgent);
+    logActivity('إنشاء وكيل مخصص', name);
+  }
+  await persistState();
+  renderCustomAgentsList();
+  renderAgentStrip();
+  resetCustomAgentForm();
+  showToast('✅ تم حفظ الوكيل');
+}
+async function deleteCustomAgent(id){
+  if(!confirm('حذف هذا الوكيل المخصص نهائياً؟')) return;
+  customAgents = customAgents.filter(a => a.id !== id);
+  selectedAgentIds = selectedAgentIds.filter(id2 => id2 !== id);
+  if(selectedAgentIds.length === 0) selectedAgentIds = ['general'];
+  await persistState();
+  renderCustomAgentsList();
+  renderAgentStrip();
+  logActivity('حذف وكيل مخصص', id);
+}
+async function shareCustomAgent(id){
+  const a = customAgents.find(x => x.id === id);
+  if(!a) return;
+  const shareData = { type:'nexus_custom_agent', emoji:a.emoji, name:a.name, prompt:a.prompt, knowledge:a.knowledge||[] };
+  const json = JSON.stringify(shareData);
+  try{
+    await navigator.clipboard.writeText(json);
+    showToast('✅ تم نسخ كود الوكيل — شاركه مع أي حد يستخدم Neural Nexus AI Agents.');
+  }catch(e){
+    prompt('انسخ كود الوكيل يدوياً:', json);
+  }
+  logActivity('مشاركة وكيل مخصص', a.name);
+}
+async function importCustomAgentPasted(){
+  const text = document.getElementById('caImportInput').value.trim();
+  if(!text) return;
+  try{
+    const data = JSON.parse(text);
+    if(!data.name || !data.prompt) throw new Error('صيغة غير صالحة — تأكد من نسخ الكود كاملاً.');
+    const newAgent = {
+      id:'custom_'+Date.now(),
+      emoji: data.emoji || '🤖',
+      name: data.name,
+      prompt: data.prompt,
+      knowledge: Array.isArray(data.knowledge) ? data.knowledge : [],
+      createdAt: new Date().toISOString()
+    };
+    customAgents.push(newAgent);
+    await persistState();
+    renderCustomAgentsList();
+    renderAgentStrip();
+    document.getElementById('caImportInput').value = '';
+    showToast('✅ تم استيراد الوكيل: ' + newAgent.name);
+    logActivity('استيراد وكيل مخصص', newAgent.name);
+  }catch(e){
+    showToast('فشل الاستيراد: ' + e.message);
+  }
+}
+
+/* ========================================================================
+   WORKFLOW DESIGNER — user-defined sequential agent pipelines.
+   Each step's output automatically feeds into the next step's context,
+   same mechanism as the 5-phase engine and Situation Room, but with
+   steps and agents fully chosen by the user instead of fixed.
+   ======================================================================== */
+function populateWorkflowAgentSelect(){
+  const sel = document.getElementById('wfStepAgent');
+  if(!sel) return;
+  sel.innerHTML = getAllAgents().map(a => `<option value="${a.id}">${a.emoji} ${a.name}</option>`).join('');
+}
+
+function openWorkflowPanel(){
+  resetWorkflowForm();
+  populateWorkflowAgentSelect();
+  renderWorkflowsList();
+  document.getElementById('workflowModal').style.display = 'flex';
+}
+
+function renderWorkflowsList(){
+  const el = document.getElementById('workflowsList');
+  if(workflows.length === 0){
+    el.innerHTML = '<p class="modal-hint">ما في خطوط عمل بعد — أنشئ أول واحد بالأسفل.</p>';
+    return;
+  }
+  el.innerHTML = workflows.map(w => `
+    <div class="kb-item" style="flex-direction:column; align-items:stretch; gap:6px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong>🔀 ${w.name}</strong>
+        <div style="display:flex; gap:6px;">
+          <button onclick="editWorkflow('${w.id}')" aria-label="تعديل ${w.name}">✏️</button>
+          <button onclick="deleteWorkflow('${w.id}')" aria-label="حذف ${w.name}">✕</button>
+        </div>
+      </div>
+      <div style="font-size:11px; color:var(--muted);">
+        ${w.steps.map((s,i) => {
+          const a = getAllAgents().find(x=>x.id===s.agentId);
+          return (i+1) + '. ' + (a ? a.emoji+' '+a.name : '⚠️ وكيل محذوف');
+        }).join(' ← ')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderWorkflowStepsForm(){
+  const el = document.getElementById('wfStepsList');
+  if(editingWorkflowSteps.length === 0){
+    el.innerHTML = '<p class="modal-hint">لا توجد خطوات بعد — أضف الخطوة الأولى بالأسفل.</p>';
+    return;
+  }
+  el.innerHTML = editingWorkflowSteps.map((s, i) => {
+    const a = getAllAgents().find(x=>x.id===s.agentId);
+    return `
+      <div class="kb-item">
+        <div class="kb-text"><strong>${i+1}. ${a ? a.emoji+' '+a.name : '⚠️ غير معروف'}</strong><br>${s.instruction}</div>
+        <div style="display:flex; flex-direction:column; gap:2px;">
+          ${i > 0 ? `<button onclick="moveWorkflowStep(${i},-1)" aria-label="نقل لأعلى">⬆️</button>` : ''}
+          ${i < editingWorkflowSteps.length-1 ? `<button onclick="moveWorkflowStep(${i},1)" aria-label="نقل لأسفل">⬇️</button>` : ''}
+          <button onclick="removeWorkflowStep(${i})" aria-label="حذف الخطوة">✕</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function addWorkflowStep(){
+  const agentId = document.getElementById('wfStepAgent').value;
+  const instruction = document.getElementById('wfStepInstruction').value.trim();
+  if(!agentId || !instruction) return;
+  editingWorkflowSteps.push({ agentId, instruction });
+  document.getElementById('wfStepInstruction').value = '';
+  renderWorkflowStepsForm();
+}
+function removeWorkflowStep(index){
+  editingWorkflowSteps.splice(index, 1);
+  renderWorkflowStepsForm();
+}
+function moveWorkflowStep(index, direction){
+  const target = index + direction;
+  if(target < 0 || target >= editingWorkflowSteps.length) return;
+  [editingWorkflowSteps[index], editingWorkflowSteps[target]] = [editingWorkflowSteps[target], editingWorkflowSteps[index]];
+  renderWorkflowStepsForm();
+}
+function resetWorkflowForm(){
+  editingWorkflowId = null;
+  editingWorkflowSteps = [];
+  document.getElementById('wfName').value = '';
+  document.getElementById('wfStepInstruction').value = '';
+  document.getElementById('workflowFormTitle').innerHTML = '<strong>➕ خط عمل جديد</strong>';
+  populateWorkflowAgentSelect();
+  renderWorkflowStepsForm();
+}
+function editWorkflow(id){
+  const w = workflows.find(x => x.id === id);
+  if(!w) return;
+  editingWorkflowId = id;
+  editingWorkflowSteps = w.steps.map(s => ({ ...s })); // clone, don't mutate saved copy until save
+  document.getElementById('wfName').value = w.name;
+  document.getElementById('workflowFormTitle').innerHTML = '<strong>✏️ تعديل: ' + w.name + '</strong>';
+  populateWorkflowAgentSelect();
+  renderWorkflowStepsForm();
+}
+async function saveWorkflow(){
+  const name = document.getElementById('wfName').value.trim();
+  if(!name){ showToast('أعط خط العمل اسماً أولاً'); return; }
+  if(editingWorkflowSteps.length === 0){ showToast('أضف خطوة واحدة على الأقل'); return; }
+
+  if(editingWorkflowId){
+    const w = workflows.find(x => x.id === editingWorkflowId);
+    w.name = name;
+    w.steps = editingWorkflowSteps.map(s => ({ ...s }));
+  } else {
+    workflows.push({ id:'wf_'+Date.now(), name, steps: editingWorkflowSteps.map(s => ({ ...s })), createdAt: new Date().toISOString() });
+  }
+  await persistState();
+  resetWorkflowForm();
+  renderWorkflowsList();
+  renderWorkflowSelect();
+  logActivity('حفظ خط عمل', name);
+  showToast('✅ تم حفظ خط العمل: ' + name);
+}
+async function deleteWorkflow(id){
+  const w = workflows.find(x => x.id === id);
+  if(!w || !confirm('حذف خط العمل "' + w.name + '" نهائياً؟')) return;
+  workflows = workflows.filter(x => x.id !== id);
+  await persistState();
+  renderWorkflowsList();
+  renderWorkflowSelect();
+  logActivity('حذف خط عمل', w.name);
+}
+
+function renderWorkflowSelect(){
+  const sel = document.getElementById('workflowSelect');
+  if(!sel) return;
+  const current = sel.value;
+  sel.innerHTML = '<option value="">— دردشة عادية —</option>'
+    + workflows.map(w => `<option value="${w.id}">🔀 ${w.name}</option>`).join('');
+  if(workflows.some(w => w.id === current)) sel.value = current;
+}
+
+async function runWorkflow(workflow, userInput){
+  let runningContext = `المدخل الأصلي من المستخدم: ${userInput}`;
+  const stepOutputs = [];
+
+  for(let i = 0; i < workflow.steps.length; i++){
+    const step = workflow.steps[i];
+    const agent = getAllAgents().find(a => a.id === step.agentId);
+    if(!agent){
+      messages.push({ role:'assistant', agentId:'error', agentName:'خطأ', content:'الوكيل المحدد بالخطوة '+(i+1)+' لم يعد موجوداً (ربما وكيل مخصص تم حذفه).', type:'error' });
+      renderMessages();
+      continue;
+    }
+
+    addTypingIndicator('🔀 خطوة '+(i+1)+'/'+workflow.steps.length+': '+agent.emoji+' '+agent.name+'...');
+
+    const basePrompt = await fullAgentPrompt(agent, userInput);
+    const stepPrompt = `${basePrompt}\n\nأنت الآن ضمن "خط عمل" (workflow) متعدد الخطوات مصمّم مسبقاً من المستخدم. دورك المحدد بهذه الخطوة تحديداً هو: ${step.instruction}\nركّز فقط على دورك بهذه الخطوة، ولا تكرر ما قامت به الخطوات السابقة إلا للبناء عليه.`;
+    const contextMsg = runningContext + (stepOutputs.length
+      ? '\n\n--- مخرجات الخطوات السابقة في هذا التسلسل ---\n' + stepOutputs.map((s,idx) => `[خطوة ${idx+1} - ${s.agentName}]: ${s.output}`).join('\n\n')
+      : '');
+
+    let output;
+    try{
+      output = await callClaude(stepPrompt, contextMsg, []);
+    }catch(e){
+      removeTypingIndicator();
+      messages.push({ role:'assistant', agentId:'error', agentName:'خطأ', content:'فشلت الخطوة '+(i+1)+' ('+agent.name+'): '+e.message, type:'error' });
+      renderMessages();
+      return;
+    }
+    removeTypingIndicator();
+
+    const isFinal = i === workflow.steps.length - 1;
+    stepOutputs.push({ agentName: agent.emoji+' '+agent.name, output });
+    messages.push({
+      role:'assistant', agentId:agent.id,
+      agentName: isFinal ? (agent.emoji+' '+agent.name+' — نتيجة خط العمل 🔀') : ('خطوة '+(i+1)+'/'+workflow.steps.length+': '+agent.emoji+' '+agent.name),
+      content: output,
+      type: isFinal ? 'final' : 'phase'
+    });
+    renderMessages();
+  }
+
+  logActivity('تشغيل خط عمل', workflow.name + ' — ' + userInput.slice(0,60));
+}
+
+
+function renderActivityLog(){
+  const el = document.getElementById('activityList');
+  if(!el) return;
+  if(activityLog.length === 0){
+    el.innerHTML = '<p class="modal-hint">لا يوجد نشاط مسجّل بعد.</p>';
+    return;
+  }
+  el.innerHTML = activityLog.map(a => `
+    <div class="log-item">
+      <span class="log-ts">${new Date(a.ts).toLocaleString('ar')}</span>
+      <span>${a.action}${a.detail ? ' — '+a.detail : ''}</span>
+    </div>
+  `).join('');
+}
+
+/* ========================================================================
+   NOMADIC MEMORY TRANSFER (QR code, device-to-device, no server involved)
+   ======================================================================== */
+function openNomadicPanel(){
+  document.getElementById('nomadicModal').style.display = 'flex';
+}
+function closeNomadicPanel(){
+  stopCameraScan();
+  document.getElementById('nomadicModal').style.display = 'none';
+  document.getElementById('qrExportBox').style.display = 'none';
+  document.getElementById('scanStatus').textContent = '';
+}
+
+function buildNomadicPayload(){
+  const payload = { v:1, knowledgeBase: knowledgeBase.slice(-10), selectedAgentIds };
+  let json = JSON.stringify(payload);
+  // QR codes have a data ceiling — trim further if the payload is too large.
+  if(json.length > 1800){
+    payload.knowledgeBase = payload.knowledgeBase.slice(-3);
+    json = JSON.stringify(payload);
+  }
+  return json;
+}
+
+function exportNomadicQR(){
+  const json = buildNomadicPayload();
+  const holder = document.getElementById('qrCanvasHolder');
+  holder.innerHTML = '';
+  try{
+    new QRCode(holder, { text: json, width:220, height:220, correctLevel: QRCode.CorrectLevel.L });
+    document.getElementById('qrExportBox').style.display = 'block';
+    logActivity('تصدير ذاكرة QR', knowledgeBase.length + ' عنصر معرفة');
+  }catch(e){
+    document.getElementById('scanStatus').textContent = 'فشل توليد QR: ' + e.message + ' — جرّب تقليل عدد عناصر قاعدة المعرفة.';
+  }
+}
+
+let scanStream = null;
+let scanRAF = null;
+async function startCameraScan(){
+  const video = document.getElementById('scanVideo');
+  const status = document.getElementById('scanStatus');
+  try{
+    scanStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode:'environment' } });
+    video.srcObject = scanStream;
+    video.style.display = 'block';
+    await video.play();
+    status.textContent = 'وجّه الكاميرا نحو رمز QR...';
+    scanLoop();
+  }catch(e){
+    // Camera access can be blocked inside sandboxed previews (like claude.ai) —
+    // the manual paste option below always works as a fallback.
+    status.textContent = 'تعذر الوصول للكاميرا (' + e.message + '). استخدم اللصق اليدوي بالأسفل بدلاً من ذلك.';
+  }
+}
+function scanLoop(){
+  const video = document.getElementById('scanVideo');
+  const canvas = document.getElementById('scanCanvas');
+  if(video.readyState === video.HAVE_ENOUGH_DATA){
+    canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imageData = ctx.getImageData(0,0,canvas.width, canvas.height);
+    const code = jsQR(imageData.data, imageData.width, imageData.height);
+    if(code){
+      stopCameraScan();
+      applyNomadicPayload(code.data);
+      return;
+    }
+  }
+  scanRAF = requestAnimationFrame(scanLoop);
+}
+function stopCameraScan(){
+  if(scanRAF) cancelAnimationFrame(scanRAF);
+  scanRAF = null;
+  if(scanStream){ scanStream.getTracks().forEach(t=>t.stop()); scanStream = null; }
+  const video = document.getElementById('scanVideo');
+  if(video) video.style.display = 'none';
+}
+function applyNomadicPayload(jsonText){
+  const status = document.getElementById('scanStatus');
+  try{
+    const payload = JSON.parse(jsonText);
+    let added = 0;
+    (payload.knowledgeBase || []).forEach(k=>{
+      const exists = knowledgeBase.some(e => e.title===k.title && e.content===k.content);
+      if(!exists){
+        knowledgeBase.push({ id:'kb_'+Date.now()+'_'+Math.random().toString(36).slice(2,6), title:k.title, content:k.content });
+        added++;
+      }
+    });
+    if(Array.isArray(payload.selectedAgentIds) && payload.selectedAgentIds.length){
+      selectedAgentIds = payload.selectedAgentIds.filter(id => getAllAgents().some(a=>a.id===id));
+      if(selectedAgentIds.length === 0) selectedAgentIds = ['general'];
+    }
+    renderKnowledgeList();
+    renderAgentStrip();
+    persistState();
+    logActivity('استيراد ذاكرة QR', added + ' عنصر جديد');
+    status.textContent = '✅ تم استيراد ' + added + ' عنصر معرفة بنجاح!';
+  }catch(e){
+    status.textContent = 'فشل تفسير البيانات الممسوحة: ' + e.message;
+  }
+}
+function importNomadicPasted(){
+  const text = document.getElementById('nomadicPasteInput').value.trim();
+  if(!text) return;
+  applyNomadicPayload(text);
+  document.getElementById('nomadicPasteInput').value = '';
+}
+
+/* ========================================================================
+   STORAGE LAYER
+   NOTE: window.storage is the correct API while testing inside the
+   claude.ai artifact preview. If/when this app is deployed as a real
+   standalone site or wrapped app (outside claude.ai), swap this layer
+   for real localStorage or a backend call instead.
+   ======================================================================== */
+const localStore = {
+  async get(key){
+    const res = await window.storage.get(key, false);
+    if(!res) throw new Error('key not found');
+    return res;
+  },
+  async set(key, value){
+    const res = await window.storage.set(key, value, false);
+    if(!res) throw new Error('storage.set returned null');
+    return res;
+  }
+};
+
+/* ========================================================================
+   ENCRYPTION (real AES-GCM via Web Crypto API)
+   ======================================================================== */
+async function deriveKey(passphrase, saltBytes){
+  const enc = new TextEncoder();
+  const baseKey = await crypto.subtle.importKey('raw', enc.encode(passphrase), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    { name:'PBKDF2', salt:saltBytes, iterations:150000, hash:'SHA-256' },
+    baseKey, { name:'AES-GCM', length:256 }, false, ['encrypt','decrypt']
+  );
+}
+function bufToB64(buf){ return btoa(String.fromCharCode(...new Uint8Array(buf))); }
+function b64ToBuf(b64){ return Uint8Array.from(atob(b64), c=>c.charCodeAt(0)); }
+
+async function encryptState(obj, key){
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const enc = new TextEncoder();
+  const cipher = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, enc.encode(JSON.stringify(obj)));
+  return { iv:bufToB64(iv), data:bufToB64(cipher) };
+}
+async function decryptState(payload, key){
+  const iv = b64ToBuf(payload.iv);
+  const data = b64ToBuf(payload.data);
+  const plain = await crypto.subtle.decrypt({name:'AES-GCM', iv}, key, data);
+  return JSON.parse(new TextDecoder().decode(plain));
+}
+
+let currentSalt = null;
+
+// Auto-initialization: generates (or reuses) a random on-device AES key,
+// stored locally alongside the encrypted data. This still encrypts the
+// data at rest (protects against casual inspection, cloud sync exposure,
+// or someone reading raw storage), but — unlike a passphrase — the key
+// itself lives on the same device, so it does not protect against
+// someone with direct access to this device/browser profile. No prompt,
+// no "forgot my passphrase" risk.
+async function autoInitApp(){
+  let keyRes = null;
+  try{ keyRes = await localStore.get('nexus_device_key'); }catch(e){ keyRes = null; }
+
+  let rawKeyBytes;
+  if(keyRes){
+    rawKeyBytes = b64ToBuf(keyRes.value);
+  } else {
+    rawKeyBytes = crypto.getRandomValues(new Uint8Array(32));
+    try{ await localStore.set('nexus_device_key', bufToB64(rawKeyBytes)); }
+    catch(e){ console.error('Could not persist device key:', e); }
+  }
+
+  try{
+    encryptionKey = await crypto.subtle.importKey('raw', rawKeyBytes, {name:'AES-GCM'}, false, ['encrypt','decrypt']);
+  }catch(e){
+    console.error('Key import error:', e);
+  }
+
+  let stateRes = null;
+  try{ stateRes = await localStore.get(STORAGE_KEY); }catch(e){ stateRes = null; }
+
+  if(stateRes && encryptionKey){
+    try{
+      const payload = JSON.parse(stateRes.value);
+      const decrypted = await decryptState(payload, encryptionKey);
+      messages = decrypted.messages || [];
+      selectedAgentIds = decrypted.selectedAgentIds || ['general'];
+      knowledgeBase = decrypted.knowledgeBase || [];
+      activityLog = decrypted.activityLog || [];
+      customAgents = decrypted.customAgents || [];
+      longTermMemory = decrypted.longTermMemory || [];
+      workflows = decrypted.workflows || [];
+    }catch(decErr){
+      console.error('Decrypt error (starting fresh):', decErr);
+    }
+  }
+
+  renderAgentStrip();
+  renderWorkflowSelect();
+  renderMessages();
+}
+
+async function resetAllData(){
+  if(!confirm('هذا سيمسح كل المحادثات، الذاكرة (بما فيها طويلة المدى)، الوكلاء المخصصين، وقاعدة المعرفة نهائياً من هذا الجهاز. متأكد؟')) return;
+  messages = []; knowledgeBase = []; activityLog = []; customAgents = []; longTermMemory = []; workflows = []; selectedAgentIds = ['general'];
+  try{
+    localStorage.removeItem(STORAGE_KEY);
+  }catch(e){ console.error(e); }
+  renderAgentStrip();
+  renderWorkflowSelect();
+  renderMessages();
+  renderActivityLog();
+}
+async function persistState(){
+  if(!encryptionKey) return;
+  try{
+    const payload = await encryptState({ messages, selectedAgentIds, knowledgeBase, activityLog, customAgents, longTermMemory, workflows }, encryptionKey);
+    await localStore.set(STORAGE_KEY, JSON.stringify(payload));
+  }catch(e){ console.error('persist failed', e); }
+}
+async function clearConversation(){
+  messages = [];
+  await persistState();
+  renderMessages();
+}
+
+/* ========================================================================
+   CHAT RENDERING
+   ======================================================================== */
+function renderMessages(){
+  const area = document.getElementById('chatArea');
+  const empty = document.getElementById('emptyState');
+  area.innerHTML = '';
+  if(messages.length === 0){
+    area.appendChild(empty);
+    return;
+  }
+  messages.forEach((m, idx)=>{
+    const div = document.createElement('div');
+    div.className = 'msg ' + (m.role==='user' ? 'user' : (m.type||'agent'));
+    const label = document.createElement('div');
+    label.className = 'label';
+    label.textContent = m.role==='user' ? 'أنت' : (m.agentName || 'الوكيل');
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = m.content;
+    div.appendChild(label);
+    div.appendChild(bubble);
+    if(m.role === 'user' && m.image){
+      const img = document.createElement('img');
+      img.className = 'msg-image';
+      img.src = 'data:image/jpeg;base64,' + m.image;
+      img.alt = 'صورة مرفقة من المستخدم';
+      div.appendChild(img);
+    }
+    if(m.role !== 'user' && m.type !== 'error' && 'speechSynthesis' in window){
+      const speakBtn = document.createElement('button');
+      speakBtn.className = 'speak-btn';
+      speakBtn.textContent = '🔊';
+      speakBtn.setAttribute('aria-label', 'استمع لهذا الرد');
+      speakBtn.onclick = () => speakText(m.content);
+      div.appendChild(speakBtn);
+    }
+    area.appendChild(div);
+  });
+  area.scrollTop = area.scrollHeight;
+}
+function addTypingIndicator(label){
+  const area = document.getElementById('chatArea');
+  const div = document.createElement('div');
+  div.className = 'msg agent';
+  div.id = 'typingIndicator';
+  div.innerHTML = `<div class="label">${label}</div><div class="bubble typing-dots"><span></span><span></span><span></span></div>`;
+  area.appendChild(div);
+  area.scrollTop = area.scrollHeight;
+}
+function removeTypingIndicator(){
+  const el = document.getElementById('typingIndicator');
+  if(el) el.remove();
+}
+
+/* ========================================================================
+   CLAUDE API CALLS
+   ======================================================================== */
+function getBackendUrl(){
+  try{ return localStorage.getItem('nexus_backend_url') || ''; }
+  catch(e){ return ''; }
+}
+function openSettingsPanel(){
+  const url = getBackendUrl();
+  document.getElementById('backendUrlInput').value = url;
+  document.getElementById('connectionModeLabel').textContent = url ? ('سيرفر خاص: '+url) : 'مباشر عبر معاينة claude.ai';
+
+  const providers = getEnabledExtraProviders();
+  document.getElementById('providerOpenAI').checked = providers.includes('openai');
+  document.getElementById('providerDeepSeek').checked = providers.includes('deepseek');
+  document.getElementById('providerGemini').checked = providers.includes('gemini');
+
+  document.getElementById('ltmEnabledToggle').checked = isLongTermMemoryEnabled();
+  document.getElementById('ltmCountLabel').textContent = longTermMemory.length + ' ذكرى مخزّنة حالياً';
+
+  document.getElementById('voiceLangSelect').value = getVoiceLang();
+  document.getElementById('voiceRateInput').value = getVoiceRate();
+
+  document.getElementById('settingsModal').style.display = 'flex';
+}
+function saveBackendUrl(){
+  const url = document.getElementById('backendUrlInput').value.trim().replace(/\/$/, '');
+  try{
+    if(url) localStorage.setItem('nexus_backend_url', url);
+    else localStorage.removeItem('nexus_backend_url');
+  }catch(e){ console.error(e); }
+  closeModal('settingsModal');
+  logActivity('تحديث الإعدادات', url ? 'تم ضبط رابط backend' : 'تم إلغاء رابط backend (وضع claude.ai المباشر)');
+}
+function getEnabledExtraProviders(){
+  try{ return JSON.parse(localStorage.getItem('nexus_providers') || '[]'); }
+  catch(e){ return []; }
+}
+function saveProviderSettings(){
+  const enabled = [];
+  if(document.getElementById('providerOpenAI').checked) enabled.push('openai');
+  if(document.getElementById('providerDeepSeek').checked) enabled.push('deepseek');
+  if(document.getElementById('providerGemini').checked) enabled.push('gemini');
+  try{ localStorage.setItem('nexus_providers', JSON.stringify(enabled)); }catch(e){ console.error(e); }
+  closeModal('settingsModal');
+  logActivity('تحديث مزودي النماذج', enabled.length ? enabled.join(', ') : 'Claude فقط');
+}
+
+/* ========================================================================
+   LONG-TERM MEMORY — real embeddings (OpenAI text-embedding-3-small via
+   the backend) + cosine-similarity retrieval across past conversations.
+   Scoped to single-agent chat mode only, to keep embedding-call volume
+   (and cost) reasonable — collective/situation-room/deep-analysis modes
+   already make several API calls per message as it is.
+   ======================================================================== */
+function isLongTermMemoryEnabled(){
+  try{ return localStorage.getItem('nexus_ltm_enabled') === '1'; }catch(e){ return false; }
+}
+function saveLTMSetting(){
+  const enabled = document.getElementById('ltmEnabledToggle').checked;
+  try{ localStorage.setItem('nexus_ltm_enabled', enabled ? '1' : '0'); }catch(e){ console.error(e); }
+  logActivity('الذاكرة طويلة المدى', enabled ? 'تفعيل' : 'تعطيل');
+}
+async function clearLongTermMemory(){
+  if(!confirm('مسح كل الذاكرة طويلة المدى نهائياً؟')) return;
+  longTermMemory = [];
+  await persistState();
+  document.getElementById('ltmCountLabel').textContent = '0 ذكرى مخزّنة حالياً';
+  logActivity('مسح الذاكرة طويلة المدى', '');
+}
+
+function cosineSimilarity(a, b){
+  let dot = 0, na = 0, nb = 0;
+  for(let i = 0; i < a.length; i++){ dot += a[i]*b[i]; na += a[i]*a[i]; nb += b[i]*b[i]; }
+  return dot / (Math.sqrt(na) * Math.sqrt(nb) + 1e-8);
+}
+
+async function getEmbedding(text){
+  const backendUrl = getBackendUrl();
+  if(!backendUrl) throw new Error('يتطلب سيرفر backend مفعّل.');
+  const res = await fetch(backendUrl + '/api/embed', {
+    method:'POST', headers:{ 'Content-Type':'application/json' },
+    body: JSON.stringify({ texts:[text] })
+  });
+  const data = await res.json();
+  if(!res.ok) throw new Error(data.error || 'فشل التضمين (embedding)');
+  return data.embeddings[0];
+}
+
+async function storeLongTermMemory(agent, userText, replyText){
+  if(!isLongTermMemoryEnabled() || !getBackendUrl()) return;
+  try{
+    const summaryText = `سؤال: ${userText}\nملخص الرد (${agent.name}): ${replyText.slice(0,300)}`;
+    const embedding = await getEmbedding(summaryText);
+    longTermMemory.push({ id:'ltm_'+Date.now(), text:summaryText, embedding, ts:new Date().toISOString(), agentId:agent.id });
+    longTermMemory = longTermMemory.slice(-150); // cap to keep storage/search reasonable
+    await persistState();
+  }catch(e){
+    console.error('Long-term memory store failed (non-fatal):', e.message);
+  }
+}
+
+async function retrieveLongTermMemoryContext(queryText, topK=3){
+  if(!isLongTermMemoryEnabled() || !getBackendUrl() || longTermMemory.length === 0) return '';
+  try{
+    const queryEmbedding = await getEmbedding(queryText);
+    const scored = longTermMemory
+      .map(m => ({ m, score: cosineSimilarity(queryEmbedding, m.embedding) }))
+      .sort((a,b) => b.score - a.score)
+      .filter(s => s.score > 0.72)
+      .slice(0, topK);
+    if(scored.length === 0) return '';
+    return '\n\nذاكرة طويلة المدى (مقتطفات ذات صلة من محادثات سابقة مع هذا المستخدم):\n'
+      + scored.map(s => '- ' + s.m.text).join('\n');
+  }catch(e){
+    console.error('Long-term memory retrieval failed (non-fatal):', e.message);
+    return '';
+  }
+}
+
+async function callClaude(systemPrompt, userText, history, provider='anthropic', useTools=false, imageBase64=null){
+  const fullSystemPrompt = systemPrompt + await knowledgeContext(userText); // embeddings/routing use text only, never the image
+  const userContent = imageBase64
+    ? [
+        { type:'image', source:{ type:'base64', media_type:'image/jpeg', data: imageBase64 } },
+        { type:'text', text: userText },
+      ]
+    : userText;
+  let apiMessages = [...history, { role:'user', content: userContent }];
+  const backendUrl = getBackendUrl();
+
+  if(imageBase64 && provider !== 'anthropic'){
+    throw new Error('إرفاق الصور مدعوم فقط مع Claude (Anthropic) حالياً — بقية المزودين يحتاجون صيغة صورة مختلفة لم تُضف بعد.');
+  }
+
+  // Two modes:
+  // 1) No backend URL set -> call Anthropic directly. This ONLY works inside
+  //    the claude.ai artifact preview (which handles auth automatically) AND
+  //    only for the 'anthropic' provider — other providers need a real key,
+  //    which is exactly what the backend exists to hold safely.
+  // 2) Backend URL set -> call YOUR OWN server (see /nexus-backend), which
+  //    holds all provider keys safely and can route to any of them.
+  if(!backendUrl && provider !== 'anthropic'){
+    throw new Error('مزود "'+provider+'" يحتاج سيرفر backend مُفعّل (راجع ⚙️ الإعدادات) — لا يمكن استدعاؤه مباشرة من المتصفح بأمان.');
+  }
+  if(useTools && (!backendUrl || provider !== 'anthropic')){
+    throw new Error('الأدوات الحقيقية تحتاج سيرفر backend مفعّل + مزود Anthropic تحديداً.');
+  }
+
+  const endpoint = backendUrl ? (backendUrl + '/api/chat') : 'https://api.anthropic.com/v1/messages';
+  const headers = { 'Content-Type':'application/json' };
+  const tools = useTools ? AVAILABLE_TOOLS : undefined;
+
+  async function requestOnce(){
+    const body = backendUrl
+      ? { provider, model:'claude-sonnet-4-6', max_tokens:1000, system:fullSystemPrompt, messages:apiMessages, tools }
+      : { model:'claude-sonnet-4-6', max_tokens:1000, system:fullSystemPrompt, messages:apiMessages, tools };
+    const response = await fetch(endpoint, { method:'POST', headers, body: JSON.stringify(body) });
+    if(!response.ok){
+      const errText = await response.text();
+      throw new Error('فشل الاتصال بـ API: ' + response.status + ' — ' + errText.slice(0,200));
+    }
+    return response.json();
+  }
+
+  let data = await requestOnce();
+
+  // stop_reason 'tool_use' means Claude wants to call a CLIENT tool (like
+  // create_file). Server tools (web_search) are already resolved by
+  // Anthropic itself and never produce this — so this loop only runs when
+  // genuinely needed, capped to avoid any runaway loop.
+  let safetyCounter = 0;
+  while(data.stop_reason === 'tool_use' && safetyCounter < 4){
+    safetyCounter++;
+    const toolUseBlocks = data.content.filter(b => b.type === 'tool_use');
+    if(toolUseBlocks.length === 0) break;
+
+    apiMessages.push({ role:'assistant', content: data.content });
+    const toolResults = toolUseBlocks.map(block => ({
+      type:'tool_result',
+      tool_use_id: block.id,
+      content: executeLocalTool(block.name, block.input),
+    }));
+    apiMessages.push({ role:'user', content: toolResults });
+
+    data = await requestOnce();
+  }
+
+  const textBlocks = data.content.filter(b=>b.type==='text').map(b=>b.text);
+  return textBlocks.join('\n');
+}
+
+function buildHistoryForAgent(agentId){
+  // Only include prior turns that involved this exact agent (or user turns),
+  // keeping each agent's thread coherent even though the UI shows one timeline.
+  return messages
+    .filter(m => m.role==='user' || m.agentId===agentId)
+    .slice(-12)
+    .map(m => ({ role: m.role==='user' ? 'user' : 'assistant', content: m.content }));
+}
+
+/* ========================================================================
+   VOICE (Web Speech API) — real speech-to-text input and text-to-speech
+   output, plus an optional hands-free "Voice-to-Voice" loop that chains
+   both together automatically. Everything here runs entirely in the
+   browser; no audio ever leaves the device except via the normal chat
+   text sent to the model.
+   ======================================================================== */
+function getVoiceLang(){
+  try{ return localStorage.getItem('nexus_voice_lang') || 'ar-SA'; }
+  catch(e){ return 'ar-SA'; }
+}
+function getVoiceRate(){
+  try{ return parseFloat(localStorage.getItem('nexus_voice_rate')) || 1; }
+  catch(e){ return 1; }
+}
+function saveVoiceSettings(){
+  const lang = document.getElementById('voiceLangSelect').value;
+  const rate = document.getElementById('voiceRateInput').value;
+  try{
+    localStorage.setItem('nexus_voice_lang', lang);
+    localStorage.setItem('nexus_voice_rate', rate);
+  }catch(e){ console.error(e); }
+  closeModal('settingsModal');
+  showToast('✅ تم حفظ إعدادات الصوت.');
+}
+
+function isVoiceToVoiceMode(){
+  const el = document.getElementById('voiceToVoiceToggle');
+  return el ? el.checked : false;
+}
+function onVoiceToVoiceToggleChange(){
+  if(isVoiceToVoiceMode()){
+    showToast('🎙️🔊 وضع المحادثة الصوتية الكاملة مفعّل — اضغط الميكروفون للبدء.');
+  } else {
+    stopSpeaking();
+    stopListening();
+  }
+}
+
+// --- Voices load asynchronously in most browsers; cache them once ready ---
+let cachedVoices = [];
+function loadVoices(){
+  if('speechSynthesis' in window){
+    cachedVoices = window.speechSynthesis.getVoices();
+  }
+}
+if('speechSynthesis' in window){
+  loadVoices();
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+}
+function pickBestVoice(lang){
+  if(cachedVoices.length === 0) loadVoices();
+  const langPrefix = lang.split('-')[0];
+  return cachedVoices.find(v => v.lang === lang)
+      || cachedVoices.find(v => v.lang.startsWith(langPrefix))
+      || null;
+}
+
+// --- Text-to-speech ---
+let currentUtterance = null;
+function speakText(text){
+  if(!('speechSynthesis' in window)){
+    showToast('متصفحك لا يدعم القراءة الصوتية.');
+    return;
+  }
+  window.speechSynthesis.cancel(); // one voice at a time
+  const lang = getVoiceLang();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = lang;
+  utterance.rate = getVoiceRate();
+  const voice = pickBestVoice(lang);
+  if(voice) utterance.voice = voice;
+
+  utterance.onend = () => {
+    currentUtterance = null;
+    // Hands-free loop: once the agent finishes speaking, listen again automatically.
+    if(isVoiceToVoiceMode()) startListening();
+  };
+  utterance.onerror = (e) => {
+    console.error('Speech synthesis error:', e.error);
+    currentUtterance = null;
+  };
+
+  currentUtterance = utterance;
+  window.speechSynthesis.speak(utterance);
+}
+function stopSpeaking(){
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  currentUtterance = null;
+}
+
+// --- Speech-to-text ---
+function getSpeechRecognitionClass(){
+  return window.SpeechRecognition || window.webkitSpeechRecognition || null;
+}
+let recognition = null;
+let isListening = false;
+
+function toggleVoiceInput(){
+  if(isListening){ stopListening(); return; }
+  startListening();
+}
+function startListening(){
+  const SR = getSpeechRecognitionClass();
+  if(!SR){
+    showToast('متصفحك لا يدعم التعرف على الصوت — جرّب Chrome على أندرويد.');
+    return;
+  }
+  if(isListening) return;
+  stopSpeaking(); // don't listen to Claude talk over itself
+
+  recognition = new SR();
+  recognition.lang = getVoiceLang();
+  recognition.interimResults = true;
+  recognition.continuous = false;
+
+  const micBtn = document.getElementById('micBtn');
+  const input = document.getElementById('msgInput');
+
+  recognition.onstart = () => {
+    isListening = true;
+    if(micBtn) micBtn.classList.add('listening');
+  };
+  recognition.onresult = (event) => {
+    let transcript = '';
+    for(let i=0; i<event.results.length; i++) transcript += event.results[i][0].transcript;
+    input.value = transcript;
+  };
+  recognition.onerror = (event) => {
+    console.error('Speech recognition error:', event.error);
+    if(event.error === 'not-allowed' || event.error === 'permission-denied'){
+      showToast('يحتاج التطبيق إذن الميكروفون لاستخدام هذه الميزة.');
+    } else if(event.error !== 'no-speech' && event.error !== 'aborted'){
+      showToast('خطأ بالتعرف على الصوت: ' + event.error);
+    }
+  };
+  recognition.onend = () => {
+    isListening = false;
+    if(micBtn) micBtn.classList.remove('listening');
+    // Voice-to-voice mode: if something was actually transcribed, send it
+    // automatically — that's what makes the loop hands-free.
+    if(isVoiceToVoiceMode() && input.value.trim()){
+      sendMessage();
+    }
+  };
+  try{ recognition.start(); }
+  catch(e){ console.error('Could not start recognition:', e); }
+}
+function stopListening(){
+  if(recognition){
+    try{ recognition.stop(); }catch(e){}
+  }
+  isListening = false;
+  const micBtn = document.getElementById('micBtn');
+  if(micBtn) micBtn.classList.remove('listening');
+}
+
+/* ========================================================================
+   MULTIMODAL INPUT — image attachment with local compression before upload.
+   Scope note: wired into single-agent and auto-route sending only (the
+   two "one message, one agent" paths). Collective mode / Situation Room /
+   Deep Analysis / Workflows send the same text to several sequential API
+   calls, so attaching one image there is ambiguous — not supported yet.
+   Provider note: only the 'anthropic' provider is wired to receive the
+   image (OpenAI/Gemini use different multimodal payload formats — out of
+   scope for this pass, so Multi-Model Consensus doesn't get the image).
+   ======================================================================== */
+let pendingImageBase64 = null; // base64 payload only (no "data:image/jpeg;base64," prefix)
+let pendingImageSizeKB = 0;
+
+function compressImageFile(file, maxDim=1024, quality=0.7){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        let { width, height } = img;
+        if(width > maxDim || height > maxDim){
+          const scale = maxDim / Math.max(width, height);
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width; canvas.height = height;
+        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/jpeg', quality);
+        resolve(dataUrl); // keep the full data URL here; caller splits as needed
+      };
+      img.onerror = () => reject(new Error('تعذرت قراءة الصورة.'));
+      img.src = e.target.result;
+    };
+    reader.onerror = () => reject(new Error('تعذرت قراءة الملف.'));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function handleImageSelected(event){
+  const file = event.target.files[0];
+  event.target.value = ''; // allow re-selecting the same file later
+  if(!file) return;
+  if(!file.type.startsWith('image/')){
+    showToast('اختر ملف صورة فقط.');
+    return;
+  }
+
+  try{
+    const dataUrl = await compressImageFile(file);
+    pendingImageBase64 = dataUrl.split(',')[1];
+    pendingImageSizeKB = Math.round((pendingImageBase64.length * 0.75) / 1024); // base64 -> approx bytes
+
+    const bar = document.getElementById('imagePreviewBar');
+    bar.style.display = 'flex';
+    bar.innerHTML = `
+      <img src="${dataUrl}" alt="معاينة الصورة المرفقة">
+      <span class="img-meta">صورة مرفقة (~${pendingImageSizeKB} كيلوبايت بعد الضغط المحلي) — يدعمها الوكيل الفردي فقط حالياً</span>
+      <button onclick="removeAttachedImage()" aria-label="إزالة الصورة المرفقة">✕ إزالة</button>
+    `;
+    logActivity('إرفاق صورة', pendingImageSizeKB + ' KB');
+  }catch(e){
+    showToast('فشل معالجة الصورة: ' + e.message);
+  }
+}
+
+function removeAttachedImage(){
+  pendingImageBase64 = null;
+  pendingImageSizeKB = 0;
+  const bar = document.getElementById('imagePreviewBar');
+  bar.style.display = 'none';
+  bar.innerHTML = '';
+}
+
+/* ========================================================================
+   SEND FLOW
+   ======================================================================== */
+function handleKeydown(e){
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); }
+}
+
+async function sendMessage(){
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if(!text) return;
+  const sendBtn = document.getElementById('sendBtn');
+
+  const imageForThisMessage = pendingImageBase64; // capture before clearing
+  messages.push({ role:'user', content:text, image: imageForThisMessage });
+  input.value = '';
+  removeAttachedImage(); // clear the preview bar now that it's been captured
+  renderMessages();
+  sendBtn.disabled = true;
+
+  const collective = document.getElementById('collectiveToggle').checked && selectedAgentIds.length > 1;
+  const situationRoom = collective && document.getElementById('situationRoomToggle').checked;
+  const autoRoute = document.getElementById('autoRouteToggle').checked && !collective;
+  const deepAnalysis = document.getElementById('deepAnalysisToggle').checked && !collective && !autoRoute;
+  const multiModel = document.getElementById('multiModelToggle').checked && !collective && !autoRoute && !deepAnalysis;
+  const selectedWorkflowId = document.getElementById('workflowSelect').value;
+
+  if(imageForThisMessage && (collective || deepAnalysis || multiModel || selectedWorkflowId)){
+    showToast('⚠️ الصورة المرفقة غير مدعومة بهذا الوضع بعد (فقط الوكيل الفردي أو التوجيه الذكي) — تم إرسال النص فقط.');
+  }
+
+  try{
+    if(selectedWorkflowId){
+      // Explicit workflow selection always takes priority over the mode
+      // toggles — the user deliberately picked a specific pipeline to run.
+      const workflow = workflows.find(w => w.id === selectedWorkflowId);
+      if(!workflow){
+        messages.push({ role:'assistant', agentId:'error', agentName:'خطأ', content:'خط العمل المحدد لم يعد موجوداً.', type:'error' });
+        renderMessages();
+      } else {
+        await runWorkflow(workflow, text);
+      }
+    } else if(deepAnalysis){
+      const agent = getAllAgents().find(a=>a.id===selectedAgentIds[0]) || getAllAgents()[0];
+      logActivity('تحليل خماسي عميق', agent.name + ' — ' + text.slice(0,60));
+      await runDeepAnalysis(text, agent);
+    } else if(multiModel){
+      logActivity('توافق متعدد النماذج', text.slice(0,60));
+      await runMultiModelConsensus(text);
+    } else if(autoRoute){
+      await runAutoRouteMode(text, imageForThisMessage);
+    } else if(situationRoom){
+      logActivity('غرفة العمليات', selectedAgentIds.join(', ') + ' — ' + text.slice(0,60));
+      await runSituationRoom(text);
+    } else if(collective){
+      logActivity('استشارة جماعية', selectedAgentIds.join(', ') + ' — ' + text.slice(0,60));
+      await runCollectiveMode(text);
+    } else {
+      const agent = getAllAgents().find(a=>a.id===selectedAgentIds[0]) || getAllAgents()[0];
+      addTypingIndicator(agent.emoji+' '+agent.name+' يكتب...');
+      const history = buildHistoryForAgent(agent.id);
+      const ltmContext = await retrieveLongTermMemoryContext(text);
+      const toolsOn = isToolsEnabled();
+      const reply = await callClaude((await fullAgentPrompt(agent, text)) + ltmContext, text, history.slice(0,-1), 'anthropic', toolsOn, imageForThisMessage); // exclude the just-added user msg (sent separately)
+      removeTypingIndicator();
+      messages.push({ role:'assistant', agentId:agent.id, agentName:agent.emoji+' '+agent.name, content:reply, type:'agent' });
+      renderMessages();
+      logActivity('رد وكيل', agent.name + ' — ' + text.slice(0,60));
+      storeLongTermMemory(agent, text, reply); // fire-and-forget, doesn't block the UI
+      // Voice-to-voice mode: speak the reply automatically. speakText's
+      // utterance.onend already re-triggers startListening(), which is
+      // what actually closes the hands-free loop (mic → text → reply → voice → mic → ...).
+      if(isVoiceToVoiceMode()) speakText(reply);
+    }
+    await persistState();
+  }catch(e){
+    removeTypingIndicator();
+    messages.push({ role:'assistant', agentId:'error', agentName:'خطأ', content:e.message, type:'error' });
+    renderMessages();
+    logActivity('خطأ', e.message.slice(0,80));
+  }finally{
+    sendBtn.disabled = false;
+  }
+}
+
+/* ========================================================================
+   DEEP 5-PHASE SYNTHETIC INTELLIGENCE ENGINE
+   evaluate -> plan -> execute -> self-critique -> synthesize
+   Each phase is a real, separate API call feeding into the next.
+   ======================================================================== */
+const DEEP_PHASES = [
+  { key:'evaluate',  label:'🔍 التقييم',    instruction:'المرحلة 1 - التقييم: افهم طلب المستخدم بعمق. حدد الأسئلة الضمنية، الافتراضات، والمعلومات الناقصة إن وجدت. لا تجب على السؤال بعد، فقط حلّله. كن مختصراً (فقرة أو اثنتان).' },
+  { key:'plan',      label:'📐 التخطيط',    instruction:'المرحلة 2 - التخطيط: بناءً على التقييم السابق، ضع خطة نقاط مختصرة للإجابة الأمثل (الهيكل، النقاط الأساسية الواجب تغطيتها). لا تكتب الإجابة الكاملة بعد.' },
+  { key:'execute',   label:'⚙️ التنفيذ',    instruction:'المرحلة 3 - التنفيذ: بناءً على الخطة، اكتب مسودة إجابة كاملة على سؤال المستخدم الأصلي.' },
+  { key:'critique',  label:'🧐 النقد الذاتي', instruction:'المرحلة 4 - النقد الذاتي: انتقد المسودة السابقة بصرامة. ما الثغرات، الأخطاء المحتملة، أو النقاط الناقصة؟ كن مباشراً وموضوعياً.' },
+  { key:'synthesize',label:'✨ التوليف النهائي', instruction:'المرحلة 5 - التوليف النهائي: بناءً على كل ما سبق (التقييم، الخطة، المسودة، والنقد)، اكتب الإجابة النهائية المصقولة والكاملة على سؤال المستخدم الأصلي. هذه هي الإجابة التي سيراها المستخدم فعلياً، فاجعلها متكاملة وواضحة بذاتها دون إشارة للمراحل السابقة.' },
+];
+
+async function runDeepAnalysis(text, agent){
+  const basePrompt = await fullAgentPrompt(agent, text); // routed once — same query throughout all phases
+  let runningContext = `شخصية الوكيل المستخدمة: ${basePrompt}\n\nسؤال المستخدم الأصلي: ${text}`;
+  const phaseOutputs = {};
+
+  for(const phase of DEEP_PHASES){
+    addTypingIndicator('🧬 '+phase.label+'...');
+    const phasePrompt = `${basePrompt}\n\nأنت الآن جزء من محرك تحليل خماسي المراحل (evaluate→plan→execute→critique→synthesize). ${phase.instruction}`;
+    const contextMsg = runningContext + (Object.keys(phaseOutputs).length ? '\n\n--- نتائج المراحل السابقة ---\n' + Object.entries(phaseOutputs).map(([k,v])=>`[${k}]: ${v}`).join('\n\n') : '');
+
+    let output;
+    try{
+      output = await callClaude(phasePrompt, contextMsg, []);
+    }catch(e){
+      removeTypingIndicator();
+      throw new Error('فشل بمرحلة "'+phase.label+'": ' + e.message);
+    }
+    removeTypingIndicator();
+    phaseOutputs[phase.key] = output;
+
+    const isFinal = phase.key === 'synthesize';
+    messages.push({
+      role:'assistant',
+      agentId: agent.id,
+      agentName: (isFinal ? (agent.emoji+' '+agent.name+' — الإجابة النهائية 🧬') : phase.label),
+      content: output,
+      type: isFinal ? 'final' : 'phase'
+    });
+    renderMessages();
+  }
+}
+
+/* ========================================================================
+   SITUATION ROOM (غرفة العمليات) — real multi-round swarm discussion
+   Round 1: specialists answer independently.
+   Supervisor: spots tensions/gaps, asks each a targeted follow-up.
+   Round 2: specialists respond to the follow-up, seeing each other's Round 1 answers.
+   Final: Supervisor merges everything into one structured executive report.
+   ======================================================================== */
+async function runSituationRoom(text){
+  const activeAgents = getAllAgents().filter(a => selectedAgentIds.includes(a.id) && a.id !== 'supervisor');
+  const supervisor = getAllAgents().find(a => a.id === 'supervisor');
+
+  if(activeAgents.length < 2){
+    messages.push({ role:'assistant', agentId:'error', agentName:'تنبيه', content:'غرفة العمليات تحتاج اختيار خبيرين متخصصين على الأقل (غير المشرف نفسه).', type:'error' });
+    renderMessages();
+    return;
+  }
+
+  // --- Round 1: independent initial opinions ---
+  addTypingIndicator('🎯 غرفة العمليات — الجولة 1: كل خبير يقدّم رأيه الأولي...');
+  const round1 = await Promise.allSettled(activeAgents.map(async agent =>
+    callClaude(await fullAgentPrompt(agent, text), text, []).then(reply => ({ agent, reply }))
+  ));
+  removeTypingIndicator();
+
+  const round1Results = [];
+  round1.forEach((r, i) => {
+    const agent = activeAgents[i];
+    if(r.status === 'fulfilled'){
+      messages.push({ role:'assistant', agentId:agent.id, agentName:agent.emoji+' '+agent.name+' — الجولة 1', content:r.value.reply, type:'phase' });
+      round1Results.push({ agent, reply:r.value.reply });
+    } else {
+      messages.push({ role:'assistant', agentId:agent.id, agentName:agent.emoji+' '+agent.name, content:'تعذر الرد: '+r.reason.message, type:'error' });
+    }
+  });
+  renderMessages();
+  if(round1Results.length === 0) return;
+
+  const round1Combined = round1Results.map(r => `[${r.agent.name} — ${r.agent.id}]: ${r.reply}`).join('\n\n');
+
+  // --- Supervisor analyzes Round 1: tensions + targeted follow-ups ---
+  addTypingIndicator('🧑‍💼 المشرف يحلل النقاش ويحدد أسئلة المتابعة...');
+  const supervisorAnalysisPrompt = `${supervisor.prompt}
+
+أنت تدير "غرفة عمليات" بين عدة خبراء حول موضوع المستخدم. اقرأ آراءهم الأولية أدناه، وحدد:
+1) أي تعارض أو نقطة تحتاج توضيح أو تكامل بين آرائهم.
+2) سؤال متابعة قصير ومحدد لكل خبير (بمعرّفه id) ليتعمّق أو يعلّق على رأي غيره.
+
+أجب حصراً بصيغة JSON صالحة بدون أي نص إضافي قبلها أو بعدها، بهذا الشكل بالضبط:
+{"tension_summary": "ملخص مختصر بالعربية", "followups": {"${round1Results.map(r=>r.agent.id).join('": "...", "')}": "..."}}`;
+
+  let supervisorAnalysisRaw;
+  try{
+    supervisorAnalysisRaw = await callClaude(supervisorAnalysisPrompt, 'الموضوع الأصلي: ' + text + '\n\nآراء الجولة الأولى:\n' + round1Combined, []);
+  }catch(e){ removeTypingIndicator(); throw e; }
+  removeTypingIndicator();
+
+  let supervisorAnalysis;
+  try{
+    const jsonMatch = supervisorAnalysisRaw.match(/\{[\s\S]*\}/);
+    supervisorAnalysis = JSON.parse(jsonMatch ? jsonMatch[0] : supervisorAnalysisRaw);
+  }catch(parseErr){
+    supervisorAnalysis = { tension_summary:'', followups:{} };
+  }
+
+  messages.push({
+    role:'assistant', agentId:'supervisor',
+    agentName:'🧑‍💼 المشرف — ملاحظات على الجولة 1',
+    content: supervisorAnalysis.tension_summary || 'لا توجد تعارضات واضحة بين الآراء.',
+    type:'phase'
+  });
+  renderMessages();
+
+  // --- Round 2: each specialist responds to supervisor's follow-up, seeing all Round-1 answers ---
+  addTypingIndicator('🎯 غرفة العمليات — الجولة 2: ردود الخبراء على ملاحظات المشرف...');
+  const round2 = await Promise.allSettled(round1Results.map(async ({agent}) => {
+    const followup = (supervisorAnalysis.followups || {})[agent.id]
+      || 'راجع آراء بقية الخبراء أدناه وأضف أي تعديل أو تأكيد على رأيك الأولي إن وجد.';
+    const contextMsg = `الموضوع الأصلي: ${text}\n\nآراء كل الخبراء في الجولة الأولى:\n${round1Combined}\n\nسؤال المشرف الموجّه لك تحديداً: ${followup}`;
+    const prompt = await fullAgentPrompt(agent, text); // route against the original topic, not the long combined context
+    return callClaude(prompt, contextMsg, []).then(reply => ({ agent, reply }));
+  }));
+  removeTypingIndicator();
+
+  const round2Results = [];
+  round2.forEach((r, i) => {
+    const agent = round1Results[i].agent;
+    if(r.status === 'fulfilled'){
+      messages.push({ role:'assistant', agentId:agent.id, agentName:agent.emoji+' '+agent.name+' — الجولة 2', content:r.value.reply, type:'phase' });
+      round2Results.push({ agent, reply:r.value.reply });
+    }
+  });
+  renderMessages();
+
+  // --- Final unified executive report ---
+  addTypingIndicator('📋 المشرف يكتب التقرير التنفيذي الموحد...');
+  const round2Combined = round2Results.map(r => `[${r.agent.name}]: ${r.reply}`).join('\n\n');
+  const finalPrompt = `${supervisor.prompt}
+
+بناءً على نقاش غرفة العمليات الكامل (جولتين من الخبراء المشاركين فعلياً)، اكتب تقريراً تنفيذياً واحداً موحداً بأقسام واضحة حسب تخصصات الخبراء الذين شاركوا فعلاً (مثلاً: التحليل المالي، التحليل القانوني، التحليل الاستراتيجي...)، ثم قسم أخير بعنوان "التوصية التنفيذية" يلخص الموقف بخطوات عملية قابلة للتنفيذ. لا تخترع تخصصات لم تشارك.`;
+
+  let finalReport;
+  try{
+    finalReport = await callClaude(finalPrompt, 'الموضوع: ' + text + '\n\nالجولة 1:\n' + round1Combined + '\n\nالجولة 2:\n' + round2Combined, []);
+  }catch(e){ removeTypingIndicator(); throw e; }
+  removeTypingIndicator();
+
+  messages.push({ role:'assistant', agentId:'supervisor', agentName:'📋 التقرير الموحّد — غرفة العمليات', content: finalReport, type:'final' });
+  renderMessages();
+}
+
+/* ========================================================================
+   MULTI-MODEL CONSENSUS — same question, same persona, different companies'
+   models — to surface single-model bias rather than trusting one vendor.
+   ======================================================================== */
+const PROVIDERS_META = {
+  anthropic: { label:'Claude (Anthropic)', emoji:'🟣' },
+  openai:    { label:'GPT (OpenAI)',       emoji:'🟢' },
+  deepseek:  { label:'DeepSeek',           emoji:'🔵' },
+  gemini:    { label:'Gemini (Google)',    emoji:'🟡' },
+};
+
+async function runMultiModelConsensus(text){
+  const agent = getAllAgents().find(a=>a.id===selectedAgentIds[0]) || getAllAgents()[0];
+  const providers = ['anthropic', ...getEnabledExtraProviders()];
+
+  if(!getBackendUrl()){
+    messages.push({ role:'assistant', agentId:'error', agentName:'تنبيه', content:'توافق متعدد النماذج يتطلب ضبط رابط سيرفر backend من ⚙️ الإعدادات (عشان يقدر يستخدم مفاتيح OpenAI/DeepSeek/Gemini بأمان — راجع مجلد nexus-backend).', type:'error' });
+    renderMessages();
+    return;
+  }
+  if(providers.length < 2){
+    messages.push({ role:'assistant', agentId:'error', agentName:'تنبيه', content:'فعّل مزود واحد إضافي على الأقل (OpenAI/DeepSeek/Gemini) من ⚙️ الإعدادات لاستخدام هذا الوضع.', type:'error' });
+    renderMessages();
+    return;
+  }
+
+  addTypingIndicator('🌐 استشارة ' + providers.length + ' نماذج مختلفة بالتوازي...');
+  const agentPrompt = await fullAgentPrompt(agent, text); // same agent/persona across all providers, route once
+  const results = await Promise.allSettled(providers.map(p =>
+    callClaude(agentPrompt, text, [], p).then(reply => ({ provider:p, reply }))
+  ));
+  removeTypingIndicator();
+
+  const successes = [];
+  results.forEach((r, i) => {
+    const p = providers[i];
+    const meta = PROVIDERS_META[p];
+    if(r.status === 'fulfilled'){
+      messages.push({ role:'assistant', agentId:p, agentName:meta.emoji+' '+meta.label, content:r.value.reply, type:'agent' });
+      successes.push(meta.label + ':\n' + r.value.reply);
+    } else {
+      messages.push({ role:'assistant', agentId:p, agentName:meta.emoji+' '+meta.label, content:'تعذر الاتصال: '+r.reason.message, type:'error' });
+    }
+  });
+  renderMessages();
+
+  if(successes.length >= 2){
+    addTypingIndicator('🔍 مقارنة الإجابات وكشف التباين...');
+    const biasPrompt = 'قارن الإجابات التالية من نماذج ذكاء اصطناعي مختلفة على نفس السؤال بموضوعية. حدد بإيجاز: أين تتفق؟ أين تختلف بشكل ملحوظ؟ هل هناك انحياز واضح لنموذج معين نحو رأي معين؟ لا تعطِ إجابة نهائية جديدة على السؤال نفسه، فقط قارن المواقف الموجودة.';
+    try{
+      const comparison = await callClaude(biasPrompt, 'السؤال الأصلي: ' + text + '\n\nالإجابات:\n' + successes.join('\n\n---\n\n'), [], 'anthropic');
+      removeTypingIndicator();
+      messages.push({ role:'assistant', agentId:'comparison', agentName:'🔍 مقارنة النماذج (كشف الانحياز)', content:comparison, type:'synthesis' });
+      renderMessages();
+    }catch(e){
+      removeTypingIndicator();
+      messages.push({ role:'assistant', agentId:'error', agentName:'خطأ', content:'فشلت مقارنة النماذج: '+e.message, type:'error' });
+      renderMessages();
+    }
+  }
+}
+
+async function runAutoRouteMode(text, imageBase64=null){
+  addTypingIndicator('🧭 المدير الذكي يحدد أنسب وكيل...');
+  try{
+    const routingReplyRaw = await callClaude(buildManagerPrompt(), text, []);
+    let routed;
+    try{
+      const jsonMatch = routingReplyRaw.match(/\{[\s\S]*\}/);
+      routed = JSON.parse(jsonMatch ? jsonMatch[0] : routingReplyRaw);
+    }catch(parseErr){
+      routed = { agent_ids:['general'], reason:'تعذر تفسير قرار التوجيه، تم الرجوع للمساعد العام.' };
+    }
+    const chosenIds = (routed.agent_ids || ['general']).filter(id => getAllAgents().some(a=>a.id===id)).slice(0,3);
+    if(chosenIds.length === 0) chosenIds.push('general');
+    removeTypingIndicator();
+
+    logActivity('توجيه ذكي', chosenIds.join(', ') + ' — ' + (routed.reason || ''));
+
+    if(chosenIds.length === 1){
+      const agent = getAllAgents().find(a=>a.id===chosenIds[0]);
+      addTypingIndicator(agent.emoji+' '+agent.name+' (اختاره المدير الذكي) يكتب...');
+      const history = buildHistoryForAgent(agent.id);
+      const reply = await callClaude(await fullAgentPrompt(agent, text), text, history.slice(0,-1), 'anthropic', false, imageBase64);
+      removeTypingIndicator();
+      messages.push({ role:'assistant', agentId:agent.id, agentName:agent.emoji+' '+agent.name+' 🧭', content:reply, type:'agent' });
+      renderMessages();
+    } else {
+      selectedAgentIds = chosenIds;
+      await runCollectiveMode(text);
+      selectedAgentIds = chosenIds; // keep chips reflecting the routed choice
+      renderAgentStrip();
+    }
+  }catch(e){
+    removeTypingIndicator();
+    throw e;
+  }
+}
+
+async function runCollectiveMode(text){
+  const activeAgents = getAllAgents().filter(a => selectedAgentIds.includes(a.id));
+  addTypingIndicator('🧠 '+activeAgents.length+' وكلاء يفكرون بالتوازي...');
+
+  const results = await Promise.allSettled(activeAgents.map(async agent => {
+    const history = buildHistoryForAgent(agent.id);
+    const prompt = await fullAgentPrompt(agent, text);
+    return callClaude(prompt, text, history.slice(0,-1)).then(reply => ({agent, reply}));
+  }));
+
+  removeTypingIndicator();
+
+  const successes = [];
+  results.forEach((r, i)=>{
+    const agent = activeAgents[i];
+    if(r.status==='fulfilled'){
+      messages.push({ role:'assistant', agentId:agent.id, agentName:agent.emoji+' '+agent.name, content:r.value.reply, type:'agent' });
+      successes.push(agent.emoji+' '+agent.name+':\n'+r.value.reply);
+    } else {
+      messages.push({ role:'assistant', agentId:agent.id, agentName:agent.emoji+' '+agent.name, content:'تعذر الحصول على رد: '+r.reason.message, type:'error' });
+    }
+  });
+  renderMessages();
+
+  if(successes.length >= 2){
+    addTypingIndicator('✨ وكيل التوليف يدمج الآراء...');
+    try{
+      const combined = successes.join('\n\n---\n\n');
+      const synthesis = await callClaude(SYNTHESIS_PROMPT, 'السؤال الأصلي: '+text+'\n\nآراء الوكلاء:\n'+combined, []);
+      removeTypingIndicator();
+      messages.push({ role:'assistant', agentId:'synthesis', agentName:'✨ التوليف الجماعي', content:synthesis, type:'synthesis' });
+      renderMessages();
+    }catch(e){
+      removeTypingIndicator();
+      messages.push({ role:'assistant', agentId:'error', agentName:'خطأ', content:'فشل التوليف: '+e.message, type:'error' });
+      renderMessages();
+    }
+  }
+}
+
+/* ========================================================================
+   INIT
+   ======================================================================== */
+/* ========================================================================
+   PWA: INSTALLABILITY (Add to Home Screen) + SHARING
+   ======================================================================== */
+function registerServiceWorker(){
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('Service worker registered:', reg.scope))
+      .catch(err => console.error('Service worker registration failed:', err));
+  }
+}
+
+let deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  const btn = document.getElementById('installBtn');
+  if(btn) btn.style.display = 'block';
+});
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  const btn = document.getElementById('installBtn');
+  if(btn) btn.style.display = 'none';
+  logActivity('تثبيت التطبيق', 'تم التثبيت بنجاح');
+});
+
+function isStandaloneDisplay(){
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+async function handleInstallClick(){
+  if(isStandaloneDisplay()){
+    showToast('التطبيق مثبّت مسبقاً على شاشتك ✅');
+    return;
+  }
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    const choice = await deferredInstallPrompt.userChoice;
+    logActivity('طلب تثبيت', choice.outcome);
+    deferredInstallPrompt = null;
+    document.getElementById('installBtn').style.display = 'none';
+  } else if(isIOS){
+    document.getElementById('iosInstallModal').style.display = 'flex';
+  } else {
+    showToast('التثبيت المباشر غير متاح بمتصفحك حالياً — جرّب من قائمة المتصفح: "إضافة إلى الشاشة الرئيسية".');
+  }
+}
+
+async function shareApp(){
+  const shareData = {
+    title: 'Neural Nexus AI Agents',
+    text: 'منصة وكلاء ذكاء اصطناعي عربية متعددة النماذج — جرّبها!',
+    url: location.href
+  };
+  if(navigator.share){
+    try{
+      await navigator.share(shareData);
+      logActivity('مشاركة التطبيق', 'عبر مشاركة النظام');
+    }catch(e){
+      // AbortError just means the user closed the share sheet — not an error worth surfacing.
+      if(e.name !== 'AbortError') showToast('تعذرت المشاركة: ' + e.message);
+    }
+  } else if(navigator.clipboard){
+    try{
+      await navigator.clipboard.writeText(location.href);
+      showToast('تم نسخ رابط التطبيق! شاركه كيفما تحب 🔗');
+      logActivity('مشاركة التطبيق', 'نسخ الرابط (لا يدعم المتصفح المشاركة المباشرة)');
+    }catch(e){
+      showToast('انسخ الرابط يدوياً من شريط العنوان لمشاركته.');
+    }
+  } else {
+    showToast('انسخ الرابط يدوياً من شريط العنوان لمشاركته.');
+  }
+}
+
+autoInitApp();
+registerServiceWorker();
+
+</script>
+ 
+<script>
+/* ==== MODULE 15: OpenAI Integration ==== */
+async function saveOpenAIKey(){
+  const val=document.getElementById('openaiApiKeyInput')?.value?.trim();
+  if(!val) return showToast('أدخل مفتاح OpenAI');
+  try{
+    localStorage.setItem('nexus_openai_key', val);
+    showToast('تم حفظ مفتاح OpenAI');
+  }catch(e){showToast('تعذر حفظ المفتاح');}
+}
+
+window.OPENAI_PROVIDER = {
+  id:'openai',
+  models:['gpt-4o','gpt-4-turbo','gpt-3.5-turbo']
+};
+
+/* ==== MODULE 16: DeepSeek Integration ==== */
+async function saveDeepSeekKey(){
+  const val=document.getElementById('deepseekApiKeyInput')?.value?.trim();
+  if(!val) return showToast('أدخل مفتاح DeepSeek');
+  try{
+    localStorage.setItem('nexus_deepseek_key', val);
+    showToast('تم حفظ مفتاح DeepSeek');
+  }catch(e){showToast('تعذر حفظ المفتاح');}
+}
+
+window.DEEPSEEK_PROVIDER = {
+  id:'deepseek',
+  models:['deepseek-chat','deepseek-reasoner']
+};
+
+/* ==== Unified LLM Wrapper ==== */
+if(typeof window.callLLM === 'undefined'){
+  window.callLLM = async function(provider, systemPrompt, userPrompt, history=[], options={}){
+    if(provider === 'claude' && typeof callClaude === 'function'){
+      return callClaude(systemPrompt, userPrompt, history);
+    }
+
+    if(provider === 'openai'){
+      const key = localStorage.getItem('nexus_openai_key');
+      const model = document.getElementById('openaiModelSelect')?.value || 'gpt-4o';
+      if(!key) throw new Error('مفتاح OpenAI غير موجود');
+      const res = await fetch('https://api.openai.com/v1/chat/completions',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'Authorization':'Bearer '+key
+        },
+        body:JSON.stringify({
+          model,
+          messages:[
+            {role:'system',content:systemPrompt},
+            ...history,
+            {role:'user',content:userPrompt}
+          ],
+          temperature:0.7
+        })
+      });
+      const data = await res.json();
+      return data.choices?.[0]?.message?.content || 'لا يوجد رد';
+    }
+
+    if(provider === 'deepseek'){
+      const key = localStorage.getItem('nexus_deepseek_key');
+      const model = document.getElementById('deepseekModelSelect')?.value || 'deepseek-chat';
+      if(!key) throw new Error('مفتاح DeepSeek غير موجود');
+      const res = await fetch('https://api.deepseek.com/chat/completions',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'Authorization':'Bearer '+key
+        },
+        body:JSON.stringify({
+          model,
+          messages:[
+            {role:'system',content:systemPrompt},
+            ...history,
+            {role:'user',content:userPrompt}
+          ],
+          temperature:0.7
+        })
+      });
+      const data = await res.json();
+      return data.choices?.[0]?.message?.content || 'لا يوجد رد';
+    }
+
+    throw new Error('المزوّد غير مدعوم: '+provider);
+  };
+}
+
+/* ==== Compatibility Wrapper ==== */
+if(typeof callClaude === 'function'){
+  const __originalCallClaude = callClaude;
+  callClaude = async function(systemPrompt, userPrompt, history=[]){
+    return __originalCallClaude(systemPrompt, userPrompt, history);
+  };
+}
+
+/* ==== Workflow Visual Helpers ==== */
+window.activeWorkflowAgentIds = [];
+function applyWorkflowGlow(agentIds){
+  window.activeWorkflowAgentIds = agentIds || [];
+  document.querySelectorAll('.agent-chip').forEach(el=>{
+    const txt = el.textContent || '';
+    const match = window.activeWorkflowAgentIds.some(id => txt.includes(id));
+    el.classList.toggle('in-workflow', match);
+  });
+}
+</script>
+
+</body>
+</html>

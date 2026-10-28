@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0e1a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Neural Nexus AI Agents">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icons/favicon-32.png">
+<title>Neural Nexus AI Agents — منصة الوكلاء الحية</title>
+<style>
+  :root{
+    --bg:#0a0e1a; --panel:#121829; --panel2:#1a2236; --border:#232d47;
+    --gold:#e8b84b; --green:#3ecf8e; --red:#f16565; --blue:#4f8ff0;
+    --txt:#e9edf7; --muted:#8993ac;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg); color:var(--txt); font-family:'Segoe UI', Tahoma, sans-serif;
+    min-height:100vh; display:flex; flex-direction:column;
+  }
+  .app-shell{
+    width:100%; max-width:560px; margin:0 auto;
+    min-height:100vh; display:flex; flex-direction:column;
+    background:var(--bg);
+  }
+  @media (min-width:561px){
+    body{ background:#05070d; }
+    .app-shell{
+      min-height:100vh; max-height:100vh;
+      box-shadow:0 0 60px rgba(0,0,0,.6);
+      border-left:1px solid var(--border); border-right:1px solid var(--border);
+    }
+  }
+  
+  /* TASK 3: Dark Mode Support */
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#f5f7fa;
+      --panel:#ffffff;
+      --panel2:#f0f2f5;
+      --border:#e0e4e8;
+      --txt:#1a1a1a;
+      --muted:#666666;
+    }
+  }
+  
+  /* TASK 3: Offline Indicator */
+  .offline-banner{
+    position:fixed; top:0; left:0; right:0; background:var(--red);
+    color:#fff; padding:8px 16px; text-align:center; font-size:12px;
+    z-index:1000; display:none; font-weight:600;
+  }
+  .offline-banner.show{ display:block; }
+  
+  /* TASK 3: Sync Indicator */
+  .sync-indicator{
+    position:fixed; top:50%; right:20px; background:var(--panel);
+    border:1px solid var(--border); border-radius:10px; padding:12px;
+    font-size:11px; color:var(--muted); z-index:9997;
+  }
+  .sync-dot{
+    display:inline-block; width:8px; height:8px; border-radius:50%;
+    background:var(--green); margin-right:6px; animation:pulse 2s infinite;
+  }
+  .sync-dot.offline{ background:var(--red); animation:none; }
+  @keyframes pulse{ 0%, 100%{ opacity:1; } 50%{ opacity:0.5; } }
+  
+  /* TASK 3: Language Selector */
+  .lang-selector{
+    position:fixed; bottom:20px; left:20px; background:var(--panel);
+    border:1px solid var(--border); border-radius:10px; padding:8px;
+    display:flex; gap:4px; z-index:9998;
+  }
+  .lang-btn{
+    background:var(--panel2); border:1px solid var(--border);
+    color:var(--muted); padding:6px 10px; border-radius:6px;
+    font-size:11px; cursor:pointer; transition:.2s;
+  }
+  .lang-btn.active{
+    background:var(--gold); color:#0a0e1a; border-color:var(--gold);
+  }
+  
+  /* TASK 4: Compact Share Button */
+  .share-btn-compact{
+    position:fixed; bottom:80px; right:20px; width:48px; height:48px;
+    background:linear-gradient(135deg, var(--gold), var(--blue));
+    border:none; border-radius:50%; color:#fff; font-size:20px;
+    cursor:pointer; box-shadow:0 4px 12px rgba(232,184,75,.3);
+    display:flex; align-items:center; justify-content:center;
+    z-index:999; transition:.2s;
+  }
+  .share-btn-compact:hover{
+    transform:scale(1.1);
+    box-shadow:0 6px 16px rgba(232,184,75,.5);
+  }
+  
+  .topbar{
+    background:var(--panel); border-bottom:1px solid var(--border);
+    padding:12px 16px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .brand{ color:var(--gold); font-weight:800; font-size:16px; display:flex; align-items:center; gap:8px; }
+  .brand span{ color:var(--muted); font-weight:400; font-size:11px; display:block; }
+  .nb-logo{ flex-shrink:0; overflow:visible; }
+  .nb-flow-circle{ animation: nbDrift 7s ease-in-out infinite; transform-origin:50px 50px; }
+  .nb-flow-circle.c2{ animation-duration:9s; animation-direction:reverse; }
+  .nb-node{ animation: nbPulse 2.2s ease-in-out infinite; transform-origin:center; }
+  .nb-nucleus{ animation: nbNucleusPulse 2.6s ease-in-out infinite; transform-origin:50px 50px; }
+  .nb-line{ animation: nbLineFlicker 3s ease-in-out infinite; }
+  @keyframes nbDrift{ 0%,100%{ transform:scale(1) rotate(0deg); } 50%{ transform:scale(1.07) rotate(5deg); } }
+  @keyframes nbPulse{ 0%,100%{ opacity:.4; r:2.4; } 50%{ opacity:1; r:3.2; } }
+  @keyframes nbNucleusPulse{ 0%,100%{ transform:scale(1); filter:drop-shadow(0 0 2px var(--gold)); } 50%{ transform:scale(1.12); filter:drop-shadow(0 0 6px var(--gold)); } }
+  @keyframes nbLineFlicker{ 0%,100%{ opacity:.25; } 50%{ opacity:.7; } }
+  
+  .topbar-actions{ display:flex; gap:6px; overflow-x:auto; max-width:60vw; scrollbar-width:none; }
+  .topbar-actions::-webkit-scrollbar{ display:none; }
+  .topbar-actions .icon-btn{ flex-shrink:0; }
+  .icon-btn{
+    background:var(--panel2); border:1px solid var(--border); color:var(--muted);
+    padding:7px 10px; border-radius:8px; font-size:12px; cursor:pointer;
+  }
+  
+  /* TASK 4: Agent Strip with Drag & Drop */
+  .agent-strip{
+    display:flex; gap:8px; padding:10px 12px; overflow-x:auto; background:var(--panel);
+    border-bottom:1px solid var(--border); scroll-behavior:smooth;
+  }
+  .agent-chip{
+    flex-shrink:0; padding:8px 12px; border-radius:20px; background:var(--panel2);
+    border:1.5px solid var(--border); font-size:12px; cursor:pointer; white-space:nowrap;
+    display:flex; align-items:center; gap:5px; color:var(--muted); transition:.15s;
+    position:relative; user-select:none; touch-action:none;
+  }
+  .agent-chip.selected{ border-color:var(--gold); color:var(--txt); background:rgba(232,184,75,.1); }
+  .agent-chip.collaborating{
+    border:2px solid var(--red);
+    box-shadow:0 0 12px rgba(241,101,101,.6), inset 0 0 8px rgba(241,101,101,.2);
+    animation:glowPulse 2s ease-in-out infinite;
+  }
+  @keyframes glowPulse{
+    0%, 100%{ box-shadow:0 0 12px rgba(241,101,101,.6), inset 0 0 8px rgba(241,101,101,.2); }
+    50%{ box-shadow:0 0 20px rgba(241,101,101,.8), inset 0 0 12px rgba(241,101,101,.3); }
+  }
+  .agent-chip.dragging{ opacity:0.7; transform:scale(1.05); z-index:1000; }
+  .agent-chip.drag-over{ border-style:dashed; background:rgba(232,184,75,.15); }
+  .agent-chip .drag-handle{ cursor:grab; opacity:0; transition:opacity .2s; }
+  .agent-chip:hover .drag-handle{ opacity:1; }
+  .agent-chip.custom-chip{ border-style:dashed; }
+  .collaboration-badge{
+    position:absolute; top:-8px; right:-8px; width:20px; height:20px;
+    background:var(--red); border:2px solid var(--panel); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:10px; color:#fff; font-weight:700;
+  }
+  
+  /* TASK 1: Image Input Support */
+  .input-bar{
+    display:flex; gap:8px; padding:12px; background:var(--panel); border-top:1px solid var(--border);
+    flex-wrap:wrap; align-items:flex-end;
+  }
+  .input-wrapper{
+    flex:1; min-width:200px; display:flex; flex-direction:column; gap:6px;
+  }
+  .input-bar textarea{
+    width:100%; background:var(--panel2); border:1px solid var(--border); color:var(--txt);
+    padding:12px; border-radius:12px; font-size:14px; resize:none; max-height:100px; font-family:inherit;
+  }
+  .image-preview-strip{
+    display:flex; gap:6px; overflow-x:auto; padding:0 2px; max-height:60px;
+  }
+  .image-preview-strip::-webkit-scrollbar{ height:3px; }
+  .image-preview-strip::-webkit-scrollbar-track{ background:transparent; }
+  .image-preview-strip::-webkit-scrollbar-thumb{ background:var(--muted); border-radius:2px; }
+  .image-thumb{
+    position:relative; flex-shrink:0; width:50px; height:50px; border-radius:8px;
+    overflow:hidden; border:1px solid var(--border); cursor:pointer;
+  }
+  .image-thumb img{ width:100%; height:100%; object-fit:cover; }
+  .image-thumb .remove-btn{
+    position:absolute; top:2px; right:2px; background:rgba(0,0,0,.6); border:none;
+    color:#fff; width:20px; height:20px; border-radius:50%; cursor:pointer; font-size:12px;
+    display:none; align-items:center; justify-content:center;
+  }
+  .image-thumb:hover .remove-btn{ display:flex; }
+  .input-controls{
+    display:flex; gap:6px; align-items:center;
+  }
+  .image-input-btn{
+    background:var(--panel2); border:1px solid var(--border); color:var(--muted);
+    padding:10px 12px; border-radius:10px; font-size:13px; cursor:pointer;
+    display:flex; align-items:center; gap:4px; transition:.2s;
+  }
+  .image-input-btn:hover{ border-color:var(--gold); color:var(--gold); }
+  .input-bar button{
+    background:var(--gold); border:none; color:#0a0e1a; padding:10px 18px; border-radius:12px;
+    font-weight:700; cursor:pointer; font-size:14px; white-space:nowrap;
+  }
+  .input-bar button:disabled{ opacity:.4; cursor:not-allowed; }
+  #imageInput{ display:none; }
+  
+  #chatArea{ flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:14px; }
+  .msg{ max-width:88%; display:flex; flex-direction:column; gap:4px; }
+  .msg.user{ align-self:flex-end; align-items:flex-end; }
+  .msg.agent{ align-self:flex-start; align-items:flex-start; }
+  .msg .label{ font-size:11px; color:var(--muted); padding:0 4px; }
+  .msg .bubble{
+    padding:12px 14px; border-radius:14px; font-size:14px; line-height:1.7; white-space:pre-wrap;
+  }
+  .msg.user .bubble{ background:var(--blue); color:#fff; border-bottom-left-radius:4px; }
+  .msg.agent .bubble{ background:var(--panel2); border:1px solid var(--border); border-bottom-right-radius:4px; }
+  .msg.synthesis .bubble{ background:linear-gradient(135deg, rgba(232,184,75,.12), rgba(79,143,240,.1)); border:1px solid var(--gold); }
+  .msg.phase .bubble{ background:transparent; border:1px dashed var(--border); color:var(--muted); font-size:12.5px; }
+  .msg.final .bubble{ background:var(--panel2); border:2px solid var(--green); }
+  .msg.error .bubble{ background:rgba(241,101,101,.1); border:1px solid var(--red); color:var(--red); }
+  .msg-image{ max-width:100%; border-radius:10px; margin-top:8px; }
+  .typing-dots{ display:flex; gap:4px; padding:12px 14px; }
+  .typing-dots span{
+    width:6px; height:6px; border-radius:50%; background:var(--muted); animation:blink 1.2s infinite;
+  }
+  .typing-dots span:nth-child(2){ animation-delay:.2s; }
+  .typing-dots span:nth-child(3){ animation-delay:.4s; }
+  @keyframes blink{ 0%,100%{opacity:.2;} 50%{opacity:1;} }
+  
+  .empty-state{ margin:auto; text-align:center; color:var(--muted); font-size:13px; padding:20px; line-height:1.8; }
+  
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:400;
+    display:none; align-items:flex-end; justify-content:center;
+  }
+  .modal-overlay.show{ display:flex; }
+  .modal-box{
+    background:var(--panel); border-top:1px solid var(--border); border-radius:18px 18px 0 0;
+    width:100%; max-width:480px; max-height:80vh; overflow-y:auto; padding:18px;
+  }
+  .modal-box h3{ color:var(--gold); font-size:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; }
+  .modal-close{ background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; }
+  .modal-btn{
+    background:var(--gold); border:none; color:#0a0e1a; padding:10px; border-radius:10px;
+    font-weight:700; cursor:pointer; font-size:13px;
+  }
+  .modal-btn.secondary{ background:var(--panel2); color:var(--muted); border:1px solid var(--border); }
+  
+  /* TASK 2: Dashboard Styles */
+  .metrics-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:12px;
+  }
+  .metric-card{
+    background:var(--panel2); border:1px solid var(--border); border-radius:12px;
+    padding:14px; display:flex; flex-direction:column; gap:6px;
+  }
+  .metric-label{
+    font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px;
+  }
+  .metric-value{
+    font-size:20px; font-weight:700; color:var(--gold);
+  }
+  .metric-value.green{ color:var(--green); }
+  .metric-value.blue{ color:var(--blue); }
+  .metric-detail{
+    font-size:12px; color:var(--muted); margin-top:4px;
+  }
+  
+  .chart-container{
+    background:var(--panel2); border:1px solid var(--border); border-radius:12px;
+    padding:14px; display:flex; flex-direction:column; gap:10px;
+  }
+  .chart-title{
+    font-size:13px; font-weight:600; color:var(--txt);
+  }
+  
+  .pie-chart{
+    width:120px; height:120px; border-radius:50%;
+    background:conic-gradient(
+      var(--gold) 0deg 144deg,
+      var(--blue) 144deg 216deg,
+      var(--green) 216deg 288deg,
+      var(--red) 288deg 360deg
+    );
+    margin:0 auto; position:relative;
+    box-shadow:0 4px 12px rgba(0,0,0,.3);
+  }
+  .pie-center{
+    position:absolute; inset:20px; background:var(--panel2); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:600; color:var(--txt);
+  }
+  
+  .bar-chart{
+    display:flex; align-items:flex-end; gap:8px; height:120px;
+  }
+  .bar-item{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;
+  }
+  .bar{
+    width:100%; background:linear-gradient(180deg, var(--gold), var(--blue));
+    border-radius:4px 4px 0 0; position:relative; min-height:4px;
+    box-shadow:0 2px 8px rgba(232,184,75,.2);
+  }
+  .bar-label{ font-size:10px; color:var(--muted); text-align:center; }
+  
+  .cost-breakdown{
+    background:var(--panel2); border:1px solid var(--border); border-radius:12px;
+    padding:14px; display:flex; flex-direction:column; gap:10px;
+  }
+  .cost-row{
+    display:flex; justify-content:space-between; align-items:center; padding:8px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .cost-row:last-child{ border-bottom:none; }
+  .cost-label{ font-size:12px; color:var(--muted); }
+  .cost-value{ font-size:13px; font-weight:600; color:var(--gold); }
+  
+  .cost-total{
+    background:linear-gradient(90deg, rgba(232,184,75,.1), rgba(62,207,142,.1));
+    padding:12px; border-radius:8px; margin-top:8px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .cost-total-label{ font-size:13px; font-weight:600; color:var(--txt); }
+  .cost-total-value{ font-size:16px; font-weight:700; color:var(--green); }
+  
+  @media (max-width:480px){
+    .share-btn-compact{
+      bottom:70px; right:10px; width:44px; height:44px; font-size:18px;
+    }
+    .agent-chip{
+      padding:6px 10px; font-size:11px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="offline-banner" id="offlineBanner"></div>
+<div class="sync-indicator" id="syncIndicator">
+  <span class="sync-dot" id="syncDot"></span>
+  <span id="syncText">متصل</span>
+</div>
+<div class="lang-selector">
+  <button class="lang-btn active" onclick="setLanguage('ar')" id="langAr">العربية</button>
+  <button class="lang-btn" onclick="setLanguage('en')" id="langEn">English</button>
+</div>
+
+<div class="app-shell">
+
+<div class="topbar" role="banner">
+  <div class="brand">
+    <svg class="nb-logo" width="38" height="38" viewBox="0 0 100 100" role="img" aria-label="شعار Neural Nexus AI Agents">
+      <defs>
+        <filter id="nbGlow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="1.6" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <radialGradient id="nbNucleusGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fff6d8"/>
+          <stop offset="55%" stop-color="#f2c94c"/>
+          <stop offset="100%" stop-color="#c9962a"/>
+        </radialGradient>
+      </defs>
+      <circle class="nb-flow-circle" cx="42" cy="46" r="26" fill="none" stroke="#4f8ff0" stroke-width="1" opacity=".22"/>
+      <circle class="nb-flow-circle c2" cx="58" cy="56" r="23" fill="none" stroke="#e8b84b" stroke-width="1" opacity=".2"/>
+      <g stroke="#f2c94c" stroke-width="1">
+        <line class="nb-line" x1="50" y1="50" x2="50" y2="14" style="animation-delay:0s"/>
+        <line class="nb-line" x1="50" y1="50" x2="80" y2="30" style="animation-delay:.3s"/>
+        <line class="nb-line" x1="50" y1="50" x2="86" y2="62" style="animation-delay:.6s"/>
+        <line class="nb-line" x1="50" y1="50" x2="64" y2="88" style="animation-delay:.9s"/>
+        <line class="nb-line" x1="50" y1="50" x2="30" y2="86" style="animation-delay:1.2s"/>
+        <line class="nb-line" x1="50" y1="50" x2="14" y2="60" style="animation-delay:1.5s"/>
+        <line class="nb-line" x1="50" y1="50" x2="20" y2="28" style="animation-delay:1.8s"/>
+      </g>
+      <g stroke="#4f8ff0" stroke-width=".6" opacity=".35">
+        <line x1="50" y1="14" x2="80" y2="30"/>
+        <line x1="80" y1="30" x2="86" y2="62"/>
+        <line x1="86" y1="62" x2="64" y2="88"/>
+        <line x1="64" y1="88" x2="30" y2="86"/>
+        <line x1="30" y1="86" x2="14" y2="60"/>
+        <line x1="14" y1="60" x2="20" y2="28"/>
+        <line x1="20" y1="28" x2="50" y2="14"/>
+      </g>
+      <circle class="nb-node" cx="50" cy="14" r="2.6" fill="#e8b84b" filter="url(#nbGlow)" style="animation-delay:0s"/>
+      <circle class="nb-node" cx="80" cy="30" r="2.6" fill="#4f8ff0" filter="url(#nbGlow)" style="animation-delay:.3s"/>
+      <circle class="nb-node" cx="86" cy="62" r="2.6" fill="#3ecf8e" filter="url(#nbGlow)" style="animation-delay:.6s"/>
+      <circle class="nb-node" cx="64" cy="88" r="2.6" fill="#e8b84b" filter="url(#nbGlow)" style="animation-delay:.9s"/>
+      <circle class="nb-node" cx="30" cy="86" r="2.6" fill="#4f8ff0" filter="url(#nbGlow)" style="animation-delay:1.2s"/>
+      <circle class="nb-node" cx="14" cy="60" r="2.6" fill="#3ecf8e" filter="url(#nbGlow)" style="animation-delay:1.5s"/>
+      <circle class="nb-node" cx="20" cy="28" r="2.6" fill="#e8b84b" filter="url(#nbGlow)" style="animation-delay:1.8s"/>
+      <circle class="nb-nucleus" cx="50" cy="50" r="4.2" fill="url(#nbNucleusGrad)" filter="url(#nbGlow)"/>
+    </svg>
+    <span>Neural Nexus</span>
+  </div>
+  <div class="topbar-actions">
+    <button class="icon-btn" onclick="openDashboard()" aria-label="لوحة التحكم">📊</button>
+    <button class="icon-btn" onclick="openAgentManagement()" aria-label="إدارة الوكلاء">⚙️</button>
+    <button class="icon-btn" onclick="openKnowledgePanel()" aria-label="قاعدة المعرفة">📚</button>
+  </div>
+</div>
+
+<div id="agentStrip" class="agent-strip" role="group" aria-label="اختر الوكلاء"></div>
+
+<div id="chatArea" role="log" aria-live="polite" aria-label="سجل المحادثة">
+  <div class="empty-state" id="emptyState">
+    اختر وكيلاً واحداً، ثم اكتب سؤالك بالأسفل.
+  </div>
+</div>
+
+<div class="input-bar">
+  <div class="input-wrapper">
+    <textarea id="msgInput" rows="1" placeholder="اكتب رسالتك هنا..." onkeydown="handleKeydown(event)" aria-label="اكتب رسالتك"></textarea>
+    <div id="imagePreviewContainer" class="image-preview-strip" style="display:none;"></div>
+  </div>
+  <div class="input-controls">
+    <button class="image-input-btn" onclick="document.getElementById('imageInput').click()" title="إضافة صورة">🖼️</button>
+    <button id="sendBtn" onclick="sendMessage()" aria-label="إرسال الرسالة">إرسال</button>
+  </div>
+</div>
+
+<input type="file" id="imageInput" accept="image/*" multiple onchange="handleImageSelect(event)">
+
+<button class="share-btn-compact" onclick="openShareMenu()" title="مشاركة التطبيق" aria-label="مشاركة التطبيق">🔗</button>
+
+<!-- MODALS -->
+<div id="knowledgeModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3>📚 قاعدة المعرفة <button class="modal-close" onclick="closeModal('knowledgeModal')">✕</button></h3>
+    <div id="knowledgeList" style="max-height:300px; overflow-y:auto;"></div>
+    <input id="kbTitle" placeholder="العنوان..." aria-label="عنوان المعرفة">
+    <textarea id="kbContent" rows="3" placeholder="المحتوى..." aria-label="محتوى المعرفة"></textarea>
+    <button class="modal-btn" onclick="addKnowledgeItem()">إضافة</button>
+  </div>
+</div>
+
+<div id="dashboardModal" class="modal-overlay">
+  <div class="modal-box" style="max-height:90vh;">
+    <h3>📊 لوحة التحكم <button class="modal-close" onclick="closeDashboard()">✕</button></h3>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">📨 الرسائل</div>
+        <div class="metric-value" id="metricMessages">0</div>
+        <div class="metric-detail" id="metricMessagesDetail">0 وكيل</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">🔤 Tokens</div>
+        <div class="metric-value green" id="metricTokens">0</div>
+        <div class="metric-detail" id="metricTokensDetail">0 إدخال + 0 إخراج</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">💰 التكلفة</div>
+        <div class="metric-value" id="metricCost">$0.00</div>
+        <div class="metric-detail" id="metricCostDetail">Claude Sonnet</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">⏱️ الوقت</div>
+        <div class="metric-value blue" id="metricResponseTime">0ms</div>
+        <div class="metric-detail" id="metricResponseDetail">متوسط</div>
+      </div>
+    </div>
+    <div class="chart-container">
+      <div class="chart-title">📊 توزيع Tokens</div>
+      <div style="display:flex; gap:20px; align-items:center;">
+        <div class="pie-chart">
+          <div class="pie-center" id="pieCenter">0%</div>
+        </div>
+        <div style="font-size:11px; display:flex; flex-direction:column; gap:6px;">
+          <div>إدخال: <strong id="pieInput">0</strong></div>
+          <div>إخراج: <strong id="pieOutput">0</strong></div>
+          <div>صور: <strong id="pieImages">0</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="cost-breakdown">
+      <div class="chart-title">💵 التكاليف</div>
+      <div class="cost-row">
+        <span class="cost-label">إدخال</span>
+        <span class="cost-value" id="costInput">$0.00</span>
+      </div>
+      <div class="cost-row">
+        <span class="cost-label">إخراج</span>
+        <span class="cost-value" id="costOutput">$0.00</span>
+      </div>
+      <div class="cost-row">
+        <span class="cost-label">صور</span>
+        <span class="cost-value" id="costImages">$0.00</span>
+      </div>
+      <div class="cost-total">
+        <span class="cost-total-label">الإجمالي</span>
+        <span class="cost-total-value" id="costTotal">$0.00</span>
+      </div>
+    </div>
+    <button class="modal-btn" onclick="exportDashboardData()">📥 تصدير</button>
+  </div>
+</div>
+
+<div id="agentManagementPanel" class="modal-overlay">
+  <div class="modal-box">
+    <h3>⚙️ إدارة الوكلاء <button class="modal-close" onclick="closeAgentManagement()">✕</button></h3>
+    <div id="agentListReorderable" style="display:flex; flex-direction:column; gap:8px;"></div>
+    <button class="modal-btn" onclick="saveAgentOrder()">💾 حفظ الترتيب</button>
+  </div>
+</div>
+
+<div id="shareMenu" class="modal-overlay">
+  <div class="modal-box" style="max-width:300px;">
+    <h3>🔗 مشاركة التطبيق <button class="modal-close" onclick="closeModal('shareMenu')">✕</button></h3>
+    <button class="modal-btn" onclick="shareViaSystem()">📱 مشاركة النظام</button>
+    <button class="modal-btn secondary" onclick="copyShareLink()">📋 نسخ الرابط</button>
+    <button class="modal-btn secondary" onclick="generateQRCode()">📲 رمز QR</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ===== PART 2 CONTINUES IN NEXT FILE =====
+</body>
+</html>
+
+/* ========================================================================
+   NEXUS AGENTS COMPLETE PLATFORM - ALL TASKS INTEGRATED
+   Task 1: Multimodal Image Input + Compression
+   Task 2: SaaS Dashboard with Token Counting & Cost Analysis
+   Task 3: Offline Mode, Error Handling, Dark Mode, i18n
+   Task 4: Compact Share Button, Agent Ordering, Collaborators Highlight
+   ======================================================================== */
+
+/* ===== LANGUAGE/i18n (TASK 3) ===== */
+let currentLanguage = localStorage.getItem('nexus_language') || 'ar';
+const i18n = {
+  ar: {
+    offline: '🔴 أنت في وضع بدون إنترنت',
+    online: '🟢 متصل بالإنترنت',
+    syncStatus: 'متصل',
+    syncOffline: 'بدون اتصال',
+    errorNetwork: 'فشل الاتصال بالشبكة',
+    errorUnknown: 'حدث خطأ غير متوقع',
+    successSave: '✅ تم الحفظ بنجاح',
+  },
+  en: {
+    offline: '🔴 You are offline',
+    online: '🟢 Connected',
+    syncStatus: 'Connected',
+    syncOffline: 'Offline',
+    errorNetwork: 'Network connection failed',
+    errorUnknown: 'An unexpected error occurred',
+    successSave: '✅ Saved successfully',
+  }
+};
+
+function t(key){ return i18n[currentLanguage][key] || i18n['ar'][key]; }
+
+function setLanguage(lang){
+  currentLanguage = lang;
+  localStorage.setItem('nexus_language', lang);
+  document.getElementById('langAr').classList.toggle('active', lang === 'ar');
+  document.getElementById('langEn').classList.toggle('active', lang === 'en');
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.documentElement.lang = lang;
+  renderAgentStrip();
+  renderMessages();
+}
+
+/* ===== OFFLINE MODE (TASK 3) ===== */
+let isOnline = navigator.onLine;
+
+window.addEventListener('online', () => {
+  isOnline = true;
+  updateOnlineStatus();
+  showToast(t('online'), 'success');
+});
+
+window.addEventListener('offline', () => {
+  isOnline = false;
+  updateOnlineStatus();
+  showToast(t('offline'), 'warning');
+});
+
+function updateOnlineStatus(){
+  const banner = document.getElementById('offlineBanner');
+  const dot = document.getElementById('syncDot');
+  const text = document.getElementById('syncText');
+  
+  if(!isOnline){
+    banner.classList.add('show');
+    banner.textContent = t('offline');
+    dot.classList.add('offline');
+    text.textContent = t('syncOffline');
+  } else {
+    banner.classList.remove('show');
+    dot.classList.remove('offline');
+    text.textContent = t('syncStatus');
+  }
+}
+
+/* ===== ERROR HANDLING (TASK 3) ===== */
+function handleError(error, context = ''){
+  console.error('[ERROR]', context, error);
+  let message = t('errorUnknown');
+  
+  try{
+    if(error instanceof TypeError && error.message.includes('fetch')){
+      message = t('errorNetwork');
+    } else if(error.message){
+      message = error.message;
+    }
+    showToast(message, 'error');
+    logActivity('خطأ', context + ': ' + message);
+  }catch(e){
+    console.error('Error in error handler:', e);
+  }
+}
+
+function showToast(msg, type = 'info'){
+  try{
+    const toast = document.createElement('div');
+    if(type === 'error'){
+      toast.style.cssText = 'position:fixed;bottom:20px;right:20px;background:var(--red);color:#fff;padding:12px 16px;border-radius:10px;font-size:12px;z-index:9999;';
+    } else if(type === 'success'){
+      toast.style.cssText = 'position:fixed;bottom:20px;right:20px;background:var(--green);color:#fff;padding:12px 16px;border-radius:10px;font-size:12px;z-index:9999;';
+    } else {
+      toast.style.cssText = 'position:fixed;bottom:20px;right:20px;background:var(--panel2);border:1px solid var(--border);color:var(--txt);padding:12px 16px;border-radius:10px;font-size:12px;z-index:9999;';
+    }
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => { try{ toast.remove(); }catch(e){} }, 3000);
+  }catch(e){
+    console.error('Toast error:', e);
+  }
+}
+
+/* ===== AGENTS & STATE ===== */
+const AGENTS = [
+  { id:'general', name:'المساعد العام', emoji:'🧭', prompt:'أنت مساعد عام ذكي وشامل.' },
+  { id:'financial', name:'المستشار المالي', emoji:'💰', prompt:'أنت مستشار مالي خبير.' },
+  { id:'tech', name:'الخبير التقني', emoji:'💻', prompt:'أنت مهندس برمجيات خبير.' },
+];
+
+let selectedAgentIds = ['general'];
+let messages = [];
+let selectedImages = [];
+let encryptionKey = null;
+let knowledgeBase = [];
+let customAgents = [];
+let activityLog = [];
+let metricsData = {
+  totalInputTokens: 0,
+  totalOutputTokens: 0,
+  totalImageTokens: 0,
+  userMessages: 0,
+  agentMessages: 0,
+  responseTimes: [],
+  agentsUsed: new Set(),
+  imagesProcessed: 0
+};
+
+let agentOrder = JSON.parse(localStorage.getItem('nexus_agent_order') || '[]');
+let collaboratingAgents = new Set();
+
+function getAllAgents(){ return [...AGENTS, ...customAgents]; }
+
+function getOrderedAgents(){
+  const allAgents = getAllAgents();
+  if(agentOrder.length === 0) return allAgents;
+  const ordered = agentOrder.map(id => allAgents.find(a => a.id === id)).filter(a => a);
+  const remaining = allAgents.filter(a => !agentOrder.includes(a.id));
+  return [...ordered, ...remaining];
+}
+
+/* ===== TASK 1: IMAGE HANDLING ===== */
+async function handleImageSelect(event){
+  try{
+    const files = Array.from(event.target.files || []);
+    for(const file of files){
+      if(!file.type.startsWith('image/')) continue;
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try{
+          const base64 = e.target.result;
+          const img = new Image();
+          img.onload = async () => {
+            const compressed = await compressImage(img, file.name);
+            selectedImages.push(compressed);
+            renderImagePreviews();
+            logActivity('صورة', file.name);
+          };
+          img.src = base64;
+        }catch(err){
+          handleError(err, 'Image processing');
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }catch(err){
+    handleError(err, 'Image select');
+  }
+  event.target.value = '';
+}
+
+async function compressImage(img, filename){
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  let width = img.width, height = img.height;
+  const maxDim = 1024;
+  
+  if(width > height){
+    if(width > maxDim){ height = Math.round((height * maxDim) / width); width = maxDim; }
+  } else {
+    if(height > maxDim){ width = Math.round((width * maxDim) / height); height = maxDim; }
+  }
+  
+  canvas.width = width;
+  canvas.height = height;
+  ctx.drawImage(img, 0, 0, width, height);
+  const base64 = canvas.toDataURL('image/jpeg', 0.75);
+  const size = Math.round((base64.length * 3) / 4);
+  
+  return {
+    id: 'img_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+    name: filename,
+    base64: base64,
+    width: width,
+    height: height,
+    size: size
+  };
+}
+
+function renderImagePreviews(){
+  const container = document.getElementById('imagePreviewContainer');
+  if(selectedImages.length === 0){
+    container.style.display = 'none';
+    return;
+  }
+  container.style.display = 'flex';
+  container.innerHTML = selectedImages.map(img => `
+    <div class="image-thumb" title="${img.name}">
+      <img src="${img.base64}" alt="${img.name}">
+      <button class="remove-btn" onclick="removeImage('${img.id}')">✕</button>
+    </div>
+  `).join('');
+}
+
+function removeImage(imgId){
+  selectedImages = selectedImages.filter(img => img.id !== imgId);
+  renderImagePreviews();
+}
+
+/* ===== TASK 2: TOKEN COUNTING & COST ===== */
+const PRICING = {
+  input_per_1k: 0.003,
+  output_per_1k: 0.015,
+  image_per_1k: 0.0015
+};
+
+function estimateTokens(text){
+  return text ? Math.ceil(text.length / 3) : 0;
+}
+
+function estimateImageTokens(imageData){
+  return imageData ? Math.ceil(imageData.base64.length / 16) : 0;
+}
+
+function updateMetrics(userText, agentReply, images = []){
+  const inputTokens = estimateTokens(userText);
+  const outputTokens = estimateTokens(agentReply);
+  const imageTokens = images.reduce((sum, img) => sum + estimateImageTokens(img), 0);
+  
+  metricsData.totalInputTokens += inputTokens;
+  metricsData.totalOutputTokens += outputTokens;
+  metricsData.totalImageTokens += imageTokens;
+  metricsData.userMessages++;
+  metricsData.agentMessages++;
+  metricsData.imagesProcessed += images.length;
+  selectedAgentIds.forEach(id => metricsData.agentsUsed.add(id));
+  
+  updateDashboard();
+}
+
+function calculateCosts(){
+  const inputCost = (metricsData.totalInputTokens / 1000) * PRICING.input_per_1k;
+  const outputCost = (metricsData.totalOutputTokens / 1000) * PRICING.output_per_1k;
+  const imageCost = (metricsData.totalImageTokens / 1000) * PRICING.image_per_1k;
+  return { input: inputCost, output: outputCost, images: imageCost, total: inputCost + outputCost + imageCost };
+}
+
+function openDashboard(){
+  updateDashboard();
+  document.getElementById('dashboardModal').classList.add('show');
+}
+
+function closeDashboard(){
+  document.getElementById('dashboardModal').classList.remove('show');
+}
+
+function updateDashboard(){
+  const costs = calculateCosts();
+  const totalTokens = metricsData.totalInputTokens + metricsData.totalOutputTokens + metricsData.totalImageTokens;
+  const avgResponseTime = metricsData.responseTimes.length > 0 
+    ? Math.round(metricsData.responseTimes.reduce((a, b) => a + b, 0) / metricsData.responseTimes.length)
+    : 0;
+  
+  document.getElementById('metricMessages').textContent = messages.length;
+  document.getElementById('metricMessagesDetail').textContent = metricsData.agentsUsed.size + ' وكيل';
+  document.getElementById('metricTokens').textContent = totalTokens.toLocaleString('ar');
+  document.getElementById('metricTokensDetail').textContent = metricsData.totalInputTokens + ' إدخال + ' + metricsData.totalOutputTokens + ' إخراج';
+  document.getElementById('metricCost').textContent = '$' + costs.total.toFixed(4);
+  document.getElementById('metricResponseTime').textContent = avgResponseTime + 'ms';
+  
+  const totalPie = totalTokens || 1;
+  const inputPercent = Math.round((metricsData.totalInputTokens / totalPie) * 100);
+  document.getElementById('pieCenter').textContent = inputPercent + '%';
+  document.getElementById('pieInput').textContent = metricsData.totalInputTokens;
+  document.getElementById('pieOutput').textContent = metricsData.totalOutputTokens;
+  document.getElementById('pieImages').textContent = metricsData.totalImageTokens;
+  
+  document.getElementById('costInput').textContent = '$' + costs.input.toFixed(4);
+  document.getElementById('costOutput').textContent = '$' + costs.output.toFixed(4);
+  document.getElementById('costImages').textContent = '$' + costs.images.toFixed(4);
+  document.getElementById('costTotal').textContent = '$' + costs.total.toFixed(4);
+}
+
+function exportDashboardData(){
+  const costs = calculateCosts();
+  const data = {
+    timestamp: new Date().toISOString(),
+    metrics: metricsData,
+    costs: costs,
+    messages: messages.length,
+    agents: Array.from(metricsData.agentsUsed),
+    totalTokens: metricsData.totalInputTokens + metricsData.totalOutputTokens + metricsData.totalImageTokens
+  };
+  
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'nexus-dashboard-' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  showToast(t('successSave'));
+}
+
+/* ===== TASK 4: AGENT MANAGEMENT ===== */
+function renderAgentStrip(){
+  const strip = document.getElementById('agentStrip');
+  const agents = getOrderedAgents();
+  
+  strip.innerHTML = agents.map(a => `
+    <div class="agent-chip ${selectedAgentIds.includes(a.id)?'selected':''} ${a.id.startsWith('custom_')?'custom-chip':''} ${collaboratingAgents.has(a.id)?'collaborating':''}"
+         data-agent-id="${a.id}"
+         onclick="toggleAgent('${a.id}')"
+         draggable="true"
+         ondragstart="handleAgentDragStart(event)"
+         ondragover="handleAgentDragOver(event)"
+         ondrop="handleAgentDrop(event)"
+         ondragleave="handleAgentDragLeave(event)"
+         ondragend="handleAgentDragEnd(event)">
+      <span class="drag-handle">⋮</span>
+      ${a.emoji} ${a.name}
+      ${collaboratingAgents.has(a.id) ? '<span class="collaboration-badge">👥</span>' : ''}
+    </div>
+  `).join('');
+}
+
+function toggleAgent(id){
+  if(selectedAgentIds.includes(id)){
+    selectedAgentIds = selectedAgentIds.filter(x=>x!==id);
+  } else {
+    selectedAgentIds.push(id);
+  }
+  if(selectedAgentIds.length===0) selectedAgentIds=['general'];
+  renderAgentStrip();
+}
+
+let draggedAgent = null;
+
+function handleAgentDragStart(e){
+  draggedAgent = e.currentTarget.dataset.agentId;
+  e.currentTarget.classList.add('dragging');
+}
+
+function handleAgentDragOver(e){
+  e.preventDefault();
+  if(e.currentTarget.classList.contains('agent-chip')){
+    e.currentTarget.classList.add('drag-over');
+  }
+}
+
+function handleAgentDragLeave(e){
+  if(e.currentTarget.classList.contains('agent-chip')){
+    e.currentTarget.classList.remove('drag-over');
+  }
+}
+
+function handleAgentDrop(e){
+  e.preventDefault();
+  const targetId = e.currentTarget.dataset.agentId;
+  
+  if(draggedAgent && draggedAgent !== targetId){
+    const agents = getOrderedAgents();
+    const draggedIdx = agents.findIndex(a => a.id === draggedAgent);
+    const targetIdx = agents.findIndex(a => a.id === targetId);
+    
+    if(draggedIdx !== -1 && targetIdx !== -1){
+      [agents[draggedIdx], agents[targetIdx]] = [agents[targetIdx], agents[draggedIdx]];
+      agentOrder = agents.map(a => a.id);
+      renderAgentStrip();
+    }
+  }
+  
+  e.currentTarget.classList.remove('drag-over');
+}
+
+function handleAgentDragEnd(e){
+  e.currentTarget.classList.remove('dragging');
+  document.querySelectorAll('.agent-chip').forEach(chip => chip.classList.remove('drag-over'));
+  draggedAgent = null;
+}
+
+function openAgentManagement(){
+  const container = document.getElementById('agentListReorderable');
+  const agents = getOrderedAgents();
+  
+  container.innerHTML = agents.map(a => `
+    <div style="background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px;">
+      <span style="cursor:grab;">⋮⋮</span>
+      <div style="flex:1;">
+        <div style="font-weight:600;color:var(--txt);font-size:13px;">${a.emoji} ${a.name}</div>
+        <div style="font-size:11px;color:var(--muted);">${a.id.startsWith('custom_') ? 'مخصص' : 'مدمج'}</div>
+      </div>
+      <button style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;" onclick="toggleCollaboration('${a.id}')">
+        ${collaboratingAgents.has(a.id) ? '👥' : '⭕'}
+      </button>
+    </div>
+  `).join('');
+  
+  document.getElementById('agentManagementPanel').classList.add('show');
+}
+
+function closeAgentManagement(){
+  document.getElementById('agentManagementPanel').classList.remove('show');
+}
+
+function saveAgentOrder(){
+  localStorage.setItem('nexus_agent_order', JSON.stringify(agentOrder));
+  showToast('✅ تم حفظ الترتيب');
+}
+
+function toggleCollaboration(agentId){
+  if(collaboratingAgents.has(agentId)){
+    collaboratingAgents.delete(agentId);
+  } else {
+    collaboratingAgents.add(agentId);
+  }
+  renderAgentStrip();
+  localStorage.setItem('nexus_collaborating_agents', JSON.stringify(Array.from(collaboratingAgents)));
+}
+
+/* ===== MODALS ===== */
+function openKnowledgePanel(){
+  renderKnowledgeList();
+  document.getElementById('knowledgeModal').classList.add('show');
+}
+
+function closeModal(id){
+  document.getElementById(id).classList.remove('show');
+}
+
+function renderKnowledgeList(){
+  const el = document.getElementById('knowledgeList');
+  if(knowledgeBase.length === 0){
+    el.innerHTML = '<p style="color:var(--muted);font-size:12px;">لا يوجد محتوى بعد.</p>';
+    return;
+  }
+  el.innerHTML = knowledgeBase.map(k => `
+    <div style="background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:8px 10px;font-size:12px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px;">
+      <div style="flex:1;"><strong>${k.title}</strong><br>${k.content}</div>
+      <button style="background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;" onclick="removeKnowledgeItem('${k.id}')">✕</button>
+    </div>
+  `).join('');
+}
+
+async function addKnowledgeItem(){
+  const title = document.getElementById('kbTitle').value.trim();
+  const content = document.getElementById('kbContent').value.trim();
+  if(!title || !content) return;
+  knowledgeBase.push({ id:'kb_'+Date.now(), title, content });
+  document.getElementById('kbTitle').value = '';
+  document.getElementById('kbContent').value = '';
+  renderKnowledgeList();
+  logActivity('معرفة', title);
+}
+
+async function removeKnowledgeItem(id){
+  knowledgeBase = knowledgeBase.filter(k => k.id !== id);
+  renderKnowledgeList();
+}
+
+function logActivity(action, detail){
+  activityLog.unshift({ ts: new Date().toISOString(), action, detail });
+  activityLog = activityLog.slice(0, 200);
+}
+
+/* ===== SHARE BUTTON ===== */
+function openShareMenu(){
+  document.getElementById('shareMenu').classList.add('show');
+}
+
+function shareViaSystem(){
+  const shareData = {
+    title: 'Neural Nexus AI Agents',
+    text: 'منصة وكلاء ذكاء اصطناعي عربية',
+    url: location.href
+  };
+  
+  if(navigator.share){
+    navigator.share(shareData).then(() => {
+      logActivity('مشاركة', 'عبر النظام');
+      closeModal('shareMenu');
+    }).catch(err => {
+      if(err.name !== 'AbortError') handleError(err, 'Share');
+    });
+  } else {
+    showToast('المتصفح لا يدعم المشاركة');
+  }
+}
+
+function copyShareLink(){
+  try{
+    navigator.clipboard.writeText(location.href);
+    showToast('✅ تم نسخ الرابط');
+    logActivity('مشاركة', 'نسخ الرابط');
+    closeModal('shareMenu');
+  }catch(e){
+    handleError(e, 'Copy Link');
+  }
+}
+
+function generateQRCode(){
+  try{
+    const qrContainer = document.createElement('div');
+    qrContainer.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:9999;';
+    const qrBox = document.createElement('div');
+    qrBox.style.cssText = 'background:var(--panel);padding:20px;border-radius:12px;';
+    
+    new QRCode(qrBox, {
+      text: location.href,
+      width: 200,
+      height: 200,
+      colorDark: '#e8b84b',
+      colorLight: '#0a0e1a'
+    });
+    
+    const closeBtn = document.createElement('button');
+    closeBtn.textContent = 'إغلاق';
+    closeBtn.style.cssText = 'width:100%;margin-top:12px;background:var(--gold);border:none;color:#0a0e1a;padding:10px;border-radius:8px;font-weight:600;cursor:pointer;';
+    closeBtn.onclick = () => qrContainer.remove();
+    qrBox.appendChild(closeBtn);
+    qrContainer.appendChild(qrBox);
+    document.body.appendChild(qrContainer);
+    logActivity('مشاركة', 'رمز QR');
+    closeModal('shareMenu');
+  }catch(e){
+    handleError(e, 'QR Code');
+  }
+}
+
+/* ===== CHAT RENDERING ===== */
+function renderMessages(){
+  const area = document.getElementById('chatArea');
+  const empty = document.getElementById('emptyState');
+  area.innerHTML = '';
+  if(messages.length === 0){
+    area.appendChild(empty);
+    return;
+  }
+  messages.forEach(m=>{
+    const div = document.createElement('div');
+    div.className = 'msg ' + (m.role==='user' ? 'user' : (m.type||'agent'));
+    const label = document.createElement('div');
+    label.className = 'label';
+    label.textContent = m.role==='user' ? 'أنت' : (m.agentName || 'الوكيل');
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = m.content;
+    div.appendChild(label);
+    div.appendChild(bubble);
+    
+    if(m.images && m.images.length > 0){
+      m.images.forEach(img => {
+        const imgEl = document.createElement('img');
+        imgEl.className = 'msg-image';
+        imgEl.src = img.base64;
+        imgEl.alt = img.name;
+        div.appendChild(imgEl);
+      });
+    }
+    
+    area.appendChild(div);
+  });
+  area.scrollTop = area.scrollHeight;
+}
+
+function addTypingIndicator(label){
+  const area = document.getElementById('chatArea');
+  const div = document.createElement('div');
+  div.className = 'msg agent';
+  div.id = 'typingIndicator';
+  div.innerHTML = `<div class="label">${label}</div><div class="bubble typing-dots"><span></span><span></span><span></span></div>`;
+  area.appendChild(div);
+  area.scrollTop = area.scrollHeight;
+}
+
+function removeTypingIndicator(){
+  const el = document.getElementById('typingIndicator');
+  if(el) el.remove();
+}
+
+/* ===== SEND MESSAGE ===== */
+function handleKeydown(e){
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); }
+}
+
+async function sendMessage(){
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if(!text && selectedImages.length === 0) return;
+  const sendBtn = document.getElementById('sendBtn');
+  
+  try{
+    messages.push({ 
+      role:'user', 
+      content:text || '(صورة)',
+      images: selectedImages.length > 0 ? [...selectedImages] : undefined
+    });
+    
+    input.value = '';
+    selectedImages = [];
+    renderImagePreviews();
+    renderMessages();
+    sendBtn.disabled = true;
+    
+    const agent = getAllAgents().find(a=>a.id===selectedAgentIds[0]) || getAllAgents()[0];
+    addTypingIndicator(agent.emoji+' '+agent.name);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    const reply = 'هذا رد تجريبي من الوكيل. في التطبيق الفعلي، سيتم الاتصال بـ Claude API.';
+    removeTypingIndicator();
+    
+    messages.push({ 
+      role:'assistant', 
+      agentId:agent.id, 
+      agentName:agent.emoji+' '+agent.name, 
+      content:reply, 
+      type:'agent' 
+    });
+    renderMessages();
+    updateMetrics(text, reply, selectedImages);
+    logActivity('رد', agent.name);
+  }catch(e){
+    removeTypingIndicator();
+    handleError(e, 'Send Message');
+  }finally{
+    sendBtn.disabled = false;
+  }
+}
+
+/* ===== INITIALIZATION ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  try{
+    const saved = localStorage.getItem('nexus_collaborating_agents');
+    if(saved) collaboratingAgents = new Set(JSON.parse(saved));
+  }catch(e){}
+  
+  setLanguage(currentLanguage);
+  updateOnlineStatus();
+  renderAgentStrip();
+  renderMessages();
+});
+
+</script>
+</body>
+</html>
