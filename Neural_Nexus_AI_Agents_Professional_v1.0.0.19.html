@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Neural Nexus AI Agents Professional v1.0.0.19</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#0f172a;color:#e2e8f0}
+header{background:#111827;padding:16px;display:flex;justify-content:space-between;align-items:center}
+.container{display:grid;grid-template-columns:260px 1fr;height:calc(100vh - 64px)}
+.sidebar{background:#1f2937;padding:16px}
+.sidebar h3{margin-top:0}
+.sidebar button{width:100%;margin:6px 0;padding:10px;border:none;border-radius:8px;background:#374151;color:#fff;cursor:pointer}
+.main{padding:20px;display:flex;flex-direction:column}
+.chat{flex:1;background:#111827;border-radius:12px;padding:16px;overflow:auto}
+.input{display:flex;gap:10px;margin-top:12px}
+.input input{flex:1;padding:12px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:#fff}
+.input button{padding:12px 18px;border:none;border-radius:10px;background:#2563eb;color:#fff;cursor:pointer}
+.card{background:#1e293b;border-radius:12px;padding:14px;margin-bottom:12px}
+@media(max-width:768px){.container{grid-template-columns:1fr}.sidebar{display:none}}
+</style>
+</head>
+<body>
+<header>
+<div><strong>Neural Nexus AI Agents</strong></div>
+<div>الإصدار 1.0.0.19</div>
+</header>
+<div class="container">
+<aside class="sidebar">
+<h3>الوكلاء</h3>
+<button>🧠 المدير العام</button>
+<button>💰 المستشار المالي</button>
+<button>⚖️ المستشار القانوني</button>
+<button>🏗️ المهندس الاستشاري</button>
+<button>🎖️ المحلل العسكري</button>
+<button>🚨 مدير الأزمات</button>
+<button>🔎 مراقب التحيّز</button>
+<div class="card">
+<h4>غرفة العمليات</h4>
+<p>مفعلة</p>
+</div>
+<div class="card">
+<h4>Mirror Mode</h4>
+<p>جاهز</p>
+</div>
+</aside>
+<main class="main">
+<div class="card">
+<h3>لوحة التحكم الاحترافية</h3>
+<p>واجهة Professional UI مدمجة مع بنية Backend جاهزة للتوسعة.</p>
+</div>
+<div id="chat" class="chat">
+<div><strong>النظام:</strong> تم تحميل منصة Neural Nexus AI Agents بنجاح.</div>
+</div>
+<div class="input">
+<input id="msg" placeholder="اكتب رسالتك هنا...">
+<button onclick="sendMessage()">إرسال</button>
+</div>
+</main>
+</div>
+<script>
+async function sendMessage(){
+const input=document.getElementById('msg');
+const chat=document.getElementById('chat');
+const text=input.value.trim();
+if(!text)return;
+chat.innerHTML+=`<div><strong>أنت:</strong> ${text}</div>`;
+input.value='';
+try{
+const res=await fetch('http://localhost:3000/api/chat',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({message:text,agent:'general_manager'})
+});
+const data=await res.json();
+chat.innerHTML+=`<div><strong>النظام:</strong> ${data.reply||'تم الاستلام'}</div>`;
+}catch(e){
+chat.innerHTML+=`<div><strong>النظام:</strong> يعمل وضع الاختبار المحلي.</div>`;
+}
+chat.scrollTop=chat.scrollHeight;
+}
+</script>
+</body>
+</html>
