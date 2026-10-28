@@ -1,0 +1,27 @@
+[PASS] zip sha256 == .sha256 file
+[PASS] unzip -t: archive intact
+[PASS] work dir is empty before extraction
+[PASS] archive extracts
+[PASS] single top-level directory NEXUS-G8.2-CLOSURE-HANDOFF-2026-10-24
+[PASS] SHA256SUMS.txt: every listed file verifies
+[PASS] no missing / unlisted file: manifest lines=997, files (excl. root manifest)=997
+[PASS] extracted tree == build tree (diff -r)
+[PASS] archive file entries (998) == files + manifest (998)
+[PASS] present and non-empty: NEXUS-G8.2-CLOSURE-REPORT.md
+[PASS] present and non-empty: NEXT-SESSION-START-HERE.md
+[PASS] present and non-empty: SHA256SUMS.txt
+[PASS] present and non-empty: B-evidence/G8.2-CLOSURE/G8.2-CLOSURE-changes.patch
+[PASS] present and non-empty: B-evidence/G8.2-CLOSURE/changed-file-hashes.txt
+[PASS] present and non-empty: B-evidence/G8.2-CLOSURE/mutations/run_mutations_g82c.py
+[PASS] present and non-empty: B-evidence/G8.2-CLOSURE/evidence/F4-full-suite.log
+[PASS] present and non-empty: B-evidence/G8.2-CLOSURE/evidence/01-red.log
+[PASS] present and non-empty: B-evidence/G8.2-CLOSURE/evidence/dist-check-g82c.mjs
+[PASS] present and non-empty: A-source-snapshot/src-baseline/nexus-backend/test/agentDataFixedPolicy.test.ts
+[PASS] no node_modules/dist/.git/.env/*.db/data in the archive
+[PASS] strict secret-pattern scan over the extracted tree: 0 matches
+[PASS] changed-file-hashes.txt (source+test) == files in the archive
+[PASS] patch reverse-then-forward applies cleanly on the archive's own source
+[PASS] …and reproduces the archive's src/ and test/ exactly
+
+SUMMARY pass=24 fail=0
+SCOPE: package integrity of the ZIP + patch round-trip; live repository not accessed. Test re-runs from the extracted archive are logged separately.

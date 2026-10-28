@@ -1,0 +1,20 @@
+### re-run from the EXTRACTED archive (2026-10-24T03:43:09Z), Node v22.22.0
+### new tests
+ok 1 - G82C-1 static 'data' definition: the sent request = persona + fixed policy, policy exactly once and AFTER the persona
+ok 2 - G82C-2 an ACTIVE genome with a different prompt does not remove the policy (replacing systemPrompt is not a bypass)
+ok 3 - G82C-2b a genome that PROMISES a tool in prose still gets the policy appended last (position proven; model obedience is NOT)
+ok 4 - G82C-3 offered tools are unchanged: none is sent for data, with or without a genome; code_execution stays unregistered and unnamed by the policy
+ok 5 - G82C-4 every OTHER agent is untouched: no policy field, and the sent system prompt is byte-identical to its definition (also under a genome on another agent)
+ok 6 - G82C-5 agent selection and the data definition (skills/routing/limits) are unchanged
+# tests 6
+# pass 6
+# fail 0
+### tsc
+tsc exit=0
+### full suite from archive
+# tests 620
+# pass 620
+# fail 0
+# cancelled 0
+# skipped 0
+EXIT=0
