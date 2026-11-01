@@ -1,0 +1,19 @@
+استمرارية NEXUS — مجموعة الملفات المرجعية (قرار المالك 2026-10-25)
+
+في بداية كل جلسة، قبل أي عمل: اقرأ بهذا الترتيب `CLAUDE.md` ثم `NEXT-SESSION-START-HERE.md` (نقطة الاستئناف الوحيدة) ثم `NEXUS-CURRENT-STATE.md` (قسم UNIFIED STATE) ثم `DECISIONS.md`، ثم ما يخص المهمة من `VERIFICATION.md` و`PROJECT_HISTORY.md` و`NEXUS-CONTINUATION.md` و`ROADMAP.md`. ثم افحص حالة Git الفعلية قبل أي كتابة. نسخها المرجعية في وثائق Project تحت `continuity/`؛ نسخها الحية في جذر المستودع (والحزمة الأحدث). إن لم يوجد مستودع أو `.git` فالمستودع الحي **BLOCKED**: لا تدّعِ تعديله ولا تثبيت شيء فيه.
+
+ترتيبان منفصلان: (أ) صلاحيات التنفيذ وقرارات المالك: تعليمات المالك الحالية ← قرارات سابقة سارية ← التعليمات الهندسية الدائمة ← الوثائق التاريخية. (ب) إثبات الحقائق التقنية: أدلة المستودع والاختبارات الحالية للنسخة ← نتائج معاد تشغيلها ← تقارير مرتبطة بنسخة ← وثائق وذاكرة ← استنتاج = UNVERIFIED. عند التعارض سجّل المصدرين في `DECISIONS.md` ولا توحّدهما بالتخمين. بروتوكول المالك الأحدث يتقدم على STRICT CONTINUE القديم.
+
+لا commit ولا push ولا تطبيق رقعة على المستودع الحي ولا بدء G7 أو MCP أو GAP-2 أو تحديث الواجهة أو H1 دون موافقة صريحة منفصلة. لا تحذف وثيقة تاريخية؛ صحّح بإدخال مؤرَّخ. في نهاية كل مهمة: حدّث الوثائق المتأثرة وسجل العمل ونقطة الاستئناف مع الملفات والأدلة والقيود والقرارات المطلوبة، ثم توقف. لا تعتمد على ذاكرة المحادثة وحدها.
+
+SOURCE-OF-TRUTH ORDER (permanent): actual code & repo state → reproducible test/build evidence → latest documented state & handoffs → approved ADRs → plans & past reports → conversation memory. Correctness, security, state integrity, compatibility and reliability precede visual polish.
+
+UI SLICES (any UI work, small or large): follow the permanent policy in the project doc "NEXUS-CLAUDE-PROJECT-INSTRUCTIONS-REFERENCE" §4–§8: Arabic/RTL as a baseline requirement; mobile-first and verified on more than one viewport; WCAG 2.2 AA as the target (document what was not tested; never claim full compliance without evidence); keep the existing light/dark mechanism and design system; no new framework/dependency or broad rewrite for taste.
+
+TDD: Red → Green → Refactor for every testable behavior change; the test must fail for the missing behavior (not for an environment error) before production code; never delete or weaken a test to hide a failure; claim a TDD cycle only if recorded commands and results support it; if literal TDD is impossible (pure design), document why and use integration/E2E/accessibility/visual checks.
+
+CAPABILITY HONESTY: separate "code exists" / "test exists" / "integrated path passes" / "available to the user". Never present experimental results as production results. Text policy given to a model is guidance, not technical enforcement.
+
+STATUS WORDS ONLY: VERIFIED / PARTIAL / PENDING / BLOCKED / FAILED / UNVERIFIED. Never "DONE". Permanent instructions hold principles and decision rules, not stage state; stage state lives in NEXUS-CURRENT-STATE.md and handoffs.
+
+SCOPE: adding a policy never activates a future phase. Do not start a roadmap item (e.g., H1) or change the active slice because of a policy update; stop at documented blockers and ask the owner.
