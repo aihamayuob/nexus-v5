@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEXUS Platform Preview</title>
+<meta name="description" content="Operational preview & honest status map of the NEXUS platform (evidence-dated 2026-11-11).">
+<style>
+:root{--bg:#f4f6fb;--surface:#fff;--text:#18202f;--muted:#5a6578;--border:#d5dbe7;--accent:#1b5fd1;--accent-fg:#fff;--ok:#0b6b3a;--ok-bg:#dff5e8;--warn:#7a4d00;--warn-bg:#fff0cf;--bad:#8a1c1c;--bad-bg:#fde0e0;--info:#274b8f;--info-bg:#e3ecfb;--sim:#5b2b9a;--sim-bg:#eee4fa}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1420;--surface:#171e2e;--text:#e8edf7;--muted:#a3aec4;--border:#2b3550;--accent:#6aa0ff;--accent-fg:#0b1220;--ok:#7fe0a8;--ok-bg:#12352a;--warn:#ffd37a;--warn-bg:#3a2d10;--bad:#ff9d9d;--bad-bg:#3d1a1a;--info:#9bbcff;--info-bg:#1b2a4a;--sim:#d3b4ff;--sim-bg:#2e1f47}}
+:root[data-theme="dark"]{--bg:#0f1420;--surface:#171e2e;--text:#e8edf7;--muted:#a3aec4;--border:#2b3550;--accent:#6aa0ff;--accent-fg:#0b1220;--ok:#7fe0a8;--ok-bg:#12352a;--warn:#ffd37a;--warn-bg:#3a2d10;--bad:#ff9d9d;--bad-bg:#3d1a1a;--info:#9bbcff;--info-bg:#1b2a4a;--sim:#d3b4ff;--sim-bg:#2e1f47}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Tahoma,"Noto Sans Arabic",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px}
+h1{font-size:1.35rem;margin:0}h2{font-size:1.1rem;margin:0 0 8px}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+button,.btn,select,input{font:inherit;color:inherit}
+button,.btn{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;min-height:44px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+button.primary,.btn.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent);font-weight:600}
+button:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+input,select{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;min-height:44px;max-width:100%}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px}
+.banner{border-radius:12px;padding:10px 14px;margin-bottom:12px;border:1px solid var(--border);background:var(--sim-bg);color:var(--sim);font-weight:600}
+.chip{display:inline-flex;gap:4px;align-items:center;border-radius:999px;padding:2px 10px;font-size:.85rem;font-weight:600;border:1px solid transparent;white-space:nowrap}
+.s-ok{background:var(--ok-bg);color:var(--ok)}.s-warn{background:var(--warn-bg);color:var(--warn)}.s-bad{background:var(--bad-bg);color:var(--bad)}.s-info{background:var(--info-bg);color:var(--info)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.pv{border:1px solid var(--border);border-radius:12px;padding:10px}
+.pv b{display:block;margin-bottom:4px}
+.map{list-style:none;margin:0;padding:0}.map li{border-top:1px solid var(--border);padding:10px 0;display:grid;grid-template-columns:minmax(0,1fr);gap:4px;overflow-wrap:anywhere}.map li b{font-weight:600}.map .ev{color:var(--muted);font-size:.92rem}
+.muted{color:var(--muted);font-size:.92rem}
+pre{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px;overflow:auto;max-height:240px;font-size:.85rem;direction:ltr;text-align:left}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:480px){.wrap{padding:16px}h1{font-size:1.2rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1 data-i="title">معاينة منصة NEXUS التشغيلية</h1>
+  <div class="tools">
+    <button id="langBtn" type="button" aria-label="Language / اللغة">EN</button>
+    <button id="themeBtn" type="button" aria-label="Theme">Light/Dark</button>
+  </div>
+</header>
+
+<div id="simBanner" class="banner" role="status" hidden></div>
+
+<section class="card" aria-labelledby="h-open">
+  <h2 id="h-open" data-i="openH">تشغيل المنصة الفعلية</h2>
+  <p class="muted" data-i="openP">هذه الصفحة لا تستبدل الواجهة الأصلية: الواجهة الحقيقية (HTML + وحدات ES + Service Worker) تُقدَّم كما هي دون تعديل.</p>
+  <div class="row"><a class="btn primary" id="openApp" href="/" data-i="openBtn">فتح المنصة</a></div>
+  <p class="muted" id="setupHint"></p>
+</section>
+
+<section class="card" aria-labelledby="h-live">
+  <h2 id="h-live" data-i="liveH">الحالة الحيّة للخلفية</h2>
+  <div class="row"><span id="healthChip" class="chip s-info">…</span><span class="muted" id="healthTxt"></span></div>
+  <div class="row" style="margin-top:10px">
+    <label for="gk" class="muted" data-i="gkLbl">مفتاح الدخول (يبقى في ذاكرة الصفحة فقط):</label>
+    <input id="gk" type="password" autocomplete="off" inputmode="text" aria-describedby="gkHint">
+    <button id="checkBtn" type="button" class="primary" data-i="checkBtn">فحص المزوّدين والحارس</button>
+  </div>
+  <p id="gkHint" class="muted" data-i="gkHint">المفتاح يُطبع في الطرفية التي شغّلت منها الخادم.</p>
+  <div id="provs" class="grid" aria-live="polite"></div>
+  <p id="wardenTxt" class="muted"></p>
+</section>
+
+<section class="card" aria-labelledby="h-route">
+  <h2 id="h-route" data-i="routeH">اختبار التوجيه (حقيقي — يستدعي POST /v2/route)</h2>
+  <div class="row">
+    <label for="mode" class="sr" data-i="modeLbl">وضع التوجيه</label>
+    <select id="mode"><option>BEST</option><option>CHEAPEST</option><option>FASTEST</option><option>LOCAL_ONLY</option><option>PRIVATE</option><option>USER_SELECTED</option></select>
+    <button id="routeBtn" type="button" data-i="routeBtn">حلّ المسار</button>
+  </div>
+  <pre id="routeOut" aria-live="polite">—</pre>
+</section>
+
+<section class="card" aria-labelledby="h-map">
+  <h2 id="h-map" data-i="mapH">خريطة حالة المكوّنات (مؤرَّخة بأدلة 2026-11-11)</h2>
+  <p class="muted" data-i="mapP">الأدلة من نسخة معزولة مُستعادة (لقطة CLOSURE) وليست المستودع الحي. وجود الشيفرة أو ظهور الصفحة لا يرفع الحالة. المزوّد المحلي هنا محاكاة.</p>
+  <ul class="map" id="mapBody" aria-label="component status map"></ul>
+</section>
+<p class="muted" id="foot"></p>
+</div>
+<script>
+(function(){
+'use strict';
+var T={ar:{title:'معاينة منصة NEXUS التشغيلية',openH:'تشغيل المنصة الفعلية',openP:'هذه الصفحة لا تستبدل الواجهة الأصلية: الواجهة الحقيقية (HTML + وحدات ES + Service Worker) تُقدَّم كما هي دون تعديل.',openBtn:'فتح المنصة',liveH:'الحالة الحيّة للخلفية',gkLbl:'مفتاح الدخول (يبقى في ذاكرة الصفحة فقط):',checkBtn:'فحص المزوّدين والحارس',gkHint:'المفتاح يُطبع في الطرفية التي شغّلت منها الخادم.',routeH:'اختبار التوجيه (حقيقي — يستدعي POST /v2/route)',modeLbl:'وضع التوجيه',routeBtn:'حلّ المسار',mapH:'خريطة حالة المكوّنات (مؤرَّخة بأدلة 2026-11-11)',mapP:'الأدلة من نسخة معزولة مُستعادة (لقطة CLOSURE) وليست المستودع الحي. وجود الشيفرة أو ظهور الصفحة لا يرفع الحالة. المزوّد المحلي هنا محاكاة.',sim:'⚠ وضع المحاكاة: النموذج المحلي مُجيب وهمي (ليس نموذجًا حقيقيًا) ولا يوجد أي مزوّد سحابي.',real:'نموذج Ollama حقيقي مُفعّل.',noBE:'الخلفية غير متاحة من هذه الصفحة (افتحها عبر خادم المعاينة).',up:'الخلفية تعمل',setup:'في ⚙️ إعدادات المنصة ضع رابط الخلفية: ',nokey:'أدخل المفتاح أولًا.',foot:'لا يوجد في هذه الصفحة زر لوظيفة غير منفَّذة.'},
+en:{title:'NEXUS Operational Platform Preview',openH:'Run the real platform',openP:'This page does not replace the original UI: the real frontend (HTML + ES modules + Service Worker) is served unmodified.',openBtn:'Open the platform',liveH:'Live backend status',gkLbl:'Gateway key (kept in page memory only):',checkBtn:'Check providers & Warden',gkHint:'The key is printed in the terminal that started the server.',routeH:'Routing probe (real — calls POST /v2/route)',modeLbl:'Routing mode',routeBtn:'Resolve route',mapH:'Component status map (evidence-dated 2026-11-11)',mapP:'Evidence comes from a restored isolated copy (CLOSURE snapshot), not the live repository. Code existing or a page rendering does not raise a status. The local provider here is a simulation.',sim:'⚠ SIMULATION: the local model is a fake responder (not a real LLM) and no cloud provider exists.',real:'A real Ollama model is active.',noBE:'Backend not reachable from this page (open it through the preview server).',up:'Backend is up',setup:'In the platform ⚙️ Settings set the backend URL to: ',nokey:'Enter the key first.',foot:'This page has no button for an unimplemented function.'}};
+var MAP=[
+['Frontend: monolithic HTML + ES modules (settings/security/storage/state/gatewayKey/utilities)','VERIFIED','Vitest 186/186; 15 Playwright/Chromium flow scripts all pass (isolated copy, Chromium 1.63 only)'],
+['Service Worker / offline boot','PARTIAL','release-v1-b1 18/18 on localhost; no real Android device; plain-HTTP LAN is not a secure context'],
+['Gateway: auth, rate limit, CORS, body limit, errors','VERIFIED','backend 620/620; API integration 42/42 incl. 401/413/429/CORS'],
+['Router: BEST / CHEAPEST / FASTEST / LOCAL_ONLY / PRIVATE / USER_SELECTED','PARTIAL','all 6 resolve against a simulated local provider; no real multi-provider ranking exercised'],
+['Provider adapter: Ollama / LM Studio','PARTIAL','Ollama protocol verified against a SIMULATOR only; none installed in the sandbox'],
+['Provider adapters: Anthropic / OpenAI / DeepSeek / Gemini','BLOCKED','no credentials (by design); unit-tested with fakes only — NOT_CONFIGURED'],
+['Agent runtime (24 agents), /v2/tasks single-call tier','PARTIAL','streamed through the simulator; multi-agent plan/verify tiers not run end-to-end here'],
+['Council / Swarm','PARTIAL','sessions accepted (202) and fail-closed validation verified; outcome quality not asserted'],
+['Warden (isolate / de-isolate / status)','VERIFIED','API-level + unit tests'],
+['Evidence Integrity (ADR-004, fail-closed)','PARTIAL','E2E 26/26 + unit; no real evidence sources'],
+['SQLite persistence','VERIFIED','rows survive a backend restart; client state survives reload (3 viewports)'],
+['Secrets: no provider key / gateway key to browser storage','VERIFIED','scanned storage, DOM and all responses; gateway key is memory-only (re-enter after reload)'],
+['Local/Private egress guard (backend)','PARTIAL','blocks local→cloud FALLBACK (503); does NOT cover the UI auto-route manager call — see finding F-UI-1'],
+['UI: Local/Private badge vs auto-route','FAILED','with local selected + default auto-route, user text reached the cloud adapter (F-UI-1)'],
+['UI: advanced mode on 412px with local provider','FAILED','layout overflows 412→514px, send button obstructed (F-UI-2)'],
+['VEL execution receipts','PARTIAL','implemented + tested; no production connector exists'],
+['code_execution tool','PENDING','deliberately not registered (owner decision G8.1)'],
+['Cloud sync, MQTT/IoT, WebAuthn, fine-tuning, dreaming, evolution, schedules','UNVERIFIED','code/tests exist; not exercised in this preview'],
+['Public HTTPS link / real Android device test','BLOCKED','sandbox egress is outbound-only and tunnels are refused']];
+var CLS={VERIFIED:'s-ok',PARTIAL:'s-warn',PENDING:'s-info',UNVERIFIED:'s-info',BLOCKED:'s-bad',FAILED:'s-bad'};
+var ICON={VERIFIED:'✔',PARTIAL:'◐',PENDING:'…',UNVERIFIED:'?',BLOCKED:'⛔',FAILED:'✖'};
+var lang='ar',cfg=null,base='';
+function $(i){return document.getElementById(i);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function apply(){var d=T[lang];document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';$('langBtn').textContent=lang==='ar'?'EN':'ع';
+ document.querySelectorAll('[data-i]').forEach(function(e){var k=e.getAttribute('data-i');if(d[k])e.textContent=d[k];});
+ $('foot').textContent=d.foot;
+ $('mapBody').innerHTML=MAP.map(function(r){return '<li><b>'+esc(r[0])+'</b><span><span class="chip '+CLS[r[1]]+'">'+ICON[r[1]]+' '+r[1]+'</span></span><span class="ev">'+esc(r[2])+'</span></li>';}).join('');
+ banner();hint();}
+function banner(){var b=$('simBanner');if(!cfg){b.hidden=true;return;}b.hidden=false;b.textContent=cfg.mode==='SIMULATION'?T[lang].sim:T[lang].real;}
+function hint(){var h=$('setupHint');h.textContent=cfg?T[lang].setup+location.origin+'/backend':'';}
+function chip(el,cls,txt){el.className='chip '+cls;el.textContent=txt;}
+async function j(path,opt){var r=await fetch(base+path,opt);var t=await r.text();var b;try{b=JSON.parse(t);}catch(e){b=t;}return {status:r.status,body:b};}
+async function init(){
+ try{var r=await fetch('/preview-config.json',{cache:'no-store'});if(r.ok){cfg=await r.json();base=location.origin+cfg.backendUrl;}}catch(e){}
+ apply();
+ if(!cfg){chip($('healthChip'),'s-bad','✖ UNAVAILABLE');$('healthTxt').textContent=T[lang].noBE;return;}
+ try{var h=await j('/v2/health');if(h.status===200&&h.body.ok){chip($('healthChip'),'s-ok','✔ READY');$('healthTxt').textContent=T[lang].up+' — running '+h.body.runningCount+'/'+h.body.maxConcurrency;}else throw 0;}
+ catch(e){chip($('healthChip'),'s-bad','✖ UNAVAILABLE');$('healthTxt').textContent=T[lang].noBE;}
+}
+function hdr(){var k=$('gk').value.trim();return {'Authorization':'Bearer '+k,'Content-Type':'application/json'};}
+$('checkBtn').onclick=async function(){
+ if(!$('gk').value.trim()){$('provs').textContent=T[lang].nokey;return;}
+ var p=await j('/v2/providers/health?probe=1',{headers:hdr()});
+ if(p.status!==200){$('provs').textContent='HTTP '+p.status;return;}
+ var CL={READY:'s-ok',DEGRADED:'s-warn',UNAVAILABLE:'s-bad',NOT_CONFIGURED:'s-info'},IC={READY:'✔',DEGRADED:'◐',UNAVAILABLE:'✖',NOT_CONFIGURED:'○'};
+ $('provs').innerHTML=p.body.providers.map(function(x){return '<div class="pv"><b>'+esc(x.id)+'</b><span class="chip '+(CL[x.state]||'s-info')+'">'+(IC[x.state]||'?')+' '+esc(x.state)+'</span></div>';}).join('');
+ var w=await j('/v2/warden/status',{headers:hdr()});
+ $('wardenTxt').textContent=w.status===200?'Warden: isolatedAgents='+w.body.isolatedAgents+', activeCouncilSessions='+w.body.activeCouncilSessions+', pendingApprovals='+w.body.pendingApprovals:'Warden HTTP '+w.status;};
+$('routeBtn').onclick=async function(){
+ if(!$('gk').value.trim()){$('routeOut').textContent=T[lang].nokey;return;}
+ var mode=$('mode').value;var body={mode:mode};if(mode==='USER_SELECTED')body.provider='ollama';
+ var r=await j('/v2/route',{method:'POST',headers:hdr(),body:JSON.stringify(body)});$('routeOut').textContent='HTTP '+r.status+'\n'+JSON.stringify(r.body,null,2);};
+$('langBtn').onclick=function(){lang=lang==='ar'?'en':'ar';apply();};
+$('themeBtn').onclick=function(){var r=document.documentElement;var cur=r.getAttribute('data-theme');r.setAttribute('data-theme',cur==='dark'?'light':'dark');};
+init();
+})();
+</script>
+</body>
+</html>
