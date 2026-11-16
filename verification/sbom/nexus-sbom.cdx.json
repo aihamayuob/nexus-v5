@@ -1,0 +1,6695 @@
+{
+ "bomFormat": "CycloneDX",
+ "specVersion": "1.6",
+ "serialNumber": "urn:uuid:63c96780-2da3-4f74-88a5-ff5881e0ad2c",
+ "version": 1,
+ "metadata": {
+  "timestamp": "2026-11-16T11:33:01Z",
+  "component": {
+   "type": "application",
+   "bom-ref": "nexus-root",
+   "name": "NEXUS (Neural Nexus AI Agents)",
+   "version": "5.0.0-modularize"
+  },
+  "properties": [
+   {
+    "name": "nexus:note",
+    "value": "Lockfile closure + pinned browser libs + embedded images. Licences are declared values only; root licence deliberately undeclared; not a legal review."
+   }
+  ]
+ },
+ "components": [
+  {
+   "type": "library",
+   "bom-ref": "frontend:@asamuzakjp/css-color@6.0.7",
+   "name": "@asamuzakjp/css-color",
+   "version": "6.0.7",
+   "purl": "pkg:npm/%40asamuzakjp/css-color@6.0.7",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "bc2fdb9352f3ed39ff11f53dfdaa4e4c193cd3ff1dc86c96328c0fa15d6d279da6b831ac0eab761cf4f6925ac552263ad0c42642ff6af32221b75e499c18031b"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@asamuzakjp/dom-selector@8.3.2",
+   "name": "@asamuzakjp/dom-selector",
+   "version": "8.3.2",
+   "purl": "pkg:npm/%40asamuzakjp/dom-selector@8.3.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "f7767537e050357caca1da22729388c8d87676b1dfcff0937fd9e74f4144c7bd8625c222c20c9d0fbb4602befc8f8d4bb189f7865467f8b7463ee04b9f5065f1"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@babel/helper-string-parser@7.29.7",
+   "name": "@babel/helper-string-parser",
+   "version": "7.29.7",
+   "purl": "pkg:npm/%40babel/helper-string-parser@7.29.7",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "3dbe628cfad9f3d1831fcdb6dcbe143fc8ba400a56c6cd3845b3d02537960d5d3f91e476137e8c78a9f2afa2d899452fa91448f88bfced2b85d56e84ac837363"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@babel/helper-validator-identifier@7.29.7",
+   "name": "@babel/helper-validator-identifier",
+   "version": "7.29.7",
+   "purl": "pkg:npm/%40babel/helper-validator-identifier@7.29.7",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "a9e8711a4463e7987f7dff0431a27e71887268a947231a980e7ebcdb0403ed1369f54ba3390b07a20dae4b4af6bf3af8a56fac5dff7435e79aca370d697ddf16"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@babel/parser@7.29.8",
+   "name": "@babel/parser",
+   "version": "7.29.8",
+   "purl": "pkg:npm/%40babel/parser@7.29.8",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "13c953018341d4a5be147f95189b993358a8031d84ea8565bd0151adfe4ff19666b222576000fdbd3155ef2c84511373821d5d16a319b8eead53070045ba8508"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@babel/types@7.29.8",
+   "name": "@babel/types",
+   "version": "7.29.8",
+   "purl": "pkg:npm/%40babel/types@7.29.8",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "563d6317770f7f183b3807e823b42754a2e820b966d8917da67547ad7f2ac7b0073226164fe343000ee30a194d8114b85932dcfdf0f59572e63e2c65ba3fb71a"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@bcoe/v8-coverage@1.0.2",
+   "name": "@bcoe/v8-coverage",
+   "version": "1.0.2",
+   "purl": "pkg:npm/%40bcoe/v8-coverage@1.0.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "eb300193f10203f418482435346895c306d07ab50267e4d06e9eb843702099f36fbab1c7d23f13b576b5a9b4a15c0eaaaa4a408f85795bca4fea62ded6670ca8"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@bramus/specificity@2.4.2",
+   "name": "@bramus/specificity",
+   "version": "2.4.2",
+   "purl": "pkg:npm/%40bramus/specificity@2.4.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "72dc6d27f780fadfbaab6fbebe3e63ec5617de746edf5d6ad707d81f7c6394b3ac733865871020d8558d5178691af030dc15a8d7105cbce57afd82dcdabe4527"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@csstools/color-helpers@6.1.1",
+   "name": "@csstools/color-helpers",
+   "version": "6.1.1",
+   "purl": "pkg:npm/%40csstools/color-helpers@6.1.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT-0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "80b36cba7bf07f79828b9bb9a38ebf67f25c24c9e16c749a67af6b9203f334cdc9e2cf215b0a4f51007afedb741031720a25b3c40365c7ed8b270a588f8cd2d7"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@csstools/css-calc@3.4.0",
+   "name": "@csstools/css-calc",
+   "version": "3.4.0",
+   "purl": "pkg:npm/%40csstools/css-calc@3.4.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "5d02a3e41ed089970789e8023820337003897611a058e1db6eeeb68797b99a41e79fc95671f889865964a969b1bb9cd647d8ee70f1eea35893079e8fd37de172"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@csstools/css-color-parser@4.2.3",
+   "name": "@csstools/css-color-parser",
+   "version": "4.2.3",
+   "purl": "pkg:npm/%40csstools/css-color-parser@4.2.3",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "cb82e92fe966a6ec8a0e2105ab63e76545457408eca01fea409a1defdc8b368917c96ee37b08befd627af447c8b63f00dae9d6b715e71a3c3a2d85e05eee598c"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@csstools/css-parser-algorithms@4.0.0",
+   "name": "@csstools/css-parser-algorithms",
+   "version": "4.0.0",
+   "purl": "pkg:npm/%40csstools/css-parser-algorithms@4.0.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "f81f3ba92edf206dcbe61deac09fc815b8e856839efdba4e761f610235dbbf1d28f08984994b065cdd229c53a79360a108582a92418543e4e9339adb86429ee3"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@csstools/css-syntax-patches-for-csstree@1.1.14",
+   "name": "@csstools/css-syntax-patches-for-csstree",
+   "version": "1.1.14",
+   "purl": "pkg:npm/%40csstools/css-syntax-patches-for-csstree@1.1.14",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT-0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "1e96d55f2ae87d15e91e98243488d4ff7116478589bce90edde98d2bf2fa5ff993254edb194237024929a13357ce740ba742918cb1c42d319e288e5d22423d25"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@csstools/css-tokenizer@4.0.0",
+   "name": "@csstools/css-tokenizer",
+   "version": "4.0.0",
+   "purl": "pkg:npm/%40csstools/css-tokenizer@4.0.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "43150b1c09bb70dbbbdb0f7b25434204538315a5e96c383e74ff1bfe8585019d8c4d1a69037534d18d8bd47a9a4b827ac81ab1c1afd8de73016b154a6c1fcdb0"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@emnapi/core@2.0.0-beta.2",
+   "name": "@emnapi/core",
+   "version": "2.0.0-beta.2",
+   "purl": "pkg:npm/%40emnapi/core@2.0.0-beta.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "333095a16b5c8383e6d81de37b998cbd832f8f732604ac3e7d4eef6ec25cf7f893f22a7afde6081e8fc3b26fe6afec2c1c1e92132243bb1074f58cbaafff3ee0"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@emnapi/runtime@2.0.0-beta.2",
+   "name": "@emnapi/runtime",
+   "version": "2.0.0-beta.2",
+   "purl": "pkg:npm/%40emnapi/runtime@2.0.0-beta.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "25cad23f33ef66e359bc9a8f4c5f45c36e4b6ce27c6afcc556569fda0ae61f80a4bb4a063f8eed460a8f65a75c7e3dd8a1930790556709815b40cf08fa2e5013"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@emnapi/wasi-threads@2.2.0",
+   "name": "@emnapi/wasi-threads",
+   "version": "2.2.0",
+   "purl": "pkg:npm/%40emnapi/wasi-threads@2.2.0",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "24fece607dfc43bfa9c9301ed78ada6472d020aec10ca6ddc238be5e2de971dffa424258407dd25f8c2ee84a651ab1895917a9a0dcde75f9b41b707d6787bd47"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@exodus/bytes@1.15.1",
+   "name": "@exodus/bytes",
+   "version": "1.15.1",
+   "purl": "pkg:npm/%40exodus/bytes@1.15.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "4ba98bd32341fc06edf448b8b6af200e171ccdce12dfebd0e2b6bbbf19c07fe6070b4dacaedab128a660871d83abaa747bae931cac11eabf0de8ff79c04b72ed"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@jridgewell/resolve-uri@3.1.2",
+   "name": "@jridgewell/resolve-uri",
+   "version": "3.1.2",
+   "purl": "pkg:npm/%40jridgewell/resolve-uri@3.1.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "6d12128022233f6d3fb5b5923d63048b9e1054f45913192e0fd9492fe508c542adc15240f305b54eb6f58ccb354455e8d42053359ff98690bd42f98a59da292b"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@jridgewell/sourcemap-codec@1.6.0",
+   "name": "@jridgewell/sourcemap-codec",
+   "version": "1.6.0",
+   "purl": "pkg:npm/%40jridgewell/sourcemap-codec@1.6.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "4fb8dffb9ce0b191f0349e25bd0eff69ecdbca4d27357fb32555a998703b558b04c7b6bbaabe5183921bb4916a920cdee58dacaeeab545463c43cdfb39dee217"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@jridgewell/trace-mapping@0.3.31",
+   "name": "@jridgewell/trace-mapping",
+   "version": "0.3.31",
+   "purl": "pkg:npm/%40jridgewell/trace-mapping@0.3.31",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "cf3351f9275048327373c8e869e3fc410a0242bf0db98c76748232b65d507811191c9f6e5ba85e6ecad881bcfc849c1441aa374d608cb667d5f0dbb5b7038b03"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@napi-rs/wasm-runtime@1.2.6",
+   "name": "@napi-rs/wasm-runtime",
+   "version": "1.2.6",
+   "purl": "pkg:npm/%40napi-rs/wasm-runtime@1.2.6",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "991c83984c3dfdf0835c219f2f5b1b808c3f1942b43d5c515b863080f37ad45dcb43e7d2ca80456ab255ce01b2845ea447311067415e8c3aa6e162d749ea909b"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@oxc-project/types@0.156.0",
+   "name": "@oxc-project/types",
+   "version": "0.156.0",
+   "purl": "pkg:npm/%40oxc-project/types@0.156.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "d43bb2838f1374935dca1101f179f52f7e9b4fd3efe8652d94a8c7c4ecacf3191a17fad0ab75c913e6c0bab48afc0808cf998616c6fbedc9fd3dbdb4f9609273"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-android-arm-eabi@1.2.19",
+   "name": "@rolldown/binding-android-arm-eabi",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-android-arm-eabi@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "7be11b7b4593fbdb5b5e634a3c8882f18ad6007630ba0de6ea2e29deb6461ae95f66b8b58ed2381ec953f8e66715ffce207a30585ef50d3947c1704fd92880ec"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-android-arm64@1.2.19",
+   "name": "@rolldown/binding-android-arm64",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-android-arm64@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "84ea266eb4c9faccedd9c884cd2ee8080efc94c3c1805e54310582248c8d7e7ac8ec62e5f0762816a0a7a4bda070f39a5ccaabc86094e44c5d40ac830dc0bec8"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-darwin-arm64@1.2.19",
+   "name": "@rolldown/binding-darwin-arm64",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-darwin-arm64@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "5e8300da9c022864d0cd48cf82d47091e747e1699785d20f293ea5ea83b17753d46cda1d188e837017a480dec40bfffec77a5f0585ffa8bd60366640aa2bf0e6"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-darwin-x64@1.2.19",
+   "name": "@rolldown/binding-darwin-x64",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-darwin-x64@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "ce8f04b124b0319098fdef9f46719a5f4d981a0bc90f4caf84d8bff61a463c0d8c27d645f1d3c2c3be5419fa48e8ea50fe6c91fdd2189a8811bea8990f44eb5e"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-freebsd-x64@1.2.19",
+   "name": "@rolldown/binding-freebsd-x64",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-freebsd-x64@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "3bc21200e7c8d678fb02e04f777d05485e3bcfb7fb973964e69a105468228a4bd0b86101158bd6f248be5049d3f9824f9cd1a34339f7d38925b783bd15413b98"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-linux-arm-gnueabihf@1.2.19",
+   "name": "@rolldown/binding-linux-arm-gnueabihf",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-linux-arm-gnueabihf@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "fe56026dae4d3b4caae12d2318c1fc41306d92f431a178e8416cc5e41716a7d32307d8f15510f51900cda1f9158dc3a3df40d6ca12c837fe0e7bad092b368e37"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-linux-arm64-gnu@1.2.19",
+   "name": "@rolldown/binding-linux-arm64-gnu",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-linux-arm64-gnu@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "a66fdaa453019d26c56f73ba9c6e691ced62a87859ae31831448d29bea2df49d7b5d73ef1fd2fdd32e61fa381f1c213e41d96cbf2f2a284714e152b18230febc"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-linux-arm64-musl@1.2.19",
+   "name": "@rolldown/binding-linux-arm64-musl",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-linux-arm64-musl@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "2b54a6429dc51627219fca2aacd230bc5a19e7072f8c2ee0a01ce968c36f2dff4565cf9007f42f2e69e92598000061e20fdf34b4ff056599d79362bde2bbe5c6"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-linux-ppc64-gnu@1.2.19",
+   "name": "@rolldown/binding-linux-ppc64-gnu",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-linux-ppc64-gnu@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "234c700f9ee33ffdc0efee543d98a7db0f18ed71c4984339ceaa5864e710e39325356ead5095338b2995df246beeb2f8bf0c9f11c46c464b02e1aeca734f29e5"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-linux-s390x-gnu@1.2.19",
+   "name": "@rolldown/binding-linux-s390x-gnu",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-linux-s390x-gnu@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "06bb441d3db848d5e3f47897ab2facfe45e24a2406b7a10a08f525462ac0a088a85712869db5c150491b6404807a2ee2649074fd89e6fb424fd34229c7b0274b"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-linux-x64-gnu@1.2.19",
+   "name": "@rolldown/binding-linux-x64-gnu",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-linux-x64-gnu@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "ae6ef9ffd0e41ca794d969c0f30e17f785866202e50c21427e4402fb86e0b952660bf8ef0d1bf607edb02ce621c84d1f56ebfbfff0a4937f4ea0eb9fc82bbbe9"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-linux-x64-musl@1.2.19",
+   "name": "@rolldown/binding-linux-x64-musl",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-linux-x64-musl@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "8ab87fe3e89814ce06033a65b8312b823cfcf5b8fa343b6aa8c006ffa3b52c6dfc11ddcda7279bcc2a5c54d9055bcba1cbeff7fc1a1c52f9d70d1df709759ef4"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-openharmony-arm64@1.2.19",
+   "name": "@rolldown/binding-openharmony-arm64",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-openharmony-arm64@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "f8a59358da0fb7e09f4aaf780a271e5aedf23c4f90ce4686fa984fcb3f46eb4b6664bc1f424700e007a4b1a7f3bc9030e29be0d6671de5ad53914a95bf4b3824"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-wasm32-wasi@1.2.19",
+   "name": "@rolldown/binding-wasm32-wasi",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-wasm32-wasi@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "ec41feb243ac979aa95a72b4bf36a68091613afd5cc31429b319bcb48f3cdcaf5fbabe5cdbba7cabcedfcc43ba05b04f69b036ffeb3fcd1eb7fe92dcd77ee23a"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-win32-arm64-msvc@1.2.19",
+   "name": "@rolldown/binding-win32-arm64-msvc",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-win32-arm64-msvc@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "dd0d5883543bb44bc15a865fe6b16f1bf18a6503e0c1faeefa9e3005a8c37c9141b344870a92fef9d7d38d6f60c8029dd53ed9a4862f75a51ac7b3dafc884555"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/binding-win32-x64-msvc@1.2.19",
+   "name": "@rolldown/binding-win32-x64-msvc",
+   "version": "1.2.19",
+   "purl": "pkg:npm/%40rolldown/binding-win32-x64-msvc@1.2.19",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "cbfb2a45173a77b8440b33857399f72d27aa72d988a7d98c8d8d4aab8b35e2e2cf77f2d9e33ee2d73ad6e9f32da7698f7ae4080b87ba50b31cc10ccca26a906a"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@rolldown/pluginutils@1.1.1",
+   "name": "@rolldown/pluginutils",
+   "version": "1.1.1",
+   "purl": "pkg:npm/%40rolldown/pluginutils@1.1.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "825148243bcb343b49853f6aacc1562cf6ef4beb24c60b782f42bc122d98b6784fcac0099ec23b9f2c522712a3e000de297d0e2e30b89ed464c292cea12debc0"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@standard-schema/spec@1.1.0",
+   "name": "@standard-schema/spec",
+   "version": "1.1.0",
+   "purl": "pkg:npm/%40standard-schema/spec@1.1.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "976685cb98c02e19e21b91e0aab0fa8d72e2feb516acabea37fa89c7aca826c80a85b95577e8aaa94e110976af9bf8cf8adc83a394c2bca327a632a73ab8b2d3"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@tybys/wasm-util@0.10.5",
+   "name": "@tybys/wasm-util",
+   "version": "0.10.5",
+   "purl": "pkg:npm/%40tybys/wasm-util@0.10.5",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "74e18e3f195a355f86d38ea667337ef42d1d01c41979229c5e255a3344d8cbf2cce2db539a04810f161fa2f71823c126dfe7806e2018a6f58b3aff3e65544928"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@types/chai@5.2.3",
+   "name": "@types/chai",
+   "version": "5.2.3",
+   "purl": "pkg:npm/%40types/chai@5.2.3",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "330e79f28780f5f15bbfae7fcb8987b570ecf5b3e714c6402ff8f174f154a4e1c72175fdd667201076d2e4b6a1afea7064547c03b19095e456788e9c1850b650"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@types/deep-eql@4.0.2",
+   "name": "@types/deep-eql",
+   "version": "4.0.2",
+   "purl": "pkg:npm/%40types/deep-eql@4.0.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "73d87d75554c8a030f7386f04ef0b9771aada8967040f78fb168cf96948e9e88dba2bea91aa764e78d657c0ec0a8542be6907505176ad23b98f5d6fcd41c3217"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@types/estree@1.0.9",
+   "name": "@types/estree",
+   "version": "1.0.9",
+   "purl": "pkg:npm/%40types/estree@1.0.9",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "1a174f832d5e978fc898fd395f4e54c38730dbf33ddc10949a712f599352b650b310a304e05924f98a680393a21cd426a12ec269f6fc5dadcfc9af26d50af37a"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@vitest/coverage-v8@4.1.12",
+   "name": "@vitest/coverage-v8",
+   "version": "4.1.12",
+   "purl": "pkg:npm/%40vitest/coverage-v8@4.1.12",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "true"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "e92eff8959272a094b031305c5018da69048d22a894b636033a141c5abe2b63eca683abfbf2c0e5867fa746bbb1762f5432d06e92dee4e9eda1ac847af32bc24"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@vitest/expect@4.1.12",
+   "name": "@vitest/expect",
+   "version": "4.1.12",
+   "purl": "pkg:npm/%40vitest/expect@4.1.12",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "bc5953b7e604bbd581a4d8dd19ac8d9a5315ceb58f8b5facbfce77ffbb76154ee1a4ee6000504a1f3426902ab95e3a6bf9ebde805dbdf782d04f7845de6465a9"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@vitest/mocker@4.1.12",
+   "name": "@vitest/mocker",
+   "version": "4.1.12",
+   "purl": "pkg:npm/%40vitest/mocker@4.1.12",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "7ca4a1369299ceea5666e634cfb7a0c9dbcbd2ca96e08344641104c4c04c01aea2ce510d1151f0a1781d69309a059e5fc25af8c5fda8d705c2f379fd4693be34"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@vitest/pretty-format@4.1.12",
+   "name": "@vitest/pretty-format",
+   "version": "4.1.12",
+   "purl": "pkg:npm/%40vitest/pretty-format@4.1.12",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "5d6f4ef3e331c785690ad91874c24b650430b15af23fdc24edc3ca0f1b5715fc126a4eb2461e7ed9f7a9fd8d1717f12506f247abc6dc61d8ba69eb9a8b4a2964"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@vitest/runner@4.1.12",
+   "name": "@vitest/runner",
+   "version": "4.1.12",
+   "purl": "pkg:npm/%40vitest/runner@4.1.12",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "34a955282af942709ef238a374c9e69291c753e593aa22c547a1b4a478e2f6e4635caf71265d64d674f0e85de938e8f63c372c0edd86290308ef022c693e3dd7"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@vitest/snapshot@4.1.12",
+   "name": "@vitest/snapshot",
+   "version": "4.1.12",
+   "purl": "pkg:npm/%40vitest/snapshot@4.1.12",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "928d72d5081bfec97343d9abf9bf3d0aeaae77c586d532adb0f0fcafb65405dbd5386b7ce407f61f00aa1ee8eb87026af7986cffd44cedf7003e0e7ba35be5cf"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@vitest/spy@4.1.12",
+   "name": "@vitest/spy",
+   "version": "4.1.12",
+   "purl": "pkg:npm/%40vitest/spy@4.1.12",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "446abdc7824d18d4d91c4271bcdd284a2263792084c66d27da064a28964763d717e40540e8ced52482c14f7649fed27fd09f6e593edf11357dfdbb688bffef4a"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:@vitest/utils@4.1.12",
+   "name": "@vitest/utils",
+   "version": "4.1.12",
+   "purl": "pkg:npm/%40vitest/utils@4.1.12",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "4376b05ebc0e7c457ea9cdd698ee4e372134c8eed0d6043dfe8c87c462d9fe997b37734efd9ceda90c0a2eec0c915f8203525848878ede09079d10c8a3801568"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:assertion-error@2.0.1",
+   "name": "assertion-error",
+   "version": "2.0.1",
+   "purl": "pkg:npm/assertion-error@2.0.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "2338bc45071f7ea09e3558058a02a58b5b2c92521ba479c261ce809275c662807a82b26ac9e6f2ee3bf5d895108264c09c80e76dc935bb192c4f87733773d604"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:ast-v8-to-istanbul@1.0.6",
+   "name": "ast-v8-to-istanbul",
+   "version": "1.0.6",
+   "purl": "pkg:npm/ast-v8-to-istanbul@1.0.6",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "7efa65dbd85e9523b6c3fcfbbad21bae435720b76b2f00f000c1f623fccf2a519fe76e38fa07fe0787324b5b0035cacf63687e8560864a00bc37ad6cffe005f4"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:bidi-js@1.1.0",
+   "name": "bidi-js",
+   "version": "1.1.0",
+   "purl": "pkg:npm/bidi-js@1.1.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "7d7d4e9e4d2d7553c2ee86cf581e446c9d73ecd5612eae26db164bab6617064c7331720646934c53cf27d043e05ac78a975d89ef35eceeaac3c4f2b8b11b367e"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:chai@6.3.0",
+   "name": "chai",
+   "version": "6.3.0",
+   "purl": "pkg:npm/chai@6.3.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "5d602dc09e8e1cefad8f410a0acd18d946a69f23b1b1e65696d538c76536c21f20e008a0763c2fb548ef2cfdadaa403f6afc4712dcf135aa86abf6063707242a"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:convert-source-map@2.0.0",
+   "name": "convert-source-map",
+   "version": "2.0.0",
+   "purl": "pkg:npm/convert-source-map@2.0.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "2afa78e7d1eb576144275080b22d4abbe318de46ac1f5f53172913cf6c5698c7aae9b936354dd75ef7c9f90eb59b4c64b56c2dfb51d261fdc966c4e6b3769126"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:css-tree@3.2.1",
+   "name": "css-tree",
+   "version": "3.2.1",
+   "purl": "pkg:npm/css-tree@3.2.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "5fbb2343371e521bb5bbb63fca5ad1645536152e8b462155a7aaca2cf836df2df1ddcdc338a030b97183a7e3c01a387a0929c28d8780ba5f29713f1b025fa548"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:data-urls@7.0.0",
+   "name": "data-urls",
+   "version": "7.0.0",
+   "purl": "pkg:npm/data-urls@7.0.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "db75c770217e7281987af8ab65c793543ecd7493aa567fb8f481f2c60b339be2488872e80764e498fb6c6243564f5a6f4521a4737e4be8d1ecd321e43764ae98"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:whatwg-url@16.0.1",
+   "name": "whatwg-url",
+   "version": "16.0.1",
+   "purl": "pkg:npm/whatwg-url@16.0.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "d6da38cd70719971d5dc8892484227aeb78896ed36bd43afae1c49247e6f731613043031e7572a66229dc93c6579c74a3528e3f04731181c4d7fa560fbde3983"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:decimal.js@10.6.0",
+   "name": "decimal.js",
+   "version": "10.6.0",
+   "purl": "pkg:npm/decimal.js@10.6.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "6298108884d6dc95c69edcdd526c9447557cd761e7f13d58557842bbec0edcea52e1e53d97861d0f7aa3ca229d57a9af576f736a990c783dfdd145447f696452"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:detect-libc@2.1.2",
+   "name": "detect-libc",
+   "version": "2.1.2",
+   "purl": "pkg:npm/detect-libc@2.1.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "06d8f604e38ef37a375b21f9f5ef0c817b3111055c6ab9143a9118aee6c1d2eaf09cdd74c90dfae2bb22072535d67665a966199b4e62fe87fb8a8e26ce2841b5"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:entities@8.1.0",
+   "name": "entities",
+   "version": "8.1.0",
+   "purl": "pkg:npm/entities@8.1.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "BSD-2-Clause"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "9312fb9ac21f7d2ba1f5a68500c0fbaf1008b9344c00731e06d8075b6c94756c3bdf664d87831e86417681d8efb5d9a29246883fd6c50c324e3e5b2f9bb6afac"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:es-module-lexer@2.3.2",
+   "name": "es-module-lexer",
+   "version": "2.3.2",
+   "purl": "pkg:npm/es-module-lexer@2.3.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "a681c6a4e4400688c926e72757d29b39abc44d6f250559e98645bbec4479fc1439173ee85d2a0235e93b207def4799d18ddb04cfddba89b1585fc2ad2d099dcb"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:estree-walker@3.0.3",
+   "name": "estree-walker",
+   "version": "3.0.3",
+   "purl": "pkg:npm/estree-walker@3.0.3",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "ed150a7d781230c933b7a66e5e6a9aa4ebab2c63cf7e08fa97db9167b9511a896f934cb6ca871cdf92dd731282e4f419767d8332a8a8010d8da1672b4ca9a6ea"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:expect-type@1.4.0",
+   "name": "expect-type",
+   "version": "1.4.0",
+   "purl": "pkg:npm/expect-type@1.4.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "29f61b9a9466d156cb8c4bd56bdc86c028bd188df8c6f8bb03f1d761640eeb90920f6bb731ccd4252bb05ca148c651ac801422cd5f6ae49f4d1e3e151b49fea4"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:fake-indexeddb@6.2.5",
+   "name": "fake-indexeddb",
+   "version": "6.2.5",
+   "purl": "pkg:npm/fake-indexeddb@6.2.5",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "true"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "0869f2aef6e13e5598327824b2aad24944f504054fe3d759a1cac7b8ad12bed4740f94ccb39c0fd28de3ee37b10c95b4d4a49a763069d4cffbd68fca4779c3d7"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:fdir@6.5.0",
+   "name": "fdir",
+   "version": "6.5.0",
+   "purl": "pkg:npm/fdir@6.5.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "b486d8b596ee70eb340511aa3c992c84951874bf920c7edd54cf208f2f84469dd60148cb105244fb4da46a7c87b708d63a7c2b298062c0098cd29e242c90275e"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:fsevents@2.3.3",
+   "name": "fsevents",
+   "version": "2.3.3",
+   "purl": "pkg:npm/fsevents@2.3.3",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "e71a037d7f9f2fb7da0139da82658fa5b16dc21fd1efb5a630caaa1c64bae42defbc1d181eb805f81d58999df8e35b4c8f99fade4d36d765cda09c339617df43"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:has-flag@4.0.0",
+   "name": "has-flag",
+   "version": "4.0.0",
+   "purl": "pkg:npm/has-flag@4.0.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "1329094ff4352a34d672da698080207d23b4b4a56e6548e180caf5ee4a93ba6325e807efdc421295e53ba99533a170c54c01d30c2e0d3a81bf67153712f94c3d"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:html-encoding-sniffer@6.0.0",
+   "name": "html-encoding-sniffer",
+   "version": "6.0.0",
+   "purl": "pkg:npm/html-encoding-sniffer@6.0.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "095f535b76377fcff04f405115cd7f280550dd350789799a01be955bdbed88c15fed22e831dd4f7407385b728538511304951bf7429ab47aa5b1931657e47d1a"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:html-escaper@2.0.2",
+   "name": "html-escaper",
+   "version": "2.0.2",
+   "purl": "pkg:npm/html-escaper@2.0.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "1f688cb5dd08e0cb7979889aa517480e3a7e5f37a55d0d2d144e094bb605c057af5d73263a9f66c8dad4bc28340fac2cf22aa444f05f28781bc228354a694b7e"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:is-potential-custom-element-name@1.0.1",
+   "name": "is-potential-custom-element-name",
+   "version": "1.0.1",
+   "purl": "pkg:npm/is-potential-custom-element-name@1.0.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "6c261e440dab5626ca65dfacdbadb98069c617fb7b0d2a83b3874fec2acb0359bb8ca5b3ea9a6cd0ba582c937c43ae07b663ca27586b3779f33cd28510a39489"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:istanbul-lib-coverage@3.2.2",
+   "name": "istanbul-lib-coverage",
+   "version": "3.2.2",
+   "purl": "pkg:npm/istanbul-lib-coverage@3.2.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "BSD-3-Clause"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "3bc769b05fabd1657ff0c35129f9e6aed09686e2a3c6bab6c3e8e9cc12f95192938b62de5569d63a6591c4595eb0938d99cfb02c01af29064439a9e4a342c54e"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:istanbul-lib-report@3.0.1",
+   "name": "istanbul-lib-report",
+   "version": "3.0.1",
+   "purl": "pkg:npm/istanbul-lib-report@3.0.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "BSD-3-Clause"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "1827c4d66b6c1c63842c253c7bf67b616ce99b26ebc7ff9d4937cbaef63ca9199a63acd74ca5a7e964088da005c34ebd89c9ba19530d920bb437323888f65437"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:istanbul-reports@3.2.0",
+   "name": "istanbul-reports",
+   "version": "3.2.0",
+   "purl": "pkg:npm/istanbul-reports@3.2.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "BSD-3-Clause"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "1c6616592fde86a4d5df1375d22db7b643e4a47e3a30b08830534269a28d6af0174c5d5192ac5ac043ed9e39c667a5ca4889c12a488e03904a4be699898dc0bc"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:js-tokens@10.0.0",
+   "name": "js-tokens",
+   "version": "10.0.0",
+   "purl": "pkg:npm/js-tokens@10.0.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "94cfd40734267c9468f400576cf59e9a2bdd096f15d86f051da1ddca941a232e76dec9d48e88345bbd5ac965d38e247e8b178cc951cdd977299d377f9623e0fd"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:jsdom@30.0.1",
+   "name": "jsdom",
+   "version": "30.0.1",
+   "purl": "pkg:npm/jsdom@30.0.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "true"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "e76bfb9945547cd415618a84d6571d6b29962f49e33bb9532d4a20e99bd6d94e4ab1b88b93f1a7665549faac74c5f34967a1a7f8a4a93cd139dafbab6f1670ac"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:lightningcss@1.33.0",
+   "name": "lightningcss",
+   "version": "1.33.0",
+   "purl": "pkg:npm/lightningcss@1.33.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MPL-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "5a4503ae88ee26cd3192019fdae756c5adf21814713edc54901efd8ba68264b46073b3ccf1f65ef53a2c7cf0dcbc4a5065bb850129c762644b04b51b98b38820"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:lightningcss-android-arm64@1.33.0",
+   "name": "lightningcss-android-arm64",
+   "version": "1.33.0",
+   "purl": "pkg:npm/lightningcss-android-arm64@1.33.0",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MPL-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "804a514da94a768b29e016fca96b5cda23a013949e2079694b5ba9f5b16adb003262197551d4ce6d88877bdf3310cf5242f4a8a906752100f424da60dcc979a6"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:lightningcss-darwin-arm64@1.33.0",
+   "name": "lightningcss-darwin-arm64",
+   "version": "1.33.0",
+   "purl": "pkg:npm/lightningcss-darwin-arm64@1.33.0",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MPL-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "49c89acfc79e9cd4ca9fd6f7b7bfb1af48a94e9f58c4a418e27a704379ab46e2f404054704bc99c687e168a04056dce6b5167fcd3ca8d3fb68e01d6e586fc38e"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:lightningcss-darwin-x64@1.33.0",
+   "name": "lightningcss-darwin-x64",
+   "version": "1.33.0",
+   "purl": "pkg:npm/lightningcss-darwin-x64@1.33.0",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MPL-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "67950f031ceb8e558d3721b2ea2eb9709cf3be02790f74fac0cbecfa05a963d77ba9184036bc6a029e8b871220661584c35f117c94c6711c63b8b201afe9bc5d"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:lightningcss-freebsd-x64@1.33.0",
+   "name": "lightningcss-freebsd-x64",
+   "version": "1.33.0",
+   "purl": "pkg:npm/lightningcss-freebsd-x64@1.33.0",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MPL-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "41033f4e2fe141a8c9c0263e4625ae099f6c76d23f5d093b9c32b9bc2f2491dc22c5ecce94382f0f1efe453f908cae857054f8329b2ea019c7228fcedd2b5146"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:lightningcss-linux-arm-gnueabihf@1.33.0",
+   "name": "lightningcss-linux-arm-gnueabihf",
+   "version": "1.33.0",
+   "purl": "pkg:npm/lightningcss-linux-arm-gnueabihf@1.33.0",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MPL-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "37b15505eea24b6e0c94ce91ff84414f11a14217991aceed890f54df652d17be4dccfe50ef158f46a2c108ac65450464deb6358c220f2f3c7b5b33a1b942112d"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:lightningcss-linux-arm64-gnu@1.33.0",
+   "name": "lightningcss-linux-arm64-gnu",
+   "version": "1.33.0",
+   "purl": "pkg:npm/lightningcss-linux-arm64-gnu@1.33.0",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MPL-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "8f6bff8ad9b2e0794dc6573abe829762006a362d0d8362d2860e33ec6b9fa4482cd393fedacb815728bd23a607ab9ba8545c7d1138a7dde08484b5725c64272a"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:lightningcss-linux-arm64-musl@1.33.0",
+   "name": "lightningcss-linux-arm64-musl",
+   "version": "1.33.0",
+   "purl": "pkg:npm/lightningcss-linux-arm64-musl@1.33.0",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MPL-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "ca23b944e32e6108176c2eb4ca3654e4261215918a5cbd071404d7b7d987267d7ecd6e79a02b4c23d35f7158582cc1432fb815ee804fa27fc498c3068363afb5"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:lightningcss-linux-x64-gnu@1.33.0",
+   "name": "lightningcss-linux-x64-gnu",
+   "version": "1.33.0",
+   "purl": "pkg:npm/lightningcss-linux-x64-gnu@1.33.0",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MPL-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "6abf89bbb2e670dd09a381692f88691726f0346f7fdc0fc1af9296da7da3c8e0e0dcc1195da0d800375e9a8352f810cd7cc80abf29492e3e12e6dc9101cb6e02"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:lightningcss-linux-x64-musl@1.33.0",
+   "name": "lightningcss-linux-x64-musl",
+   "version": "1.33.0",
+   "purl": "pkg:npm/lightningcss-linux-x64-musl@1.33.0",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MPL-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "4588986e4a24c34b6b7caaaacdf179e658229f010fac3dce2437d3b89cc5b3530aea21670de9dacf57ea2cbb57e084c6dce92d2505ce7936b0d5ac2b0409593f"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:lightningcss-win32-arm64-msvc@1.33.0",
+   "name": "lightningcss-win32-arm64-msvc",
+   "version": "1.33.0",
+   "purl": "pkg:npm/lightningcss-win32-arm64-msvc@1.33.0",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MPL-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "d4af8c3df2d2155a69873a5d6df92195693ac01ad339b0734b64fa75bd743cd399811f46a15b005b3c0dcae8546186d3a76de3fb846b9dc7ee8d9e2e0335efc0"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:lightningcss-win32-x64-msvc@1.33.0",
+   "name": "lightningcss-win32-x64-msvc",
+   "version": "1.33.0",
+   "purl": "pkg:npm/lightningcss-win32-x64-msvc@1.33.0",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MPL-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "3a5108083c7f5e5d05a92a786ebcbccc59c2bc6a628371a5e200aabaf6301eea892840b5fa7f4d8039e216fa871a632fd5992a0c9ac3a8a292ca44c35fe7a1b8"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:lru-cache@11.5.2",
+   "name": "lru-cache",
+   "version": "11.5.2",
+   "purl": "pkg:npm/lru-cache@11.5.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "BlueOak-1.0.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "e297ccd457f4c79d28d2d4306f9b9cc3f4733720f4fd824c13a215712b5a959b8c5b176ddec47786e4ad4edc73e0f526bd97d182ebc37a36acbd0da489f475d6"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:magic-string@0.30.21",
+   "name": "magic-string",
+   "version": "0.30.21",
+   "purl": "pkg:npm/magic-string@0.30.21",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "bddd85e1853211728670b1e8abe4c4c828f1b9e49e1e7171cb28cda7cd328345d5e2f5219c37abfe5bef96a33f6ab0796d740de4adbfde88a7c82472c7c4f609"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:magicast@0.5.5",
+   "name": "magicast",
+   "version": "0.5.5",
+   "purl": "pkg:npm/magicast@0.5.5",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "52271d5cdf3343724797156afb6f1a7cc5cfaf5cfb58d63afbb1099f34dd41691302530b1797cd0822b1247050c0668d191d75e7cd44890990cf1ef7f8cbeccc"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:make-dir@4.0.0",
+   "name": "make-dir",
+   "version": "4.0.0",
+   "purl": "pkg:npm/make-dir@4.0.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "8577544d960854eb75131fff8c0422fb04d9669529c018ffd10b0ecea7a06f7ac630c78989212ee712c79d87c1ad1578447dbe38248e3bde48b3fef1d562786f"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:mdn-data@2.27.1",
+   "name": "mdn-data",
+   "version": "2.27.1",
+   "purl": "pkg:npm/mdn-data@2.27.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "CC0-1.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "f58b9b9edddef00d0e2b0c58497ca12f29865b8b02b9f70b1ba55d88375419590f869a8bc65bcfe6f975f7cde0423265deda9baccef7d668da65a3faf00828b1"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:nanoid@3.3.20",
+   "name": "nanoid",
+   "version": "3.3.20",
+   "purl": "pkg:npm/nanoid@3.3.20",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "b8a760d86dc63422909fd6f260ea716c6aab4f67c63b9291b7927ff1bde9a24f2b4faab119617a871332262118b407fe155c98b83f6145a0ea5f9b8f15827865"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:obug@2.2.1",
+   "name": "obug",
+   "version": "2.2.1",
+   "purl": "pkg:npm/obug@2.2.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "5ebb2b853e6cc9bb4a23ac1a92bd923ce9466565986d45d9edad234fcfd039e00f6aefb55ff6d27a035ee5847be6826611941b2a78a7822ae618e10908893ad5"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:parse5@8.0.1",
+   "name": "parse5",
+   "version": "8.0.1",
+   "purl": "pkg:npm/parse5@8.0.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "cf57bf1cc1bdd286d219e89d9658b7863edc6e8728bb4ff06b91da72f237012c77e0f79c36335079a1cda395886695a87cdf64824a95d6ae58bd77b71741683f"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:pathe@2.0.3",
+   "name": "pathe",
+   "version": "2.0.3",
+   "purl": "pkg:npm/pathe@2.0.3",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "5948c6700a8fd6041a72841ef8e049b0503b2dde03c97b9422367971cef970b1ef27b76d36c4ee8298712000f0b294be02b68051e3c22ab495b4f2c58ff17cf3"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:picocolors@1.1.1",
+   "name": "picocolors",
+   "version": "1.1.1",
+   "purl": "pkg:npm/picocolors@1.1.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "ISC"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "c5c787dac9e1b5be4cf658aa0ec984c39ea57b7efa993664117fe311bfd1c4d1727a036e97b78db250973fd1438ff2dcbb45fc284c8c71e3f69eda5a1eb0c454"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:picomatch@4.0.7",
+   "name": "picomatch",
+   "version": "4.0.7",
+   "purl": "pkg:npm/picomatch@4.0.7",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "a9c26ef3c436216a89b030f9dbd24a31dc069bf76f2275b81ef427470887f49b62849bf318eb1c0ed1c4df1d6904a794393cac43c91598b9c9da426eef285c18"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:postcss@8.5.33",
+   "name": "postcss",
+   "version": "8.5.33",
+   "purl": "pkg:npm/postcss@8.5.33",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "4551c453dfcfa751678ebfcca4026c668003ba408a85f222d793ae9c46221a4b489182e43d5bc2d6c8a85a89460d2ed7072313c7d9bf2066eba3426cd77ce19d"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:punycode@2.3.1",
+   "name": "punycode",
+   "version": "2.3.1",
+   "purl": "pkg:npm/punycode@2.3.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "bd8b7b503d54f5683ad77f2c84bb4b3af740bbef03b02fe2945b44547707fb0c9d712a4d136d007d239db9fe8c91115a84be4563b5f5a14ee7295645b5fabc16"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:require-from-string@2.0.2",
+   "name": "require-from-string",
+   "version": "2.0.2",
+   "purl": "pkg:npm/require-from-string@2.0.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "5dfd2759ee91b1ece214cbbe029f5b8a251b9a996ae92f7fa7eef0ed85cffc904786b5030d48706bebc0372b9bbaa7d9593bde53ffc36151ac0c6ed128bfef13"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:rolldown@1.2.19",
+   "name": "rolldown",
+   "version": "1.2.19",
+   "purl": "pkg:npm/rolldown@1.2.19",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "408895d49f5dd29ccde2379e4c7e2c8cfcb4019e9c032d9c1b41317a8135f94f11be3fa1477818928931d186de50d1a566a890249daeb5c1137b4a0a5f0cecb8"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:saxes@6.0.0",
+   "name": "saxes",
+   "version": "6.0.0",
+   "purl": "pkg:npm/saxes@6.0.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "ISC"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "c4083b48e9c486b9b9cc8de9b8e38acb2d4e31c32520965834963bc4b0704b37b452384f2e759f8f6185d84a53d239b368928858a1cbb1a4926a37f7e5b7189c"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:semver@7.8.5",
+   "name": "semver",
+   "version": "7.8.5",
+   "purl": "pkg:npm/semver@7.8.5",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "ISC"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "63bfca0ec6fc2e3a28669c1aa86cae94ee8342592c8029dc7211c693eb19218e1206f52870c044147e54af57c8e1d57e26f974c3a723bee71a222e34a6e462a0"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:siginfo@2.0.0",
+   "name": "siginfo",
+   "version": "2.0.0",
+   "purl": "pkg:npm/siginfo@2.0.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "ISC"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "c9bc7458ed7ff1b4812c459766f11dee0316dd29f7245956dd3bd7d674446c32d135035a78d37c58ad26781c0f74068e23b4ed4514499ff12cd7386bac21eeee"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:source-map-js@1.2.2",
+   "name": "source-map-js",
+   "version": "1.2.2",
+   "purl": "pkg:npm/source-map-js@1.2.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "BSD-3-Clause"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "2868fff18e37c77e5a6550edb7e27898ad61a0b18750b3187d290e0c93508cd0c2de85b53ea3e8c4cc28d292d4b1633f5041b338dfcdc5e1f2c047cd5cd3f757"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:stackback@0.0.2",
+   "name": "stackback",
+   "version": "0.0.2",
+   "purl": "pkg:npm/stackback@0.0.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "d573091397d0a358c61fa63fede6e7c0f3811242049d3e10177d9de51d7e557757bde334201309b7ccdf6b15f53f7421570ad87bee7bebe8e400db524b69816f"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:std-env@4.3.0",
+   "name": "std-env",
+   "version": "4.3.0",
+   "purl": "pkg:npm/std-env@4.3.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "3ad53f1204359089b92b0a90a410ba644317ad946e8b5d70f3381f4d6a7c71d3bd07c39a3ec6c0f1b4c73b63fe1cda3556551318c541c0f87276eea9a1e5e26a"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:supports-color@7.2.0",
+   "name": "supports-color",
+   "version": "7.2.0",
+   "purl": "pkg:npm/supports-color@7.2.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "aa9080bd197db2db8e1ef78ab27ec79dc251befe74d6a21a70acd094effe2f0c5cf7ed2adb02f2bf80dfbedf34fc33e7da9a8e06c25d0e2a205c647df8ebf047"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:symbol-tree@3.2.4",
+   "name": "symbol-tree",
+   "version": "3.2.4",
+   "purl": "pkg:npm/symbol-tree@3.2.4",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "f50364e4ac0317e06fcfe3f239b9264988c8e64b15518b635bb014db6af634a71f2c9717a7dea1903594dfe5e774eb146fe010f5085fcdf093d8ef823564f94f"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:tinybench@2.9.0",
+   "name": "tinybench",
+   "version": "2.9.0",
+   "purl": "pkg:npm/tinybench@2.9.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "d3e0d4bea58c55a94b9a16ba96be240fc88030ad47cd5d3f68a9c2b566fdbfdeb8d539cffcc15becf7366f1a314234d7004aebc9756050e7efd98a8d965a867a"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:tinyexec@1.3.1",
+   "name": "tinyexec",
+   "version": "1.3.1",
+   "purl": "pkg:npm/tinyexec@1.3.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "182bc1ddaa32b3de88b8314131c4c1e3a24e47a99d32d013a2ac225bc2655a1b288759a11e2ff19fdb2cfc383b379e791a227212ddaace81bf3470b033a87510"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:tinyglobby@0.2.17",
+   "name": "tinyglobby",
+   "version": "0.2.17",
+   "purl": "pkg:npm/tinyglobby@0.2.17",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "c1747f758a5ca8a99f5a911d66388a24ec023459dd0f40cc9eb5bf7188d51adb449017d581c2c51e836b963e3b9a339589cf72c8dbbae5a96c805e0d4324dada"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:tinyrainbow@3.2.0",
+   "name": "tinyrainbow",
+   "version": "3.2.0",
+   "purl": "pkg:npm/tinyrainbow@3.2.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "2e03b70fdc99263029522b947e5f62140c2bb5a5f8fa5a24df0248aadb46a0a08795652a1ea6d0a67c427fcd8bf058e02ac878886a3bf21a89c202fc17a4e8d8"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:tldts@7.4.13",
+   "name": "tldts",
+   "version": "7.4.13",
+   "purl": "pkg:npm/tldts@7.4.13",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "887b5a2165886cc0e409e25d4c1cd914681b96e13927ea0795bda0efea00cf54b5829b95a5a6d165d432778ef5565f14524733daf5d22fcc591f693209ef2d7c"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:tldts-core@7.4.13",
+   "name": "tldts-core",
+   "version": "7.4.13",
+   "purl": "pkg:npm/tldts-core@7.4.13",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "99b62cae2879151b46c6cdd4b2f97f3eac09b0da69fa3b26add16f8a22b4dad7870c6d3f1de6c11bfa6a0b29637b7933817633b8ba07245ff49b3f56e77b7c5e"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:tough-cookie@6.0.2",
+   "name": "tough-cookie",
+   "version": "6.0.2",
+   "purl": "pkg:npm/tough-cookie@6.0.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "BSD-3-Clause"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "7b18189a798bfec269477ba965f5c6e4fa1ab574228b9e710225c65f363eb1138b67f63e48b729f4f809348f55cf7ec7a50ef85af0dc2d3f1eaa6fa4577173ac"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:tr46@6.0.0",
+   "name": "tr46",
+   "version": "6.0.0",
+   "purl": "pkg:npm/tr46@6.0.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "6cb54c2cfb6cb6567888c407a451d347b1801a3da3c62f03834b3687631a7c0138b92585f7c142ff7328994e7589000c7fcfea0d46ca59fe46c6ebef55c5c487"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:tslib@2.9.1",
+   "name": "tslib",
+   "version": "2.9.1",
+   "purl": "pkg:npm/tslib@2.9.1",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "0BSD"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "6b8531f552ae20c1ec392ec435b12aea12b66466084f6ed1b65d04e1e0fd2aac3184a89078c644ffdc5bdc8758c166923b220140b1318508170d3628882c6758"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:undici@8.12.4",
+   "name": "undici",
+   "version": "8.12.4",
+   "purl": "pkg:npm/undici@8.12.4",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "f0cc7eb8d28a111d9b03801db5e764a916f050220916bda725c91745ee72ac3ab378fab02cfed535c72d37cfd77660d26c5ee64be8c9288b3394bfaf6da9b554"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:vite@8.3.8",
+   "name": "vite",
+   "version": "8.3.8",
+   "purl": "pkg:npm/vite@8.3.8",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "2f33a7de1f6b1bfd2f84b757ad5e3227840503d784a2a0a5f98c7e90625deda07dc3a9df3605472926302cf6541ebcf86466beb7e9178d5f62b6f7070cb428b8"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:vitest@4.1.12",
+   "name": "vitest",
+   "version": "4.1.12",
+   "purl": "pkg:npm/vitest@4.1.12",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "true"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "e5e59dcf6c9bdda8f1585dc2f02e138e45e5ec51a6de7d84fd595acc02eb407ccaee760c486167099b68d1b6cf365efb03090e6552e4d189c101e8d4bb436258"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:w3c-xmlserializer@5.0.0",
+   "name": "w3c-xmlserializer",
+   "version": "5.0.0",
+   "purl": "pkg:npm/w3c-xmlserializer@5.0.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "a3caa086523c3591d4d652cfae98b6f94abb69b8781863e96003656a5cd6c725ad789382b2bfcffa83c1038f5338bbb915364ee1ddc5f4c9d625f88ca3806498"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:webidl-conversions@8.0.1",
+   "name": "webidl-conversions",
+   "version": "8.0.1",
+   "purl": "pkg:npm/webidl-conversions@8.0.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "BSD-2-Clause"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "04c84b0ff4b0f866c90b6d42fd48326995f8d673edf1b51383e8d6c837a0edeed8378c4e334e583d221771e0029d756dab2130fcb30295440cb4c67e3c61a9a9"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:whatwg-mimetype@5.0.0",
+   "name": "whatwg-mimetype",
+   "version": "5.0.0",
+   "purl": "pkg:npm/whatwg-mimetype@5.0.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "b1770d707382e75b8f185d0ffc3e0d56dae48d25367cdb26f62a20e19bd926c2f7ae3a030335d98649b6316b75cbe3d476080a01856830021872cefcc09e750b"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:whatwg-url@17.1.1",
+   "name": "whatwg-url",
+   "version": "17.1.1",
+   "purl": "pkg:npm/whatwg-url@17.1.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "a218e4d6675479b25569d46dddb021421c7c9529c84aaf860edb4aefd2c597c10742400fbf3c1cb686ac0b886cf2d06dea42c09dc0565b2ab5379daa11f2af0f"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:why-is-node-running@2.3.0",
+   "name": "why-is-node-running",
+   "version": "2.3.0",
+   "purl": "pkg:npm/why-is-node-running@2.3.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "854ae669605d543731bd8aa7ca1d3dcee9cacd13968db65388dcbc741123912ede8440d089b5c9ed7be59ad6f0b9372552223237e0b25d00f8566928f1f366f3"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:xml-name-validator@5.0.0",
+   "name": "xml-name-validator",
+   "version": "5.0.0",
+   "purl": "pkg:npm/xml-name-validator@5.0.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "12f18af042770e16877db465113396012e693bd31921379ab87289c9bf30c9a8d47d051e9e4220d8cbcb0d36784ff4e021c9b71d4d1314181659ba00677d141e"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "frontend:xmlchars@2.2.0",
+   "name": "xmlchars",
+   "version": "2.2.0",
+   "purl": "pkg:npm/xmlchars@2.2.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "frontend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "2599c328af01d11083c3ce0535d0c022964af89b89c3eb3b2f3f2792c23b488b94dd45c926c954b61b22fae5815183b03c5c16ed6ecf44b45f50aa718ed8c50b"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/aix-ppc64@0.28.2",
+   "name": "@esbuild/aix-ppc64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/aix-ppc64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "5c4c5c3be76f2cabd5b4d4e26d24c17a3d4d0806da1a15a7f56c3564fc7cd2ab1a8613c57bff238163f421c84d7b41771f0914ee7f1e8e11fc6e3a27aa1b7c99"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/android-arm@0.28.2",
+   "name": "@esbuild/android-arm",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/android-arm@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "9175e888f55519072721818e79aa2fc0e511a678830694aae00d37aa443e04c42ab461ba1d86a9df19def42d4ed72a384d1deac65097e48aaa997e9f168d8baa"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/android-arm64@0.28.2",
+   "name": "@esbuild/android-arm64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/android-arm64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "e587ca79e23ca967c16485febb6c590b76656f73acfe02d2dac6c428cf88e1939cb169874b658bcac09c4190c0151b250d45393a2ab8e207fa3d8375bc6c06e4"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/android-x64@0.28.2",
+   "name": "@esbuild/android-x64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/android-x64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "3b7f3b8ad7bb4b353209ccb72505f83f86cbb4403b6cb2e4c7e7acbdee491e7c987cd4f1715a57668f6385d07495328de38833b442d3754ee74bc36bd7a16cd5"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/darwin-arm64@0.28.2",
+   "name": "@esbuild/darwin-arm64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/darwin-arm64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "9f82aa90e42badac4725c82333546fc1b8a07d028828956933bc69f8ab318b2512ad17485e7b7bdd586b3c0c747d5e388607e62152a3c4c37d275b798f249593"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/darwin-x64@0.28.2",
+   "name": "@esbuild/darwin-x64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/darwin-x64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "baaeacb885983f7eeacc675d04a3f0e501103e2e8788b1ac3bb5269297f2698350dc3fab37ac3a59fc07fa7baa7065d6bdac06c31384ae83b86069c587de5acf"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/freebsd-arm64@0.28.2",
+   "name": "@esbuild/freebsd-arm64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/freebsd-arm64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "9fe234053491228cbe77a44f2a7115c2a979530049a25cadbd8e2600e204268aca96a80f208f22c7ab25555adf6794e78fb825219be5a3295b07f1093cc5845f"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/freebsd-x64@0.28.2",
+   "name": "@esbuild/freebsd-x64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/freebsd-x64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "efc5c94c992f3ecd24cf6c3ad77d353c98d797883bab726a898319fccff2548ef710706b0914e0921bbda2a1bbbcfaaaf9aff269d116f1a0fe6a02a5939c6b9a"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/linux-arm@0.28.2",
+   "name": "@esbuild/linux-arm",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/linux-arm@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "5e50e7bb6ab9ca8a9e9acfb16b2eb0480720f430c3ecaf512ca64404e3199b7724369241bce5f6d2d49f6f2f0a7ebae120d0f2bfd57661564a63f4a9a06248f3"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/linux-arm64@0.28.2",
+   "name": "@esbuild/linux-arm64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/linux-arm64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "a56e000b43f78adf1cedda3d315338a79d45cc7cdd33f4d9adeaeeae045c1c9d964dad55435088ab5f319dc7e9049c38a23922659aca5b6c8805604ff768fa52"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/linux-ia32@0.28.2",
+   "name": "@esbuild/linux-ia32",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/linux-ia32@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "0986e78fbf07b08780f8386050a80509fbcdb131c584c32b8a752b319a435c95ca37c4f75d589367ffb0b47795c44598f1ec12cd314dfa74664b03b6b5968b51"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/linux-loong64@0.28.2",
+   "name": "@esbuild/linux-loong64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/linux-loong64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "6eec2477c9eca61e11f9a8d1bf0d2a3391e36bf4d7428c37a6dcd63b611b1bf72a70890796846b76506d425b21c98193345bdf91f279b693cb5646380edb0f7d"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/linux-mips64el@0.28.2",
+   "name": "@esbuild/linux-mips64el",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/linux-mips64el@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "655ca46c3ca4ef9d7d57088d6fd2dc8fd9bc5cceafe55f6e28fbeb10c92411e7557b07fed22b6485a869e070e98044578702d1a56172a6c19b1bf27cb3442324"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/linux-ppc64@0.28.2",
+   "name": "@esbuild/linux-ppc64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/linux-ppc64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "0805e5f83b5df5452e25df2928a77087a30b9b7314322a8c3e6859ded4d25cfa9fc90def0e5e91e6165d67f918a232b8a1f5ed75f4afd6d16af17cd6c7785e35"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/linux-riscv64@0.28.2",
+   "name": "@esbuild/linux-riscv64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/linux-riscv64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "19e5c27a3e0842d53507e4250d5f16fd146f6f32373bf4adb2cfbf6c25efe25665b3958646dbb66bedc9900de2e2a21494c5e970779b5a917c024261013a30b8"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/linux-s390x@0.28.2",
+   "name": "@esbuild/linux-s390x",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/linux-s390x@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "dc7d707936193f1b7f58e841caccd06726d2f70e652b3527d450ccb2010285b1d64301d841045f071802719bcf8631df2b22632227afbcc98451ac09add63d0e"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/linux-x64@0.28.2",
+   "name": "@esbuild/linux-x64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/linux-x64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "e314d9af5154992a105b85c85a68addedcd0ad44d933e3773f45d5f3144e298179d177c8ef178ef74fb56d9bcdc3122e7d0f610d0551247e588603d517c03f1d"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/netbsd-arm64@0.28.2",
+   "name": "@esbuild/netbsd-arm64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/netbsd-arm64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "b120134633de0c1837a5d807a107e8601a1bd752a4d4519af65ba2e51207642a029096bd40a96f977fef2b3daeb02998623b3bca6251ff6367b2a7be1e3b799f"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/netbsd-x64@0.28.2",
+   "name": "@esbuild/netbsd-x64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/netbsd-x64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "96a9f3095fa633480800368a8a188283a89f81f5362f7879137deb35004dd58e0c6951a7cebcb39afbdfed41f1a6ba50744f21a6a2e8949f5197e4a42110e9cb"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/openbsd-arm64@0.28.2",
+   "name": "@esbuild/openbsd-arm64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/openbsd-arm64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "00bdaa2482c7ee5363ac3982403bddc4c7c0508bfc28c3593afaf0010f22f3ffe7b4bf457e584ec8c27c39948c05bf3f0165dedffe6fe52db4cb7cc2a1958aa1"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/openbsd-x64@0.28.2",
+   "name": "@esbuild/openbsd-x64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/openbsd-x64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "42d8ae3f2b5c851c82e2bc142a17b125d40abc3b99ea15a5a22de282a3d03542424b5feff4488edd44ce5d1e80dc5a0ca387e700a6d625da9a23084ece1f2a13"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/openharmony-arm64@0.28.2",
+   "name": "@esbuild/openharmony-arm64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/openharmony-arm64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "5a48580e6a538cbbc6952700d6bc234549a197893ca174777086eda969842e053f7457871e51259710ef75670d255f6b6f309ec41e6fcfc82d35ec162e0093ed"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/sunos-x64@0.28.2",
+   "name": "@esbuild/sunos-x64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/sunos-x64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "18f3129133ad327bf653617c8317b8228eaa995b3e60aca9f37d84b6aab1af48459e0997437af3c32b5e966dc6227ed3e15be245495fdec3a004e89376f69fee"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/win32-arm64@0.28.2",
+   "name": "@esbuild/win32-arm64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/win32-arm64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "3c886112413db8f06579106b404269527ecc06789b6736c6cd858f998df1f98a1583ff79cdb8c1e02c4f3ce43c979b5860ce2631a0ad845f3fd4321f05043259"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/win32-ia32@0.28.2",
+   "name": "@esbuild/win32-ia32",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/win32-ia32@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "62625b7d396f53b49d9fd041fb83d1112e2807aa71812dfb30038d8fe841aff7295d2d5a04f297c4d9c36eef900963e3d28f5d832c5eabbf60e9ce4ff0a7ae60"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@esbuild/win32-x64@0.28.2",
+   "name": "@esbuild/win32-x64",
+   "version": "0.28.2",
+   "purl": "pkg:npm/%40esbuild/win32-x64@0.28.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "e5e6e9c6bde758cceb2ffae7508ef9e4992e79ed1b1cbfc6ab459317d96f729bfbdf0029e5ebbc31f0548162bd6e15af6638fbc97f1eb5fffcb48f0d7b2ebde6"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@types/node@22.20.1",
+   "name": "@types/node",
+   "version": "22.20.1",
+   "purl": "pkg:npm/%40types/node@22.20.1",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "true"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "10036a38217d405cab6bee297f151c5fd493289a422e331b39b573963209a260164a7b9220402fcb3114e7719a6a36d724481d87488470f2fe0c6be951de24d5"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-aix-ppc64@7.0.2",
+   "name": "@typescript/typescript-aix-ppc64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-aix-ppc64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "31328a91607ba7fd04f718b5775b47b59e4f88b90610c22af3ca4ad82b9b6633ac2ed6132ea8602208bacdea456bef461d9ea1d3934c0a443118a88f5ccc57b5"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-darwin-arm64@7.0.2",
+   "name": "@typescript/typescript-darwin-arm64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-darwin-arm64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "828c336abf4cc12fda456a7a7f76b8294ab34630198ceb2618d08ce8b713817ba6f9d05f82c05530df8082f38209b82e5f289c93a2c986906ccf131e6c9f2cc8"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-darwin-x64@7.0.2",
+   "name": "@typescript/typescript-darwin-x64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-darwin-x64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "499f716489ea02936534673db345b5552b24b5848e7bd705a8d388aa63751acf129a48ca65816dd35ec6e15c0fc404889ce0ee01d6d35bbb1788551ff3ddd180"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-freebsd-arm64@7.0.2",
+   "name": "@typescript/typescript-freebsd-arm64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-freebsd-arm64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "5b9347e32fc9d29948212e5bdb1bd312453b245c72a9d3003a07fe225865d2f1d05ca3b9759a3177e0bf8c4b6ae7a738177c24ef5441e013114365dd23e6f061"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-freebsd-x64@7.0.2",
+   "name": "@typescript/typescript-freebsd-x64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-freebsd-x64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "50c183c79b13a73370dd688f79b1fb97dd0859f26080477e7a01edfeaea9eff0a6df3aa857b5719065edfb70f13c8c3c09c9af001d23dec5557db857f8ce13a7"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-linux-arm@7.0.2",
+   "name": "@typescript/typescript-linux-arm",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-linux-arm@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "81f7d3df13f3f6c47b8ff6091319323e7b6b2343f610ff576cec96ced876fc6b3446cb4afbdd1105c3b49dc5e85f2fdb798965d525f0f38e8d7f6cdd9c4cf441"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-linux-arm64@7.0.2",
+   "name": "@typescript/typescript-linux-arm64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-linux-arm64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "421e1e538ff2df20e39df8e3c8f62284c8f9fce0c8966b7e073bb5ece23e7e24910d6e7b4265394a237addec4f44d24f294cdc73520d6b535776b27e32a1e351"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-linux-loong64@7.0.2",
+   "name": "@typescript/typescript-linux-loong64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-linux-loong64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "b841dc93d8bc8680335cf8984626f53bb9a23a7cf6dd2c4879597a1782d7a31faaa2fd4adf98c77045ba5472af648fa9caf97b7d910fe0c094e4b62f22ad46b9"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-linux-mips64el@7.0.2",
+   "name": "@typescript/typescript-linux-mips64el",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-linux-mips64el@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "4782af00c9c4e375b941ea9bd0bcb9e8ede658c588020b0ccb3dfa0c26b271de676e0ffd9339b4962c3726871f46ac8963428f9b31636ecc28cd7c96d039c860"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-linux-ppc64@7.0.2",
+   "name": "@typescript/typescript-linux-ppc64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-linux-ppc64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "0ce471e5bdec77fe12ede6b2c66e0542ff80ec2ae45081916878b023ca221d3008d5f00f5a1178274bc09640bc6e20251d2555c31310ded8d9dbf0d56e742288"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-linux-riscv64@7.0.2",
+   "name": "@typescript/typescript-linux-riscv64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-linux-riscv64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "c1fd23a840ce8eb3d19cac18472c890d1a35d4a31bbcc16b53eab8cea2b20a1383073be591b84d41f2af2f14027304e974369748765356e8742680ab28250c1d"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-linux-s390x@7.0.2",
+   "name": "@typescript/typescript-linux-s390x",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-linux-s390x@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "224c097372fbca1cad59dfdec23cb13437ce9acc029bd1963094ffb9efdd53869935bc1979801eb6ae365722e6b264a3be85fbcfbe17e996980adcc0af412e1b"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-linux-x64@7.0.2",
+   "name": "@typescript/typescript-linux-x64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-linux-x64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "11875fd9c360eeb8025899f109d27e177577f4ef2285bdfb78702ed4b2bca00162ce04d06cf38aef31c75db3edf2b5f6e023aa3835de237b087f47c25c6ec7fc"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-netbsd-arm64@7.0.2",
+   "name": "@typescript/typescript-netbsd-arm64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-netbsd-arm64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "fa9a25605e0c174e1a3e93b9153907ada9fdc94403497ab2e468920caa6c965e63cb7977fa0f502e1a5fdfd4fe78fb5e7e15cb386acb9744088e440fe959de94"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-netbsd-x64@7.0.2",
+   "name": "@typescript/typescript-netbsd-x64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-netbsd-x64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "f18213d041ccff776ad7464e545fc0ee973f61232d6dc79c72de2b5ad7b1ae74821ce3dca42d8a4cb5df4c247abc3a674a2635da178d6f51a237fc2ef93fc5c8"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-openbsd-arm64@7.0.2",
+   "name": "@typescript/typescript-openbsd-arm64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-openbsd-arm64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "00f4fcf829589ee626d6ef7e920197a0c8f65735b37329b087680d4905724877e444318e4d592858b8c298e41268ef8fa2a439ec1d1f951a7d480fbb1a79e4cd"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-openbsd-x64@7.0.2",
+   "name": "@typescript/typescript-openbsd-x64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-openbsd-x64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "c97eecf90d03967d03b7db44cd9b008d75d1ffecad04cec096095aab278c3f142ccc9d4986525d67a8cb03e23395d1ed7e55fcd5e9bb9436a8d715eef9a45192"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-sunos-x64@7.0.2",
+   "name": "@typescript/typescript-sunos-x64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-sunos-x64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "74b24319a2d9d43e073d09fadaed67f26043909444c0cb00902764c1de087aac3ec774d4c93b2a634622042b44e87e8ecf38069378ae677bc55914be13cfddd6"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-win32-arm64@7.0.2",
+   "name": "@typescript/typescript-win32-arm64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-win32-arm64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "1b2975572e8eb167ac2f39aaf843f415bedbe0d89de76df602f700d9215c758ade95da4db58145a1f3e39edeb6cbd850cbb553699a7ae480898ee01045a55c21"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:@typescript/typescript-win32-x64@7.0.2",
+   "name": "@typescript/typescript-win32-x64",
+   "version": "7.0.2",
+   "purl": "pkg:npm/%40typescript/typescript-win32-x64@7.0.2",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "d014371e40071e528b4a9d6a46f7f7494846a46b03ba107f8e0170ef982ecaa6f126a11a4b40b0fd514ef22da71e094953340246d30c47f20100a137113302e2"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:esbuild@0.28.2",
+   "name": "esbuild",
+   "version": "0.28.2",
+   "purl": "pkg:npm/esbuild@0.28.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "1ca54b4bc76f208fb1a0a5bd926ab16d12ab9d61177c926bfc56618499a2a880747b4e7740d605a8e068b9330efe4e6c203e0cbc28940afbfc6fd338877db020"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:fsevents@2.3.3",
+   "name": "fsevents",
+   "version": "2.3.3",
+   "purl": "pkg:npm/fsevents@2.3.3",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "e71a037d7f9f2fb7da0139da82658fa5b16dc21fd1efb5a630caaa1c64bae42defbc1d181eb805f81d58999df8e35b4c8f99fade4d36d765cda09c339617df43"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:tsx@4.23.12",
+   "name": "tsx",
+   "version": "4.23.12",
+   "purl": "pkg:npm/tsx@4.23.12",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "true"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "1437f82f8b18ccab73598854fd79b401015d4e3748c4da3d1254dfda6c5733a93c60c1d7cd851ee3238355a5cfe15f6e3056d583c734ab205c70ad8e3b16f8e5"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:typescript@7.0.2",
+   "name": "typescript",
+   "version": "7.0.2",
+   "purl": "pkg:npm/typescript@7.0.2",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "true"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "f0561abbdea8dcd28e85b8ca8bfa8dbc6fd6e63873c646dd9b9b23f406d9ff94f9b16aa7de12602df1b1dbbb11299593bf2cc23fc74b4414dfe6d05349155434"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "backend:undici-types@6.21.0",
+   "name": "undici-types",
+   "version": "6.21.0",
+   "purl": "pkg:npm/undici-types@6.21.0",
+   "scope": "excluded",
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "backend"
+    },
+    {
+     "name": "nexus:dev",
+     "value": "true"
+    },
+    {
+     "name": "nexus:direct",
+     "value": "false"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "name": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-512",
+     "content": "8b00d9aa0d10006ae0f516afe47e27d0ceb87379a4479f5c27ac10a7eec2e2723482c984c5a79d6982cd3b8e1e4f802d041c236d38863cc96dd8c7744fd1fd25"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "vendor:qrcode.min.js",
+   "name": "qrcodejs",
+   "version": "1.0.0",
+   "scope": "required",
+   "purl": "pkg:npm/qrcodejs@1.0.0",
+   "description": "frontend/vendor/qrcode.min.js (same-origin, pinned; F-05)",
+   "licenses": [
+    {
+     "license": {
+      "id": "MIT"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-256",
+     "content": "c541ef06327885a8415bca8df6071e14189b4855336def4f36db54bde8484f36"
+    }
+   ],
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "browser-runtime"
+    },
+    {
+     "name": "nexus:licence-verification",
+     "value": "upstream declaration only (UNVERIFIED independently)"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "vendor:jsQR.js",
+   "name": "jsQR",
+   "version": "1.4.0",
+   "scope": "required",
+   "purl": "pkg:npm/jsqr@1.4.0",
+   "description": "frontend/vendor/jsQR.js (same-origin, pinned; F-05)",
+   "licenses": [
+    {
+     "license": {
+      "id": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-256",
+     "content": "bc40c8a15196236b2314db0856f72ca0b49980cd5413b8c852a7349f5fee0859"
+    }
+   ],
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "browser-runtime"
+    },
+    {
+     "name": "nexus:licence-verification",
+     "value": "upstream declaration only (UNVERIFIED independently)"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "vendor:pdf.min.js",
+   "name": "pdf.js",
+   "version": "3.11.174",
+   "scope": "required",
+   "purl": "pkg:npm/pdfjs-dist@3.11.174",
+   "description": "frontend/vendor/pdf.min.js (same-origin, pinned; F-05)",
+   "licenses": [
+    {
+     "license": {
+      "id": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-256",
+     "content": "5b5799e6f8c680663207ac5b42ee14eed2a406fa7af48f50c154f0c0b1566946"
+    }
+   ],
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "browser-runtime"
+    },
+    {
+     "name": "nexus:licence-verification",
+     "value": "upstream declaration only (UNVERIFIED independently)"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "bom-ref": "vendor:pdf.worker.min.js",
+   "name": "pdf.js (worker)",
+   "version": "3.11.174",
+   "scope": "required",
+   "purl": "pkg:npm/pdfjs-dist@3.11.174",
+   "description": "frontend/vendor/pdf.worker.min.js (same-origin, pinned; F-05)",
+   "licenses": [
+    {
+     "license": {
+      "id": "Apache-2.0"
+     }
+    }
+   ],
+   "hashes": [
+    {
+     "alg": "SHA-256",
+     "content": "feabdf309770ed24bba31a5467836cdc8cf639c705af27d52b585b041bb8527b"
+    }
+   ],
+   "properties": [
+    {
+     "name": "nexus:workspace",
+     "value": "browser-runtime"
+    },
+    {
+     "name": "nexus:licence-verification",
+     "value": "upstream declaration only (UNVERIFIED independently)"
+    }
+   ]
+  },
+  {
+   "type": "file",
+   "bom-ref": "image:favicon.svg",
+   "name": "favicon.svg (embedded)",
+   "mime-type": "image/svg+xml",
+   "scope": "required",
+   "hashes": [
+    {
+     "alg": "SHA-256",
+     "content": "7b163850a1976278b8e4e6428978c0c26fa6b88b22ecd9d8ca5a13a8143ccce5"
+    }
+   ],
+   "properties": [
+    {
+     "name": "nexus:bytes",
+     "value": "2304"
+    },
+    {
+     "name": "nexus:authorship-licence",
+     "value": "UNVERIFIED (owner attestation pending, D-7)"
+    }
+   ]
+  },
+  {
+   "type": "file",
+   "bom-ref": "image:icon-192x192.png",
+   "name": "icon-192x192.png (embedded, apple-touch-icon; also reused in manifest)",
+   "mime-type": "image/png",
+   "scope": "required",
+   "hashes": [
+    {
+     "alg": "SHA-256",
+     "content": "9a2bb3300c53ffc8ec699ff5192e293f5225b0e394bfda1cfc49304136cc5f2d"
+    }
+   ],
+   "properties": [
+    {
+     "name": "nexus:bytes",
+     "value": "25218"
+    },
+    {
+     "name": "nexus:authorship-licence",
+     "value": "UNVERIFIED (owner attestation pending, D-7)"
+    }
+   ]
+  },
+  {
+   "type": "file",
+   "bom-ref": "image:icon-512x512.png",
+   "name": "icon-512x512.png (embedded in manifest)",
+   "mime-type": "image/png",
+   "scope": "required",
+   "hashes": [
+    {
+     "alg": "SHA-256",
+     "content": "9404595e4cc66b6b6ac4e977eee0a220dff39ae5e530fae268e6a2eeeffc12dc"
+    }
+   ],
+   "properties": [
+    {
+     "name": "nexus:bytes",
+     "value": "102791"
+    },
+    {
+     "name": "nexus:authorship-licence",
+     "value": "UNVERIFIED (owner attestation pending, D-7)"
+    }
+   ]
+  }
+ ]
+}
