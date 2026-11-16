@@ -98,13 +98,21 @@ const direct = await page.evaluate(async () => {
   try {
   const key = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
   const otherKey = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
-  const obj = { اسم: 'نكسس', n: 42, nested: { a: [1, 2, { b: null }], t: true }, emoji: '🔒', s: "q'\"<>&" };
+  // D-2 (2026-11-16): `sentinel` is a random-shaped 32-byte ASCII value that cannot occur in ciphertext by chance (see plainHidden below).
+  const obj = { اسم: 'نكسس', n: 42, nested: { a: [1, 2, { b: null }], t: true }, emoji: '🔒', s: "q'\"<>&", sentinel: 'Zq7!Kd9#Rw3$Vb8%Ys2&Hn5*Pc4^Lm6~' };
 
   const payload = await encryptState(obj, key);
   out.shape = Object.keys(payload).sort().join(',');
   out.ivBytes = atob(payload.iv).length;
   out.b64ok = /^[A-Za-z0-9+/]+=*$/.test(payload.iv) && /^[A-Za-z0-9+/]+=*$/.test(payload.data);
-  out.plainHidden = !atob(payload.data).includes('نكسس') && !payload.data.includes('42');
+  // History: the original check (`!payload.data.includes('42')`) was probabilistic — "42" occurs by chance in a 152-char random base64 string in ~3.6 % of runs
+  // (measured on 20,000 real AES-GCM encryptions), making verify-all fail intermittently — and `!atob(data).includes('نكسس')` was vacuous (a binary string never contains Arabic code points).
+  // 2026-11-15 (R3): test on the DECODED BYTES for the UTF-8 Arabic value and short ASCII needles. 2026-11-16 (D-2): the weak short needles ('nested' 6 B, 'emoji' 5 B; chance ≈ 2^-33 per run)
+  // are replaced by the 8-byte Arabic value (≈ 2^-56) and the 32-byte sentinel (≈ 2^-240) => practically deterministic, not mathematically deterministic.
+  // Limit (unchanged, inherent to any substring test): byte-reversal / single-byte-XOR "encryption" is NOT detected here; confidentiality rests on AES-GCM (WebCrypto) and is guarded by the wrong-key / tamper checks below.
+  const ctBytes = Uint8Array.from(atob(payload.data), (ch) => ch.charCodeAt(0));
+  const has = (needle) => { const n = new TextEncoder().encode(needle); outer: for (let i = 0; i + n.length <= ctBytes.length; i++) { for (let j = 0; j < n.length; j++) if (ctBytes[i + j] !== n[j]) continue outer; return true; } return false; };
+  out.plainHidden = !has('نكسس') && !has(obj.sentinel);
   out.roundTrip = JSON.stringify(await decryptState(payload, key)) === JSON.stringify(obj);
 
   const payload2 = await encryptState(obj, key);
