@@ -1,4 +1,5 @@
 import '../test/helpers/setMissionTestEnv.js';
+import './helpers/setTrustLoopbackProxyTestEnv.js'; // F06-a: this test simulates distinct callers via X-Forwarded-For from loopback
 import { test, before, after, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer, type Server } from 'node:http';

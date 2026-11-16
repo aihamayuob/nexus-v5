@@ -70,7 +70,7 @@ Raw logs: `verification/verify-final2/` in the package. Exit codes all 0, `OVERA
 2. **Task row after fallback** keeps the *requested* provider, not the one that served (transparency issue).
 3. Frontend loads CDN scripts **without SRI**; CSP keeps `unsafe-inline` and a broad `connect-src`.
 4. 6 embedded base64 images of **unknown provenance**; no `LICENSE`/`NOTICE` file in the tree (no license was added or changed by this work).
-5. `X-Forwarded-For` trust, no TLS, HTTP/LAN only.
+5. ~~`X-Forwarded-For` trust~~ (F06-a, 2026-11-16: ignored by default; honoured only from peers listed in `NEXUS_TRUST_PROXY`). Still: no TLS, HTTP/LAN only.
 6. Frontend dev advisories (vitest/vite chain) — dev only.
 7. Legacy E2E scripts rewrite tracked `baseline/evidence` files when run; `verify-all.sh` restores them (mitigation, not a fix).
 8. Real-provider and real-device testing not done (needs keys / hardware).

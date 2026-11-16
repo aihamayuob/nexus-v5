@@ -4,6 +4,7 @@ import { ServerConfig } from '../../config/env.js';
 import { Errors } from '../../core/errors.js';
 import type { GatewayContext } from '../../capability/permissionModel.js';
 import { auditSecurityEvent } from '../../security/audit.js';
+import { parseTrustedPeers, resolveClientIp, type TrustedPeers } from './clientIp.js';
 
 function safeCompare(a: string, b: string): boolean {
   const bufA = Buffer.from(a);
@@ -27,10 +28,17 @@ export function keyIdentity(token: string): string {
   return 'key:' + createHash('sha256').update(token).digest('hex').slice(0, 16);
 }
 
+let trustedPeersCache: { key: string; peers: TrustedPeers } | null = null;
+function trustedPeers(): TrustedPeers {
+  const key = ServerConfig.trustProxy.join(',');
+  if (!trustedPeersCache || trustedPeersCache.key !== key) trustedPeersCache = { key, peers: parseTrustedPeers(ServerConfig.trustProxy) };
+  return trustedPeersCache.peers;
+}
+
+/** F06-a: X-Forwarded-For is honoured ONLY from peers listed in NEXUS_TRUST_PROXY (default: none). See clientIp.ts. */
 export function clientIp(req: IncomingMessage): string {
   const fwd = req.headers['x-forwarded-for'];
-  if (typeof fwd === 'string' && fwd.length) return fwd.split(',')[0]!.trim();
-  return req.socket.remoteAddress || 'unknown';
+  return resolveClientIp(req.socket.remoteAddress, typeof fwd === 'string' ? fwd : undefined, trustedPeers());
 }
 
 /**

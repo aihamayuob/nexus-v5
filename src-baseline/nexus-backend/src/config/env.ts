@@ -77,6 +77,12 @@ export const ServerConfig = {
   /** Soft USD budget per rolling 24h window, enforced by orchestrator/budget.ts. 0 = disabled. */
   dailyBudgetUsd: num('NEXUS_DAILY_BUDGET_USD', 0),
 
+  /**
+   * F06-a: TCP peers (exact IPs or IPv4 CIDRs, comma-separated) whose X-Forwarded-For is honoured. EMPTY (default) = header ignored; the
+   * socket address is the client identity. Wildcards/"true" are NOT supported (ignored => fail closed). See gateway/middleware/clientIp.ts.
+   */
+  trustProxy: list('NEXUS_TRUST_PROXY'),
+
   /** Rate limiting — token bucket per client key (gateway key, or IP if none). */
   rateLimitPerMinute: num('NEXUS_RATE_LIMIT_PER_MINUTE', 60),
   rateLimitBurst: num('NEXUS_RATE_LIMIT_BURST', 20),
