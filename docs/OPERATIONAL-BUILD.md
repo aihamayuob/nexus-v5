@@ -66,12 +66,12 @@ Raw logs: `verification/verify-final2/` in the package. Exit codes all 0, `OVERA
 | Real hosting / preview link | **PENDING** | no hosting provisioned; not advisable before the findings below are decided |
 
 ## 6. Open findings (owner decisions; none silently changed)
-1. **Planning-phase orphan mission**: a mission killed while PLANNING stays PLANNING after restart (never COMPLETED, never terminal). An existing test pins "left alone". Decide: sweep to FAILED/INTERRUPTED or keep.
-2. **Task row after fallback** keeps the *requested* provider, not the one that served (transparency issue).
-3. Frontend loads CDN scripts **without SRI**; CSP keeps `unsafe-inline` and a broad `connect-src`.
+1. ~~**Planning-phase orphan mission**~~ (F-03, 2026-11-16: PLANNING orphan with no plan checkpoint -> FAILED on resume; VERIFIED). Original note: a mission killed while PLANNING stays PLANNING after restart (never COMPLETED, never terminal). An existing test pins "left alone". Decide: sweep to FAILED/INTERRUPTED or keep.
+2. ~~**Task row after fallback**~~ (F-04, 2026-11-16: task row records the serving provider/model; VERIFIED with simulated adapters). Original note: kept the *requested* provider, not the one that served (transparency issue).
+3. ~~Frontend loads CDN scripts without SRI~~ (F-05, 2026-11-16: qrcodejs/jsQR/pdf.js vendored with pinned SHA-256, cdnjs removed from CSP). Still open: CSP keeps `unsafe-inline`; pdf.js 3.11.174 still < 4.2.67 (mitigated by `isEvalSupported:false`).
 4. 6 embedded base64 images of **unknown provenance**; no `LICENSE`/`NOTICE` file in the tree (no license was added or changed by this work).
 5. ~~`X-Forwarded-For` trust~~ (F06-a, 2026-11-16: ignored by default; honoured only from peers listed in `NEXUS_TRUST_PROXY`). Still: no TLS, HTTP/LAN only.
-6. Frontend dev advisories (vitest/vite chain) — dev only.
+6. ~~Frontend dev advisories~~ (2026-11-16: vitest/coverage ^4.1.12 + lock audit fix; `npm audit` 0/0).
 7. Legacy E2E scripts rewrite tracked `baseline/evidence` files when run; `verify-all.sh` restores them (mitigation, not a fix).
 8. Real-provider and real-device testing not done (needs keys / hardware).
 

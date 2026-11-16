@@ -131,3 +131,22 @@ I-1 مُعالَجة في slice 6 (CP-13)، و isSendingMessage العالق أ�
 Evidence Integrity أُغلق في CP-16 (VERIFIED ضمن حدوده) — لا يُعاد ولا يُخلط بأي شريحة Core. لا تبدأ نقل ملكية أي متغير (C2/C3) ولا تعدّل PERSISTABLE_STATE أو ADR-003 دون قرار مالك صريح.
 ثم commit وأنشئ ZIP بعد الـ commit، وتحقق أن الشجرة نظيفة والـ HEAD المُوثَّق يطابق الـ commit، واكتب الخلاصة بالعربية (STATUS / COMMIT / TESTS / E2E / CHECKPOINT / ما بقي / الشريحة التالية)، ثم STOP.
 ```
+
+
+---
+
+## CONTINUATION ADDENDUM 24 — 2026-11-16 (R4 continuation; appended, nothing above was altered)
+
+**Work performed** (local branch `work/r4-continue`, base `e08f70b`, head = this commit's parent chain; nothing pushed): F06-a, D-10, D-2, D-9, F-05, F-03, F-04, frontend dev-dep audit fix, CycloneDX 1.6 SBOM + schema validation, a TS18048 fix in the adopted `fallbackModelMatrix` test (found by the verify-all typecheck step), ADR-007 drafted as PROPOSED, docs updated. See `NEXUS-CURRENT-STATE.md` (UNIFIED STATE 2026-11-16).
+
+**Evidence**: full `scripts/verify-all.sh` on `8275d2a`: 27/27 steps exit 0, OVERALL exit 0; backend 663/663, Vitest 192/192, scenarios 39/39, UI demo 7/7; tree clean after run. Per-slice RED->GREEN logs are in the commit messages and the session scratch (not durable); the owner-deliverable bundle carries copies.
+
+**Statuses**: F06-a, F-05 (local pinned libs), D-2, D-9, D-10, F-03, F-04, SBOM schema validity = VERIFIED (simulated/in-repo evidence only). Real providers = BLOCKED (no keys, no authorized spend cap). R3 tree byte-merge = PENDING (tree not supplied). pdf.js upgrade, CSP `unsafe-inline` removal, TLS/F06-b, MCP M1, A2A, Connector SDK = PENDING. Real devices/browsers/perf/coverage, pdf.js exploitability, cdnjs byte-identity, image authorship/licences = UNVERIFIED/PENDING.
+
+**Blockers / risks**: (1) R3 tree missing -> re-implementations may differ from R3 byte-for-byte; reconcile by 3-way merge when supplied. (2) Live repo is a read-only zip/HTML dump here: applying the commits needs owner approval and a push path. (3) Provider keys and a spend cap are needed for real-provider validation. (4) `unsafe-inline` CSP remains.
+
+**Owner decisions in force**: the 2026-11-15/16 Master Owner Authorization (no push/merge/tag/release/deploy; no licence or ownership attestation; no secrets in logs; no paid tests without spend cap; no history rewrite). Decisions still needed from the owner: ADR-007 acceptance and limit values; licence/NOTICE choice and image provenance; spend cap + keys; push target for the commits.
+
+**Exact stopping point**: after the final verify-all and documentation, before Phase 3 code (M1) and Phase 4 real-provider/device/TLS work.
+
+**Next authorized action**: only what the owner approves. Recommended order: (a) supply the R3 tree for a 3-way merge; (b) approve/adjust ADR-007 and start M1.0 acceptance tests; (c) provide env keys + spend cap and run `e2e/real-provider-validation.mjs`; (d) approve push of `work/r4-continue` to a review branch.
