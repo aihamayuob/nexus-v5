@@ -125,7 +125,7 @@ export function createGeminiAdapter(cfg: ResolvedProvider, fetchImpl: FetchLike 
     supportsEmbeddings: true,
 
     async chat(req: ChatRequest): Promise<ChatResponse> {
-      const res = await fetchImpl(`${cfg.baseUrl}/v1beta/models/${req.model}:generateContent`, {
+      const res = await fetchImpl(`${cfg.baseUrl}/v1beta/models/${encodeURIComponent(req.model)}:generateContent`, {
         method: 'POST',
         headers: apiKeyHeader(),
         body: JSON.stringify(requestBody(req)),
@@ -152,7 +152,7 @@ export function createGeminiAdapter(cfg: ResolvedProvider, fetchImpl: FetchLike 
     },
 
     async chatStream(req: ChatRequest, handlers: StreamHandlers): Promise<ChatResponse> {
-      const res = await fetchImpl(`${cfg.baseUrl}/v1beta/models/${req.model}:streamGenerateContent?alt=sse`, {
+      const res = await fetchImpl(`${cfg.baseUrl}/v1beta/models/${encodeURIComponent(req.model)}:streamGenerateContent?alt=sse`, {
         method: 'POST',
         headers: apiKeyHeader(),
         body: JSON.stringify(requestBody(req)),
@@ -210,7 +210,7 @@ export function createGeminiAdapter(cfg: ResolvedProvider, fetchImpl: FetchLike 
 
     async embed(texts: string[], model?: string): Promise<EmbedResult> {
       const useModel = model || cfg.resolvedEmbeddingModel || 'text-embedding-004';
-      const res = await fetchImpl(`${cfg.baseUrl}/v1beta/models/${useModel}:batchEmbedContents`, {
+      const res = await fetchImpl(`${cfg.baseUrl}/v1beta/models/${encodeURIComponent(useModel)}:batchEmbedContents`, {
         method: 'POST',
         headers: apiKeyHeader(),
         body: JSON.stringify({
