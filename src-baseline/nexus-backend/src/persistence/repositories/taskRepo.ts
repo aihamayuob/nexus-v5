@@ -83,6 +83,11 @@ export class TaskRepo {
       .run(status, now, finishedAt, errorMessage ?? null, id);
   }
 
+  /** F-04: records which provider/model actually SERVED the task (claimTask only knows the REQUESTED one). Call after a successful completion; failed tasks keep the requested values. No schema change. */
+  recordServed(id: string, provider: string, model: string) {
+    this.db.prepare('UPDATE tasks SET provider = ?, model = ?, updated_at = ? WHERE id = ?').run(provider, model, Date.now(), id);
+  }
+
   recent(limit = 50): TaskRecord[] {
     const rows = this.db.prepare('SELECT * FROM tasks ORDER BY created_at DESC, rowid DESC LIMIT ?').all(limit) as Record<string, unknown>[];
     return rows.map(rowToRecord);

@@ -312,6 +312,8 @@ async function pollMission(id, terminal = ['COMPLETED', 'FAILED', 'CANCELLED'], 
     // FINDING (recorded, not asserted as success): see report — whether a planning-phase orphan ever reaches a terminal state without manual action.
     evidence.FINDING_planningOrphanTerminal = !!planAfter && ['COMPLETED', 'FAILED', 'CANCELLED'].includes(planAfter.state);
     console.log(`[INFO] S6 (b) planning-phase orphan state after restart + 1.5s: ${planAfter?.state} (terminal=${evidence.FINDING_planningOrphanTerminal})`);
+    // F-03 (2026-11-16): the finding above is now a requirement — a REAL SIGKILL during PLANNING must end FAILED (terminal, explicit reason), not stay PLANNING forever.
+    check('S6 (b) F-03: mission killed while PLANNING reaches terminal FAILED after restart (real SIGKILL)', planAfter?.state === 'FAILED', planAfter?.state);
   }
 
   // ---- S3c: warden status snapshot is coherent -----------------------------------------------------------------------
