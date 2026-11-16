@@ -76,3 +76,15 @@ Raw logs: `verification/verify-final2/` in the package. Exit codes all 0, `OVERA
 8. Real-provider and real-device testing not done (needs keys / hardware).
 
 See `docs/IP-LICENSE-SECURITY-DELTA-2026-11-14.md` for the license/IP register delta.
+
+## 7. Update 2026-11-15 (additive; §1–§6 above remain as written for 2026-11-14)
+- Test counts now: backend **645/645** (638 + 7 provider-timeout tests), Vitest 186/186, 17 E2E, scenarios 38/38, UI demo 7/7 — all simulated models. Evidence: package `verification/verify-2026-11-15/`.
+- **Capability matrix deltas**: real providers — **UNVERIFIED / BLOCKED** (no keys/runtime/route in the verification environment; harness `e2e/real-provider-validation.mjs` and run instructions in `docs/REAL-PROVIDER-VALIDATION-2026-11-15.md`); provider request timeout — **VERIFIED** (D-PT-1 fixed); MCP server — third-party client interop 10/10 with the official SDK 1.32.2 (ADR-006 "UNVERIFIED interop" closed for the tested methods only); MCP client / A2A / Connector SDK — **PENDING**, criteria proposed in `ADR/007-…`.
+- §6 finding 8 ("real-provider and real-device testing not done") remains open. New owner note: timeouts are now enforced (default 60 s cloud / 120 s local; override `NEXUS_TIMEOUT_<PROVIDER>_MS`).
+- Buyer-oriented summary: `docs/BUYER-EVIDENCE-AND-IP-FILE-2026-11-15.md`.
+
+## 8. Update 2026-11-15 R3 (additive)
+- F-03 and F-04 closed (VERIFIED); a related fallback-model defect fixed — `docs/F03-F04-CLOSURE-2026-11-15.md`. Test counts now: backend **653/653**, Vitest 186/186, 17 E2E, scenarios **39/39**, UI demo 7/7, real-provider harness PASS 23 / FAIL 0 / BLOCKED 10, MCP interop 10/10 — `scripts/verify-all.sh` run end-to-end: **exit 0** (simulated models). Frontend `npm audit` 0.
+- Correction to §7-era wording: "6 embedded base64 images" (line in the open-items list) should read **2 embedded images** (SVG + PNG icon); authorship UNVERIFIED.
+- Tooling change needing owner ratification: `e2e/phase2-core-seed-flows.mjs` flaky check replaced by a deterministic one (closure doc §4; original preserved).
+- §6 finding list: F-03, F-04 no longer open; F-05, F-06 open.

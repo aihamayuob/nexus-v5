@@ -146,6 +146,7 @@ async function runFastPath(
       finalOutput: textBlock && textBlock.type === 'text' ? textBlock.text : '',
       stopReason: result.stopReason,
     });
+    repos.tasks.recordServed(taskId, result.providerUsed, result.modelUsed);
     repos.tasks.updateStatus(taskId, 'done');
     obs.finish('ok');
   } catch (e) {

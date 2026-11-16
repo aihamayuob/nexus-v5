@@ -1,5 +1,32 @@
 # NEXUS-CONTINUATION
 
+## ADDENDUM 22 — 2026-11-15 (R3) — F-03/F-04 closure, full re-verification, dependency audit, IP count correction
+Additive, dated. No historical entry modified or deleted. Status words only.
+
+**Owner instruction in force** (2026-11-15, second message): close F-03 and F-04 with tests; re-run full verification incl. the modified `verify-all.sh`; real-provider tests when keys/network exist (never simulation); address vulnerabilities and open IP issues; update docs/continuity. **ADR-007: do not start MCP client / A2A / Connector SDK before the owner sees the decision and criteria and approves.** No commit / push / tag / release / deploy without approval.
+
+**Work performed**: (1) F-03 fixed (`missionRunner.ts`) — RED→GREEN, 4 mutants, SIGKILL scenario; (2) F-04 fixed (`TaskRepo.recordServed`, chat handlers, v2 fast path, `chatService` model handling) — RED (5/7) → GREEN 7/7, 6 mutants; related defect found and fixed: fallback was sent the primary's model name; (3) `verify-all.sh` run twice end-to-end: run 1 one failure (known intermittent E2E check, CP-14 E-1), tool check made deterministic, run 2 **exit 0**; (4) frontend dev-tooling vulnerabilities 6 → 0 via in-major update; (5) embedded images re-inspected: 2, not 6; (6) docs: `docs/F03-F04-CLOSURE-2026-11-15.md` (new), CURRENT-STATE, CHANGELOG, ROADMAP, OPERATIONAL-BUILD §8, IP-DELTA addendum, BUYER file R3.
+**Evidence**: backend 653/653; Vitest 186/186 (also after the dependency change); 17 E2E; scenarios 39/39; UI 7/7; real-provider harness PASS 23 / FAIL 0 / BLOCKED 10; MCP interop 10/10; `npm audit` 0/0 — all with SIMULATED models except the one real Anthropic invalid-key check. Logs in package `verification/` (verify-2026-11-15-r3, run-1 flaky log, backend-after-F04).
+**Statuses**: F-03 VERIFIED; F-04 VERIFIED; verify-all.sh VERIFIED (exit 0) on this tree; real providers UNVERIFIED / BLOCKED; MCP client/A2A/Connector SDK PENDING; frontend dev vulns closed (VERIFIED by audit); full E2E not re-run after the dev-only dependency change (UNVERIFIED for that interaction, expected none); icon authorship UNVERIFIED; F-05, F-06 open.
+**Needs the owner**: (a) ratify or revert the `phase2-core-seed-flows.mjs` tooling change (original preserved); (b) ratify the behaviour change that fallback providers now receive their own configured model; (c) decide ADR-007 (approve / amend / defer); (d) provide keys / a reachable environment and run `e2e/real-provider-validation.mjs`; (e) LICENSE/NOTICE choice; confirm authorship of the 2 icons; (f) F-05/F-06 decisions; (g) approval for any commit/push/release.
+**Blockers / risks**: no keys/route for real providers; npm 10.9.9 crashes on dependency mutation for the frontend tree (use npm 11 or `npm ci` only); SBOM stale for the frontend; fallback-with-real-vendor behaviour of the F-04 fix is verified against simulated servers only.
+**Exact stopping point**: after documentation and packaging of R3; no protocol work started; nothing committed or published.
+**Next authorized action**: only on the owner's reply — ADR-007 decision (then slice M1 with its acceptance criteria), real-provider run results, or the decisions above. No slice auto-starts.
+
+
+## ADDENDUM 21 — 2026-11-15 — Real-provider validation attempt, re-verification, protocol criteria
+Additive, dated. No historical entry modified or deleted. Status words only.
+
+**Owner instruction in force** (2026-11-15): continue the current approved build; start with real-provider validation; then final platform tests; then protocols and commercial package; then unify docs. **No commit / push / tag / release / deploy without the owner's approval. Simulated results never replace real tests.**
+
+**Work performed**: (1) environment probe — no provider keys, no local runtime, only `api.anthropic.com` reachable; (2) `e2e/real-provider-validation.mjs` (R0–R5) — PASS 23 / FAIL 0 / BLOCKED 10; (3) defect D-PT-1 (provider timeout not enforced on chat/stream) found by that harness, fixed in `providers/timeoutFetch.ts` + `providers/index.ts` with 7 unit tests and 3 mutants; (4) full re-verification; (5) `e2e/mcp-third-party-interop.mjs` with the official MCP SDK client 10/10; (6) `ADR/007` (PROPOSED) criteria for MCP client / A2A / Connector SDK; (7) `ROADMAP.md` aligned (historical text kept); (8) `docs/REAL-PROVIDER-VALIDATION-2026-11-15.md`, `docs/BUYER-EVIDENCE-AND-IP-FILE-2026-11-15.md`.
+**Evidence**: backend 645/645, Vitest 186/186, 17 E2E verdicts as documented, scenarios 38/38, UI demo 7/7, all on SIMULATED models; real-provider harness and MCP interop as above; logs in package `verification/verify-2026-11-15/`.
+**Statuses**: real providers **UNVERIFIED / BLOCKED** (cause: no keys/runtime/route, not a failure); Anthropic real auth-rejection handling VERIFIED; provider timeouts VERIFIED; MCP server VERIFIED within ADR-006 limits + third-party client interop for tested methods; MCP client / A2A / Connector SDK **PENDING**; real devices, other browsers, TLS, WCAG, performance **UNVERIFIED / not done**.
+**Blockers**: (a) owner must supply real keys and/or run a local runtime and execute the harness where the providers are reachable (commands in the validation doc §4); (b) owner decision on ADR-007; (c) F-03…F-06, LICENSE/NOTICE, image provenance (unchanged); (d) GitHub write access (unchanged from Addendum 20) — and, anyway, no push without approval.
+**Risks**: provider timeout enforcement changes behaviour for non-streaming completions slower than the configured limit (default 60 s cloud / 120 s local) — tune `NEXUS_TIMEOUT_<PROVIDER>_MS`.
+**Exact stopping point**: after documentation and packaging of the 2026-11-15 package; no protocol implementation was started; nothing committed or published.
+**Next authorized action**: (1) owner runs the real-provider harness with keys and returns `results.json`, or supplies a reachable environment — then evaluate R1/R5 and mark providers; (2) on owner approval of ADR-007, slice M1 (MCP client) with its written acceptance criteria; no slice auto-starts.
+
 ## ADDENDUM 20 — 2026-11-14 — Operational Test Build (owner full-authorization mandate)
 Additive, dated. No historical entry was modified or deleted. Status words only.
 

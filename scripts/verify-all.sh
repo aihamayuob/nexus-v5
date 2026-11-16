@@ -14,7 +14,11 @@ cd "$ROOT/frontend"
 step 05-frontend-npm-ci npm ci --no-audit --no-fund
 step 06-frontend-vitest npx vitest run
 cd "$ROOT/e2e"
-for f in *.mjs; do n="${f%.mjs}"; case "$n" in operational-scenarios|launcher-ui-demo) continue;; esac; step "07-e2e-$n" timeout 280 node "$f"; done
+for f in *.mjs; do n="${f%.mjs}"; case "$n" in operational-scenarios|launcher-ui-demo|real-provider-validation|mcp-third-party-interop) continue;; esac; step "07-e2e-$n" timeout 280 node "$f"; done
+# real-provider harness: always runs; BLOCKED items (no keys / no network route) are reported, not failed. Real keys are read from the environment only.
+step 07b-real-provider-validation env NEXUS_RPV_OUT="$OUT/real-provider" timeout 400 node real-provider-validation.mjs
+# third-party MCP client interop: needs the official SDK installed outside the repo (MCP_SDK_DIR); skipped (not failed) otherwise
+if [ -n "${MCP_SDK_DIR:-}" ]; then step 07c-mcp-third-party-interop env NEXUS_MCP_OUT="$OUT/mcp-interop" timeout 200 node mcp-third-party-interop.mjs; else echo "== 07c-mcp-third-party-interop"; echo "   SKIPPED (set MCP_SDK_DIR)"; fi
 step 08-operational-scenarios timeout 280 node operational-scenarios.mjs
 step 09-launcher-ui-demo timeout 200 node launcher-ui-demo.mjs
 # the legacy E2E scripts regenerate tracked evidence files under baseline/evidence — restore them so the tree stays clean

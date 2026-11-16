@@ -99,6 +99,7 @@ async function handleNonStreamingChat(ctx: RouteContext, body: LegacyChatRequest
       ctx.gw,
       obs
     );
+    getRepos().tasks.recordServed(taskId, result.providerUsed, result.modelUsed);
     getRepos().tasks.updateStatus(taskId, 'done');
     obs.finish('ok');
     ctx.res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -168,6 +169,7 @@ async function handleStreamingChat(ctx: RouteContext, body: LegacyChatRequestBod
       }
     );
     registry.emit(taskId, 'done', { stopReason: result.stopReason, grounding: result.grounding });
+    getRepos().tasks.recordServed(taskId, result.providerUsed, result.modelUsed);
     getRepos().tasks.updateStatus(taskId, 'done');
     obs.finish('ok');
   } catch (e) {

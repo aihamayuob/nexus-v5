@@ -329,6 +329,16 @@ export async function resumeInterruptedMissions(): Promise<void> {
     if (!task || !mission) continue;
     const checkpoint = ExecutionCheckpoint.latest(missionId);
     if (!checkpoint || checkpoint.phase !== 'plan_definition') {
+      // F-03 (owner decision 2026-11-15): a mission still in PLANNING has not persisted a plan, so nothing was executed and nothing can be
+      // resumed. Leaving it PLANNING forever made it a non-terminal orphan counted as "active" indefinitely. It becomes a terminal, explained FAILED
+      // (the user resubmits). Any OTHER state without a plan checkpoint is an unexpected situation and is still left alone (no force-fail without data).
+      if (mission.state === 'PLANNING') {
+        const reason = 'انقطعت العملية قبل حفظ الخطة — لم يُنفَّذ أي شيء؛ أعد إرسال المهمة.';
+        repos.missions.transition(missionId, 'FAILED', reason);
+        repos.tasks.updateStatus(missionId, 'failed', reason);
+        logger.warn('Mission interrupted while PLANNING (no persisted plan) — marked FAILED', { missionId });
+        continue;
+      }
       logger.warn('Cannot resume mission — no persisted plan definition found, leaving for manual retry', { missionId });
       continue;
     }

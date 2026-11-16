@@ -312,6 +312,10 @@ async function pollMission(id, terminal = ['COMPLETED', 'FAILED', 'CANCELLED'], 
     // FINDING (recorded, not asserted as success): see report — whether a planning-phase orphan ever reaches a terminal state without manual action.
     evidence.FINDING_planningOrphanTerminal = !!planAfter && ['COMPLETED', 'FAILED', 'CANCELLED'].includes(planAfter.state);
     console.log(`[INFO] S6 (b) planning-phase orphan state after restart + 1.5s: ${planAfter?.state} (terminal=${evidence.FINDING_planningOrphanTerminal})`);
+    // F-03 closed (2026-11-15): the orphan must now be terminal (FAILED) with an explained transition.
+    const trAfter = (await api('GET', `/v2/missions/${planningCrashId}/transitions`)).json;
+    const lastTr = (trAfter?.transitions || []).at(-1);
+    check('S6 (b) F-03: planning-phase orphan reaches terminal FAILED with an explanatory transition', planAfter?.state === 'FAILED' && lastTr?.toState === 'FAILED' && !!lastTr?.reason, `${planAfter?.state} / ${lastTr?.reason}`);
   }
 
   // ---- S3c: warden status snapshot is coherent -----------------------------------------------------------------------

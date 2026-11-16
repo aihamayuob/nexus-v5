@@ -104,7 +104,12 @@ const direct = await page.evaluate(async () => {
   out.shape = Object.keys(payload).sort().join(',');
   out.ivBytes = atob(payload.iv).length;
   out.b64ok = /^[A-Za-z0-9+/]+=*$/.test(payload.iv) && /^[A-Za-z0-9+/]+=*$/.test(payload.data);
-  out.plainHidden = !atob(payload.data).includes('نكسس') && !payload.data.includes('42');
+  // 2026-11-15: the previous check (`!payload.data.includes('42')`) was probabilistic — "42" occurs by chance in a 152-char random base64 string in ~3.6 % of runs
+  // (measured on 20,000 encryptions), which made verify-all fail intermittently — and `!atob(data).includes('نكسس')` was vacuous (a binary string never contains Arabic code points).
+  // Replaced by a deterministic-in-practice test on the DECODED BYTES: neither the UTF-8 bytes of the Arabic value nor the ASCII key name 'nested' may appear (chance ≈ 2^-48 or less).
+  const ctBytes = Uint8Array.from(atob(payload.data), (ch) => ch.charCodeAt(0));
+  const has = (needle) => { const n = new TextEncoder().encode(needle); outer: for (let i = 0; i + n.length <= ctBytes.length; i++) { for (let j = 0; j < n.length; j++) if (ctBytes[i + j] !== n[j]) continue outer; return true; } return false; };
+  out.plainHidden = !has('نكسس') && !has('nested') && !has('emoji');
   out.roundTrip = JSON.stringify(await decryptState(payload, key)) === JSON.stringify(obj);
 
   const payload2 = await encryptState(obj, key);

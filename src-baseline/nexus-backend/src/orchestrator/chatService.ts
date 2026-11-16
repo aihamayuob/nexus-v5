@@ -1,5 +1,5 @@
 import type { ChatRequest, ChatResponse, StreamHandlers, ToolDef, ContentBlock } from '../providers/contract.js';
-import type { ProviderId } from '../config/providerRegistry.js';
+import { ProviderRegistry, type ProviderId } from '../config/providerRegistry.js';
 import { routeModel } from '../providers/modelRouter.js';
 import { selectProviderForMode, type RoutingMode } from '../providers/routingModes.js';
 import { getProviderAdapter } from '../providers/index.js';
@@ -88,6 +88,7 @@ export async function runChatCompletion(
   let messages = [...req.messages];
   let finalResponse: ChatResponse | null = null;
   let providerUsed: ProviderId = routed.provider;
+  let modelServed: string = model; // the model string actually sent to providerUsed (F-04: differs from `model` after a fallback)
 
   for (let iteration = 0; iteration < (req.maxToolIterations ?? MAX_TOOL_LOOP_ITERATIONS); iteration++) {
     let lastAttemptUsage: { inputTokens: number; outputTokens: number } | null = null;
@@ -95,9 +96,11 @@ export async function runChatCompletion(
       label: p,
       run: async () => {
         const adapter = getProviderAdapter(p);
-        const providerModel = p === routed.provider ? model : undefined; // fallback providers use THEIR OWN registry default, never the primary's model string — different vendors don't share model namespaces
+        // Fallback providers use THEIR OWN registry default, never the primary's model string — different vendors don't share model namespaces.
+        // (F-04: this used to read `providerModel || model`, which silently re-sent the primary's model to the fallback.)
+        const attemptModel = p === routed.provider ? model : ProviderRegistry.resolve(p).resolvedModel;
         const runReq: ChatRequest = {
-          model: providerModel || model,
+          model: attemptModel,
           system: req.system,
           messages,
           tools: req.tools,
@@ -110,6 +113,7 @@ export async function runChatCompletion(
         };
         const response = handlers ? await adapter.chatStream(runReq, handlers) : await adapter.chat(runReq);
         providerUsed = p;
+        modelServed = attemptModel;
         lastAttemptUsage = response.usage;
         return response;
       },
@@ -126,7 +130,7 @@ export async function runChatCompletion(
         getRepos().providerCallLog.record({
           taskId: req.taskId ?? null,
           provider: result.label,
-          model: result.label === providerUsed ? model : null,
+          model: result.label === providerUsed ? modelServed : null,
           route: req.route ?? 'chat',
           success: result.success,
           latencyMs: result.latencyMs,
@@ -147,7 +151,7 @@ export async function runChatCompletion(
       throw e;
     });
 
-    obs.recordModelCall(providerUsed, model, response.usage.inputTokens, response.usage.outputTokens);
+    obs.recordModelCall(providerUsed, modelServed, response.usage.inputTokens, response.usage.outputTokens);
 
     if (response.stopReason !== 'tool_use') {
       finalResponse = response;
@@ -179,5 +183,5 @@ export async function runChatCompletion(
 
   if (!finalResponse) throw Errors.internal('تجاوزت المحادثة الحد الأقصى لحلقات استدعاء الأدوات.');
 
-  return { ...finalResponse, providerUsed, modelUsed: model };
+  return { ...finalResponse, providerUsed, modelUsed: modelServed };
 }

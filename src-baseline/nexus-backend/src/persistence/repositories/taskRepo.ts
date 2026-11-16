@@ -83,6 +83,11 @@ export class TaskRepo {
       .run(status, now, finishedAt, errorMessage ?? null, id);
   }
 
+  /** F-04: the task row is created (claimTask) with the REQUESTED provider/model, before routing. After a fallback the provider that actually answered differs, so the serving pair is recorded here once a completion succeeds. */
+  recordServed(id: string, provider: string, model: string) {
+    this.db.prepare('UPDATE tasks SET provider = ?, model = ?, updated_at = ? WHERE id = ?').run(provider, model, Date.now(), id);
+  }
+
   recent(limit = 50): TaskRecord[] {
     const rows = this.db.prepare('SELECT * FROM tasks ORDER BY created_at DESC, rowid DESC LIMIT ?').all(limit) as Record<string, unknown>[];
     return rows.map(rowToRecord);
