@@ -62,6 +62,7 @@ test('matrix: fallback attempt always receives the fallback provider\'s own mode
         assert.deepEqual(got[P], [`EXPLICIT-for-${P}`], `${P}: primary should get the explicit model`);
         assert.deepEqual(got[F], [`model-of-${F}`], `${P}->${F}: fallback must get its own model, got ${JSON.stringify(got[F])}`);
         const t = getRepos().tasks.recent(1)[0];
+        assert.ok(t, `${P}->${F}: a task row must exist`);
         assert.equal(t.provider, F); assert.equal(t.model, `model-of-${F}`);
         pairs.push(`${P}->${F}`);
       }
