@@ -1,0 +1,10 @@
+
+ RUN  v4.1.11 /tmp/claude-0/-home-claude/d2cf954c-0435-5f5a-9c25-095b13d55e81/scratchpad/repo8/nexus-repo/frontend
+
+
+ Test Files  1 passed (1)
+      Tests  36 passed (36)
+   Start at  06:34:42
+   Duration  1.01s (transform 48ms, setup 0ms, import 91ms, tests 61ms, environment 703ms)
+
+temporary file removed: true | vitest exit code: 0

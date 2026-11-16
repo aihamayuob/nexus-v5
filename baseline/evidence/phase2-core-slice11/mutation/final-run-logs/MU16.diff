@@ -1,0 +1,11 @@
+--- /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-13 14:00:00.000000000 +0300
++++ /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/mut/work/MU16/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-15 05:20:39.355434041 +0300
+@@ -6972,7 +6972,7 @@
+       const fileCtx = await NexusContext._safe('uploaded documents', () => fileDocsContext(queryText));
+       ctx += PromptInjectionGuard.fence('مستند مرفوع', fileCtx.replace(/^\n\n/, ''));
+     }
+-    if(agent.id === 'financial' && (intent.freshness !== 'static' || intent.domain === 'business')){
++    if(agent.id === 'financial' && (intent.domain === 'business')){
+       const marketCtx = await NexusContext._safe('market context', () => getMarketContext());
+       ctx += PromptInjectionGuard.fence('بيانات سوقية', marketCtx.replace(/^\n\n/, ''));
+     }

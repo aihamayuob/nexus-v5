@@ -1,0 +1,20 @@
+import { execSync } from 'node:child_process';
+const head = execSync('git show HEAD:frontend/neural_nexus_ai_agents-4-3-5-3.html',{encoding:'utf8',cwd:'/home/claude/nexus-v5'});
+const s = head.indexOf('async function encryptState(obj, key){');
+const e = head.indexOf('let currentSalt = null;');
+const legacySrc = head.slice(s,e).trim();
+const bufToB64 = (buf)=>btoa(String.fromCharCode(...new Uint8Array(buf)));
+const b64ToBuf = (b64)=>Uint8Array.from(atob(b64), c=>c.charCodeAt(0));
+const realGRV = crypto.getRandomValues.bind(crypto);
+// deterministic IV: 12 bytes 0xA0..0xAB
+const fixedIv = new Uint8Array([0xA0,0xA1,0xA2,0xA3,0xA4,0xA5,0xA6,0xA7,0xA8,0xA9,0xAA,0xAB]);
+const fakeCrypto = { subtle: crypto.subtle, getRandomValues: (a)=>{ a.set(fixedIv); return a; } };
+const mk = new Function('crypto','bufToB64','b64ToBuf','TextEncoder','TextDecoder', legacySrc + '\nreturn {encryptState, decryptState};');
+const legacy = mk(fakeCrypto,bufToB64,b64ToBuf,TextEncoder,TextDecoder);
+const keyBytes = new Uint8Array(32).fill(0x11);
+const key = await crypto.subtle.importKey('raw', keyBytes, {name:'AES-GCM'}, false, ['encrypt','decrypt']);
+const obj = { messages:[{role:'user',content:'مرحباً نكسس 🔒',type:'text'}], selectedAgentIds:['general'], activeGroupId:null, n:42 };
+const payload = await legacy.encryptState(obj, key);
+console.log('LEGACY_SOURCE_LEN', legacySrc.length);
+console.log(JSON.stringify({obj, payload}));
+console.log(JSON.stringify(await legacy.decryptState(payload,key))===JSON.stringify(obj));

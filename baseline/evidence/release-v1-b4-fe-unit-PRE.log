@@ -1,0 +1,42 @@
+
+ RUN  v4.1.11 /tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/release/nexus-v5/frontend
+
+ ❯ modules/gatewayKey.test.mjs (9 tests | 9 failed) 9ms
+     × defaults to empty 4ms
+     × setGatewayKey makes getGatewayKey return the (trimmed) key 0ms
+     × setGatewayKey("") and non-strings clear it 0ms
+     × setting and reading the key writes NOTHING to localStorage or sessionStorage (spied + scanned) 0ms
+     × getGatewayKey does NOT adopt a legacy persisted value (no silent migration) 0ms
+     × getGatewayKey never touches storage at all (works even if Storage.getItem throws) 0ms
+     × removes the legacy key from localStorage and sessionStorage and leaves unrelated entries alone 0ms
+     × does not clear the in-memory key 0ms
+     × is safe when storage throws (Safari private mode, blocked storage) 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  modules/gatewayKey.test.mjs > gateway key is held in memory only > defaults to empty
+ FAIL  modules/gatewayKey.test.mjs > gateway key is held in memory only > setGatewayKey makes getGatewayKey return the (trimmed) key
+ FAIL  modules/gatewayKey.test.mjs > gateway key is held in memory only > setGatewayKey("") and non-strings clear it
+ FAIL  modules/gatewayKey.test.mjs > gateway key is held in memory only > setting and reading the key writes NOTHING to localStorage or sessionStorage (spied + scanned)
+ FAIL  modules/gatewayKey.test.mjs > gateway key is held in memory only > getGatewayKey does NOT adopt a legacy persisted value (no silent migration)
+ FAIL  modules/gatewayKey.test.mjs > gateway key is held in memory only > getGatewayKey never touches storage at all (works even if Storage.getItem throws)
+ FAIL  modules/gatewayKey.test.mjs > purgeLegacyGatewayKey > removes the legacy key from localStorage and sessionStorage and leaves unrelated entries alone
+ FAIL  modules/gatewayKey.test.mjs > purgeLegacyGatewayKey > does not clear the in-memory key
+ FAIL  modules/gatewayKey.test.mjs > purgeLegacyGatewayKey > is safe when storage throws (Safari private mode, blocked storage)
+TypeError: setGatewayKey is not a function
+ ❯ modules/gatewayKey.test.mjs:19:3
+     17|
+     18| beforeEach(() => {
+     19|   setGatewayKey('');
+       |   ^
+     20|   localStorage.clear();
+     21|   sessionStorage.clear();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  9 failed (9)
+   Start at  14:38:35
+   Duration  1.07s (transform 22ms, setup 0ms, import 44ms, tests 9ms, environment 832ms)
+

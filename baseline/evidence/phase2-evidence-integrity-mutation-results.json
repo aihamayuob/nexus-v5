@@ -1,0 +1,419 @@
+{
+  "baseRef": "b811065",
+  "controls": {
+    "CTRL-POST-backend": {
+      "tests": 117,
+      "pass": 117,
+      "fail": 0,
+      "exit": 0,
+      "expected": "fail=0",
+      "ok": true
+    },
+    "CTRL-POST-ui": {
+      "verdict": "ACCEPTED",
+      "valid": "4/4",
+      "pres": "6/6",
+      "ps": "16/16",
+      "exit": 0,
+      "expected": "ACCEPTED",
+      "ok": true
+    },
+    "CTRL-PRE-backend": {
+      "tests": 90,
+      "pass": 29,
+      "fail": 61,
+      "exit": 1,
+      "expected": "fail>0 incl. AC-7 upgrade path",
+      "ok": true
+    },
+    "CTRL-PRE-AC7-upgrade-path": {
+      "failed": true,
+      "rightReason": true,
+      "expected": "fails for the right reason (not a launcher error)",
+      "ok": true
+    },
+    "CTRL-PRE-ui": {
+      "verdict": "REJECTED",
+      "valid": "4/4",
+      "pres": "6/6",
+      "ps": "0/16",
+      "exit": 1,
+      "expected": "REJECTED (VALID+PRES green, PS red)",
+      "ok": true
+    }
+  },
+  "mutants": [
+    {
+      "id": "B1",
+      "what": "every item is a delta (fail-closed filter removed)",
+      "kind": "backend",
+      "failing": 31,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "B2",
+      "what": "judge receives ALL evidence, not only deltas",
+      "kind": "backend",
+      "failing": 3,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "B3",
+      "what": "contradiction guard disabled",
+      "kind": "backend",
+      "failing": 3,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "B4",
+      "what": "guard over-reaches: lowers every verdict except CONFLICTING",
+      "kind": "backend",
+      "failing": 2,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "B5",
+      "what": "any string is accepted as a valid kind",
+      "kind": "backend",
+      "failing": 22,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "B6",
+      "what": "kind matching made case-insensitive",
+      "kind": "backend",
+      "failing": 3,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "B7",
+      "what": "reason precedence swapped (EXECUTABLE before CONTRADICTORY)",
+      "kind": "backend",
+      "failing": 1,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "B8",
+      "what": "confidence kept on a lowered verdict",
+      "kind": "backend",
+      "failing": 3,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "B9",
+      "what": "zero-evidence reason mislabelled CONSENSUS_ONLY",
+      "kind": "backend",
+      "failing": 8,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "B10",
+      "what": "consensus-only shortcut disabled (judge called with an empty block)",
+      "kind": "backend",
+      "failing": 29,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "B11",
+      "what": "consensus-only result loses its deterministic confidence",
+      "kind": "backend",
+      "failing": 1,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "R1",
+      "what": "route keeps an invalid kind in the stored evidence",
+      "kind": "backend",
+      "failing": 1,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "R2",
+      "what": "route drops even a valid kind",
+      "kind": "backend",
+      "failing": 3,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "P1",
+      "what": "repo does not persist the reason (inserts NULL)",
+      "kind": "backend",
+      "failing": 4,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "P2",
+      "what": "repo does not map the column back on read",
+      "kind": "backend",
+      "failing": 2,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "P3",
+      "what": "save() returns a record without the reason",
+      "kind": "backend",
+      "failing": 10,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "W1",
+      "what": "producer no longer declares kind TOOL_RESULT",
+      "kind": "backend",
+      "failing": 1,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "W2",
+      "what": "producer counts failed fetches as evidence",
+      "kind": "backend",
+      "failing": 3,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "W3",
+      "what": "runWebResearch stops using buildResearchEvidence (inline, no kind)",
+      "kind": "backend",
+      "failing": 0,
+      "tests": 90,
+      "killed": false,
+      "expected": "SURVIVES (documented)",
+      "ok": true,
+      "note": "EXPECTED SURVIVOR: the SSRF guard makes a fetchOk:true source unreachable in the sandbox, so the wiring of the builder into runWebResearch is not observable by any test (CP-16 limits). Under fail-closed such a mutant would make web research evaluate to CONSENSUS_ONLY in production — fail-closed, i.e. safe, not silent upgrade."
+    },
+    {
+      "id": "G1",
+      "what": "migration 016 deleted",
+      "kind": "backend",
+      "failing": 25,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "G2",
+      "what": "column made NOT NULL DEFAULT ''",
+      "kind": "backend",
+      "failing": 3,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "G3",
+      "what": "migration also backfills legacy rows",
+      "kind": "backend",
+      "failing": 2,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "X1",
+      "what": "kind is trimmed before matching (whitespace-padded kinds accepted)",
+      "kind": "backend",
+      "failing": 3,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "X2",
+      "what": "kind matched with the `in` operator on an object literal (prototype names like constructor/toString/__proto__ accepted)",
+      "kind": "backend",
+      "failing": 5,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "X3",
+      "what": "engine also reads kind through the item's __proto__ (prototype smuggling)",
+      "kind": "backend",
+      "failing": 1,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "X4",
+      "what": "null guard removed from the delta filter",
+      "kind": "backend",
+      "failing": 1,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "X5",
+      "what": "route no longer validates item shape (any truthy entry is evidence)",
+      "kind": "backend",
+      "failing": 2,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "X6",
+      "what": "subject_type is interpolated into the INSERT SQL instead of bound (SQL injection)",
+      "kind": "backend",
+      "failing": 1,
+      "tests": 90,
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "U1",
+      "what": "a kind is preselected (placeholder moved after the options)",
+      "kind": "ui",
+      "verdict": "REJECTED",
+      "valid": "4/4",
+      "pres": "6/6",
+      "ps": "10/16",
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "U2",
+      "what": "submit block disabled",
+      "kind": "ui",
+      "verdict": "REJECTED",
+      "valid": "4/4",
+      "pres": "6/6",
+      "ps": "12/16",
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "U3",
+      "what": "kind is collected but not sent in the request body",
+      "kind": "ui",
+      "verdict": "REJECTED",
+      "valid": "4/4",
+      "pres": "6/6",
+      "ps": "10/16",
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "U4",
+      "what": "one valid kind missing from the selector",
+      "kind": "ui",
+      "verdict": "REJECTED",
+      "valid": "4/4",
+      "pres": "5/6",
+      "ps": "14/16",
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "U5",
+      "what": "block only when EVERY row lacks a kind (silent partial send)",
+      "kind": "ui",
+      "verdict": "INVALID",
+      "valid": "3/4",
+      "pres": "5/6",
+      "ps": "15/16",
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "U6",
+      "what": "reason line removed from the record render",
+      "kind": "ui",
+      "verdict": "REJECTED",
+      "valid": "4/4",
+      "pres": "6/6",
+      "ps": "15/16",
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    },
+    {
+      "id": "U7",
+      "what": "reason rendered without HTML escaping",
+      "kind": "ui",
+      "verdict": "REJECTED",
+      "valid": "4/4",
+      "pres": "5/6",
+      "ps": "16/16",
+      "killed": true,
+      "expected": "KILLED",
+      "ok": true
+    }
+  ],
+  "productionUnchanged": true,
+  "summary": {
+    "controlsOk": true,
+    "mutants": 35,
+    "asExpected": 35,
+    "killed": 34
+  }
+}

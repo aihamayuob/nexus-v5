@@ -1,0 +1,85 @@
+[PASS] static-server-boot — serving neural_nexus_ai_agents-4-3-5-3.html on :8899
+[PASS] backend-boot — {"ts":"2026-10-11T03:33:05.817Z","level":"info","msg":"Nexus backend listening","host":"0.0.0.0","port":8799,"env":"development"}
+[PASS] page-load — title="Neural Nexus AI Agents — منصة الوكلاء الحية"
+[PASS] settings-modal-open
+[PASS] settings-save-backend-url — stored="http://127.0.0.1:8799"
+[PASS] simple-mode-toggle-fn-exists
+[PASS] advanced-mode-active
+[PASS] nexus-ops-opener-call
+[PASS] nexus-ops-modal-visible
+[PASS] workspace-modal-visible
+[PASS] chat-send-no-crash
+[PASS] chat-send-error-content — أنت
+اختبار أساسي — Phase 0 baseline
+خطأ
+فشل الاتصال بـ API: 400 — {"error":{"message":"مزود \"anthropic\" يحتاج مفتاح API مُعدّ على السيرفر.","code":"validation_error","retryable":false}}
+❌
+⏱ 0.1ث
+↻ 1
+
+=== CONSOLE ERRORS ===
+A bad HTTP response code (404) was received when fetching the script.
+Service worker registration failed: TypeError: Failed to register a ServiceWorker for scope ('http://127.0.0.1:8899/') with script ('http://127.0.0.1:8899/sw.js'): A bad HTTP response code (404) was received when fetching the script.
+Failed to load resource: the server responded with a status of 400 (Bad Request)
+
+=== PAGE ERRORS ===
+(none)
+
+=== SUMMARY ===
+12/12 checks passed
+[
+  {
+    "name": "static-server-boot",
+    "ok": true,
+    "detail": "serving neural_nexus_ai_agents-4-3-5-3.html on :8899"
+  },
+  {
+    "name": "backend-boot",
+    "ok": true,
+    "detail": "{\"ts\":\"2026-10-11T03:33:05.817Z\",\"level\":\"info\",\"msg\":\"Nexus backend listening\",\"host\":\"0.0.0.0\",\"port\":8799,\"env\":\"development\"}"
+  },
+  {
+    "name": "page-load",
+    "ok": true,
+    "detail": "title=\"Neural Nexus AI Agents — منصة الوكلاء الحية\""
+  },
+  {
+    "name": "settings-modal-open",
+    "ok": true
+  },
+  {
+    "name": "settings-save-backend-url",
+    "ok": true,
+    "detail": "stored=\"http://127.0.0.1:8799\""
+  },
+  {
+    "name": "simple-mode-toggle-fn-exists",
+    "ok": true
+  },
+  {
+    "name": "advanced-mode-active",
+    "ok": true
+  },
+  {
+    "name": "nexus-ops-opener-call",
+    "ok": true
+  },
+  {
+    "name": "nexus-ops-modal-visible",
+    "ok": true
+  },
+  {
+    "name": "workspace-modal-visible",
+    "ok": true
+  },
+  {
+    "name": "chat-send-no-crash",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "chat-send-error-content",
+    "ok": true,
+    "detail": "أنت\nاختبار أساسي — Phase 0 baseline\nخطأ\nفشل الاتصال بـ API: 400 — {\"error\":{\"message\":\"مزود \\\"anthropic\\\" يحتاج مفتاح API مُعدّ على السيرفر.\",\"code\":\"validation_error\",\"retryable\":false}}\n❌\n⏱ 0.1ث\n↻ 1"
+  }
+]

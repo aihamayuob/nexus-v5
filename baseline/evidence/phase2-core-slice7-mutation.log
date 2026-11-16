@@ -1,0 +1,16 @@
+production frontend tree sha256 BEFORE: fe2b42474f1aca65a7027e655bf87daab31798d05d03db64f5661c2ac4cd4bfc
+OK  CTRL (unmutated copy): verdict=STUCK exit=0 validity=47/47 expected={"verdict":"STUCK","exit":0}
+OK  M1 (candidate fix A: flag set after the offline check): verdict=NOT-STUCK exit=0 validity=40/40 expected={"verdict":"NOT-STUCK","exit":0}
+OK  M2 (offline check disabled): verdict=INCONCLUSIVE exit=1 validity=27/40 expected={"verdict":"INCONCLUSIVE","exit":1}
+     [FAIL] click1-AC4-offline-attempt-showed-the-offline-toast — []
+     [FAIL] click1-AC4-offline-attempt-sent-nothing-and-kept-the-text — dMsgs=1 dExt=1 input="" btnDisabled=true
+     [FAIL] click1-after-reconnect-input-still-holds-the-text — ""
+OK  M3 (finally reset removed): verdict=INCONCLUSIVE exit=1 validity=42/47 expected={"verdict":"INCONCLUSIVE","exit":1}
+     [FAIL] C0-online-send-cycle-ended-flag-false-btn-enabled-input-cleared — cycleEnded=false flag=true btnDisabled=false input=""
+     [FAIL] C2-online-send-cycle-ended-flag-false-btn-enabled-input-cleared — cycleEnded=false flag=true btnDisabled=false input=""
+     [FAIL] click2-AC7-resetting-only-the-flag-makes-the-same-send-work — dMsgs=2 dExt=3 flag=true
+OK  M4 (candidate fix B: reset the flag in the offline branch before return): verdict=NOT-STUCK exit=0 validity=40/40 expected={"verdict":"NOT-STUCK","exit":0}
+production frontend tree sha256 AFTER:  fe2b42474f1aca65a7027e655bf87daab31798d05d03db64f5661c2ac4cd4bfc  (IDENTICAL)
+
+=== SUMMARY ===
+5/5 scenarios behaved as expected; production tree unchanged

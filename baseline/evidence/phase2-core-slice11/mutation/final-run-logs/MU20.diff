@@ -1,0 +1,11 @@
+--- /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-13 14:00:00.000000000 +0300
++++ /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/mut/work/MU20/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-15 05:20:53.272373597 +0300
+@@ -2865,7 +2865,7 @@
+ async function fileDocsContext(queryText){
+   const allChunks = uploadedDocs.flatMap(d => d.chunks);
+   if(allChunks.length === 0) return '';
+-  const routed = await routeEntries(queryText, allChunks, 3);
++  const routed = await routeEntries(queryText, allChunks, 1);
+   if(routed.length === 0) return '';
+   const items = routed.map(c => `- [من ملف "${c.title}"]: ${c.content}`).join('\n');
+   return '\n\nمقاطع ذات صلة من ملفات رفعها المستخدم:\n' + items;

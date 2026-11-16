@@ -1,0 +1,6 @@
+msgs=1 pre: banner at (ms since nav start) median=210.6 min=194.0 max=233.8
+msgs=1 post: banner at (ms since nav start) median=234.6 min=227.7 max=308.3
+msgs=100 pre: banner at (ms since nav start) median=206.2 min=192.3 max=219.6
+msgs=100 post: banner at (ms since nav start) median=224.7 min=219.6 max=274.4
+msgs=400 pre: banner at (ms since nav start) median=209.3 min=155.7 max=309.9
+msgs=400 post: banner at (ms since nav start) median=248.7 min=238.5 max=306.9

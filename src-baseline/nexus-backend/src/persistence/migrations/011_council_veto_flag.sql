@@ -1,0 +1,12 @@
+-- Phase 3 Slice 15 (situation_room resume). humanitarianVeto was, until
+-- now, a pure runtime parameter to executeSituationRoom() — never
+-- persisted anywhere on the council_sessions row itself. That was fine
+-- as long as a session always ran start-to-finish in one process, but it
+-- becomes a real correctness gap for resume: if the process dies and a
+-- situation_room session that DID request a humanitarian-veto review gets
+-- picked back up later, whoever resumes it has no durable way to know
+-- whether that review was ever supposed to happen — silently guessing
+-- "no" could mean a real safety review gets skipped without anyone
+-- noticing. This column makes that fact durable. Additive-only
+-- (ALTER TABLE ADD COLUMN with a default), no existing schema rebuilt.
+ALTER TABLE council_sessions ADD COLUMN humanitarian_veto_requested INTEGER NOT NULL DEFAULT 0;

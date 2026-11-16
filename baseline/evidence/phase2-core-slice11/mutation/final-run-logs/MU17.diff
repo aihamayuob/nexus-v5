@@ -1,0 +1,11 @@
+--- /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-13 14:00:00.000000000 +0300
++++ /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/mut/work/MU17/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-15 05:20:42.952721534 +0300
+@@ -5789,7 +5789,7 @@
+     const scored = longTermMemory
+       .map(m => ({ m, score: cosineSimilarity(queryEmbedding, m.embedding) }))
+       .sort((a,b) => b.score - a.score)
+-      .filter(s => s.score > 0.72)
++      .filter(s => s.score > 0.5)
+       .slice(0, topK);
+     if(scored.length === 0) return '';
+     return '\n\nذاكرة طويلة المدى (مقتطفات ذات صلة من محادثات سابقة مع هذا المستخدم):\n'

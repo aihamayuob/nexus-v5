@@ -1,0 +1,43 @@
+CTRL-POST backend {"tests":117,"pass":117,"fail":0,"exit":0}
+CTRL-POST ui {"verdict":"ACCEPTED","valid":"4/4","pres":"6/6","ps":"16/16","exit":0}
+CTRL-PRE backend {"tests":90,"pass":29,"fail":61,"exit":1}
+CTRL-PRE AC-7 true true
+CTRL-PRE ui {"verdict":"REJECTED","valid":"4/4","pres":"6/6","ps":"0/16","exit":1}
+B1 KILLED (fail=31/90) as expected — every item is a delta (fail-closed filter removed)
+B2 KILLED (fail=3/90) as expected — judge receives ALL evidence, not only deltas
+B3 KILLED (fail=3/90) as expected — contradiction guard disabled
+B4 KILLED (fail=2/90) as expected — guard over-reaches: lowers every verdict except CONFLICTING
+B5 KILLED (fail=22/90) as expected — any string is accepted as a valid kind
+B6 KILLED (fail=3/90) as expected — kind matching made case-insensitive
+B7 KILLED (fail=1/90) as expected — reason precedence swapped (EXECUTABLE before CONTRADICTORY)
+B8 KILLED (fail=3/90) as expected — confidence kept on a lowered verdict
+B9 KILLED (fail=8/90) as expected — zero-evidence reason mislabelled CONSENSUS_ONLY
+B10 KILLED (fail=29/90) as expected — consensus-only shortcut disabled (judge called with an empty block)
+B11 KILLED (fail=1/90) as expected — consensus-only result loses its deterministic confidence
+R1 KILLED (fail=1/90) as expected — route keeps an invalid kind in the stored evidence
+R2 KILLED (fail=3/90) as expected — route drops even a valid kind
+P1 KILLED (fail=4/90) as expected — repo does not persist the reason (inserts NULL)
+P2 KILLED (fail=2/90) as expected — repo does not map the column back on read
+P3 KILLED (fail=10/90) as expected — save() returns a record without the reason
+W1 KILLED (fail=1/90) as expected — producer no longer declares kind TOOL_RESULT
+W2 KILLED (fail=3/90) as expected — producer counts failed fetches as evidence
+W3 SURVIVED (fail=0/90) as expected — runWebResearch stops using buildResearchEvidence (inline, no kind)
+G1 KILLED (fail=25/90) as expected — migration 016 deleted
+G2 KILLED (fail=3/90) as expected — column made NOT NULL DEFAULT ''
+G3 KILLED (fail=2/90) as expected — migration also backfills legacy rows
+X1 KILLED (fail=3/90) as expected — kind is trimmed before matching (whitespace-padded kinds accepted)
+X2 KILLED (fail=5/90) as expected — kind matched with the `in` operator on an object literal (prototype names like constructor/toString/__proto__ accepted)
+X3 KILLED (fail=1/90) as expected — engine also reads kind through the item's __proto__ (prototype smuggling)
+X4 KILLED (fail=1/90) as expected — null guard removed from the delta filter
+X5 KILLED (fail=2/90) as expected — route no longer validates item shape (any truthy entry is evidence)
+X6 KILLED (fail=1/90) as expected — subject_type is interpolated into the INSERT SQL instead of bound (SQL injection)
+U1 KILLED (REJECTED; VALID 4/4 PRES 6/6 PS 10/16) as expected — a kind is preselected (placeholder moved after the options)
+U2 KILLED (REJECTED; VALID 4/4 PRES 6/6 PS 12/16) as expected — submit block disabled
+U3 KILLED (REJECTED; VALID 4/4 PRES 6/6 PS 10/16) as expected — kind is collected but not sent in the request body
+U4 KILLED (REJECTED; VALID 4/4 PRES 5/6 PS 14/16) as expected — one valid kind missing from the selector
+U5 KILLED (INVALID; VALID 3/4 PRES 5/6 PS 15/16) as expected — block only when EVERY row lacks a kind (silent partial send)
+U6 KILLED (REJECTED; VALID 4/4 PRES 6/6 PS 15/16) as expected — reason line removed from the record render
+U7 KILLED (REJECTED; VALID 4/4 PRES 5/6 PS 16/16) as expected — reason rendered without HTML escaping
+
+=== SUMMARY === controls ok: true; mutants as expected: 35/35 (killed 34); production sha unchanged: true
+results -> /home/claude/nexus-repo/nexus-repo/baseline/evidence/phase2-evidence-integrity-mutation-results.json

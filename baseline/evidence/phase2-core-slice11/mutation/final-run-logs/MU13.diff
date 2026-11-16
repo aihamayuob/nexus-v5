@@ -1,0 +1,11 @@
+--- /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-13 14:00:00.000000000 +0300
++++ /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/mut/work/MU13/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-15 05:20:28.472663284 +0300
+@@ -6974,7 +6974,7 @@
+     }
+     if(agent.id === 'financial' && (intent.freshness !== 'static' || intent.domain === 'business')){
+       const marketCtx = await NexusContext._safe('market context', () => getMarketContext());
+-      ctx += PromptInjectionGuard.fence('بيانات سوقية', marketCtx.replace(/^\n\n/, ''));
++      ctx += marketCtx.replace(/^\n\n/, '');
+     }
+ 
+     // Task state (Durable Execution) — only present mid-flow for

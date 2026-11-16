@@ -1,0 +1,32 @@
+
+ RUN  v4.1.11 /tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/release/nexus-v5/frontend
+
+ ❯ modules/settings.test.mjs (32 tests | 1 failed) 38ms
+     × getGatewayKey: default "", real value "secret-key" 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  modules/settings.test.mjs > simple localStorage getters — default when unset, real value when set > getGatewayKey: default "", real value "secret-key"
+AssertionError: expected '' to be 'secret-key' // Object.is equality
+
+- Expected
++ Received
+
+- secret-key
+
+ ❯ modules/settings.test.mjs:31:20
+     29|       expect(fn()).toBe(def);
+     30|       localStorage.setItem(key, val);
+     31|       expect(fn()).toBe(val);
+       |                    ^
+     32|     });
+     33|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 6 passed (7)
+      Tests  1 failed | 186 passed (187)
+   Start at  14:38:43
+   Duration  6.38s (transform 283ms, setup 0ms, import 436ms, tests 330ms, environment 4.54s)
+

@@ -1,0 +1,33 @@
+Chromium 141.0.7390.37; FRONTEND_DIR=/home/claude/nexus-repo/nexus-repo/frontend
+[PASS] [VALID] C0-ops-evaluation-tab-mounts-and-has-one-evidence-row
+[PASS] [VALID] C0-empty-evidence-claim-reaches-the-recorded-backend-origin — {"claim":"C0 claim","evidence":[]}
+[PASS] [PS] AC-U1-first-row-has-exactly-one-kind-selector
+[PASS] [PS] AC-U1-first-row-selector-has-no-preselected-kind
+[PASS] [PS] AC-U1-every-added-row-also-has-one-selector — rows=3 selectors=3
+[PASS] [PS] AC-U1-no-row-has-a-preselected-kind — ["","",""]
+[PASS] [PS] AC-U2-selector-offers-a-placeholder-and-exactly-the-six-valid-kinds — ["","INDEPENDENT_SOURCE","TOOL_RESULT","EXECUTABLE_VERIFICATION","ENVIRONMENTAL_OBSERVATION","HUMAN_CONFIRMATION","CONTRADICTORY_EVIDENCE"]
+[PASS] [PS] AC-U3-filled-row-without-kind-sends-ZERO-requests — posts=0
+[PASS] [PS] AC-U3-a-toast-explains-the-block — ["⚠️ اختر نوع الدليل لكل دليل مُدخَل قبل التقييم."]
+[PASS] [PS] AC-U3-no-evaluation-record-is-rendered — "⚠️ لم يُرسَل الطلب: كل دليل يجب أن يحمل نوعاً معلَناً صراحةً (الدليل بلا نوع لا يُحتسب)."
+[PASS] [VALID] U3-control-clicking-evaluate-again-after-choosing-a-kind-sends-exactly-one-more-request — before=0 after=1
+[PASS] [PS] AC-U4-one-row-with-a-kind-plus-one-filled-row-without-sends-ZERO-requests-no-silent-partial-send — posts=0
+[PASS] [PS] AC-U5-INDEPENDENT_SOURCE-is-sent-in-the-request-body — {"claim":"U5 claim","evidence":[{"source":"src-INDEPENDENT_SOURCE","content":"content-INDEPENDENT_SOURCE","kind":"INDEPENDENT_SOURCE"}]}
+[PASS] [PS] AC-U5-TOOL_RESULT-is-sent-in-the-request-body — {"claim":"U5 claim","evidence":[{"source":"src-TOOL_RESULT","content":"content-TOOL_RESULT","kind":"TOOL_RESULT"}]}
+[PASS] [PS] AC-U5-EXECUTABLE_VERIFICATION-is-sent-in-the-request-body — {"claim":"U5 claim","evidence":[{"source":"src-EXECUTABLE_VERIFICATION","content":"content-EXECUTABLE_VERIFICATION","kind":"EXECUTABLE_VERIFICATION"}]}
+[PASS] [PS] AC-U5-ENVIRONMENTAL_OBSERVATION-is-sent-in-the-request-body — {"claim":"U5 claim","evidence":[{"source":"src-ENVIRONMENTAL_OBSERVATION","content":"content-ENVIRONMENTAL_OBSERVATION","kind":"ENVIRONMENTAL_OBSERVATION"}]}
+[PASS] [PS] AC-U5-HUMAN_CONFIRMATION-is-sent-in-the-request-body — {"claim":"U5 claim","evidence":[{"source":"src-HUMAN_CONFIRMATION","content":"content-HUMAN_CONFIRMATION","kind":"HUMAN_CONFIRMATION"}]}
+[PASS] [PS] AC-U5-CONTRADICTORY_EVIDENCE-is-sent-in-the-request-body — {"claim":"U5 claim","evidence":[{"source":"src-CONTRADICTORY_EVIDENCE","content":"content-CONTRADICTORY_EVIDENCE","kind":"CONTRADICTORY_EVIDENCE"}]}
+[PASS] [PRES] AC-U6-empty-claim-still-toasts-and-sends-nothing — posts=0 toasts=["⚠️ اكتب الادّعاء أولاً."]
+[PASS] [PRES] AC-U6-fully-empty-rows-are-ignored-and-the-claim-is-sent-with-empty-evidence — {"claim":"U6b claim","evidence":[]}
+[PASS] [PRES] AC-U6-partial-rows-and-a-kind-only-row-are-ignored-only-the-complete-row-is-sent — {"claim":"U6c claim","evidence":[{"source":"full-src","content":"full-content","kind":"HUMAN_CONFIRMATION"}]}
+[PASS] [PS] AC-U7-the-reason-is-shown-when-present
+[PASS] [PRES] AC-U7-no-reason-text-for-a-legacy-record-null
+[PASS] [PRES] AC-U7-no-reason-text-for-a-record-without-the-field
+[PASS] [PRES] AC-U7-the-reason-is-HTML-escaped — <div class="log-item" style="margin-top:6px;">
+    <div style="display:flex; justify-content:space-between;"><span>ادعاء للعرض</span><span style="display:inline
+[PASS] [VALID] AC-U8-no-uncaught-page-errors-in-any-scenario
+
+=== SUMMARY ===
+26/26 checks passed  (VALID 4/4, PRES 6/6, PS 16/16)
+EI-UI-VERDICT = ACCEPTED  (frontend=../frontend)
+results -> /home/claude/nexus-repo/nexus-repo/baseline/evidence/phase2-evidence-integrity-ui-results.json

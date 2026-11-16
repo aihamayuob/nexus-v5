@@ -1,0 +1,22 @@
+--- src-baseline/nexus-backend/src/evaluation/evaluationEngine.ts	2026-09-04 06:21:02.000000000 +0300
++++ EXPERIMENT-SCRATCH/src/evaluation/evaluationEngine.ts	2026-10-09 05:20:59.535861098 +0300
+@@ -27,7 +27,9 @@
+ 
+ export type EvaluationVerdict = 'VERIFIED' | 'SUPPORTED' | 'UNCERTAIN' | 'CONFLICTING' | 'UNVERIFIED';
+ 
++export type EvidenceDeltaKind = 'INDEPENDENT_SOURCE' | 'TOOL_RESULT' | 'EXECUTABLE_VERIFICATION' | 'ENVIRONMENTAL_OBSERVATION' | 'HUMAN_CONFIRMATION' | 'CONTRADICTORY_EVIDENCE';
+ export interface EvidenceItem {
++  kind?: EvidenceDeltaKind;
+   /** Free-form label for where this evidence came from (a URL, a document title, "user-supplied", etc.) — not validated or fetched by this module; the caller is responsible for having actually gathered real evidence. */
+   source: string;
+   content: string;
+@@ -79,7 +81,8 @@
+ const VALID_VERDICTS: EvaluationVerdict[] = ['VERIFIED', 'SUPPORTED', 'UNCERTAIN', 'CONFLICTING', 'UNVERIFIED'];
+ 
+ export const EvaluationEngine = {
+-  async evaluate(claim: string, evidence: EvidenceItem[]): Promise<EvaluationResult> {
++  async evaluate(claim: string, rawEvidence: EvidenceItem[]): Promise<EvaluationResult> {
++    const evidence = rawEvidence.filter((e) => e.kind !== undefined);
+     if (!ProviderRegistry.resolve('anthropic').apiKey) {
+       return UNAVAILABLE_RESULT;
+     }

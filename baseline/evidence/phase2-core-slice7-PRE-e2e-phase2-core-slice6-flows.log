@@ -1,0 +1,47 @@
+Chromium 141.0.7390.37; FRONTEND_DIR=/tmp/claude-0/-home-claude/d2cf954c-0435-5f5a-9c25-095b13d55e81/scratchpad/repo/nexus-repo/frontend
+[PASS][VALID] AC1-plain-offline-boots-valid-and-seed-persisted — inited=true restored=true onLineAtStart=false banner=block | inited=true restored=true onLineAtStart=false banner=block | inited=true restored=true onLineAtStart=false banner=block | inited=true restored=true onLineAtStart=false banner=block | inited=true restored=true onLineAtStart=false banner=block
+[PASS][PS] AC1-final-activityLog=[offline-entry,seed-1,seed-2]-exactly-in-all-5-runs — run0=["انقطع الاتصال","S6-B0-plain-offline-1791647143100-act-1","S6-B0-plain-offline-1791647143100-act-2"]
+[PASS][PS] AC1-DOM-activity-panel-matches-memory (entry visible, same item count) — dom=3 mem=3 domHasOffline=true
+[PASS][PS] AC1-next-persistState-persists-the-offline-entry-on-top-of-seed — durable0=["انقطع الاتصال","S6-B0-plain-offline-1791647143100-act-1","S6-B0-plain-offline-1791647143100-act-2"]
+[PASS][VALID] AC7-traced-runs-valid-single-write-single-restore-sw-and-banner-observed — writes=1 restores=1 sw=true banner=true | writes=1 restores=1 sw=true banner=true | writes=1 restores=1 sw=true banner=true
+[PASS][PRES] AC7-serviceWorker.register-called-before-restore-begin (SW registration not delayed) — sw=0 restore-begin=1 | sw=0 restore-begin=1 | sw=0 restore-begin=1
+[PASS][PS] AC7-offline-entry-written-AFTER-restore-end — write=3 restore-end=2 | write=3 restore-end=2 | write=3 restore-end=2
+[PASS][PS] AC7-banner-applied-AFTER-restore-end — banner=4 restore-end=2 | banner=4 restore-end=2 | banner=4 restore-end=2
+[PASS][PS] AC1-traced-final-activityLog-equals-plain-outcome (tool-independence) — traced0=["انقطع الاتصال","S6-T0-traced-offline-1791647150512-act-1","S6-T0-traced-offline-1791647150512-act-2"]
+[PASS][VALID] AC2-offline-no-blob-valid (really offline, banner shown, no blob, app initialised) — onLineAtStart=false banner=block blob=false
+[PASS][PRES] AC2-offline-no-blob-exactly-one-entry-and-DOM-shows-it (positive control) — activity=["انقطع الاتصال"]
+[PASS][VALID] AC2-offline-blob-without-activityLog-key-valid — seeded={"ok":true,"blobActivity":null,"blobMsgs":["S6-A3-plain-offline-1791647156214-msg"]}
+[PASS][PS] AC2-offline-blob-without-activityLog-key -> [offline-entry] — activity=["انقطع الاتصال"]
+[PASS][VALID] AC2-offline-corrupt-blob-valid (decrypt really throws, offline really in effect, app initialised) — seeded={"ok":true,"corruptDecryptThrows":true} banner=block
+[PASS][PRES] AC2-offline-corrupt-blob-starts-fresh-with-exactly-one-entry — activity=["انقطع الاتصال"] messages=0
+[PASS][VALID] AC3-online-blob-valid (really online, restore ran) — onLineAtStart=true restored=true
+[PASS][PRES] AC3-online-blob-activityLog==seed-exactly-no-offline-entry-banner-hidden-send-enabled — activity=["S6-O1-plain-online-1791647159106-act-1","S6-O1-plain-online-1791647159106-act-2"] banner=none sendDisabled=false
+[PASS][VALID] AC3-online-no-blob-valid — onLineAtStart=true blob=false
+[PASS][PRES] AC3-online-no-blob-activityLog==[]-banner-hidden-send-enabled — activity=[] banner=none
+[PASS][VALID] AC4-online-boot-then-transitions-valid — offNow=false onNow=true
+[PASS][PRES] AC4-offline-event-after-boot -> banner shown + exactly one entry on top of the restored log — activity=["انقطع الاتصال","S6-L1-plain-online-1791647161886-act-1","S6-L1-plain-online-1791647161886-act-2"]
+[PASS][PRES] AC4-online-event-after-that -> banner hidden + send enabled (entry kept) — banner=none sendDisabled=false
+[PASS][VALID] AC4-offline-boot-then-online-valid — onLineNow=true
+[PASS][PRES] AC4-online-event-after-offline-boot -> banner hidden — banner=none
+[PASS][VALID] AC5-gate-really-held-init-open (encryptionKey still null) and offline really in effect — keyNullDuring=true onLineAtStart=false
+[PASS][PS] AC7-banner-NOT-yet-shown-while-init-is-held-open (documented trade-off, no event occurred) — bannerDuring=none
+[PASS][PS] AC7-after-gate-release-banner-shown-and-entry-survives-on-top-of-seed — banner=block activity=["انقطع الاتصال","S6-G1-plain-offline-1791647166284-act-1","S6-G1-plain-offline-1791647166284-act-2"]
+[PASS][VALID] AC5-event-window-valid — keyNullDuring=true
+[PASS][PRES] AC5-offline-listener-still-shows-banner-immediately-inside-the-init-window — bannerDuring=block
+[PASS][PS] AC5-event-inside-init-window -> after release exactly ONE entry on top of the seed (no loss, no duplicate) — activity=["انقطع الاتصال","S6-G2-plain-offline-1791647168347-act-1","S6-G2-plain-offline-1791647168347-act-2"]
+[PASS][VALID] AC6-injected-failure-really-rejected-autoInitApp-after-restore (restore ran, offline in effect) — restored=true rejections=["S6-injected-autoInit-failure"]
+[PASS][PRES] AC6-updateOnlineStatus-STILL-runs-when-autoInitApp-rejects (banner shown) — banner=block
+[PASS][PS] AC6-offline-entry-written-after-the-rejected-init (entry on top of restored seed) — activity=["انقطع الاتصال","S6-R1-plain-offline-1791647170465-act-1","S6-R1-plain-offline-1791647170465-act-2"]
+[PASS][PRES] AC6-rejection-still-reported-as-unhandled-rejection (not swallowed) — rejections=["S6-injected-autoInit-failure"]
+[PASS][PRES] no-uncaught-page-errors-in-non-injected-scenarios
+[OBSERVED] plain-offline-blob-final-activityLog = ["انقطع الاتصال","S6-B0-plain-offline-1791647143100-act-1","S6-B0-plain-offline-1791647143100-act-2"]
+[OBSERVED] traced-order = WRITE_AFTER_RESTORE — {"sw":0,"restoreBegin":1,"restoreEnd":2,"write":3,"banner":4}
+[OBSERVED] banner-during-held-init (no event) = none
+
+=== SUMMARY ===
+35/35 checks passed
+VALID: 12/12
+PRES: 12/12
+PS: 11/11
+S6-VERDICT = ACCEPTED  (chromium 141.0.7390.37; frontend=../frontend)
+results -> /tmp/claude-0/-home-claude/d2cf954c-0435-5f5a-9c25-095b13d55e81/scratchpad/pre/s6.json

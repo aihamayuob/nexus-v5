@@ -1,0 +1,967 @@
+TAP version 13
+# (node:2975) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: AC-1 [PS] evidence with no declared kind is not an Evidence Delta: UNVERIFIED / CONSENSUS_ONLY, the judge is never called
+not ok 1 - AC-1 [PS] evidence with no declared kind is not an Evidence Delta: UNVERIFIED / CONSENSUS_ONLY, the judge is never called
+  ---
+  duration_ms: 89.784595
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:77:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'VERIFIED'
+    - 'UNVERIFIED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNVERIFIED'
+  actual: 'VERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:80:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: AC-1 [PS] three agents that "agree" (three items, none declaring a kind) can NOT reach SUPPORTED/VERIFIED even though the judge would say VERIFIED
+not ok 2 - AC-1 [PS] three agents that "agree" (three items, none declaring a kind) can NOT reach SUPPORTED/VERIFIED even though the judge would say VERIFIED
+  ---
+  duration_ms: 35.681528
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:88:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'VERIFIED'
+    - 'UNVERIFIED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNVERIFIED'
+  actual: 'VERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:94:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-1 [PS] an invalid kind ("independent_source") is a non-delta
+not ok 3 - AC-1 [PS] an invalid kind ("independent_source") is a non-delta
+  ---
+  duration_ms: 15.810695
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:100:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'VERIFIED'
+    - 'UNVERIFIED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNVERIFIED'
+  actual: 'VERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:102:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-1 [PS] an invalid kind ("FOO") is a non-delta
+not ok 4 - AC-1 [PS] an invalid kind ("FOO") is a non-delta
+  ---
+  duration_ms: 14.160257
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:100:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'VERIFIED'
+    - 'UNVERIFIED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNVERIFIED'
+  actual: 'VERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:102:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-1 [PS] an invalid kind ("") is a non-delta
+not ok 5 - AC-1 [PS] an invalid kind ("") is a non-delta
+  ---
+  duration_ms: 14.8296
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:100:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'VERIFIED'
+    - 'UNVERIFIED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNVERIFIED'
+  actual: 'VERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:102:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-1 [PS] an invalid kind (42) is a non-delta
+not ok 6 - AC-1 [PS] an invalid kind (42) is a non-delta
+  ---
+  duration_ms: 18.359602
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:100:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'VERIFIED'
+    - 'UNVERIFIED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNVERIFIED'
+  actual: 'VERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:102:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-1 [PS] an invalid kind (null) is a non-delta
+not ok 7 - AC-1 [PS] an invalid kind (null) is a non-delta
+  ---
+  duration_ms: 18.745392
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:100:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'VERIFIED'
+    - 'UNVERIFIED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNVERIFIED'
+  actual: 'VERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:102:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-1 [PS] an invalid kind ({}) is a non-delta
+not ok 8 - AC-1 [PS] an invalid kind ({}) is a non-delta
+  ---
+  duration_ms: 77.28021
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:100:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'VERIFIED'
+    - 'UNVERIFIED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNVERIFIED'
+  actual: 'VERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:102:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-1 [PS] an invalid kind (["TOOL_RESULT"]) is a non-delta
+not ok 9 - AC-1 [PS] an invalid kind (["TOOL_RESULT"]) is a non-delta
+  ---
+  duration_ms: 82.705645
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:100:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'VERIFIED'
+    - 'UNVERIFIED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNVERIFIED'
+  actual: 'VERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:102:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-2 [PS] mixed list: exactly one judge call, and the prompt contains the delta but NOT the non-delta
+not ok 10 - AC-2 [PS] mixed list: exactly one judge call, and the prompt contains the delta but NOT the non-delta
+  ---
+  duration_ms: 13.131729
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:109:1'
+  failureType: 'testCodeFailure'
+  error: 'a non-delta must never reach the judge'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:117:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-3 [PS] kind INDEPENDENT_SOURCE is an Evidence Delta: the judge runs and its verdict passes through
+not ok 11 - AC-3 [PS] kind INDEPENDENT_SOURCE is an Evidence Delta: the judge runs and its verdict passes through
+  ---
+  duration_ms: 13.063264
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:125:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'INDEPENDENT_EVIDENCE'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'INDEPENDENT_EVIDENCE'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:131:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-3 [PS] kind TOOL_RESULT is an Evidence Delta: the judge runs and its verdict passes through
+not ok 12 - AC-3 [PS] kind TOOL_RESULT is an Evidence Delta: the judge runs and its verdict passes through
+  ---
+  duration_ms: 13.658774
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:125:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'INDEPENDENT_EVIDENCE'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'INDEPENDENT_EVIDENCE'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:131:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-3 [PS] kind EXECUTABLE_VERIFICATION is an Evidence Delta: the judge runs and its verdict passes through
+not ok 13 - AC-3 [PS] kind EXECUTABLE_VERIFICATION is an Evidence Delta: the judge runs and its verdict passes through
+  ---
+  duration_ms: 37.052417
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:125:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'EXECUTABLE_VERIFICATION'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'EXECUTABLE_VERIFICATION'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:131:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-3 [PS] kind ENVIRONMENTAL_OBSERVATION is an Evidence Delta: the judge runs and its verdict passes through
+not ok 14 - AC-3 [PS] kind ENVIRONMENTAL_OBSERVATION is an Evidence Delta: the judge runs and its verdict passes through
+  ---
+  duration_ms: 10.604528
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:125:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'INDEPENDENT_EVIDENCE'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'INDEPENDENT_EVIDENCE'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:131:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-3 [PS] kind HUMAN_CONFIRMATION is an Evidence Delta: the judge runs and its verdict passes through
+not ok 15 - AC-3 [PS] kind HUMAN_CONFIRMATION is an Evidence Delta: the judge runs and its verdict passes through
+  ---
+  duration_ms: 11.438425
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:125:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'INDEPENDENT_EVIDENCE'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'INDEPENDENT_EVIDENCE'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:131:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-3 [PS] CONTRADICTORY_EVIDENCE alone is also a delta (the judge runs)
+not ok 16 - AC-3 [PS] CONTRADICTORY_EVIDENCE alone is also a delta (the judge runs)
+  ---
+  duration_ms: 16.227637
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:135:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'CONTRADICTORY_EVIDENCE'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'CONTRADICTORY_EVIDENCE'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:139:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-3 [PS] reason precedence: CONTRADICTORY > EXECUTABLE_VERIFICATION > INDEPENDENT
+not ok 17 - AC-3 [PS] reason precedence: CONTRADICTORY > EXECUTABLE_VERIFICATION > INDEPENDENT
+  ---
+  duration_ms: 14.135644
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:142:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'EXECUTABLE_VERIFICATION'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'EXECUTABLE_VERIFICATION'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:148:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-4 [PS] a CONTRADICTORY_EVIDENCE delta lowers a judge SUPPORTED to CONFLICTING (confidence null, guard noted)
+not ok 18 - AC-4 [PS] a CONTRADICTORY_EVIDENCE delta lowers a judge SUPPORTED to CONFLICTING (confidence null, guard noted)
+  ---
+  duration_ms: 16.721303
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:159:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'SUPPORTED'
+    - 'CONFLICTING'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'CONFLICTING'
+  actual: 'SUPPORTED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:165:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-4 [PS] a CONTRADICTORY_EVIDENCE delta lowers a judge VERIFIED to CONFLICTING (confidence null, guard noted)
+not ok 19 - AC-4 [PS] a CONTRADICTORY_EVIDENCE delta lowers a judge VERIFIED to CONFLICTING (confidence null, guard noted)
+  ---
+  duration_ms: 22.92773
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:159:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'VERIFIED'
+    - 'CONFLICTING'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'CONFLICTING'
+  actual: 'VERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:165:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-5 [PS] the guard never raises or rewrites: a judge UNCERTAIN stays UNCERTAIN with its confidence
+not ok 20 - AC-5 [PS] the guard never raises or rewrites: a judge UNCERTAIN stays UNCERTAIN with its confidence
+  ---
+  duration_ms: 14.952932
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:174:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'CONTRADICTORY_EVIDENCE'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'CONTRADICTORY_EVIDENCE'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:179:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-5 [PS] the guard never raises or rewrites: a judge CONFLICTING stays CONFLICTING with its confidence
+not ok 21 - AC-5 [PS] the guard never raises or rewrites: a judge CONFLICTING stays CONFLICTING with its confidence
+  ---
+  duration_ms: 11.394836
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:174:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'CONTRADICTORY_EVIDENCE'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'CONTRADICTORY_EVIDENCE'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:179:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-5 [PS] the guard never raises or rewrites: a judge UNVERIFIED stays UNVERIFIED with its confidence
+not ok 22 - AC-5 [PS] the guard never raises or rewrites: a judge UNVERIFIED stays UNVERIFIED with its confidence
+  ---
+  duration_ms: 11.998809
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:174:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'CONTRADICTORY_EVIDENCE'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'CONTRADICTORY_EVIDENCE'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:179:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-5 [PRES] without a contradictory delta, two INDEPENDENT_SOURCE items keep a judge VERIFIED and its confidence
+not ok 23 - AC-5 [PRES] without a contradictory delta, two INDEPENDENT_SOURCE items keep a judge VERIFIED and its confidence
+  ---
+  duration_ms: 18.805712
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:183:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'INDEPENDENT_EVIDENCE'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'INDEPENDENT_EVIDENCE'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:191:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-6 [PRES] provider not configured: ran:false / UNVERIFIED / confidence null / integrityReason null — with deltas AND with non-deltas, no call
+not ok 24 - AC-6 [PRES] provider not configured: ran:false / UNVERIFIED / confidence null / integrityReason null — with deltas AND with non-deltas, no call
+  ---
+  duration_ms: 8.030012
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:195:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - null
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:204:14)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-6 [PS] zero evidence: the fast path (no call) now also carries integrityReason NO_EVIDENCE
+not ok 25 - AC-6 [PS] zero evidence: the fast path (no call) now also carries integrityReason NO_EVIDENCE
+  ---
+  duration_ms: 6.360077
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:212:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'NO_EVIDENCE'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'NO_EVIDENCE'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:217:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# {"ts":"2026-10-11T08:47:28.733Z","level":"warn","msg":"EvaluationEngine call failed (non-fatal — treated as did-not-run)","message":"Expected double-quoted property name in JSON at position 26 (line 1 column 27)"}
+# Subtest: AC-6 [PRES] judge quirks still handled with declared-kind evidence: invalid verdict → UNCERTAIN; confidence out of range → null; non-JSON → UNCERTAIN; broken JSON in braces → ran:false
+not ok 26 - AC-6 [PRES] judge quirks still handled with declared-kind evidence: invalid verdict → UNCERTAIN; confidence out of range → null; non-JSON → UNCERTAIN; broken JSON in braces → ran:false
+  ---
+  duration_ms: 21.380807
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:221:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - null
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:232:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-7 [PS] migration 016 exists, is the last one, and adds exactly one nullable TEXT column `integrity_reason` to claim_evaluations
+not ok 27 - AC-7 [PS] migration 016 exists, is the last one, and adds exactly one nullable TEXT column `integrity_reason` to claim_evaluations
+  ---
+  duration_ms: 8.482642
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:240:1'
+  failureType: 'testCodeFailure'
+  error: 'a 016_*.sql migration must exist'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:243:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-7 [PS] the real runner upgrades a database that already has 001–015 and a legacy row: row byte-identical, integrityReason null, second open is a no-op
+not ok 28 - AC-7 [PS] the real runner upgrades a database that already has 001–015 and a legacy row: row byte-identical, integrityReason null, second open is a no-op
+  ---
+  duration_ms: 708.997697
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:274:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    node:internal/modules/run_main:123
+        triggerUncaughtException(
+        ^
+    
+    Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'tsx' imported from /home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/
+    Did you mean to import "tsx/dist/loader.mjs"?
+        at Object.getPackageJSONURL (node:internal/modules/package_json_reader:314:9)
+        at packageResolve (node:internal/modules/esm/resolve:767:81)
+        at moduleResolve (node:internal/modules/esm/resolve:853:18)
+        at defaultResolve (node:internal/modules/esm/resolve:983:11)
+        at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+        at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+        at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+        at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:664:36)
+        at TracingChannel.tracePromise (node:diagnostics_channel:350:14)
+        at ModuleLoader.import (node:internal/modules/esm/loader:663:21) {
+      code: 'ERR_MODULE_NOT_FOUND'
+    }
+    
+    Node.js v22.22.0
+    
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    Object.getPackageJSONURL (node:internal/modules/package_json_reader:314:9)
+    packageResolve (node:internal/modules/esm/resolve:767:81)
+    moduleResolve (node:internal/modules/esm/resolve:853:18)
+    defaultResolve (node:internal/modules/esm/resolve:983:11)
+    #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+    ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+    ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+    onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:664:36)
+    TracingChannel.tracePromise (node:diagnostics_channel:350:14)
+    ModuleLoader.import (node:internal/modules/esm/loader:663:21) {
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:294:12)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-8 [PS] POST with a delta: integrityReason is returned, stored in the DB column, and returned again by GET /claims/:id and GET /claims
+not ok 29 - AC-8 [PS] POST with a delta: integrityReason is returned, stored in the DB column, and returned again by GET /claims/:id and GET /claims
+  ---
+  duration_ms: 64.492961
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:330:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'INDEPENDENT_EVIDENCE'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'INDEPENDENT_EVIDENCE'
+  operator: 'strictEqual'
+  stack: |-
+    <anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:337:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async withServer (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:321:5)
+    async TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:332:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-8 [PS] POST without any kind (the pre-guard contract): HTTP 200, UNVERIFIED, CONSENSUS_ONLY, zero provider calls, reason persisted
+not ok 30 - AC-8 [PS] POST without any kind (the pre-guard contract): HTTP 200, UNVERIFIED, CONSENSUS_ONLY, zero provider calls, reason persisted
+  ---
+  duration_ms: 20.982022
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:348:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'VERIFIED'
+    - 'UNVERIFIED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNVERIFIED'
+  actual: 'VERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    <anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:353:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async withServer (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:321:5)
+    async TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:349:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-8 [PS] an invalid kind is dropped from the stored evidence (the item itself is kept) and counts as a non-delta; a valid kind is stored
+not ok 31 - AC-8 [PS] an invalid kind is dropped from the stored evidence (the item itself is kept) and counts as a non-delta; a valid kind is stored
+  ---
+  duration_ms: 21.249845
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:362:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'VERIFIED'
+    - 'UNVERIFIED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNVERIFIED'
+  actual: 'VERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    <anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:366:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async withServer (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:321:5)
+    async TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:363:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-8 [PS] a contradictory delta over HTTP: a judge SUPPORTED is persisted as CONFLICTING with reason CONTRADICTORY_EVIDENCE
+not ok 32 - AC-8 [PS] a contradictory delta over HTTP: a judge SUPPORTED is persisted as CONFLICTING with reason CONTRADICTORY_EVIDENCE
+  ---
+  duration_ms: 23.213686
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:375:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'SUPPORTED'
+    - 'CONFLICTING'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'CONFLICTING'
+  actual: 'SUPPORTED'
+  operator: 'strictEqual'
+  stack: |-
+    <anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:379:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async withServer (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:321:5)
+    async TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:377:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# {"ts":"2026-10-11T08:47:29.595Z","level":"warn","msg":"Request failed","path":"/v2/evaluation/claim","status":400,"code":"validation_error","message":"الحقل \\"claim\\" مطلوب."}
+# {"ts":"2026-10-11T08:47:29.598Z","level":"warn","msg":"Request failed","path":"/v2/evaluation/claims/does-not-exist","status":404,"code":"not_found","message":"لم يُعثر على هذا التقييم."}
+# Subtest: AC-8 [PRES] status codes are unchanged: 400 for a missing claim, 404 for an unknown id
+ok 33 - AC-8 [PRES] status codes are unchanged: 400 for a missing claim, 404 for an unknown id
+  ---
+  duration_ms: 16.67941
+  type: 'test'
+  ...
+# Subtest: AC-8 [PS] ran:false (provider unavailable) is persisted with a NULL integrity_reason
+not ok 34 - AC-8 [PS] ran:false (provider unavailable) is persisted with a NULL integrity_reason
+  ---
+  duration_ms: 13.550888
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:394:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - null
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ~
+  operator: 'strictEqual'
+  stack: |-
+    <anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:401:14)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async withServer (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:321:5)
+    async TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:398:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: AC-9 [PS] buildResearchEvidence: fetchOk:true sources become TOOL_RESULT evidence; fetchOk:false sources are not evidence
+not ok 35 - AC-9 [PS] buildResearchEvidence: fetchOk:true sources become TOOL_RESULT evidence; fetchOk:false sources are not evidence
+  ---
+  duration_ms: 7.117279
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:411:1'
+  failureType: 'testCodeFailure'
+  error: 'WebResearch.buildResearchEvidence is not a function'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/evidenceIntegrity.test.ts:416:26)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# (node:3014) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: runWebResearch rejects an empty question
+ok 36 - runWebResearch rejects an empty question
+  ---
+  duration_ms: 20.562693
+  type: 'test'
+  ...
+# Subtest: runWebResearch degrades gracefully (ran:false, no throw) when Gemini is not configured — mirrors verifier.ts's pattern
+ok 37 - runWebResearch degrades gracefully (ran:false, no throw) when Gemini is not configured — mirrors verifier.ts's pattern
+  ---
+  duration_ms: 7.619207
+  type: 'test'
+  ...
+# {"ts":"2026-10-11T08:47:30.429Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.com/gold-analysis","message":"تعذّر تحليل عنوان النطاق."}
+# {"ts":"2026-10-11T08:47:30.430Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.org/market-news","message":"تعذّر تحليل عنوان النطاق."}
+# Subtest: runWebResearch produces a real grounded answer with real webSearchQueries and correctly-extracted source domains
+ok 38 - runWebResearch produces a real grounded answer with real webSearchQueries and correctly-extracted source domains
+  ---
+  duration_ms: 81.241416
+  type: 'test'
+  ...
+# {"ts":"2026-10-11T08:47:30.485Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.com/gold-analysis","message":"تعذّر تحليل عنوان النطاق."}
+# {"ts":"2026-10-11T08:47:30.486Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.org/market-news","message":"تعذّر تحليل عنوان النطاق."}
+# Subtest: a citation whose follow-up fetch genuinely fails (real SSRF/network constraint in this environment) is recorded with fetchOk:false, not silently dropped
+ok 39 - a citation whose follow-up fetch genuinely fails (real SSRF/network constraint in this environment) is recorded with fetchOk:false, not silently dropped
+  ---
+  duration_ms: 44.444746
+  type: 'test'
+  ...
+# {"ts":"2026-10-11T08:47:30.525Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.com/gold-analysis","message":"تعذّر تحليل عنوان النطاق."}
+# {"ts":"2026-10-11T08:47:30.526Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.org/market-news","message":"تعذّر تحليل عنوان النطاق."}
+# Subtest: runWebResearch persists a real Memory item by default, with real provenance included
+ok 40 - runWebResearch persists a real Memory item by default, with real provenance included
+  ---
+  duration_ms: 37.407188
+  type: 'test'
+  ...
+# {"ts":"2026-10-11T08:47:30.580Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.com/gold-analysis","message":"تعذّر تحليل عنوان النطاق."}
+# {"ts":"2026-10-11T08:47:30.581Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.org/market-news","message":"تعذّر تحليل عنوان النطاق."}
+# Subtest: runWebResearch skips Memory persistence when explicitly told to
+ok 41 - runWebResearch skips Memory persistence when explicitly told to
+  ---
+  duration_ms: 58.353014
+  type: 'test'
+  ...
+# {"ts":"2026-10-11T08:47:30.615Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.com/gold-analysis","message":"تعذّر تحليل عنوان النطاق."}
+# {"ts":"2026-10-11T08:47:30.615Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.org/market-news","message":"تعذّر تحليل عنوان النطاق."}
+# Subtest: runWebResearch evaluates the answer by default — zero fetched evidence in this sandbox correctly yields UNVERIFIED via evaluationEngine.ts's fast path, persisted to claim_evaluations
+ok 42 - runWebResearch evaluates the answer by default — zero fetched evidence in this sandbox correctly yields UNVERIFIED via evaluationEngine.ts's fast path, persisted to claim_evaluations
+  ---
+  duration_ms: 29.319767
+  type: 'test'
+  ...
+# {"ts":"2026-10-11T08:47:30.673Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.com/gold-analysis","message":"تعذّر تحليل عنوان النطاق."}
+# {"ts":"2026-10-11T08:47:30.673Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.org/market-news","message":"تعذّر تحليل عنوان النطاق."}
+# Subtest: runWebResearch skips evaluation entirely when evaluate:false — no claim_evaluations row, evaluation:null
+ok 43 - runWebResearch skips evaluation entirely when evaluate:false — no claim_evaluations row, evaluation:null
+  ---
+  duration_ms: 57.002728
+  type: 'test'
+  ...
+# Subtest: runWebResearch never attempts evaluation when Gemini itself is not configured (no answer exists to evaluate)
+ok 44 - runWebResearch never attempts evaluation when Gemini itself is not configured (no answer exists to evaluate)
+  ---
+  duration_ms: 15.368682
+  type: 'test'
+  ...
+# {"ts":"2026-10-11T08:47:30.740Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.com/gold-analysis","message":"تعذّر تحليل عنوان النطاق."}
+# {"ts":"2026-10-11T08:47:30.742Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.org/market-news","message":"تعذّر تحليل عنوان النطاق."}
+# Subtest: runWebResearch (sandbox: no fetched evidence) persists integrityReason NO_EVIDENCE on the claim_evaluations row and returns it on the evaluation
+not ok 45 - runWebResearch (sandbox: no fetched evidence) persists integrityReason NO_EVIDENCE on the claim_evaluations row and returns it on the evaluation
+  ---
+  duration_ms: 55.792092
+  type: 'test'
+  location: '/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/webResearch.test.ts:183:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - 'NO_EVIDENCE'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'NO_EVIDENCE'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/claude/nexus-repo/nexus-repo/src-baseline/nexus-backend/test/webResearch.test.ts:186:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..45
+# tests 45
+# suites 0
+# pass 10
+# fail 35
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4233.170743

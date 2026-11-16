@@ -1,0 +1,11 @@
+--- /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-13 14:00:00.000000000 +0300
++++ /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/mut/work/MU21/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-15 05:18:31.657477831 +0300
+@@ -6981,7 +6981,7 @@
+     // multi-phase modes that opted into checkpointing (see
+     // ExecutionCheckpoint below); empty/no-op otherwise, so this is a
+     // pure no-cost addition for every other mode.
+-    if(opts.taskId){
++    if(false && opts.taskId){
+       const cp = ExecutionCheckpoint.peek(opts.taskId);
+       if(cp) ctx += `\n\n[حالة المهمة: المرحلة الحالية "${cp.phase}"، مراحل مكتملة سابقاً: ${Object.keys(cp.results||{}).join('، ') || 'لا شيء بعد'}]`;
+     }

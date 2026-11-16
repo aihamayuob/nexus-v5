@@ -1,0 +1,24 @@
+{
+  "name": "nexus-backend",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Neural Nexus AI Agents — central runtime backend. API Gateway, Nexus Task Manager, Agent Runtime/DAG, unified provider adapters, tool runtime, durable observability. Zero external runtime dependencies — Node.js built-ins only.",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "node --experimental-sqlite --enable-source-maps dist/index.js",
+    "build": "tsc -p tsconfig.build.json && node -e \"require('fs').cpSync('src/persistence/migrations','dist/persistence/migrations',{recursive:true})\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test test/**/*.test.ts",
+    "test:watch": "tsx --test --watch test/**/*.test.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.5.0",
+    "tsx": "4.23.12",
+    "typescript": "*"
+  }
+}

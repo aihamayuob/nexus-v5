@@ -1,0 +1,64 @@
+[PASS] [VALID] V01-boot-init — inited=true
+[PASS] [VALID] V02-clock-fixed — a=1791979200000 b=1791979200000 iso=2026-10-14T12:00:00.000Z
+[PASS] [VALID] V03-now-matches-Intl — len=35 hasYear=true
+[PASS] [VALID] V04-network-intercepted — {"ext":"blocked","nope":404}
+[PASS] [VALID] V06-determinism-same-page — len=788
+[PASS] [VALID] V05-fixtures-yield-all-five-segments — [true,true,true,true,true]
+[PASS] [VALID] V13-spy-records-labels — ["agent knowledge","long-term memory","uploaded documents","market context"]
+[PASS] [PRES] P01-prompt-plus-build-text — eq=true keysOk=true
+[PASS] [PRES] P02-time-segment-first-exact
+[PASS] [PRES] P03-segment-order — {"pos":[12,75,250,349,495],"labels":["agent knowledge","long-term memory","uploaded documents","market context"]}
+[PASS] [PRES] P04-baseline-segments-exact
+[PASS] [PRES] P05-pinned-knowledge-on-low-intent — null labels=["agent knowledge"] embed=1
+[PASS] [PRES] P06-no-knowledge-no-segment — ["agent knowledge","long-term memory","uploaded documents","market context"]
+[PASS] [PRES] P07-knowledge-topK-3 — lines=3 embed=0
+[PASS] [PRES] P08-knowledge-fenced-label
+[PASS] [PRES] P09-gate-G0-low-static — null labels=["agent knowledge"] embed=0 market=0
+[PASS] [VALID] V14-P09-intent-as-declared
+[FAIL] [PRES] P10-gate-G1-risk-only — first-diff@487 got="-- نهاية مستند مرفوع ---\n\n--- بيانات سوقية (بيانات خارجية) ---\nسياق السو" want="-- نهاية مستند مرفوع ---" labels=["agent knowledge","long-term memory","uploaded documents","market context"]
+[PASS] [VALID] V14-P10-intent-as-declared
+[PASS] [PRES] P11-gate-G2-complexity-only — null labels=["agent knowledge","long-term memory","uploaded documents"]
+[PASS] [VALID] V14-P11-intent-as-declared
+[FAIL] [PRES] P12-gate-G3-freshness — first-diff@487 got="-- نهاية مستند مرفوع ---\n\n--- بيانات سوقية (بيانات خارجية) ---\nسياق السو" want="-- نهاية مستند مرفوع ---" labels=["agent knowledge","long-term memory","uploaded documents","market context"]
+[PASS] [VALID] V14-P12-intent-as-declared
+[PASS] [PRES] P13-build-requiredEvidence-only — null labels=["agent knowledge","long-term memory","uploaded documents"] analyze=0
+[PASS] [PRES] P14-build-complexity-medium-only — null labels=["agent knowledge","long-term memory","uploaded documents"] analyze=0
+[FAIL] [PRES] P15-build-freshness-recent-only — first-diff@479 got="-- نهاية مستند مرفوع ---\n\n--- بيانات سوقية (بيانات خارجية) ---\nسياق السو" want="-- نهاية مستند مرفوع ---" labels=["agent knowledge","long-term memory","uploaded documents","market context"] analyze=0
+[PASS] [PRES] P16-build-all-negative-knowledge-only-analyze-not-called — null labels=["agent knowledge"] analyze=0
+[PASS] [PRES] P17-analyze-called-once-without-intent — build=1 full=1
+[FAIL] [PRES] P18-ltm-selection-exact — full:first-diff@162 got="\n- نص-m1\n- نص-m4\n- نص-m2\n\n--- بيانات سوقية (بيانات خارجية) ---\nسياق السو" want="\n- نص-m1\n- نص-m4\n- نص-m2" threshold:first-diff@146 got="ع هذا المستخدم):\n- نص-m2\n\n--- بيانات سوقية (بيانات خارجية) ---\nسياق السو" want="ع هذا المستخدم):\n- نص-m2" unfenced=true
+[PASS] [PRES] P19-ltm-gates — flag-off:true | no-backend:true | empty-memory:true
+[PASS] [PRES] P20-ltm-embed-500-non-fatal — null logged=true
+[FAIL] [PRES] P21-files-backend-routing — first-diff@213 got="-- نهاية مستند مرفوع ---\n\n--- بيانات سوقية (بيانات خارجية) ---\nسياق السو" want="-- نهاية مستند مرفوع ---"
+[PASS] [PRES] P22-files-no-backend-tfidf — lines=3 first="- [من ملف \"عنوان٢\"]: سعر الذهب اليوم ارتفع" fenced=true
+[FAIL] [PRES] P23-files-empty-no-segment — ["agent knowledge","long-term memory","uploaded documents","market context"]
+[PASS] [PRES] P24-files-embed-500-falls-back-to-tfidf — logged=true
+[FAIL] [PRES] P25-files-lazy-embed-side-effect — first-diff@213 got="-- نهاية مستند مرفوع ---\n\n--- بيانات سوقية (بيانات خارجية) ---\nسياق السو" want="-- نهاية مستند مرفوع ---" allEmb=true embed=4 persist=1 ctrl(persist=0,embed=1)
+[PASS] [PRES] P26-market-financial-domain-business — null fresh=static domain=business req=1
+[PASS] [PRES] P27-market-freshness-branch — null fresh=recent domain=tech
+[PASS] [PRES] P28-market-excluded-static-nonbusiness — ["agent knowledge"]
+[FAIL] [PRES] P29-market-excluded-non-financial-agent — ["agent knowledge","long-term memory","uploaded documents","market context"]
+[PASS] [PRES] P30-market-gates — flag-off:true | no-backend:true
+[PASS] [PRES] P31-market-500-non-fatal-no-cache — first=1 second=1 logged=true
+[PASS] [PRES] P32-market-client-cache — first=1 second=0
+[PASS] [VALID] V08-inj-target-agentKnowledgeContext
+[PASS] [VALID] V09-inj-target-retrieveLongTermMemoryContext
+[PASS] [VALID] V10-inj-target-fileDocsContext
+[PASS] [VALID] V11-inj-target-getMarketContext
+[PASS] [VALID] V12-restore-returns-baseline
+[PASS] [PRES] P33-fault-isolation-agentKnowledgeContext — null logged=true
+[PASS] [PRES] P34-fault-isolation-retrieveLongTermMemoryContext — null logged=true
+[PASS] [PRES] P35-fault-isolation-fileDocsContext — null logged=true
+[PASS] [PRES] P36-fault-isolation-getMarketContext — null logged=true
+[PASS] [PRES] P37-sentinel-placement
+[PASS] [PRES] P38-safe-direct — {"ok":"VAL","bad":"","sync":""}
+[PASS] [VALID] V15-checkpoint-seeded — {"taskId":"t1","phase":"phaseA","results":{"a":1,"b":2},"meta":{},"ts":1}
+[PASS] [PRES] P39-fullAgentPrompt-never-includes-task-state
+[PASS] [PRES] P40-build-taskId-line-exact — null empty=true other=true none=true
+[PASS] [PRES] P41-buildAgentContext-characterization — fin-eq | tech-eq
+[PASS] [PRES] P42-baseline-no-state-mutation — keys=14 equal=true
+[PASS] [VALID] V07-determinism-fresh-context — sha=d78f63b5a1b7f114
+[PASS] [VALID] V04b-every-external-request-was-aborted — attempted=1 aborted=1
+
+VALID 19/19  PRES 34/42  pageErrors=0  chromium=141.0.7390.37
+S11-VERDICT = REJECTED

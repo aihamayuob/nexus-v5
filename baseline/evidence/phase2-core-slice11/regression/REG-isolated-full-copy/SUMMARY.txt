@@ -1,0 +1,13 @@
+vitest exit=0 secs=6 cmd=[npx vitest run] ::    Start at  05:22:27    Duration  5.46s (transform 228ms, setup 0ms, import 414ms, tests 312ms, environment 3.90s)  
+baseline-flows exit=0 secs=8 cmd=[node baseline-flows.mjs] ::     "detail": "أنت\nاختبار أساسي — Phase 0 baseline\nخطأ\nفشل الاتصال بـ API: 400 — {\"error\":{\"message\":\"مزود \\\"anthropic\\\" يحتاج مفتاح API مُعدّ على السيرفر.\",\"code\"
+phase1-security-flows exit=0 secs=8 cmd=[node phase1-security-flows.mjs] ::  === SUMMARY === 16/16 checks passed 
+phase2-core-seed-flows exit=0 secs=2 cmd=[node phase2-core-seed-flows.mjs] ::  === SUMMARY === 16/16 checks passed 
+phase2-core-slice4-flows exit=0 secs=3 cmd=[node phase2-core-slice4-flows.mjs] ::  === SUMMARY === 21/21 checks passed 
+slice5 exit=0 secs=16 cmd=[node phase2-core-slice5-flows.mjs] :: 27/27 validity checks passed I1-VERDICT = SURVIVES  (chromium 141.0.7390.37; frontend=../frontend) results -> /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/logs/REG/slice5-results.json 
+slice6 exit=0 secs=25 cmd=[node phase2-core-slice6-flows.mjs] :: PS: 11/11 S6-VERDICT = ACCEPTED  (chromium 141.0.7390.37; frontend=../frontend) results -> /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/logs/REG/slice6-results.json 
+slice7 exit=0 secs=26 cmd=[node phase2-core-slice7-flows.mjs] :: 40/40 validity checks passed S7-VERDICT = NOT-STUCK  (chromium 141.0.7390.37; frontend=../frontend) results -> /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/logs/REG/slice7-results.json 
+slice8 exit=0 secs=48 cmd=[node phase2-core-slice8-flows.mjs] :: 79/79 checks passed  (VALID 44/44, PRES 12/12, PS 23/23) S8-VERDICT = ACCEPTED  (chromium 141.0.7390.37; frontend=../frontend) results -> /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/logs/REG/slice8-result
+slice10 exit=0 secs=1 cmd=[node phase2-core-slice10-flows.mjs] :: 28/28 checks passed  (VALID 9/9, PRES 12/12, PS 7/7) S10-VERDICT = ACCEPTED  (chromium 141.0.7390.37; frontend=../frontend) results -> /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/logs/REG/slice10-results.
+ei-ui exit=0 secs=10 cmd=[node phase2-evidence-integrity-flows.mjs] :: 26/26 checks passed  (VALID 4/4, PRES 6/6, PS 16/16) EI-UI-VERDICT = ACCEPTED  (frontend=../frontend) results -> /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/logs/REG/ei-ui-results.json 
+slice11 exit=0 secs=2 cmd=[node phase2-core-slice11-context-characterization-flows.mjs] ::  VALID 19/19  PRES 42/42  pageErrors=0  chromium=141.0.7390.37 S11-VERDICT = ACCEPTED 
+DONE 02:25:01

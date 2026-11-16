@@ -1,0 +1,13 @@
+[PASS] window own-property names POST − PRE = exactly {agentOrder} — ["agentOrder"]
+[PASS] window own-property names PRE − POST = {} — []
+[PASS] boot-time module requests POST − PRE = exactly {/modules/state.mjs} — ["/modules/state.mjs"]
+[PASS] boot-time module requests PRE − POST = {} — []
+[PASS] app-state fingerprint (sha256 of the persisted state after the fixed scenario) identical — 9141811aba47c146… vs 9141811aba47c146…
+[PASS] PRES verdicts identical PRE vs POST (same names, all true) — 12 vs 12
+[PASS] PS checks: all RED on PRE and all GREEN on POST — PRE 0/7, POST 7/7
+[PASS] POST verdict ACCEPTED, PRE verdict REJECTED — REJECTED -> ACCEPTED
+[PASS] monolith diff <= 2 added / <= 2 deleted lines — +1 -1
+[PASS] changed/new files under frontend/ and src-baseline/ are exactly the 4 expected — ["frontend/main.js","frontend/modules/state.mjs","frontend/modules/state.test.mjs","frontend/neural_nexus_ai_agents-4-3-5-3.html"]
+[PASS] main.js diff = 5 added / 0 deleted lines (1 import + 4 install block lines) — +5 -0
+
+COMPARE: 11/11

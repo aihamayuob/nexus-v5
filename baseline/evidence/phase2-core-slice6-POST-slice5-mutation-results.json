@@ -1,0 +1,73 @@
+{
+  "slice": "core-5",
+  "frontendTreeSha256Before": "8eda236c702e5ca7b560c53f757a8a3f93f8f580097fcfc9e97f19425b7767da",
+  "frontendTreeSha256After": "8eda236c702e5ca7b560c53f757a8a3f93f8f580097fcfc9e97f19425b7767da",
+  "productionUntouched": true,
+  "mutants": [
+    {
+      "id": "M1",
+      "desc": "post-slice-6 revert: sequential window.updateOnlineStatus() (undoes O2) -> loss returns",
+      "expected": {
+        "verdict": "LOST",
+        "exit": 0
+      },
+      "verdict": "LOST",
+      "exit": 0,
+      "validity": "27/27",
+      "failedChecks": [],
+      "matchesExpectation": true
+    },
+    {
+      "id": "M2",
+      "desc": "sabotage: restorePersistableState wrapper is a no-op",
+      "expected": {
+        "verdict": "INCONCLUSIVE",
+        "exit": 1,
+        "mustFail": [
+          "C0-online-boot-restore-ran-and-activityLog-restored-exactly"
+        ]
+      },
+      "verdict": "INCONCLUSIVE",
+      "exit": 1,
+      "validity": "15/27",
+      "failedChecks": [
+        "C0-online-boot-restore-ran-and-activityLog-restored-exactly",
+        "B0-plain-offline-boot-valid-measurement",
+        "B1-plain-offline-boot-valid-measurement",
+        "B2-plain-offline-boot-valid-measurement",
+        "B3-plain-offline-boot-valid-measurement",
+        "B4-plain-offline-boot-valid-measurement",
+        "T0-traced-valid-measurement-and-single-write-single-restore",
+        "T1-traced-valid-measurement-and-single-write-single-restore",
+        "T2-traced-valid-measurement-and-single-write-single-restore",
+        "T-mechanism-explains-outcome",
+        "D-valid-measurement-blob-lacks-activityLog",
+        "F-post-boot-transition-valid"
+      ],
+      "matchesExpectation": true
+    },
+    {
+      "id": "M3",
+      "desc": "sabotage: updateOnlineStatus does not log the offline entry",
+      "expected": {
+        "verdict": "INCONCLUSIVE",
+        "exit": 1,
+        "mustFail": [
+          "C1-POSITIVE-CONTROL-offline-entry-written-and-visible"
+        ]
+      },
+      "verdict": "INCONCLUSIVE",
+      "exit": 1,
+      "validity": "22/27",
+      "failedChecks": [
+        "C1-POSITIVE-CONTROL-offline-entry-written-and-visible",
+        "T0-traced-valid-measurement-and-single-write-single-restore",
+        "T1-traced-valid-measurement-and-single-write-single-restore",
+        "T2-traced-valid-measurement-and-single-write-single-restore",
+        "T-mechanism-explains-outcome"
+      ],
+      "matchesExpectation": true
+    }
+  ],
+  "allMutantsBehavedAsExpected": true
+}

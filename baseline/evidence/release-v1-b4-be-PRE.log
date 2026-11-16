@@ -1,0 +1,192 @@
+TAP version 13
+# node:internal/modules/run_main:123
+#     triggerUncaughtException(
+#     ^
+# Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/src/config/deploymentGuard.js' imported from /tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/deploymentGuard.test.ts
+#     at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+#     at moduleResolve (node:internal/modules/esm/resolve:859:10)
+#     at defaultResolve (node:internal/modules/esm/resolve:983:11)
+#     at nextResolve (node:internal/modules/esm/hooks:748:28)
+#     at resolveBase (file:///opt/npm-tools/node_modules/tsx/dist/register-C4vWVmug.mjs:2:10334)
+#     at async resolveDirectory (file:///opt/npm-tools/node_modules/tsx/dist/register-C4vWVmug.mjs:2:11415) {
+#   code: 'ERR_MODULE_NOT_FOUND',
+#   url: 'file:///tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/src/config/deploymentGuard.js'
+# }
+# Node.js v22.22.0
+# Subtest: test/deploymentGuard.test.ts
+not ok 1 - test/deploymentGuard.test.ts
+  ---
+  duration_ms: 318.037056
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/deploymentGuard.test.ts:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 1
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# (node:378) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: G4 clientKey for a keyed request is a derived id: stable, distinct per key, never contains the token
+not ok 2 - G4 clientKey for a keyed request is a derived id: stable, distinct per key, never contains the token
+  ---
+  duration_ms: 5.732735
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/gatewayKeyLeak.test.ts:38:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /^key:[0-9a-f]{16}$/. Input:
+    
+    'LAN-test-key-aaaaaaaaaaaa-0001'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'LAN-test-key-aaaaaaaaaaaa-0001'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/gatewayKeyLeak.test.ts:44:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: G4 trusted (no-key) behaviour is unchanged: loopback/LAN identity is the client IP — checked on the pure function with keys cleared
+ok 3 - G4 trusted (no-key) behaviour is unchanged: loopback/LAN identity is the client IP — checked on the pure function with keys cleared
+  ---
+  duration_ms: 0.682954
+  type: 'test'
+  ...
+# Subtest: G5 valid, invalid, missing and rate-limited requests + an approval decision leave the raw key NOWHERE (logs, audit rows, decided_by)
+not ok 4 - G5 valid, invalid, missing and rate-limited requests + an approval decision leave the raw key NOWHERE (logs, audit rows, decided_by)
+  ---
+  duration_ms: 88.456994
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/gatewayKeyLeak.test.ts:62:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /"decidedBy":"key:[0-9a-f]{16}"/. Input:
+    
+    '{"ts":"2026-10-16T11:33:42.946Z","level":"info","msg":"Migration applied","file":"001_init.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.946Z","level":"info","msg":"Migration applied","file":"002_phase3_evaluation_and_policy.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.947Z","level":"info","msg":"Migration applied","file":"003_mission_agent_runtime.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.947Z","level":"info","msg":"Migration applied","file":"004_council.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.948Z","level":"info","msg":"Migration applied","file":"005_situation_room.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.948Z","level":"info","msg":"Migration applied","file":"006_metacognition.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.948Z","level":"info","msg":"Migration applied","file":"007_dreaming.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.949Z","level":"info","msg":"Migration applied","file":"008_iot.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.949Z","level":"info","msg":"Migration applied","file":"009_agent_learning.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.949Z","level":"info","msg":"Migration applied","file":"010_agent_isolation.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.949Z","level":"info","msg":"Migration applied","file":"011_council_veto_flag.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.949Z","level":"info","msg":"Migration applied","file":"012_claim_evaluations.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.949Z","level":"info","msg":"Migration applied","file":"013_agent_genomes.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.949Z","level":"info","msg":"Migration applied","file":"014_knowledge_freshness.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.950Z","level":"info","msg":"Migration applied","file":"015_finetuning_jobs.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.950Z","level":"info","msg":"Migration applied","file":"016_claim_evaluation_integrity_reason.sql"}\n' +
+      '{"ts":"2026-10-16T11:33:42.963Z","level":"security","msg":"[SECURITY] Auth failed: invalid gateway key","severity":"warn","ip":"127.0.0.1","path":"/v2/models"}\n' +
+      '{"ts":"2026-10-16T11:33:42.963Z","level":"warn","msg":"Request failed","path":"/v2/models","status":401,"code":"auth_error","message":"مفتاح الدخول غير صالح أو مفقود."}\n' +
+      '{"ts":"2026-10-16T11:33:42.970Z","level":"security","msg":"[SECURITY] Auth failed: missing Bearer token","severity":"warn","ip":"127.0.0.1","path":"/v2/models"}\n' +
+      '{"ts":"2026-10-16T11:33:42.971Z","level":"warn","msg":"Request failed","path":"/v2/models","status":401,"code":"auth_error","message":"مفتاح الدخول غير صالح أو مفقود."}\n' +
+      '{"ts":"2026-10-16T11:33:42.977Z","level":"security","msg":"[SECURITY] Human approval decision: rejected","severity":"info","taskId":"leak-task-1","decidedBy":"LAN-test-key-aaaaaaaaaaaa-0001"}\n' +
+      '{"ts":"2026-10-16T11:33:42.983Z","level":"security","msg":"[SECURITY] Rate limit exceeded","severity":"info","clientKey":"LAN-test-key"}\n' +
+      '{"ts":"2026-10-16T11:33:42.983Z","level":"warn","msg":"Request failed","path":"/v2/models","status":429,"code":"rate_limited","message":"عدد كبير جداً من الطلبات — حاول لاحقاً."}\n' +
+      '[{"id":"e0ae2e34-9c20-401d-af10-ba52e846ce40","severity":"info","message":"Rate limit exceeded","meta":{"clientKey":"LAN-test-key"},"createdAt":1792150422983},{"id":"9cecc4fb-2dec-4ee8-b6f3-5fe4def48d46","severity":"info","message":"Human approval decision: rejected","meta":{"taskId":"leak-task-1","decidedBy":"LAN-test-key-aaaaaaaaaaaa-0001"},"createdAt":1792150422977},{"id":"8c1dd1f8-fdc4-4bd4-b2cf-90cf27456c70","severity":"warn","message":"Auth failed: missing Bearer token","meta":{"ip":"127.0.0.1","path":"/v2/models"},"createdAt":1792150422971},{"id":"3fb92b8a-923f-459b-b362-c0b0b0a80f6e","severity":"warn","message":"Auth failed: invalid gateway key","meta":{"ip":"127.0.0.1","path":"/v2/models"},"createdAt":1792150422963}]\n' +
+      '{"taskId":"leak-task-1","status":"rejected","reason":"test reason","decidedBy":"LAN-test-key-aaaaaaaaaaaa-0001","decidedAt":1792150422977,"createdAt":1792150422950}'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    {"ts":"2026-10-16T11:33:42.946Z","level":"info","msg":"Migration applied","file":"001_init.sql"}
+    {"ts":"2026-10-16T11:33:42.946Z","level":"info","msg":"Migration applied","file":"002_phase3_evaluation_and_policy.sql"}
+    {"ts":"2026-10-16T11:33:42.947Z","level":"info","msg":"Migration applied","file":"003_mission_agent_runtime.sql"}
+    {"ts":"2026-10-16T11:33:42.947Z","level":"info","msg":"Migration applied","file":"004_council.sql"}
+    {"ts":"2026-10-16T11:33:42.948Z","level":"info","msg":"Migration applied","file":"005_situation_room.sql"}
+    {"ts":"2026-10-16T11:33:42.948Z","level":"info","msg":"Migration applied","file":"006_metacognition.sql"}
+    {"ts":"2026-10-16T11:33:42.948Z","level":"info","msg":"Migration applied","file":"007_dreaming.sql"}
+    {"ts":"2026-10-16T11:33:42.949Z","level":"info","msg":"Migration applied","file":"008_iot.sql"}
+    {"ts":"2026-10-16T11:33:42.949Z","level":"info","msg":"Migration applied","file":"009_agent_learning.sql"}
+    {"ts":"2026-10-16T11:33:42.949Z","level":"info","msg":"Migration applied","file":"010_agent_isolation.sql"}
+    {"ts":"2026-10-16T11:33:42.949Z","level":"info","msg":"Migration applied","file":"011_council_veto_flag.sql"}
+    {"ts":"2026-10-16T11:33:42.949Z","level":"info","msg":"Migration applied","file":"012_claim_evaluations.sql"}
+    {"ts":"2026-10-16T11:33:42.949Z","level":"info","msg":"Migration applied","file":"013_agent_genomes.sql"}
+    {"ts":"2026-10-16T11:33:42.949Z","level":"info","msg":"Migration applied","file":"014_knowledge_freshness.sql"}
+    {"ts":"2026-10-16T11:33:42.950Z","level":"info","msg":"Migration applied","file":"015_finetuning_jobs.sql"}
+    {"ts":"2026-10-16T11:33:42.950Z","level":"info","msg":"Migration applied","file":"016_claim_evaluation_integrity_reason.sql"}
+    {"ts":"2026-10-16T11:33:42.963Z","level":"security","msg":"[SECURITY] Auth failed: invalid gateway key","severity":"warn","ip":"127.0.0.1","path":"/v2/models"}
+    {"ts":"2026-10-16T11:33:42.963Z","level":"warn","msg":"Request failed","path":"/v2/models","status":401,"code":"auth_error","message":"مفتاح الدخول غير صالح أو مفقود."}
+    {"ts":"2026-10-16T11:33:42.970Z","level":"security","msg":"[SECURITY] Auth failed: missing Bearer token","severity":"warn","ip":"127.0.0.1","path":"/v2/models"}
+    {"ts":"2026-10-16T11:33:42.971Z","level":"warn","msg":"Request failed","path":"/v2/models","status":401,"code":"auth_error","message":"مفتاح الدخول غير صالح أو مفقود."}
+    {"ts":"2026-10-16T11:33:42.977Z","level":"security","msg":"[SECURITY] Human approval decision: rejected","severity":"info","taskId":"leak-task-1","decidedBy":"LAN-test-key-aaaaaaaaaaaa-0001"}
+    {"ts":"2026-10-16T11:33:42.983Z","level":"security","msg":"[SECURITY] Rate limit exceeded","severity":"info","clientKey":"LAN-test-key"}
+    {"ts":"2026-10-16T11:33:42.983Z","level":"warn","msg":"Request failed","path":"/v2/models","status":429,"code":"rate_limited","message":"عدد كبير جداً من الطلبات — حاول لاحقاً."}
+    [{"id":"e0ae2e34-9c20-401d-af10-ba52e846ce40","severity":"info","message":"Rate limit exceeded","meta":{"clientKey":"LAN-test-key"},"createdAt":1792150422983},{"id":"9cecc4fb-2dec-4ee8-b6f3-5fe4def48d46","severity":"info","message":"Human approval decision: rejected","meta":{"taskId":"leak-task-1","decidedBy":"LAN-test-key-aaaaaaaaaaaa-0001"},"createdAt":1792150422977},{"id":"8c1dd1f8-fdc4-4bd4-b2cf-90cf27456c70","severity":"warn","message":"Auth failed: missing Bearer token","meta":{"ip":"127.0.0.1","path":"/v2/models"},"createdAt":1792150422971},{"id":"3fb92b8a-923f-459b-b362-c0b0b0a80f6e","severity":"warn","message":"Auth failed: invalid gateway key","meta":{"ip":"127.0.0.1","path":"/v2/models"},"createdAt":1792150422963}]
+    {"taskId":"leak-task-1","status":"rejected","reason":"test reason","decidedBy":"LAN-test-key-aaaaaaaaaaaa-0001","decidedAt":1792150422977,"createdAt":1792150422950}
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/gatewayKeyLeak.test.ts:90:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# (node:396) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: G6 secure headers on a real 200 response (public health route)
+ok 5 - G6 secure headers on a real 200 response (public health route)
+  ---
+  duration_ms: 33.590092
+  type: 'test'
+  ...
+# {"ts":"2026-10-16T11:33:43.468Z","level":"security","msg":"[SECURITY] Auth failed: missing Bearer token","severity":"warn","ip":"127.0.0.1","path":"/v2/models"}
+# {"ts":"2026-10-16T11:33:43.469Z","level":"info","msg":"Migration applied","file":"001_init.sql"}
+# {"ts":"2026-10-16T11:33:43.470Z","level":"info","msg":"Migration applied","file":"002_phase3_evaluation_and_policy.sql"}
+# {"ts":"2026-10-16T11:33:43.470Z","level":"info","msg":"Migration applied","file":"003_mission_agent_runtime.sql"}
+# {"ts":"2026-10-16T11:33:43.470Z","level":"info","msg":"Migration applied","file":"004_council.sql"}
+# {"ts":"2026-10-16T11:33:43.472Z","level":"info","msg":"Migration applied","file":"005_situation_room.sql"}
+# {"ts":"2026-10-16T11:33:43.473Z","level":"info","msg":"Migration applied","file":"006_metacognition.sql"}
+# {"ts":"2026-10-16T11:33:43.473Z","level":"info","msg":"Migration applied","file":"007_dreaming.sql"}
+# {"ts":"2026-10-16T11:33:43.474Z","level":"info","msg":"Migration applied","file":"008_iot.sql"}
+# {"ts":"2026-10-16T11:33:43.475Z","level":"info","msg":"Migration applied","file":"009_agent_learning.sql"}
+# {"ts":"2026-10-16T11:33:43.475Z","level":"info","msg":"Migration applied","file":"010_agent_isolation.sql"}
+# {"ts":"2026-10-16T11:33:43.476Z","level":"info","msg":"Migration applied","file":"011_council_veto_flag.sql"}
+# {"ts":"2026-10-16T11:33:43.476Z","level":"info","msg":"Migration applied","file":"012_claim_evaluations.sql"}
+# {"ts":"2026-10-16T11:33:43.477Z","level":"info","msg":"Migration applied","file":"013_agent_genomes.sql"}
+# {"ts":"2026-10-16T11:33:43.477Z","level":"info","msg":"Migration applied","file":"014_knowledge_freshness.sql"}
+# {"ts":"2026-10-16T11:33:43.478Z","level":"info","msg":"Migration applied","file":"015_finetuning_jobs.sql"}
+# {"ts":"2026-10-16T11:33:43.479Z","level":"info","msg":"Migration applied","file":"016_claim_evaluation_integrity_reason.sql"}
+# {"ts":"2026-10-16T11:33:43.480Z","level":"warn","msg":"Request failed","path":"/v2/models","status":401,"code":"auth_error","message":"مفتاح الدخول غير صالح أو مفقود."}
+# Subtest: G6 secure headers on a real 401 response (missing key)
+ok 6 - G6 secure headers on a real 401 response (missing key)
+  ---
+  duration_ms: 16.830358
+  type: 'test'
+  ...
+# Subtest: G6 secure headers on a real 404 response
+ok 7 - G6 secure headers on a real 404 response
+  ---
+  duration_ms: 2.878002
+  type: 'test'
+  ...
+# Subtest: G6 an Origin that is not allow-listed gets no CORS grant even with a valid key
+ok 8 - G6 an Origin that is not allow-listed gets no CORS grant even with a valid key
+  ---
+  duration_ms: 3.894115
+  type: 'test'
+  ...
+# {"ts":"2026-10-16T11:33:43.494Z","level":"security","msg":"[SECURITY] Rate limit exceeded","severity":"info","clientKey":"LAN-test-key"}
+# {"ts":"2026-10-16T11:33:43.495Z","level":"warn","msg":"Request failed","path":"/v2/models","status":429,"code":"rate_limited","message":"عدد كبير جداً من الطلبات — حاول لاحقاً."}
+# Subtest: G6 secure headers on a real 429 response (rate limit actually exceeded)
+ok 9 - G6 secure headers on a real 429 response (rate limit actually exceeded)
+  ---
+  duration_ms: 8.019042
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 6
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1572.742843

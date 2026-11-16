@@ -1,0 +1,11 @@
+[PASS] [VALID] V1 the real backend process started and listens
+[PASS] [VALID] V2 control: backend refuses no key (401) and accepts the right key (200) when called directly — 401/200
+[PASS] [PS] R1 the key typed in the real settings UI is accepted by the real backend (200, Bearer sent) — [200]
+[PASS] [PS] R2 cross-origin works under the CSP + CORS allow-list (ACAO = the frontend origin, no CSP violation)
+[PASS] [PS] R3 the real backend response carries the API security headers
+[PASS] [PS] R4 a wrong key typed in the UI is refused by the real backend (401) — [401]
+[PASS] [PS] R5 after a reload (memory wiped) the real backend refuses the request (401, no Authorization sent) — [[401,null]]
+[PASS] [PS] R6 neither the browser console nor the backend process output ever contains a key
+[PASS] [PS] R7 browser web storage holds no key after the whole flow
+SUMMARY VALID 2/2  PS 7/7
+B4RB-VERDICT = ACCEPTED

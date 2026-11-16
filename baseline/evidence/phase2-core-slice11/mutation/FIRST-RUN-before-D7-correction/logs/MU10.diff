@@ -1,0 +1,11 @@
+--- /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-13 14:00:00.000000000 +0300
++++ /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/mut/work/MU10/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-15 05:17:54.907424265 +0300
+@@ -6954,7 +6954,7 @@
+     // answers (the model otherwise has no idea "today" means relative to
+     // its training data) — always included, unlike the optional enrichers
+     // below.
+-    ctx += `\n\n[السياق الزمني: الآن ${this.now()}]`;
++    
+ 
+     // Agent-specific pinned knowledge: always included — this is
+     // explicit, user-curated content (see fullAgentPrompt's existing

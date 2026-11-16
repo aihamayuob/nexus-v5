@@ -1,0 +1,11 @@
+node_modules/
+dist/
+data/
+*.db
+*.db-shm
+*.db-wal
+e2e/node_modules/
+e2e/package-lock.json
+coverage/
+scenario-out/
+verify-out/

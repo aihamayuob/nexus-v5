@@ -1,0 +1,257 @@
+{
+  "verdict": "ACCEPTED",
+  "chromiumVersion": "141.0.7390.37",
+  "checks": [
+    {
+      "kind": "VALID",
+      "name": "V2-resolver-yields-6-js-files-incl-state-mjs",
+      "ok": true,
+      "detail": "/main.js,/modules/security.mjs,/modules/settings.mjs,/modules/state.mjs,/modules/storage.mjs,/modules/utilities.mjs"
+    },
+    {
+      "kind": "VALID",
+      "name": "V2b-resolver-equals-observed-online-js-requests",
+      "ok": true,
+      "detail": "observed=/main.js,/modules/security.mjs,/modules/settings.mjs,/modules/state.mjs,/modules/storage.mjs,/modules/utilities.mjs"
+    },
+    {
+      "kind": "VALID",
+      "name": "V3-offline-is-real-server-closed-fetch-fails",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "V4a-control-transform-applied-sw-without-state-mjs",
+      "ok": true,
+      "detail": "applied=true"
+    },
+    {
+      "kind": "VALID",
+      "name": "V5-determinism-two-runs-identical",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "V6-online-boot-initialises-with-and-without-sw",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "R1-no-pageerror-online-and-offline",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "kind": "PS",
+      "name": "P0-sw-registered-active-and-controlling",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PS",
+      "name": "P1-one-versioned-cache-holds-every-expected-js",
+      "ok": true,
+      "detail": "caches=nexus-shell-v1 cached=/,/main.js,/modules/security.mjs,/modules/settings.mjs,/modules/state.mjs,/modules/storage.mjs,/modules/utilities.mjs,/neural_nexus_ai_agents-4-3-5-3.html"
+    },
+    {
+      "kind": "PS",
+      "name": "P1b-document-cached-for-offline-navigation",
+      "ok": true,
+      "detail": "/,/main.js,/modules/security.mjs,/modules/settings.mjs,/modules/state.mjs,/modules/storage.mjs,/modules/utilities.mjs,/neural_nexus_ai_agents-4-3-5-3.html"
+    },
+    {
+      "kind": "PS",
+      "name": "P2-offline-reload-boots-app",
+      "ok": true,
+      "detail": "nav=true init=true bridged=true accessor=true"
+    },
+    {
+      "kind": "PS",
+      "name": "P2b-no-failed-same-origin-request-offline",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "PS",
+      "name": "P3-every-boot-js-served-by-sw-offline",
+      "ok": true,
+      "detail": "{\"/main.js\":true,\"/modules/security.mjs\":true,\"/modules/settings.mjs\":true,\"/modules/state.mjs\":true,\"/modules/storage.mjs\":true,\"/modules/utilities.mjs\":true}"
+    },
+    {
+      "kind": "PS",
+      "name": "P4-api-like-get-not-cached",
+      "ok": true,
+      "detail": "[1,2]"
+    },
+    {
+      "kind": "PS",
+      "name": "P5-non-allowlisted-path-not-cached",
+      "ok": true,
+      "detail": "[\"other 1\",\"other 2\"]"
+    },
+    {
+      "kind": "PS",
+      "name": "P6-activate-removes-old-shell-cache-keeps-foreign-cache",
+      "ok": true,
+      "detail": "other-cache,nexus-shell-v1"
+    },
+    {
+      "kind": "PS",
+      "name": "P7-sw-source-has-no-web-storage-or-header-persistence",
+      "ok": true,
+      "detail": "static scan"
+    },
+    {
+      "kind": "PS",
+      "name": "P8-control-without-state-mjs-breaks-offline-boot-and-the-real-sw-does-not",
+      "ok": true,
+      "detail": "control: nav=true init=false failed=/modules/state.mjs errs=0"
+    }
+  ],
+  "outcome": {
+    "expected": [
+      "/main.js",
+      "/modules/security.mjs",
+      "/modules/settings.mjs",
+      "/modules/state.mjs",
+      "/modules/storage.mjs",
+      "/modules/utilities.mjs"
+    ],
+    "A": {
+      "onlineInit": true,
+      "controlled": true,
+      "cachesAfterBoot": {
+        "nexus-shell-v1": [
+          "/",
+          "/main.js",
+          "/modules/security.mjs",
+          "/modules/settings.mjs",
+          "/modules/state.mjs",
+          "/modules/storage.mjs",
+          "/modules/utilities.mjs",
+          "/neural_nexus_ai_agents-4-3-5-3.html"
+        ]
+      },
+      "cachesAfterProbes": {
+        "nexus-shell-v1": [
+          "/",
+          "/main.js",
+          "/modules/security.mjs",
+          "/modules/settings.mjs",
+          "/modules/state.mjs",
+          "/modules/storage.mjs",
+          "/modules/utilities.mjs",
+          "/neural_nexus_ai_agents-4-3-5-3.html"
+        ]
+      },
+      "apiCountsOnline": [
+        1,
+        2
+      ],
+      "otherOnline": [
+        "other 1",
+        "other 2"
+      ],
+      "offlineReallyOffline": true,
+      "navOk": true,
+      "offlineInit": true,
+      "bridged": true,
+      "accessor": true,
+      "offlineFromSw": {
+        "/main.js": true,
+        "/modules/security.mjs": true,
+        "/modules/settings.mjs": true,
+        "/modules/state.mjs": true,
+        "/modules/storage.mjs": true,
+        "/modules/utilities.mjs": true
+      },
+      "offlineFailed": [],
+      "pageErrors": [],
+      "onlineJs": [
+        "/main.js",
+        "/modules/security.mjs",
+        "/modules/settings.mjs",
+        "/modules/state.mjs",
+        "/modules/storage.mjs",
+        "/modules/utilities.mjs"
+      ]
+    },
+    "C": {
+      "onlineInit": true,
+      "controlled": true,
+      "cachesAfterBoot": {
+        "nexus-shell-v1": [
+          "/",
+          "/main.js",
+          "/modules/security.mjs",
+          "/modules/settings.mjs",
+          "/modules/storage.mjs",
+          "/modules/utilities.mjs",
+          "/neural_nexus_ai_agents-4-3-5-3.html"
+        ]
+      },
+      "cachesAfterProbes": {
+        "nexus-shell-v1": [
+          "/",
+          "/main.js",
+          "/modules/security.mjs",
+          "/modules/settings.mjs",
+          "/modules/storage.mjs",
+          "/modules/utilities.mjs",
+          "/neural_nexus_ai_agents-4-3-5-3.html"
+        ]
+      },
+      "apiCountsOnline": [
+        1,
+        2
+      ],
+      "otherOnline": [
+        "other 1",
+        "other 2"
+      ],
+      "offlineReallyOffline": true,
+      "navOk": true,
+      "offlineInit": false,
+      "bridged": false,
+      "accessor": false,
+      "offlineFromSw": {
+        "/main.js": true,
+        "/modules/security.mjs": true,
+        "/modules/settings.mjs": true,
+        "/modules/storage.mjs": true,
+        "/modules/utilities.mjs": true
+      },
+      "offlineFailed": [
+        "/modules/state.mjs"
+      ],
+      "pageErrors": [],
+      "onlineJs": [
+        "/main.js",
+        "/modules/security.mjs",
+        "/modules/settings.mjs",
+        "/modules/state.mjs",
+        "/modules/storage.mjs",
+        "/modules/utilities.mjs"
+      ]
+    },
+    "D": {
+      "cachesAfter": {
+        "other-cache": [],
+        "nexus-shell-v1": [
+          "/",
+          "/main.js",
+          "/modules/security.mjs",
+          "/modules/settings.mjs",
+          "/modules/state.mjs",
+          "/modules/storage.mjs",
+          "/modules/utilities.mjs",
+          "/neural_nexus_ai_agents-4-3-5-3.html"
+        ]
+      },
+      "controlled": true
+    }
+  }
+}

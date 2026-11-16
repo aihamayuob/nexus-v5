@@ -1,0 +1,102 @@
+{
+  "productionTreeSha256Before": "fe2b42474f1aca65a7027e655bf87daab31798d05d03db64f5661c2ac4cd4bfc",
+  "productionTreeSha256After": "fe2b42474f1aca65a7027e655bf87daab31798d05d03db64f5661c2ac4cd4bfc",
+  "unchanged": true,
+  "results": [
+    {
+      "id": "CTRL",
+      "desc": "unmutated copy",
+      "expected": {
+        "verdict": "STUCK",
+        "exit": 0
+      },
+      "got": {
+        "verdict": "STUCK",
+        "exit": 0,
+        "validity": "47/47",
+        "failedChecks": []
+      },
+      "caughtAsExpected": true
+    },
+    {
+      "id": "M1",
+      "desc": "candidate fix A: flag set after the offline check",
+      "expected": {
+        "verdict": "NOT-STUCK",
+        "exit": 0
+      },
+      "got": {
+        "verdict": "NOT-STUCK",
+        "exit": 0,
+        "validity": "40/40",
+        "failedChecks": []
+      },
+      "caughtAsExpected": true
+    },
+    {
+      "id": "M2",
+      "desc": "offline check disabled",
+      "expected": {
+        "verdict": "INCONCLUSIVE",
+        "exit": 1
+      },
+      "got": {
+        "verdict": "INCONCLUSIVE",
+        "exit": 1,
+        "validity": "27/40",
+        "failedChecks": [
+          "[FAIL] click1-AC4-offline-attempt-showed-the-offline-toast — []",
+          "[FAIL] click1-AC4-offline-attempt-sent-nothing-and-kept-the-text — dMsgs=1 dExt=1 input=\"\" btnDisabled=true",
+          "[FAIL] click1-after-reconnect-input-still-holds-the-text — \"\"",
+          "[FAIL] click2-AC4-offline-attempt-showed-the-offline-toast — []",
+          "[FAIL] click2-AC4-offline-attempt-sent-nothing-and-kept-the-text — dMsgs=1 dExt=1 input=\"\" btnDisabled=true",
+          "[FAIL] click2-after-reconnect-input-still-holds-the-text — \"\"",
+          "[FAIL] click3-AC4-offline-attempt-showed-the-offline-toast — []",
+          "[FAIL] click3-AC4-offline-attempt-sent-nothing-and-kept-the-text — dMsgs=1 dExt=1 input=\"\" btnDisabled=true",
+          "[FAIL] click3-after-reconnect-input-still-holds-the-text — \"\"",
+          "[FAIL] enter1-AC4-offline-attempt-showed-the-offline-toast — []",
+          "[FAIL] enter1-AC4-offline-attempt-sent-nothing-and-kept-the-text — dMsgs=1 dExt=1 input=\"\" btnDisabled=true",
+          "[FAIL] enter1-after-reconnect-input-still-holds-the-text — \"\"",
+          "[FAIL] main-all-runs-classified-consistently — [\"MIXED\",\"MIXED\",\"MIXED\",\"MIXED\"]"
+        ]
+      },
+      "caughtAsExpected": true
+    },
+    {
+      "id": "M3",
+      "desc": "finally reset removed",
+      "expected": {
+        "verdict": "INCONCLUSIVE",
+        "exit": 1
+      },
+      "got": {
+        "verdict": "INCONCLUSIVE",
+        "exit": 1,
+        "validity": "42/47",
+        "failedChecks": [
+          "[FAIL] C0-online-send-cycle-ended-flag-false-btn-enabled-input-cleared — cycleEnded=false flag=true btnDisabled=false input=\"\"",
+          "[FAIL] C2-online-send-cycle-ended-flag-false-btn-enabled-input-cleared — cycleEnded=false flag=true btnDisabled=false input=\"\"",
+          "[FAIL] click2-AC7-resetting-only-the-flag-makes-the-same-send-work — dMsgs=2 dExt=3 flag=true",
+          "[FAIL] click3-AC7-resetting-only-the-flag-makes-the-same-send-work — dMsgs=2 dExt=3 flag=true",
+          "[FAIL] enter1-AC7-resetting-only-the-flag-makes-the-same-send-work — dMsgs=2 dExt=3 flag=true"
+        ]
+      },
+      "caughtAsExpected": true
+    },
+    {
+      "id": "M4",
+      "desc": "candidate fix B: reset the flag in the offline branch before return",
+      "expected": {
+        "verdict": "NOT-STUCK",
+        "exit": 0
+      },
+      "got": {
+        "verdict": "NOT-STUCK",
+        "exit": 0,
+        "validity": "40/40",
+        "failedChecks": []
+      },
+      "caughtAsExpected": true
+    }
+  ]
+}

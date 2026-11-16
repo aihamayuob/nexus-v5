@@ -1,0 +1,111 @@
+{
+  "slice": "core-slice-4/C1",
+  "baseCommit": "9c95fbd2e71f6bf79120ef145be501bc7d26c799",
+  "checks": [
+    {
+      "name": "P1 original block found exactly once in base monolith",
+      "ok": true,
+      "detail": "occurrences=1 sha256(O)=1a8920d4ef3d46f8…"
+    },
+    {
+      "name": "P2a wrapper block present exactly once in current monolith",
+      "ok": true,
+      "detail": "occurrences=1"
+    },
+    {
+      "name": "P2b current monolith with W->O equals base monolith byte-for-byte (no other byte changed)",
+      "ok": true,
+      "detail": "sha256(base)=bb39cf641e28132e… sha256(restored)=bb39cf641e28132e…"
+    },
+    {
+      "name": "P2c the original block no longer appears in the current monolith",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "P3a storage.mjs is base + an appended section (base bytes untouched, additions only)",
+      "ok": true,
+      "detail": "appendedBytes=1503"
+    },
+    {
+      "name": "P3b module code === forward(ORIGINAL) (token-exact)",
+      "ok": true,
+      "detail": "sha256(module code)=f3f44ec0796ec19c…"
+    },
+    {
+      "name": "P3c reverse(module code) === ORIGINAL byte-for-byte",
+      "ok": true,
+      "detail": "sha256(reverse)=1a8920d4ef3d46f8… sha256(O)=1a8920d4ef3d46f8…"
+    },
+    {
+      "name": "P4 token-level diff contains only the allowed edit kinds",
+      "ok": true,
+      "detail": "{\"hunks\":{\"\\\"\\\" -> \\\"export \\\"\":3,\"\\\"\\\" -> \\\"registry\\\"\":2,\"\\\"PERSISTABLE_STATE\\\" -> \\\"registry\\\"\":7,\"\\\"\\\" -> \\\"registry, \\\"\":1},\"unexpected\":[],\"PERSISTABLE_STATE_occurrences_in_O\":7}"
+    },
+    {
+      "name": "P4b signatures gained exactly: registry (x2: snapshot, reset) and \"registry, \" (x1: restore); export (x3)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "P5 main.js = base + {import line, header sentence, bridge comment+assignment} only (reverse edits give base byte-for-byte)",
+      "ok": true,
+      "detail": "import=true header=true bridge=true sha256(base)=85f40854c0166246…"
+    },
+    {
+      "name": "P5b the bridge assignment precedes the startup calls (applyTheme … autoInitApp)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "P6a PERSISTABLE_STATE registry, persistState, autoInitApp, resetAllData: sha256 identical before/after",
+      "ok": true,
+      "detail": "{\"PERSISTABLE_STATE_registry\":{\"base\":\"76ce092c5fa698ee\",\"cur\":\"76ce092c5fa698ee\",\"same\":true},\"persistState_function\":{\"base\":\"cfd416360f8908b4\",\"cur\":\"cfd416360f8908b4\",\"same\":true},\"autoInitApp_function\":{\"base\":\"01b7137aa622ca68\",\"cur\":\"01b7137aa622ca68\",\"same\":true},\"resetAllData_function\":{\"base\":\"660be1f263255729\",\"cur\":\"660be1f263255729\",\"same\":true}}"
+    },
+    {
+      "name": "P6b the 16 `let` declaration lines: present once each and identical before/after",
+      "ok": true,
+      "detail": "declared=16/16"
+    },
+    {
+      "name": "P6c ADR/003 unchanged (blob hash equals base)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "P7 changed paths are within the declared scope (nothing else touched)",
+      "ok": true,
+      "detail": "{\"changed\":[\"CHANGELOG.md\",\"NEXUS-CONTINUATION.md\",\"NEXUS-CURRENT-STATE.md\",\"baseline/evidence/phase2-core-slice4-POST-backend-test.log\",\"baseline/evidence/phase2-core-slice4-POST-backend-tsc.log\",\"baseline/evidence/phase2-core-slice4-POST-code-sha256.txt\",\"baseline/evidence/phase2-core-slice4-POST-e2e-baseline-flows.log\",\"baseline/evidence/phase2-core-slice4-POST-e2e-phase1-security-flows.log\",\"baseline/evidence/phase2-core-slice4-POST-e2e-phase2-core-seed-flows.log\",\"baseline/evidence/phase2-core-slice4-POST-e2e-phase2-core-slice4-flows.log\",\"baseline/evidence/phase2-core-slice4-POST-exec-order.log\",\"baseline/evidence/phase2-core-slice4-POST-extract-verify.log\",\"baseline/evidence/phase2-core-slice4-POST-mutation.log\",\"baseline/evidence/phase2-core-slice4-POST-unit-vs-original.log\",\"baseline/evidence/phase2-core-slice4-POST-vitest-coverage.log\",\"baseline/evidence/phase2-core-slice4-POST-vitest.log\",\"baseline/evidence/phase2-core-slice4-PRE-e2e-baseline-flows.log\",\"baseline/evidence/phase2-core-slice4-PRE-e2e-phase1-security-flows.log\",\"baseline/evidence/phase2-core-slice4-PRE-e2e-phase2-core-seed-flows.log\",\"baseline/evidence/phase2-core-slice4-PRE-e2e-slice4-run1-script-coupling-flaw.log\",\"baseline/evidence/phase2-core-slice4-PRE-e2e-slice4.log\",\"baseline/evidence/phase2-core-slice4-PRE-sha256.txt\",\"baseline/evidence/phase2-core-slice4-PRE-unit-vs-original.log\",\"baseline/evidence/phase2-core-slice4-PRE-vitest-baseline.log\",\"baseline/evidence/phase2-core-slice4-PRE-vitest-new-tests-red.log\",\"baseline/evidence/phase2-core-slice4-acceptance-criteria.md\",\"baseline/evidence/phase2-core-slice4-exec-order-check.mjs\",\"baseline/evidence/phase2-core-slice4-exec-order-results.json\",\"baseline/evidence/phase2-core-slice4-extract-apply.log\",\"baseline/evidence/phase2-core-slice4-extract-results.json\",\"baseline/evidence/phase2-core-slice4-extract-script.mjs\",\"baseline/evidence/phase2-core-slice4-mutation-results.json\",\"baseline/evidence/phase2-core-slice4-mutation-script.mjs\",\"baseline/evidence/phase2-core-slice4-unit-vs-original.mjs\",\"docs/checkpoints/CP-11.md\",\"e2e/phase2-core-slice4-flows.mjs\",\"frontend/main.js\",\"frontend/modules/persistable-state.test.mjs\",\"frontend/modules/storage.mjs\",\"frontend/neural_nexus_ai_agents-4-3-5-3.html\"],\"outside\":[]}"
+    },
+    {
+      "name": "P7b backend (src-baseline/) untouched",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "P7c the other 4 modules and the 4 existing test files are byte-identical to base",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "summary": {
+    "total": 17,
+    "passed": 17,
+    "failed": []
+  },
+  "sha256": {
+    "original_block": "1a8920d4ef3d46f83d3e47270d2d2674fbe37ce6be3a6c1f1c6939e8bf11b16f",
+    "module_code": "f3f44ec0796ec19c2341f901fdb4fd366c848596dec94bafa9b938ef685a206e",
+    "wrapper_block": "dfe4ccbcfbe713ce63c3514fecf3fdf84cfcac050137b4ddbaf891111c1d93fa",
+    "base": {
+      "frontend/neural_nexus_ai_agents-4-3-5-3.html": "bb39cf641e28132e9140d7735984e47d857b6d7c6ec76a9d6473cf7ac5180670",
+      "frontend/modules/storage.mjs": "0059119296cee84146d25385ddf4ae71751dfd594fd31e31662e377f66589a51",
+      "frontend/main.js": "85f40854c0166246773c5085bf2dfa0cc7af4744eeb766f1ea4b0162a0ad660d"
+    },
+    "current": {
+      "frontend/neural_nexus_ai_agents-4-3-5-3.html": "9b2baa32643dd3dae2e62c5a29c9e8dfdd9fa08b45dafa59ea38f4b6075f2441",
+      "frontend/modules/storage.mjs": "a9f711e1b125d34cc7457e6c2c668af671c097bfdf5367dc415be68034faacbe",
+      "frontend/main.js": "85ec41af56c678bc4c82eaa2d399c4115ef8f01dce4a56d4d45c207739510a32"
+    }
+  }
+}

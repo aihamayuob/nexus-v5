@@ -1,0 +1,11 @@
+production frontend tree sha256 BEFORE: fe2b42474f1aca65a7027e655bf87daab31798d05d03db64f5661c2ac4cd4bfc
+OK  CTRL (unmodified copy (must reproduce the PRE verdict)): verdict=REJECTED VALID 44/44 PRES 12/12 PS 0/23 diff=+0/-0
+     failed: 23 e.g. [FAIL] [PS] AC4-5-click-lock-released-right-after-the-offline-attempt | [FAIL] [PS] AC4-5-click-follow-up-after-reconnect-sends-same-text-same-entry-point
+OK  F1 (set the lock after the offline check): verdict=REJECTED VALID 44/44 PRES 12/12 PS 7/23 diff=+1/-2
+     failed: 16 e.g. [FAIL] [PS] AC8-E1-ImageStore.save-rejects-sendMessage-promise-resolves-failure-is-handled | [FAIL] [PS] AC8-E1-ImageStore.save-rejects-lock-released-and-button-enabled
+OK  F2 (F1 + try moved up + taskOutcome hoisted): verdict=ACCEPTED VALID 44/44 PRES 12/12 PS 23/23 diff=+3/-4
+OK  F3 (try moved up right after the lock + taskOutcome hoisted (no reordering)): verdict=ACCEPTED VALID 44/44 PRES 12/12 PS 23/23 diff=+5/-2
+production frontend tree sha256 AFTER:  fe2b42474f1aca65a7027e655bf87daab31798d05d03db64f5661c2ac4cd4bfc  (IDENTICAL)
+
+=== SUMMARY ===
+4/4 candidates behaved as predicted; production tree unchanged

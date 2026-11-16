@@ -1,0 +1,409 @@
+TAP version 13
+# Subtest: G1 loopback host 127.0.0.1: allowed with no keys (warning only), not network-exposed
+ok 1 - G1 loopback host 127.0.0.1: allowed with no keys (warning only), not network-exposed
+  ---
+  duration_ms: 1.26863
+  type: 'test'
+  ...
+# Subtest: G1 loopback host 127.0.1.1: allowed with no keys (warning only), not network-exposed
+ok 2 - G1 loopback host 127.0.1.1: allowed with no keys (warning only), not network-exposed
+  ---
+  duration_ms: 0.169575
+  type: 'test'
+  ...
+# Subtest: G1 loopback host ::1: allowed with no keys (warning only), not network-exposed
+ok 3 - G1 loopback host ::1: allowed with no keys (warning only), not network-exposed
+  ---
+  duration_ms: 0.115786
+  type: 'test'
+  ...
+# Subtest: G1 loopback host [::1]: allowed with no keys (warning only), not network-exposed
+ok 4 - G1 loopback host [::1]: allowed with no keys (warning only), not network-exposed
+  ---
+  duration_ms: 0.083849
+  type: 'test'
+  ...
+# Subtest: G1 loopback host localhost: allowed with no keys (warning only), not network-exposed
+ok 5 - G1 loopback host localhost: allowed with no keys (warning only), not network-exposed
+  ---
+  duration_ms: 0.07562
+  type: 'test'
+  ...
+# Subtest: G1 loopback host LOCALHOST: allowed with no keys (warning only), not network-exposed
+ok 6 - G1 loopback host LOCALHOST: allowed with no keys (warning only), not network-exposed
+  ---
+  duration_ms: 0.059658
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback host 0.0.0.0 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+ok 7 - G1 non-loopback host 0.0.0.0 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+  ---
+  duration_ms: 0.473843
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback host :: + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+ok 8 - G1 non-loopback host :: + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+  ---
+  duration_ms: 0.204572
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback host 192.168.1.20 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+ok 9 - G1 non-loopback host 192.168.1.20 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+  ---
+  duration_ms: 0.242144
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback host 10.0.0.5 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+ok 10 - G1 non-loopback host 10.0.0.5 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+  ---
+  duration_ms: 0.260448
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback host nexus.lan + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+ok 11 - G1 non-loopback host nexus.lan + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+  ---
+  duration_ms: 0.076569
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback host 172.16.0.9 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+ok 12 - G1 non-loopback host 172.16.0.9 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+  ---
+  duration_ms: 0.055138
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback + valid keys is accepted, with the plain-HTTP/LAN-only warning
+ok 13 - G1 non-loopback + valid keys is accepted, with the plain-HTTP/LAN-only warning
+  ---
+  duration_ms: 0.346335
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback: a short key, a key with whitespace and a duplicate key are each refused; the key value is never echoed
+ok 14 - G1 non-loopback: a short key, a key with whitespace and a duplicate key are each refused; the key value is never echoed
+  ---
+  duration_ms: 0.233163
+  type: 'test'
+  ...
+# Subtest: G1 loopback + short key is NOT refused (the length rule only guards network exposure)
+ok 15 - G1 loopback + short key is NOT refused (the length rule only guards network exposure)
+  ---
+  duration_ms: 0.070602
+  type: 'test'
+  ...
+# Subtest: G2 ServerConfig.host defaults to loopback when NEXUS_HOST is unset
+not ok 16 - G2 ServerConfig.host defaults to loopback when NEXUS_HOST is unset
+  ---
+  duration_ms: 13.192533
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/deploymentGuard.test.ts:68:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '0.0.0.0'
+    - '127.0.0.1'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '127.0.0.1'
+  actual: '0.0.0.0'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/deploymentGuard.test.ts:73:12)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: G3 real process: NEXUS_HOST=0.0.0.0 with NO keys exits non-zero and never listens
+not ok 17 - G3 real process: NEXUS_HOST=0.0.0.0 with NO keys exits non-zero and never listens
+  ---
+  duration_ms: 45014.417655
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/deploymentGuard.test.ts:116:1'
+  failureType: 'testCodeFailure'
+  error: 'process must exit by itself'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'timeout'
+  actual: 'timeout'
+  operator: 'notStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/deploymentGuard.test.ts:121:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: G3 real process: network bind with a SHORT key is refused and the key is not printed
+not ok 18 - G3 real process: network bind with a SHORT key is refused and the key is not printed
+  ---
+  duration_ms: 45017.454118
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/deploymentGuard.test.ts:127:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected "actual" to be strictly unequal to:
+    
+    'timeout'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'timeout'
+  actual: 'timeout'
+  operator: 'notStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/deploymentGuard.test.ts:133:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: G3 real process: default host (no NEXUS_HOST, no keys) starts on loopback and answers /v2/health
+not ok 19 - G3 real process: default host (no NEXUS_HOST, no keys) starts on loopback and answers /v2/health
+  ---
+  duration_ms: 361.524651
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/deploymentGuard.test.ts:139:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /"host":"127\.0\.0\.1"/. Input:
+    
+    '(node:497) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n' +
+      '(Use `node --trace-warnings ...` to show where the warning was created)\n' +
+      '{"ts":"2026-10-16T11:35:21.619Z","level":"info","msg":"Migration applied","file":"001_init.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.619Z","level":"info","msg":"Migration applied","file":"002_phase3_evaluation_and_policy.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.620Z","level":"info","msg":"Migration applied","file":"003_mission_agent_runtime.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.620Z","level":"info","msg":"Migration applied","file":"004_council.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.621Z","level":"info","msg":"Migration applied","file":"005_situation_room.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.622Z","level":"info","msg":"Migration applied","file":"006_metacognition.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.622Z","level":"info","msg":"Migration applied","file":"007_dreaming.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.622Z","level":"info","msg":"Migration applied","file":"008_iot.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.623Z","level":"info","msg":"Migration applied","file":"009_agent_learning.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.623Z","level":"info","msg":"Migration applied","file":"010_agent_isolation.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.624Z","level":"info","msg":"Migration applied","file":"011_council_veto_flag.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.624Z","level":"info","msg":"Migration applied","file":"012_claim_evaluations.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.624Z","level":"info","msg":"Migration applied","file":"013_agent_genomes.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.624Z","level":"info","msg":"Migration applied","file":"014_knowledge_freshness.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.624Z","level":"info","msg":"Migration applied","file":"015_finetuning_jobs.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.625Z","level":"info","msg":"Migration applied","file":"016_claim_evaluation_integrity_reason.sql"}\n' +
+      '{"ts":"2026-10-16T11:35:21.633Z","level":"info","msg":"Nexus backend listening","host":"0.0.0.0","port":34987,"env":"development"}\n'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    (node:497) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+    (Use `node --trace-warnings ...` to show where the warning was created)
+    {"ts":"2026-10-16T11:35:21.619Z","level":"info","msg":"Migration applied","file":"001_init.sql"}
+    {"ts":"2026-10-16T11:35:21.619Z","level":"info","msg":"Migration applied","file":"002_phase3_evaluation_and_policy.sql"}
+    {"ts":"2026-10-16T11:35:21.620Z","level":"info","msg":"Migration applied","file":"003_mission_agent_runtime.sql"}
+    {"ts":"2026-10-16T11:35:21.620Z","level":"info","msg":"Migration applied","file":"004_council.sql"}
+    {"ts":"2026-10-16T11:35:21.621Z","level":"info","msg":"Migration applied","file":"005_situation_room.sql"}
+    {"ts":"2026-10-16T11:35:21.622Z","level":"info","msg":"Migration applied","file":"006_metacognition.sql"}
+    {"ts":"2026-10-16T11:35:21.622Z","level":"info","msg":"Migration applied","file":"007_dreaming.sql"}
+    {"ts":"2026-10-16T11:35:21.622Z","level":"info","msg":"Migration applied","file":"008_iot.sql"}
+    {"ts":"2026-10-16T11:35:21.623Z","level":"info","msg":"Migration applied","file":"009_agent_learning.sql"}
+    {"ts":"2026-10-16T11:35:21.623Z","level":"info","msg":"Migration applied","file":"010_agent_isolation.sql"}
+    {"ts":"2026-10-16T11:35:21.624Z","level":"info","msg":"Migration applied","file":"011_council_veto_flag.sql"}
+    {"ts":"2026-10-16T11:35:21.624Z","level":"info","msg":"Migration applied","file":"012_claim_evaluations.sql"}
+    {"ts":"2026-10-16T11:35:21.624Z","level":"info","msg":"Migration applied","file":"013_agent_genomes.sql"}
+    {"ts":"2026-10-16T11:35:21.624Z","level":"info","msg":"Migration applied","file":"014_knowledge_freshness.sql"}
+    {"ts":"2026-10-16T11:35:21.624Z","level":"info","msg":"Migration applied","file":"015_finetuning_jobs.sql"}
+    {"ts":"2026-10-16T11:35:21.625Z","level":"info","msg":"Migration applied","file":"016_claim_evaluation_integrity_reason.sql"}
+    {"ts":"2026-10-16T11:35:21.633Z","level":"info","msg":"Nexus backend listening","host":"0.0.0.0","port":34987,"env":"development"}
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/deploymentGuard.test.ts:146:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: G3 real process: network bind WITH valid keys starts, enforces auth, and does not print the keys
+ok 20 - G3 real process: network bind WITH valid keys starts, enforces auth, and does not print the keys
+  ---
+  duration_ms: 331.324377
+  type: 'test'
+  ...
+# Subtest: G7 .env.example ships a loopback host, documents the key requirement and contains no real key
+not ok 21 - G7 .env.example ships a loopback host, documents the key requirement and contains no real key
+  ---
+  duration_ms: 0.901225
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/deploymentGuard.test.ts:170:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /^NEXUS_HOST=127\.0\.0\.1\s*$/m. Input:
+    
+    '# ============================================================================\n' +
+      '# nexus-backend — environment configuration\n' +
+      '# Copy to .env and fill in what you need. Nothing here is required to boot\n' +
+      '# the server; it will start with zero providers configured and every\n' +
+      '# provider-dependent route will return a clear validation/capability error\n' +
+      '# until you add the relevant key(s) below.\n' +
+      '# ============================================================================\n' +
+      '\n' +
+      '# --- Server ---\n' +
+      'NEXUS_PORT=8787\n' +
+      'NEXUS_HOST=0.0.0.0\n' +
+      'NODE_ENV=production\n' +
+      '\n' +
+      '# --- Gateway auth ---\n' +
+      '# Comma-separated list of accepted Bearer tokens. Leave EMPTY for trusted/\n' +
+      '# no-auth mode (fine for a LAN-only self-hosted deployment). If you set\n' +
+      '# even one key here, EVERY protected route requires a valid Bearer match —\n' +
+      '# there is no partial/optional state.\n' +
+      'NEXUS_GATEWAY_KEYS=\n' +
+      '\n' +
+      '# --- Provider API keys (only set the ones you actually use) ---\n' +
+      'NEXUS_ANTHROPIC_API_KEY=\n' +
+      'NEXUS_OPENAI_API_KEY=\n' +
+      'NEXUS_DEEPSEEK_API_KEY=\n' +
+      'NEXUS_GEMINI_API_KEY=\n' +
+      "# Ollama / LM Studio need no key — just make sure they're reachable at the\n" +
+      "# base URLs below (defaults assume they're running on this same machine).\n" +
+      'NEXUS_OLLAMA_BASE_URL=http://127.0.0.1:11434\n' +
+      'NEXUS_LMSTUDIO_BASE_URL=http://127.0.0.1:1234\n' +
+      'NEXUS_MODEL_OLLAMA=\n' +
+      'NEXUS_MODEL_LMSTUDIO=\n' +
+      '\n' +
+      '# --- Model overrides (optional — sane defaults are baked into\n' +
+      '#     src/config/providerRegistry.ts; override here instead of editing code\n' +
+      '#     when a vendor ships a new model) ---\n' +
+      '# NEXUS_MODEL_ANTHROPIC=claude-sonnet-4-6\n' +
+      '# NEXUS_MODEL_OPENAI=gpt-4o\n' +
+      '# NEXUS_MODEL_DEEPSEEK=deepseek-chat\n' +
+      '# NEXUS_MODEL_GEMINI=gemini-2.0-flash\n' +
+      '\n' +
+      '# --- Concurrency / timeouts / retries ---\n' +
+      'NEXUS_MAX_CONCURRENCY=8\n' +
+      'NEXUS_MAX_CONCURRENCY_PER_PLAN=4\n' +
+      'NEXUS_TASK_TIMEOUT_MS=90000\n' +
+      'NEXUS_PLAN_TIMEOUT_MS=600000\n' +
+      'NEXUS_MAX_RETRIES=2\n' +
+      'NEXUS_RETRY_BASE_DELAY_MS=500\n' +
+      '\n' +
+      '# --- Budget guard (0 = disabled) ---\n' +
+      'NEXUS_DAILY_BUDGET_USD=0\n' +
+      '\n' +
+      '# --- Rate limiting ---\n' +
+      'NEXUS_RATE_LIMIT_PER_MINUTE=60\n' +
+      'NEXUS_RATE_LIMIT_BURST=20\n' +
+      '\n' +
+      '# --- Payload / web_fetch limits ---\n' +
+      'NEXUS_MAX_BODY_BYTES=2097152\n' +
+      'NEXUS_WEB_FETCH_MAX_CHARS=12000\n' +
+      'NEXUS_WEB_FETCH_TIMEOUT_MS=10000\n' +
+      '\n' +
+      '# --- Storage ---\n' +
+      'NEXUS_DB_PATH=./data/nexus.db\n' +
+      '\n' +
+      '# --- CORS (only needed if the frontend is served from a different origin) ---\n' +
+      'NEXUS_CORS_ORIGINS=\n' +
+      '\n' +
+      '# --- Logging ---\n' +
+      'NEXUS_LOG_LEVEL=info\n' +
+      '\n' +
+      '# --- Retention sweeps (Phase 3) — how long operational data is kept before\n' +
+      '#     an hourly background sweep prunes it. Audit log is kept far longer by\n' +
+      '#     design (180 days) since its whole value is historical. ---\n' +
+      'NEXUS_RETENTION_STREAM_EVENTS_MS=21600000\n' +
+      'NEXUS_RETENTION_OBSERVABILITY_MS=2592000000\n' +
+      'NEXUS_RETENTION_PROVIDER_LOG_MS=2592000000\n' +
+      'NEXUS_RETENTION_AUDIT_MS=15552000000\n'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    # ============================================================================
+    # nexus-backend — environment configuration
+    # Copy to .env and fill in what you need. Nothing here is required to boot
+    # the server; it will start with zero providers configured and every
+    # provider-dependent route will return a clear validation/capability error
+    # until you add the relevant key(s) below.
+    # ============================================================================
+    
+    # --- Server ---
+    NEXUS_PORT=8787
+    NEXUS_HOST=0.0.0.0
+    NODE_ENV=production
+    
+    # --- Gateway auth ---
+    # Comma-separated list of accepted Bearer tokens. Leave EMPTY for trusted/
+    # no-auth mode (fine for a LAN-only self-hosted deployment). If you set
+    # even one key here, EVERY protected route requires a valid Bearer match —
+    # there is no partial/optional state.
+    NEXUS_GATEWAY_KEYS=
+    
+    # --- Provider API keys (only set the ones you actually use) ---
+    NEXUS_ANTHROPIC_API_KEY=
+    NEXUS_OPENAI_API_KEY=
+    NEXUS_DEEPSEEK_API_KEY=
+    NEXUS_GEMINI_API_KEY=
+    # Ollama / LM Studio need no key — just make sure they're reachable at the
+    # base URLs below (defaults assume they're running on this same machine).
+    NEXUS_OLLAMA_BASE_URL=http://127.0.0.1:11434
+    NEXUS_LMSTUDIO_BASE_URL=http://127.0.0.1:1234
+    NEXUS_MODEL_OLLAMA=
+    NEXUS_MODEL_LMSTUDIO=
+    
+    # --- Model overrides (optional — sane defaults are baked into
+    #     src/config/providerRegistry.ts; override here instead of editing code
+    #     when a vendor ships a new model) ---
+    # NEXUS_MODEL_ANTHROPIC=claude-sonnet-4-6
+    # NEXUS_MODEL_OPENAI=gpt-4o
+    # NEXUS_MODEL_DEEPSEEK=deepseek-chat
+    # NEXUS_MODEL_GEMINI=gemini-2.0-flash
+    
+    # --- Concurrency / timeouts / retries ---
+    NEXUS_MAX_CONCURRENCY=8
+    NEXUS_MAX_CONCURRENCY_PER_PLAN=4
+    NEXUS_TASK_TIMEOUT_MS=90000
+    NEXUS_PLAN_TIMEOUT_MS=600000
+    NEXUS_MAX_RETRIES=2
+    NEXUS_RETRY_BASE_DELAY_MS=500
+    
+    # --- Budget guard (0 = disabled) ---
+    NEXUS_DAILY_BUDGET_USD=0
+    
+    # --- Rate limiting ---
+    NEXUS_RATE_LIMIT_PER_MINUTE=60
+    NEXUS_RATE_LIMIT_BURST=20
+    
+    # --- Payload / web_fetch limits ---
+    NEXUS_MAX_BODY_BYTES=2097152
+    NEXUS_WEB_FETCH_MAX_CHARS=12000
+    NEXUS_WEB_FETCH_TIMEOUT_MS=10000
+    
+    # --- Storage ---
+    NEXUS_DB_PATH=./data/nexus.db
+    
+    # --- CORS (only needed if the frontend is served from a different origin) ---
+    NEXUS_CORS_ORIGINS=
+    
+    # --- Logging ---
+    NEXUS_LOG_LEVEL=info
+    
+    # --- Retention sweeps (Phase 3) — how long operational data is kept before
+    #     an hourly background sweep prunes it. Audit log is kept far longer by
+    #     design (180 days) since its whole value is historical. ---
+    NEXUS_RETENTION_STREAM_EVENTS_MS=21600000
+    NEXUS_RETENTION_OBSERVABILITY_MS=2592000000
+    NEXUS_RETENTION_PROVIDER_LOG_MS=2592000000
+    NEXUS_RETENTION_AUDIT_MS=15552000000
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/32993d6c-3079-5c91-b5d3-407731a6cd59/scratchpad/work/b4-pre/src-baseline/nexus-backend/test/deploymentGuard.test.ts:172:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 16
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 97980.972199

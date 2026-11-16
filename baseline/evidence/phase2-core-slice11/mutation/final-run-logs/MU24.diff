@@ -1,0 +1,11 @@
+--- /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-13 14:00:00.000000000 +0300
++++ /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/mut/work/MU24/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-15 05:21:06.937856123 +0300
+@@ -6454,7 +6454,7 @@
+     ctx += await this._safe('agent knowledge', () => agentKnowledgeContext(agent, queryText));
+     ctx += await this._safe('long-term memory', () => retrieveLongTermMemoryContext(queryText));
+     ctx += await this._safe('uploaded documents', () => fileDocsContext(queryText));
+-    if(agent.id === 'financial'){
++    if(false){
+       ctx += await this._safe('market context', () => getMarketContext());
+     }
+     return ctx;

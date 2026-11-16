@@ -1,0 +1,108 @@
+{
+  "productionTreeSha256Before": "fe2b42474f1aca65a7027e655bf87daab31798d05d03db64f5661c2ac4cd4bfc",
+  "productionTreeSha256After": "fe2b42474f1aca65a7027e655bf87daab31798d05d03db64f5661c2ac4cd4bfc",
+  "unchanged": true,
+  "results": [
+    {
+      "id": "CTRL",
+      "desc": "unmodified copy (must reproduce the PRE verdict)",
+      "verdict": "REJECTED",
+      "exit": 1,
+      "valid": "44/44",
+      "pres": "12/12",
+      "ps": "0/23",
+      "diff": {
+        "added": 0,
+        "removed": 0
+      },
+      "failedChecks": [
+        "[FAIL] [PS] AC4-5-click-lock-released-right-after-the-offline-attempt",
+        "[FAIL] [PS] AC4-5-click-follow-up-after-reconnect-sends-same-text-same-entry-point",
+        "[FAIL] [PS] AC4-5-enter-lock-released-right-after-the-offline-attempt",
+        "[FAIL] [PS] AC4-5-enter-follow-up-after-reconnect-sends-same-text-same-entry-point",
+        "[FAIL] [PS] AC5-three-offline-attempts-each-show-the-toast",
+        "[FAIL] [PS] AC5-three-offline-attempts-keep-the-lock-false",
+        "[FAIL] [PS] AC5-follow-up-after-repeated-offline-attempts-sends",
+        "[FAIL] [PS] AC8-E1-ImageStore.save-rejects-sendMessage-promise-resolves-failure-is-handled",
+        "[FAIL] [PS] AC8-E1-ImageStore.save-rejects-lock-released-and-button-enabled",
+        "[FAIL] [PS] AC8-E1-ImageStore.save-rejects-error-message-shown-in-chat",
+        "[FAIL] [PS] AC8-E1-ImageStore.save-rejects-next-send-works-after-the-fault-is-removed",
+        "[FAIL] [PS] AC8-E2-resolveActiveMode-throws-sendMessage-promise-resolves-failure-is-handled",
+        "[FAIL] [PS] AC8-E2-resolveActiveMode-throws-lock-released-and-button-enabled",
+        "[FAIL] [PS] AC8-E2-resolveActiveMode-throws-error-message-shown-in-chat",
+        "[FAIL] [PS] AC8-E2-resolveActiveMode-throws-next-send-works-after-the-fault-is-removed",
+        "[FAIL] [PS] AC8-E3-startTask-throws-sendMessage-promise-resolves-failure-is-handled",
+        "[FAIL] [PS] AC8-E3-startTask-throws-lock-released-and-button-enabled",
+        "[FAIL] [PS] AC8-E3-startTask-throws-error-message-shown-in-chat",
+        "[FAIL] [PS] AC8-E3-startTask-throws-next-send-works-after-the-fault-is-removed",
+        "[FAIL] [PS] AC8-E4-required-DOM-element-missing-sendMessage-promise-resolves-failure-is-handled",
+        "[FAIL] [PS] AC8-E4-required-DOM-element-missing-lock-released-and-button-enabled",
+        "[FAIL] [PS] AC8-E4-required-DOM-element-missing-error-message-shown-in-chat",
+        "[FAIL] [PS] AC8-E4-required-DOM-element-missing-next-send-works-after-the-fault-is-removed"
+      ],
+      "matchedExpectation": true
+    },
+    {
+      "id": "F1",
+      "desc": "set the lock after the offline check",
+      "verdict": "REJECTED",
+      "exit": 1,
+      "valid": "44/44",
+      "pres": "12/12",
+      "ps": "7/23",
+      "diff": {
+        "added": 1,
+        "removed": 2
+      },
+      "failedChecks": [
+        "[FAIL] [PS] AC8-E1-ImageStore.save-rejects-sendMessage-promise-resolves-failure-is-handled",
+        "[FAIL] [PS] AC8-E1-ImageStore.save-rejects-lock-released-and-button-enabled",
+        "[FAIL] [PS] AC8-E1-ImageStore.save-rejects-error-message-shown-in-chat",
+        "[FAIL] [PS] AC8-E1-ImageStore.save-rejects-next-send-works-after-the-fault-is-removed",
+        "[FAIL] [PS] AC8-E2-resolveActiveMode-throws-sendMessage-promise-resolves-failure-is-handled",
+        "[FAIL] [PS] AC8-E2-resolveActiveMode-throws-lock-released-and-button-enabled",
+        "[FAIL] [PS] AC8-E2-resolveActiveMode-throws-error-message-shown-in-chat",
+        "[FAIL] [PS] AC8-E2-resolveActiveMode-throws-next-send-works-after-the-fault-is-removed",
+        "[FAIL] [PS] AC8-E3-startTask-throws-sendMessage-promise-resolves-failure-is-handled",
+        "[FAIL] [PS] AC8-E3-startTask-throws-lock-released-and-button-enabled",
+        "[FAIL] [PS] AC8-E3-startTask-throws-error-message-shown-in-chat",
+        "[FAIL] [PS] AC8-E3-startTask-throws-next-send-works-after-the-fault-is-removed",
+        "[FAIL] [PS] AC8-E4-required-DOM-element-missing-sendMessage-promise-resolves-failure-is-handled",
+        "[FAIL] [PS] AC8-E4-required-DOM-element-missing-lock-released-and-button-enabled",
+        "[FAIL] [PS] AC8-E4-required-DOM-element-missing-error-message-shown-in-chat",
+        "[FAIL] [PS] AC8-E4-required-DOM-element-missing-next-send-works-after-the-fault-is-removed"
+      ],
+      "matchedExpectation": true
+    },
+    {
+      "id": "F2",
+      "desc": "F1 + try moved up + taskOutcome hoisted",
+      "verdict": "ACCEPTED",
+      "exit": 0,
+      "valid": "44/44",
+      "pres": "12/12",
+      "ps": "23/23",
+      "diff": {
+        "added": 3,
+        "removed": 4
+      },
+      "failedChecks": [],
+      "matchedExpectation": true
+    },
+    {
+      "id": "F3",
+      "desc": "try moved up right after the lock + taskOutcome hoisted (no reordering)",
+      "verdict": "ACCEPTED",
+      "exit": 0,
+      "valid": "44/44",
+      "pres": "12/12",
+      "ps": "23/23",
+      "diff": {
+        "added": 5,
+        "removed": 2
+      },
+      "failedChecks": [],
+      "matchedExpectation": true
+    }
+  ]
+}

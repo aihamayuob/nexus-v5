@@ -1,0 +1,10 @@
+[PASS] K1 revert to sequential window.updateOnlineStatus() -> verdict=REJECTED exit=1 failedChecks=11 mustFailPresent=true
+[PASS] K2 .then instead of .finally (rejection skips the call) -> verdict=REJECTED exit=1 failedChecks=2 mustFailPresent=true
+[PASS] K3 updateOnlineStatus call dropped -> verdict=INVALID exit=1 failedChecks=19 mustFailPresent=true
+[PASS] K4 registerServiceWorker moved behind init -> verdict=REJECTED exit=1 failedChecks=1 mustFailPresent=true
+[PASS] K5 rejection swallowed (.then(f, f)) -> verdict=REJECTED exit=1 failedChecks=1 mustFailPresent=true
+[PASS] K6 naive top-level await bootInit; updateOnlineStatus() -> verdict=REJECTED exit=1 failedChecks=3 mustFailPresent=true
+[PASS] production frontend/ tree sha256 unchanged (a2fb7dd4cc5d25d1… -> a2fb7dd4cc5d25d1…)
+
+=== SUMMARY ===
+6/6 mutants caught as expected; production untouched=true

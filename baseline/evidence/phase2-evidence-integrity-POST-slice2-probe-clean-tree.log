@@ -1,0 +1,190 @@
+[PASS] S0-chromium-version-recorded — Chromium 141.0.7390.37
+[PASS] A0-synthetic-probe-produced-result — pageErrors=0
+[PASS] A1-harness-ran-as-ES-module — {"importMetaUrlType":"string","topLevelThis":"undefined","strictMode":true}
+[PASS] A2-harness-order-classic-before-module — atModuleStart=["classic-start","classic-end"]
+[PASS] A3-all-required-cases-recorded — cases=9
+[PASS] A4-const-write-throws-TypeError — {"threw":true,"errorName":"TypeError","errorMessage":"Assignment to constant variable."}
+[PASS] A5-undeclared-read-throws-ReferenceError — {"threw":true,"errorName":"ReferenceError","errorMessage":"UNDECLARED_NAME_A is not defined"}
+[PASS] A6-undeclared-write-throws-ReferenceError — {"threw":true,"errorName":"ReferenceError","errorMessage":"UNDECLARED_NAME_B is not defined"}
+[PASS] A7-undeclared-typeof-is-undefined-no-throw — {"threw":false,"value":"undefined"}
+[PASS] B0-control-produced-result
+[PASS] B-control-read_A_LET-ReferenceError — {"threw":true,"errorName":"ReferenceError","errorMessage":"A_LET is not defined"}
+[PASS] B-control-read_A_CONST-ReferenceError — {"threw":true,"errorName":"ReferenceError","errorMessage":"A_CONST is not defined"}
+[PASS] B-control-read_A_VAR-ReferenceError — {"threw":true,"errorName":"ReferenceError","errorMessage":"A_VAR is not defined"}
+[PASS] C0-real-layout-module-tag-precedes-main-classic-script — moduleTag@396974 classicScript@397020-899132
+[PASS] C1-real-page-loaded-and-initialized — pageErrors=0
+[PASS] C2-real-readonly-probe-produced-result — {"importMetaUrlType":"string","strictMode":true}
+[PASS] C3-real-names-all-observed — let=56 const=57 var=0 function=370
+[PASS] C4-module-vs-classic-global-comparison-executed — mismatches: let=0 const=0 func=0
+[PASS] C5-real-check-was-read-only — files=14 changed=0 gitProductionDiff=none appStateUnchanged=true
+
+=== FINDINGS (observations, not pass/fail) ===
+{
+  "syntheticModuleToClassic": {
+    "readLet": {
+      "threw": false,
+      "value": "let-initial"
+    },
+    "readConst": {
+      "threw": false,
+      "value": "const-initial"
+    },
+    "readVar": {
+      "threw": false,
+      "value": "var-initial"
+    },
+    "writeLet": {
+      "result": {
+        "threw": false,
+        "value": "let-written-by-module"
+      },
+      "seen": {
+        "fromModule": "let-written-by-module",
+        "fromClassic": "let-written-by-module"
+      }
+    },
+    "writeVar": {
+      "result": {
+        "threw": false,
+        "value": "var-written-by-module"
+      },
+      "seen": {
+        "fromModule": "var-written-by-module",
+        "fromClassic": "var-written-by-module",
+        "viaWindow": "var-written-by-module"
+      }
+    },
+    "writeConst": {
+      "result": {
+        "threw": true,
+        "errorName": "TypeError",
+        "errorMessage": "Assignment to constant variable."
+      },
+      "seen": {
+        "fromModule": "const-initial",
+        "fromClassic": "const-initial"
+      }
+    },
+    "writeArrayReassign": {
+      "result": {
+        "threw": false,
+        "value": "[9]"
+      },
+      "seen": {
+        "fromClassic": [
+          9
+        ]
+      }
+    },
+    "writeConstObjectProperty": {
+      "result": {
+        "threw": false,
+        "value": "obj-mutated-by-module"
+      },
+      "seen": {
+        "fromClassic": "obj-mutated-by-module"
+      }
+    },
+    "classicWriteThenModuleRead": {
+      "threw": false,
+      "value": "let-written-by-classic-after"
+    },
+    "windowPresence": {
+      "let": {
+        "inWindow": false,
+        "hasOwn": false,
+        "typeofWindowProp": "undefined",
+        "descriptor": null
+      },
+      "const": {
+        "inWindow": false,
+        "hasOwn": false,
+        "typeofWindowProp": "undefined",
+        "descriptor": null
+      },
+      "var": {
+        "inWindow": true,
+        "hasOwn": true,
+        "typeofWindowProp": "string",
+        "descriptor": {
+          "configurable": false,
+          "enumerable": true,
+          "writable": true
+        }
+      }
+    },
+    "reverseIsolation_classicSeesModuleNames": {
+      "classicSeesMOD_LET": "undefined",
+      "classicSeesMOD_VAR": "undefined"
+    }
+  },
+  "controlModuleToModule": {
+    "readA_LET": {
+      "threw": true,
+      "errorName": "ReferenceError",
+      "errorMessage": "A_LET is not defined"
+    },
+    "readA_CONST": {
+      "threw": true,
+      "errorName": "ReferenceError",
+      "errorMessage": "A_CONST is not defined"
+    },
+    "readA_VAR": {
+      "threw": true,
+      "errorName": "ReferenceError",
+      "errorMessage": "A_VAR is not defined"
+    }
+  },
+  "realMonolithReadOnly": {
+    "counts": {
+      "let": 56,
+      "const": 57,
+      "var": 0,
+      "function": 370
+    },
+    "summary": {
+      "let": {
+        "total": 56,
+        "moduleReadable": 56,
+        "moduleErrors": [],
+        "onWindow": 0,
+        "moduleVsGlobalMismatches": []
+      },
+      "const": {
+        "total": 57,
+        "moduleReadable": 57,
+        "moduleErrors": [],
+        "onWindow": 0,
+        "moduleVsGlobalMismatches": []
+      },
+      "var": {
+        "total": 0,
+        "moduleReadable": 0,
+        "moduleErrors": [],
+        "onWindow": 0,
+        "moduleVsGlobalMismatches": []
+      },
+      "func": {
+        "total": 370,
+        "moduleReadable": 370,
+        "moduleErrors": [],
+        "onWindow": 370,
+        "moduleVsGlobalMismatches": []
+      }
+    },
+    "detail": {
+      "messages_isArray": true,
+      "messages_length": 0,
+      "encryptionKey_typeof": "object",
+      "selectedAgentIds_json": "[\"general\"]",
+      "customAgents_isArray": true,
+      "STORAGE_KEY": "nexus_agents_state_v1",
+      "MESSAGE_CAP": 300,
+      "PERSISTABLE_STATE_typeof": "object",
+      "PERSISTABLE_STATE_keyCount": 16
+    }
+  }
+}
+
+=== ACCEPTANCE SUMMARY ===
+19/19 checks passed

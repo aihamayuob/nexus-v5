@@ -1,0 +1,19 @@
+(node:1199) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"ts":"2026-09-15T14:24:48.399Z","level":"info","msg":"Nexus backend listening","host":"0.0.0.0","port":8788,"env":"development"}
+{"ts":"2026-09-15T14:24:50.265Z","level":"security","msg":"[SECURITY] Auth failed: missing Bearer token","severity":"warn","ip":"127.0.0.1","path":"/v2/missions/fake-id"}
+{"ts":"2026-09-15T14:24:50.266Z","level":"warn","msg":"Request failed","path":"/v2/missions/fake-id","status":401,"code":"auth_error","message":"مفتاح الدخول غير صالح أو مفقود."}
+{"ts":"2026-09-15T14:24:50.276Z","level":"security","msg":"[SECURITY] Auth failed: invalid gateway key","severity":"warn","ip":"127.0.0.1","path":"/v2/missions/fake-id"}
+{"ts":"2026-09-15T14:24:50.276Z","level":"warn","msg":"Request failed","path":"/v2/missions/fake-id","status":401,"code":"auth_error","message":"مفتاح الدخول غير صالح أو مفقود."}
+{"ts":"2026-09-15T14:24:50.283Z","level":"warn","msg":"Request failed","path":"/v2/missions/fake-id","status":404,"code":"not_found","message":"Mission غير موجودة."}
+{"ts":"2026-09-15T14:24:50.390Z","level":"security","msg":"[SECURITY] Rate limit exceeded","severity":"info","clientKey":"public:127.0"}
+{"ts":"2026-09-15T14:24:50.391Z","level":"warn","msg":"Request failed","path":"/v2/health","status":429,"code":"rate_limited","message":"عدد كبير جداً من الطلبات — حاول لاحقاً."}
+{"ts":"2026-09-15T14:24:50.396Z","level":"security","msg":"[SECURITY] Rate limit exceeded","severity":"info","clientKey":"public:127.0"}
+{"ts":"2026-09-15T14:24:50.397Z","level":"warn","msg":"Request failed","path":"/v2/health","status":429,"code":"rate_limited","message":"عدد كبير جداً من الطلبات — حاول لاحقاً."}
+{"ts":"2026-09-15T14:24:50.402Z","level":"security","msg":"[SECURITY] Rate limit exceeded","severity":"info","clientKey":"public:127.0"}
+{"ts":"2026-09-15T14:24:50.403Z","level":"warn","msg":"Request failed","path":"/v2/health","status":429,"code":"rate_limited","message":"عدد كبير جداً من الطلبات — حاول لاحقاً."}
+{"ts":"2026-09-15T14:24:50.408Z","level":"security","msg":"[SECURITY] Rate limit exceeded","severity":"info","clientKey":"public:127.0"}
+{"ts":"2026-09-15T14:24:50.408Z","level":"warn","msg":"Request failed","path":"/v2/health","status":429,"code":"rate_limited","message":"عدد كبير جداً من الطلبات — حاول لاحقاً."}
+{"ts":"2026-09-15T14:24:50.413Z","level":"security","msg":"[SECURITY] Rate limit exceeded","severity":"info","clientKey":"public:127.0"}
+{"ts":"2026-09-15T14:24:50.414Z","level":"warn","msg":"Request failed","path":"/v2/health","status":429,"code":"rate_limited","message":"عدد كبير جداً من الطلبات — حاول لاحقاً."}
+{"ts":"2026-09-15T14:24:50.418Z","level":"info","msg":"Shutting down","signal":"SIGTERM"}

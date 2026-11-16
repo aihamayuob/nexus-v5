@@ -1,0 +1,11 @@
+--- /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-13 14:00:00.000000000 +0300
++++ /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/mut/work/MU09/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-15 05:20:14.880991602 +0300
+@@ -6959,7 +6959,7 @@
+     // Agent-specific pinned knowledge: always included — this is
+     // explicit, user-curated content (see fullAgentPrompt's existing
+     // contract), not a "maybe relevant" retrieval result.
+-    ctx += await NexusContext._safe('agent knowledge', () => agentKnowledgeContext(agent, queryText));
++    if(intent.requiredEvidence || intent.complexity !== 'low' || intent.freshness !== 'static') ctx += await NexusContext._safe('agent knowledge', () => agentKnowledgeContext(agent, queryText));
+ 
+     // Optional enrichers — skipped entirely (not just trimmed) when the
+     // intent says a static/simple/low-risk query has no real use for

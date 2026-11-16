@@ -1,0 +1,24 @@
+[PASS] static-server-boot — serving neural_nexus_ai_agents-4-3-5-3.html on :8922
+[PASS] page-load-and-init — pageErrors=0
+[FAIL] functions-present-on-window — {"enc":"undefined","dec":"undefined"}
+[FAIL] bridge-identity — (patch-specific; expected FAIL pre-extraction) {"exported":true,"sameEnc":false,"sameDec":false}
+[FAIL] direct-behavior-block-ran — ReferenceError: encryptState is not defined
+[FAIL] encrypt-shape-and-fresh-iv — keys=undefined ivBytes=undefined b64=undefined freshIv=undefined
+[FAIL] ciphertext-hides-plaintext
+[FAIL] round-trip-exact — Arabic keys/values, emoji, nested arrays, null, quotes
+[FAIL] wrong-key-rejected
+[FAIL] tampered-ciphertext-rejected
+[FAIL] tampered-iv-rejected
+[FAIL] malformed-payloads-rejected — {}
+[PASS] persist-call-completed — ok
+[FAIL] persisted-blob-is-encrypted-envelope — shape=null plaintextLeak=n/a
+[FAIL] state-restored-after-reload — marker written pre-reload is present post-reload (decryptState + restorePersistableState via real autoInitApp)
+[FAIL] no-decrypt-or-persist-errors — persist failed ReferenceError: encryptState is not defined
+    at persistState (http://127.0.0.1:8922/:4980:21)
+    at eval (eval at evaluate (:290:30), <anonymous>:4:11)
+    at UtilityScript.evaluate
+[PASS] no-page-errors
+
+=== SUMMARY ===
+4/17 checks passed
+FAILED: functions-present-on-window, bridge-identity, direct-behavior-block-ran, encrypt-shape-and-fresh-iv, ciphertext-hides-plaintext, round-trip-exact, wrong-key-rejected, tampered-ciphertext-rejected, tampered-iv-rejected, malformed-payloads-rejected, persisted-blob-is-encrypted-envelope, state-restored-after-reload, no-decrypt-or-persist-errors

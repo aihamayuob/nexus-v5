@@ -1,0 +1,11 @@
+--- /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-13 14:00:00.000000000 +0300
++++ /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/mut/work/MU22/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-15 05:18:34.934156521 +0300
+@@ -6990,7 +6990,7 @@
+     // (it's for our own logging/audit/UI, not something the model needs
+     // to see) — returned alongside the string instead, for callers that
+     // want it (see logRoutingAudit below).
+-    return { text: ctx, intent };
++    return { text: ctx };
+   },
+ };
+ 

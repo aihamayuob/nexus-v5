@@ -1,0 +1,11 @@
+--- /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-13 14:00:00.000000000 +0300
++++ /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/mut/work/MU07/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-15 05:17:45.586644182 +0300
+@@ -6966,7 +6966,7 @@
+     // them. This is the "Minimal Relevant Context" behavior requested:
+     // fewer unnecessary retrieval calls AND a smaller prompt, without
+     // ever touching the agent's own pinned knowledge above.
+-    const wantsMemoryAndFiles = intent.requiredEvidence || intent.complexity !== 'low' || intent.freshness !== 'static';
++    const wantsMemoryAndFiles = intent.complexity !== 'low' || intent.freshness !== 'static';
+     if(wantsMemoryAndFiles){
+       ctx += await NexusContext._safe('long-term memory', () => retrieveLongTermMemoryContext(queryText));
+       const fileCtx = await NexusContext._safe('uploaded documents', () => fileDocsContext(queryText));

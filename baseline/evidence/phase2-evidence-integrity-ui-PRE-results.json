@@ -1,0 +1,140 @@
+{
+  "verdict": "REJECTED",
+  "counts": {
+    "valid": "4/4",
+    "pres": "6/6",
+    "ps": "0/16"
+  },
+  "checks": [
+    {
+      "kind": "VALID",
+      "name": "C0-ops-evaluation-tab-mounts-and-has-one-evidence-row",
+      "ok": true
+    },
+    {
+      "kind": "VALID",
+      "name": "C0-empty-evidence-claim-reaches-the-recorded-backend-origin",
+      "ok": true
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U1-first-row-has-exactly-one-kind-selector",
+      "ok": false
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U1-first-row-selector-has-no-preselected-kind",
+      "ok": false
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U1-every-added-row-also-has-one-selector",
+      "ok": false
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U1-no-row-has-a-preselected-kind",
+      "ok": false
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U2-selector-offers-a-placeholder-and-exactly-the-six-valid-kinds",
+      "ok": false
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U3-filled-row-without-kind-sends-ZERO-requests",
+      "ok": false
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U3-a-toast-explains-the-block",
+      "ok": false
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U3-no-evaluation-record-is-rendered",
+      "ok": false
+    },
+    {
+      "kind": "VALID",
+      "name": "U3-control-clicking-evaluate-again-after-choosing-a-kind-sends-exactly-one-more-request",
+      "ok": true
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U4-one-row-with-a-kind-plus-one-filled-row-without-sends-ZERO-requests-no-silent-partial-send",
+      "ok": false
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U5-INDEPENDENT_SOURCE-is-sent-in-the-request-body",
+      "ok": false
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U5-TOOL_RESULT-is-sent-in-the-request-body",
+      "ok": false
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U5-EXECUTABLE_VERIFICATION-is-sent-in-the-request-body",
+      "ok": false
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U5-ENVIRONMENTAL_OBSERVATION-is-sent-in-the-request-body",
+      "ok": false
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U5-HUMAN_CONFIRMATION-is-sent-in-the-request-body",
+      "ok": false
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U5-CONTRADICTORY_EVIDENCE-is-sent-in-the-request-body",
+      "ok": false
+    },
+    {
+      "kind": "PRES",
+      "name": "AC-U6-empty-claim-still-toasts-and-sends-nothing",
+      "ok": true
+    },
+    {
+      "kind": "PRES",
+      "name": "AC-U6-fully-empty-rows-are-ignored-and-the-claim-is-sent-with-empty-evidence",
+      "ok": true
+    },
+    {
+      "kind": "PRES",
+      "name": "AC-U6-partial-rows-and-a-kind-only-row-are-ignored-only-the-complete-row-is-sent",
+      "ok": true
+    },
+    {
+      "kind": "PS",
+      "name": "AC-U7-the-reason-is-shown-when-present",
+      "ok": false
+    },
+    {
+      "kind": "PRES",
+      "name": "AC-U7-no-reason-text-for-a-legacy-record-null",
+      "ok": true
+    },
+    {
+      "kind": "PRES",
+      "name": "AC-U7-no-reason-text-for-a-record-without-the-field",
+      "ok": true
+    },
+    {
+      "kind": "PRES",
+      "name": "AC-U7-the-reason-is-HTML-escaped",
+      "ok": true
+    },
+    {
+      "kind": "VALID",
+      "name": "AC-U8-no-uncaught-page-errors-in-any-scenario",
+      "ok": true
+    }
+  ]
+}

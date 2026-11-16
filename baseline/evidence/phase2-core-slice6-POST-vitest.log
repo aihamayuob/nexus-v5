@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 /home/claude/work/repo_extract/nexus-repo/frontend
+
+
+ Test Files  5 passed (5)
+      Tests  168 passed (168)
+   Start at  13:41:25
+   Duration  6.83s (transform 335ms, setup 0ms, import 518ms, tests 593ms, environment 4.72s)
+

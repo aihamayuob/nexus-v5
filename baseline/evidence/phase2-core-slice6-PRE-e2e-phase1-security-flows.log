@@ -1,0 +1,28 @@
+[PASS] backend-boot
+[PASS] page-load
+[PASS] regression-chat-send — chat flow still completes end-to-end
+[PASS] jsStr-roundtrip-safe — a value with a quote+backslash survives onclick round-trip intact, no breakout
+[PASS] marker-stripping-works — THOUGHT_TREE_MARKER removed from stripped output
+[PASS] buildHistoryForAgent-strips-markers — history sent back to the model no longer contains raw internal markers
+[PASS] import-decline-no-mutation — declining the import preview leaves customAgents unchanged
+[PASS] import-accept-still-works — confirming the import preview still imports correctly (regression on the feature itself)
+[PASS] image-separation-imageRef-not-raw — message object carries imageRef, not the raw base64
+[PASS] image-separation-cache-correct — ImageStore cache holds the exact bytes that were sent
+[PASS] image-thumbnail-renders — the attached image still renders as a real <img> in the chat
+[PASS] backward-compat-old-image-field — found 2 rendered images (new + old-format)
+[PASS] message-cap-enforced — live array capped to 300 (expected 300)
+[PASS] message-archive-received-overflow — archive received 15 messages (expected 15)
+[PASS] reset-gc-clears-images — ImageStore entry no longer exists after resetAllData
+[PASS] reset-gc-clears-archive — MessageArchive is empty after resetAllData
+
+=== CONSOLE ERRORS ===
+A bad HTTP response code (404) was received when fetching the script.
+Service worker registration failed: TypeError: Failed to register a ServiceWorker for scope ('http://127.0.0.1:8911/') with script ('http://127.0.0.1:8911/sw.js'): A bad HTTP response code (404) was received when fetching the script.
+Failed to load resource: the server responded with a status of 400 (Bad Request)
+Failed to load resource: the server responded with a status of 400 (Bad Request)
+
+=== PAGE ERRORS ===
+(none)
+
+=== SUMMARY ===
+16/16 checks passed

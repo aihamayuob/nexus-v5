@@ -1,0 +1,771 @@
+diff -ruN '--exclude=node_modules' '--exclude=dist' pristine/e2e/fui1-local-mode-egress-flow.mjs work/e2e/fui1-local-mode-egress-flow.mjs
+--- pristine/e2e/fui1-local-mode-egress-flow.mjs	1970-01-01 02:00:00.000000000 +0200
++++ work/e2e/fui1-local-mode-egress-flow.mjs	2026-11-13 04:21:33.066799001 +0300
+@@ -0,0 +1,291 @@
++/* ==========================================================================
++   e2e/fui1-local-mode-egress-flow.mjs — F-UI-1: with a LOCAL chat model selected (the state the "🔒 محلي" badge describes:
++   "this conversation is processed entirely on your device/LAN — nothing is sent to any external server"), NO user text may reach a CLOUD provider
++   on ANY frontend path: simple mode (Smart Auto-Route manager), advanced mode (auto-route / deep analysis verifier), ask-team picker,
++   multi-model consensus, embeddings (/api/embed), local provider failing (503) and local provider absent (connection refused).
++   Real Chromium loads the REAL frontend; the REAL backend process (src/index.ts via tsx) serves it. Providers are FAKES:
++     - a working fake "ollama" (chat + stream + embed) — proves wiring only, NOT a real Ollama;
++     - a metering fake CLOUD that stands in for Anthropic (/v1/messages) AND OpenAI (/v1/embeddings, /v1/chat/completions); every request is logged.
++   VALID = the harness is trustworthy (meter live; non-local control DOES reach the cloud; the manager path is really exercised).
++   PS    = product behaviour (what F-UI-1 requires). Final line: FUI1-VERDICT = ACCEPTED | REJECTED | INVALID. Exit 0 iff ACCEPTED.
++   Honest limits: fake providers only; paths not driven here are listed in the report as UNVERIFIED.
++   ========================================================================== */
++import { chromium } from 'playwright';
++import http from 'node:http';
++import net from 'node:net';
++import { spawn } from 'node:child_process';
++import { readFile, writeFile } from 'node:fs/promises';
++import os from 'node:os';
++import path from 'node:path';
++import { fileURLToPath } from 'node:url';
++
++const HERE = path.dirname(fileURLToPath(import.meta.url));
++const FRONTEND_DIR = path.resolve(HERE, '../frontend');
++const BACKEND_DIR = path.resolve(HERE, '../src-baseline/nexus-backend');
++const RESULTS_FILE = process.env.NEXUS_FUI1_RESULTS || path.join(os.tmpdir(), 'fui1-results.json');
++const HTML_FILE = 'neural_nexus_ai_agents-4-3-5-3.html';
++const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8' };
++const KEY = 'LAN-e2e-key-Qw8Zr3Lm5Xv7Tn2B-0001';
++const MARK = 'CONFIDENTIAL-fui1-9d42'; // every scenario uses MARK + a scenario suffix so a leaked body is attributable
++
++const checks = [];
++function rec(kind, name, ok, detail) { checks.push({ kind, name, ok: !!ok, detail: detail ?? null }); console.log(`[${ok ? 'PASS' : 'FAIL'}] [${kind}] ${name}${detail ? ' — ' + detail : ''}`); }
++const valid = (n, ok, d) => rec('VALID', n, ok, d);
++const ps = (n, ok, d) => rec('PS', n, ok, d);
++
++const freePort = () => new Promise((res, rej) => { const s = net.createServer(); s.once('error', rej); s.listen(0, '127.0.0.1', () => { const p = s.address().port; s.close(() => res(p)); }); });
++const canConnect = (port) => new Promise((res) => { const c = net.connect({ port, host: '127.0.0.1' }); c.once('connect', () => { c.destroy(); res(true); }); c.once('error', () => res(false)); });
++const listen = (s, port) => new Promise((r) => s.listen(port, '127.0.0.1', r));
++const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
++
++// --- fakes ---------------------------------------------------------------------------------------------------------------------------------
++const localLog = []; // every request the fake LOCAL provider received
++let localMode = 'ok'; // 'ok' | 'fail503'
++const readBody = async (req) => { const c = []; for await (const x of req) c.push(x); return Buffer.concat(c).toString('utf8'); };
++const fakeLocal = http.createServer(async (req, res) => {
++  const body = await readBody(req);
++  localLog.push({ url: req.url, hasMark: body.includes(MARK) });
++  if (localMode === 'fail503') { res.writeHead(503, { 'content-type': 'application/json' }); return res.end(JSON.stringify({ error: 'local model server down' })); }
++  let parsed = {}; try { parsed = JSON.parse(body); } catch { /* ignore */ }
++  if (req.url === '/api/embed') { res.writeHead(200, { 'content-type': 'application/json' }); return res.end(JSON.stringify({ embeddings: (parsed.input || []).map(() => [0.1, 0.2, 0.3]) })); }
++  if (parsed.stream) {
++    res.writeHead(200, { 'content-type': 'application/x-ndjson' });
++    res.write(JSON.stringify({ message: { content: 'local answer' }, done: false }) + '\n');
++    return res.end(JSON.stringify({ message: { content: '' }, done: true, prompt_eval_count: 3, eval_count: 3 }) + '\n');
++  }
++  res.writeHead(200, { 'content-type': 'application/json' });
++  res.end(JSON.stringify({ message: { content: '{"agent_ids":["general"],"reason":"local manager"}' }, prompt_eval_count: 3, eval_count: 3 }));
++});
++
++const cloudLog = []; // every request the fake CLOUD received (the egress meter)
++const fakeCloud = http.createServer(async (req, res) => {
++  const body = await readBody(req);
++  cloudLog.push({ url: req.url, hasMark: body.includes(MARK), bytes: body.length });
++  res.writeHead(200, { 'content-type': 'application/json' });
++  if (req.url.includes('embeddings')) return res.end(JSON.stringify({ data: [{ index: 0, embedding: [0.9, 0.8, 0.7] }] }));
++  if (req.url.includes('chat/completions')) return res.end(JSON.stringify({ choices: [{ message: { role: 'assistant', content: 'cloud answered' }, finish_reason: 'stop' }], usage: { prompt_tokens: 3, completion_tokens: 3 } }));
++  res.end(JSON.stringify({ content: [{ type: 'text', text: '{"agent_ids":["general"],"reason":"cloud manager"}' }], stop_reason: 'end_turn', usage: { input_tokens: 5, output_tokens: 5 } }));
++});
++
++const fePort = await freePort(); const bePort = await freePort(); const localPort = await freePort(); const cloudPort = await freePort();
++const feOrigin = `http://127.0.0.1:${fePort}`; const beOrigin = `http://127.0.0.1:${bePort}`;
++await listen(fakeLocal, localPort); await listen(fakeCloud, cloudPort);
++
++const feServer = http.createServer(async (req, res) => {
++  const u = new URL(req.url, 'http://x');
++  const rel = u.pathname === '/' ? HTML_FILE : decodeURIComponent(u.pathname.slice(1));
++  const abs = path.resolve(FRONTEND_DIR, rel);
++  if (!abs.startsWith(FRONTEND_DIR + path.sep)) { res.writeHead(403); return res.end(); }
++  try { const b = await readFile(abs); res.writeHead(200, { 'content-type': MIME[path.extname(rel)] || 'application/octet-stream', 'cache-control': 'no-store' }); res.end(b); }
++  catch { res.writeHead(404); res.end('nf'); }
++});
++await listen(feServer, fePort);
++
++let out = '';
++const cloudBase = `http://127.0.0.1:${cloudPort}`;
++const be = spawn(path.join(BACKEND_DIR, 'node_modules/.bin/tsx'), ['src/index.ts'], {
++  cwd: BACKEND_DIR,
++  env: { PATH: process.env.PATH, HOME: process.env.HOME, NEXUS_DB_PATH: ':memory:', NEXUS_HOST: '127.0.0.1', NEXUS_PORT: String(bePort), NEXUS_GATEWAY_KEYS: KEY,
++    NEXUS_CORS_ORIGINS: feOrigin, NEXUS_LOG_LEVEL: 'warn', NEXUS_RATE_LIMIT_PER_MINUTE: '3000', NEXUS_RATE_LIMIT_BURST: '500', NEXUS_MAX_RETRIES: '0',
++    NEXUS_OLLAMA_BASE_URL: `http://127.0.0.1:${localPort}`, NEXUS_MODEL_OLLAMA: 'llama3.1',
++    NEXUS_ANTHROPIC_BASE_URL: cloudBase, NEXUS_ANTHROPIC_API_KEY: 'fake-anthropic-key',
++    NEXUS_OPENAI_BASE_URL: cloudBase, NEXUS_OPENAI_API_KEY: 'fake-openai-key' }, // an embeddings-capable CLOUD provider is configured on the backend
++  stdio: ['ignore', 'pipe', 'pipe'],
++});
++be.stdout.on('data', (d) => (out += d)); be.stderr.on('data', (d) => (out += d));
++let up = false;
++for (let i = 0; i < 300 && !up; i++) { up = await canConnect(bePort); if (!up) await sleep(100); }
++valid('V1 the real backend process started and listens', up, up ? null : out.slice(0, 300));
++
++const browser = await chromium.launch();
++const pageErrors = [];
++async function freshPage() {
++  const ctx = await browser.newContext(); const page = await ctx.newPage();
++  page.on('pageerror', (e) => pageErrors.push(String(e)));
++  await page.goto(feOrigin + '/', { waitUntil: 'load' });
++  await page.waitForFunction(() => typeof encryptionKey !== 'undefined' && encryptionKey !== null, null, { timeout: 15000 });
++  await page.evaluate(() => openSettingsPanel());
++  await page.fill('#backendUrlInput', beOrigin);
++  await page.fill('#gatewayKeyInput', KEY);
++  await page.click('button[onclick="saveBackendUrl()"]');
++  await page.evaluate(() => { localStorage.setItem('nexus_local_model_name', 'llama3.1'); localStorage.setItem('nexus_providers', JSON.stringify(['openai'])); });
++  return { ctx, page };
++}
++/** Select the chat model through the REAL control path (advanced-mode select → saveChatModelSetting) and set the UI mode. */
++async function setMode(page, { model, simple }) {
++  await page.evaluate(({ model, simple }) => {
++    if (isSimpleMode() !== simple) toggleSimpleMode(); // advanced-only controls are hidden in simple mode, so select the model first (in advanced) then switch
++    const sel = document.getElementById('chatModelSelect'); sel.value = model; saveChatModelSetting();
++    if (isSimpleMode() !== simple) toggleSimpleMode();
++    updateSovereigntyBadge();
++  }, { model, simple });
++}
++async function setToggles(page, on) { // on: {autoRouteToggle:true, deepAnalysisToggle:false, ...}
++  await page.evaluate((on) => { for (const [id, v] of Object.entries(on)) { const el = document.getElementById(id); if (el) { el.checked = v; el.dispatchEvent(new Event('change', { bubbles: true })); } } }, on);
++}
++/** Send through the REAL UI (textarea + send button) and wait for the send lock to release. */
++async function sendViaUi(page, text) {
++  await page.fill('#msgInput', text);
++  await page.click('#sendBtn');
++  await page.waitForFunction(() => !isSendingMessage && !document.getElementById('sendBtn').disabled, null, { timeout: 60000 }).catch(() => {});
++  await sleep(300);
++}
++const snap = () => ({ c: cloudLog.length, l: localLog.length });
++const since = (s) => ({ cloud: cloudLog.slice(s.c), local: localLog.slice(s.l) });
++const leaks = (d) => `cloud requests=${d.cloud.length} (with marker=${d.cloud.filter((x) => x.hasMark).length}) [${d.cloud.map((x) => x.url).join(',')}]; local requests=${d.local.length}`;
++
++try {
++  const auth = { 'content-type': 'application/json', Authorization: 'Bearer ' + KEY };
++
++  // ---- VALID controls independent of the browser ---------------------------------------------------------------------------------------
++  let s0 = snap();
++  const ctlCloud = await fetch(beOrigin + '/api/chat', { method: 'POST', headers: auth, body: JSON.stringify({ provider: 'anthropic', max_tokens: 20, messages: [{ role: 'user', content: MARK + '-ctl' }] }) });
++  valid('V2 control: the cloud egress meter is live (explicit cloud request registers WITH the marker)', ctlCloud.status === 200 && since(s0).cloud.length === 1 && since(s0).cloud[0].hasMark, `${ctlCloud.status} ${leaks(since(s0))}`);
++  s0 = snap();
++  const ctlEmbed = await fetch(beOrigin + '/api/embed', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ texts: [MARK + '-embctl'] }) });
++  valid('V3 control: backend /api/embed WITHOUT any local-only hint routes to the configured CLOUD embeddings provider (the leak mechanism exists)', ctlEmbed.status === 200 && since(s0).cloud.some((x) => x.url.includes('embeddings') && x.hasMark), `${ctlEmbed.status} ${leaks(since(s0))}`);
++
++  // ---- NON-LOCAL control through the real UI: simple mode + Claude → the manager call reaches the cloud (by design when NOT local) -------
++  {
++    const { ctx, page } = await freshPage();
++    await setMode(page, { model: 'anthropic', simple: true });
++    const route = await page.evaluate((t) => HierarchicalRouter.route(t, {}).fastPathEligible, MARK + '-ctlui hello');
++    valid('V4 the manager-LLM path is really exercised: the heuristic fast path is NOT eligible for the scenario text', route === false, `fastPathEligible=${route}`);
++    const s = snap(); await sendViaUi(page, MARK + '-ctlui hello');
++    const d = since(s);
++    valid('V5 control (NON-local, Claude selected): the same UI flow registers on the cloud meter with the marker', d.cloud.some((x) => x.hasMark), leaks(d));
++    await ctx.close();
++  }
++
++  // ---- PS scenarios: LOCAL chat model selected ------------------------------------------------------------------------------------------
++  const { ctx, page } = await freshPage();
++  await setMode(page, { model: 'ollama', simple: true });
++  const badge = await page.evaluate(() => ({ chat: getChatModel(), shown: getComputedStyle(document.getElementById('sovereigntyBadge')).display !== 'none' }));
++  valid('V6 the local state is really active through the real select path (chat model = ollama, sovereignty badge shown)', badge.chat === 'ollama' && badge.shown, JSON.stringify(badge));
++
++  // A) simple mode + smart manager (Smart Auto-Route is implicit in simple mode)
++  let s = snap(); await sendViaUi(page, MARK + '-A simple');
++  let d = since(s);
++  ps('A1 SIMPLE mode + smart manager, local up: zero cloud requests (manager must not call the cloud)', d.cloud.length === 0, leaks(d));
++  ps('A2 SIMPLE mode: the work really ran locally (the local provider received requests)', d.local.length >= 1, leaks(d));
++
++  // B) advanced mode + auto-route toggle
++  await setMode(page, { model: 'ollama', simple: false });
++  await setToggles(page, { autoRouteToggle: true, deepAnalysisToggle: false, multiModelToggle: false, collectiveToggle: false });
++  s = snap(); await sendViaUi(page, MARK + '-B advanced-autoroute');
++  d = since(s);
++  ps('B1 ADVANCED mode + auto-route, local up: zero cloud requests', d.cloud.length === 0, leaks(d));
++
++  // C) advanced mode + deep analysis (the independent Verifier step)
++  await setToggles(page, { autoRouteToggle: false, deepAnalysisToggle: true });
++  s = snap(); await sendViaUi(page, MARK + '-C deep');
++  d = since(s);
++  ps('C1 ADVANCED deep analysis, local up: zero cloud requests', d.cloud.length === 0, leaks(d));
++  // C2/C3: the independent Verifier is intent-gated (risk/complexity high) so C1 may not reach it — exercise it directly AND through a high-risk message.
++  s = snap();
++  const verdictDirect = await page.evaluate((t) => Verifier.verify(t, 'draft answer'), MARK + '-C2 verifier-direct');
++  d = since(s);
++  ps('C2 Verifier.verify() called directly while LOCAL is selected: zero cloud requests AND it really ran on the local model (ok:true, local request seen)', d.cloud.length === 0 && verdictDirect.ok === true && d.local.length >= 1, leaks(d) + ' result=' + JSON.stringify(verdictDirect).slice(0, 80));
++  const risky = await page.evaluate((t) => ({ shouldVerify: Verifier.shouldVerify(NexusIntentEngine.analyze(t, {})) }), MARK + '-C3 ما هي جرعة الدواء');
++  valid('V7 the high-risk scenario text really makes the Verifier eligible (so C3 exercises it)', risky.shouldVerify === true, JSON.stringify(risky));
++  s = snap(); await sendViaUi(page, MARK + '-C3 ما هي جرعة الدواء');
++  d = since(s);
++  ps('C3 ADVANCED deep analysis on a HIGH-RISK message (Verifier eligible), local up: zero cloud requests', d.cloud.length === 0, leaks(d));
++  await setToggles(page, { deepAnalysisToggle: false, autoRouteToggle: true });
++
++  // D) ask-team picker (smart manager for Compare/Challenge/Decide)
++  s = snap();
++  const picked = await page.evaluate((t) => pickAskTeam(t, 2, 3), MARK + '-D askteam');
++  d = since(s);
++  ps('D1 ask-team picker (smart manager), local up: zero cloud requests AND it really ran on the local model (a local request seen, ids returned)', d.cloud.length === 0 && d.local.length >= 1 && Array.isArray(picked) && picked.length >= 2, leaks(d) + ' picked=' + JSON.stringify(picked));
++
++  // E) multi-model consensus with an extra (cloud) provider enabled
++  await setToggles(page, { autoRouteToggle: false, multiModelToggle: true });
++  s = snap(); await sendViaUi(page, MARK + '-E multimodel');
++  d = since(s);
++  ps('E1 multi-model consensus while LOCAL is selected: zero cloud requests (fail closed, cloud providers excluded)', d.cloud.length === 0, leaks(d));
++  const eMsg = await page.evaluate(() => (messages[messages.length - 1] || {}).content || '');
++  ps('E2 multi-model in local mode tells the user why it is unavailable instead of silently doing nothing/sending', /توافق متعدد النماذج/.test(eMsg) && /محلي/.test(eMsg), eMsg.slice(0, 160));
++  await setToggles(page, { multiModelToggle: false, autoRouteToggle: true });
++
++  // F) embeddings (knowledge / long-term memory / neural history all call getEmbedding)
++  s = snap();
++  const emb = await page.evaluate(async (t) => { try { const v = await getEmbedding(t); return { ok: true, len: v.length }; } catch (e) { return { ok: false, msg: String(e && e.message).slice(0, 160) }; } }, MARK + '-F embed');
++  d = since(s);
++  ps('F1 getEmbedding() while LOCAL is selected: zero cloud requests (no cloud embeddings provider used)', d.cloud.length === 0, leaks(d) + ' result=' + JSON.stringify(emb));
++
++  // L) the central choke point: an EXPLICIT cloud provider requested while local mode is active must be refused before any network use (defence in depth
++  //    for every present and future caller that names a provider), including the streamed and parallel wrappers.
++  s = snap();
++  const explicit = await page.evaluate(async (t) => {
++    const r = {};
++    try { await callClaude('system', t + '-L1', [], 'anthropic', false, null, null); r.direct = 'RESOLVED'; } catch (e) { r.direct = e.name; }
++    try { await callClaudeStreamed('system', t + '-L2', [], 'x', 'openai'); r.streamed = 'RESOLVED'; } catch (e) { r.streamed = e.name; }
++    const par = await callClaudeStreamedParallel([{ label: 'x', prompt: 'system', input: t + '-L3', history: [], provider: 'gemini' }]);
++    r.parallel = par[0].status === 'rejected' ? par[0].reason.name : 'RESOLVED';
++    return r;
++  }, MARK);
++  d = since(s);
++  ps('L1 an explicit cloud provider while LOCAL is active is refused by the choke point (direct / streamed / parallel) and sends nothing', d.cloud.length === 0 && explicit.direct === 'LocalOnlyEgressBlocked' && explicit.streamed === 'LocalOnlyEgressBlocked' && explicit.parallel === 'LocalOnlyEgressBlocked', leaks(d) + ' ' + JSON.stringify(explicit));
++
++  // J) every other advanced-mode toggle, one at a time, through the real UI (collective, situation room, cross-examination, mirror, agent runtime, sandbox, tools)
++  const ALL_TOGGLES = ['collectiveToggle', 'situationRoomToggle', 'autoRouteToggle', 'deepAnalysisToggle', 'multiModelToggle', 'toolsToggle', 'crossExamToggle', 'mirrorModeToggle', 'sandboxToggle', 'agentRuntimeToggle'];
++  for (const [i, tg] of ['collectiveToggle', 'situationRoomToggle', 'crossExamToggle', 'mirrorModeToggle', 'agentRuntimeToggle', 'sandboxToggle', 'toolsToggle'].entries()) {
++    await setToggles(page, Object.fromEntries(ALL_TOGGLES.map((id) => [id, id === tg])));
++    s = snap(); await sendViaUi(page, `${MARK}-J${i} ${tg}`);
++    d = since(s);
++    ps(`J${i + 1} ADVANCED mode "${tg}", local up: zero cloud requests`, d.cloud.length === 0, leaks(d));
++  }
++  await setToggles(page, Object.fromEntries(ALL_TOGGLES.map((id) => [id, id === 'autoRouteToggle'])));
++
++  // K) SIMPLE mode "ask the team" modes (compare / challenge / decide) — each starts with the smart team picker
++  await setMode(page, { model: 'ollama', simple: true });
++  for (const [i, am] of ['compare', 'challenge', 'decide'].entries()) {
++    await page.evaluate((m) => setAskMode(m), am);
++    s = snap(); await sendViaUi(page, `${MARK}-K${i} ask-${am}`);
++    d = since(s);
++    ps(`K${i + 1} SIMPLE mode ask-team "${am}", local up: zero cloud requests`, d.cloud.length === 0, leaks(d));
++  }
++  await page.evaluate(() => setAskMode('analyze'));
++  await setMode(page, { model: 'ollama', simple: true });
++
++  // G) local provider FAILING (503): fail closed — no cloud fallback of any kind
++  localMode = 'fail503';
++  await setMode(page, { model: 'ollama', simple: true });
++  s = snap(); await sendViaUi(page, MARK + '-G local503');
++  d = since(s);
++  ps('G1 local provider returns 503 (SIMPLE mode): zero cloud requests (no automatic cloud fallback)', d.cloud.length === 0, leaks(d));
++  await setMode(page, { model: 'ollama', simple: false });
++  await setToggles(page, { autoRouteToggle: true });
++  s = snap(); await sendViaUi(page, MARK + '-G2 local503-adv');
++  d = since(s);
++  ps('G2 local provider returns 503 (ADVANCED auto-route): zero cloud requests', d.cloud.length === 0, leaks(d));
++  const gMsg = await page.evaluate(() => (messages[messages.length - 1] || {}).content || '');
++  ps('G3 the user sees an error (never a false success) when the local provider fails', /فشل|تعذر|خطأ|503|محلي/.test(gMsg), gMsg.slice(0, 160));
++
++  // H) local provider ABSENT (connection refused)
++  localMode = 'ok'; fakeLocal.close(); fakeLocal.closeAllConnections?.(); await sleep(300);
++  await setMode(page, { model: 'ollama', simple: true });
++  s = snap(); await sendViaUi(page, MARK + '-H local-absent');
++  d = since(s);
++  ps('H1 local provider ABSENT (SIMPLE mode): zero cloud requests', d.cloud.length === 0, leaks(d));
++  await setMode(page, { model: 'ollama', simple: false });
++  s = snap(); await sendViaUi(page, MARK + '-H2 local-absent-adv');
++  d = since(s);
++  ps('H2 local provider ABSENT (ADVANCED auto-route): zero cloud requests', d.cloud.length === 0, leaks(d));
++
++  // overall
++  ps('Z1 no uncaught page errors during the local-mode scenarios', pageErrors.length === 0, pageErrors.join(' | ').slice(0, 200));
++  await ctx.close();
++} finally {
++  await browser.close();
++  be.kill('SIGTERM'); await sleep(1500); be.kill('SIGKILL');
++  feServer.close(); feServer.closeAllConnections?.(); try { fakeLocal.close(); } catch { /* already closed */ } fakeCloud.close();
++}
++
++const vFail = checks.filter((c) => c.kind === 'VALID' && !c.ok); const pFail = checks.filter((c) => c.kind === 'PS' && !c.ok);
++const verdict = vFail.length ? 'INVALID' : pFail.length ? 'REJECTED' : 'ACCEPTED';
++console.log(`SUMMARY VALID ${checks.filter((c) => c.kind === 'VALID' && c.ok).length}/${checks.filter((c) => c.kind === 'VALID').length}  PS ${checks.filter((c) => c.kind === 'PS' && c.ok).length}/${checks.filter((c) => c.kind === 'PS').length}`);
++console.log(`FUI1-VERDICT = ${verdict}`);
++await writeFile(RESULTS_FILE, JSON.stringify({ verdict, checks }, null, 2));
++process.exit(verdict === 'ACCEPTED' ? 0 : 1);
+diff -ruN '--exclude=node_modules' '--exclude=dist' pristine/e2e/fui2-model-row-overflow-flow.mjs work/e2e/fui2-model-row-overflow-flow.mjs
+--- pristine/e2e/fui2-model-row-overflow-flow.mjs	1970-01-01 02:00:00.000000000 +0200
++++ work/e2e/fui2-model-row-overflow-flow.mjs	2026-11-13 04:26:13.210815653 +0300
+@@ -0,0 +1,153 @@
++/* ==========================================================================
++   e2e/fui2-model-row-overflow-flow.mjs — F-UI-2: in ADVANCED mode with a LOCAL provider selected, the chat-model row (#chatModelRow: model select + local model
++   name input + 🔒 sovereignty badge + active-modes indicator) must not push the page wider than the viewport, and the send button must stay visible, inside the
++   viewport, big enough to tap, and not overlap the message box — in RTL (ar) and LTR (en), simple and advanced modes.
++   Real Chromium loads the REAL frontend file (no backend is needed: the state under test is pure layout). Matrix: widths 320/360/375/390/412/430/480 +
++   tablet 768 + laptop 1024 + desktop 1280, x lang ar|en, x mode simple|advanced, x model name short|long, x active-modes indicator off|on.
++   Checks per cell (PS): no horizontal page overflow; every child of #chatModelRow inside the viewport (no clipping off either edge); send button visible, inside
++   the viewport, >= 24x24 CSS px (WCAG 2.2 AA 2.5.8 minimum), not overlapped by another element at its centre, and not intersecting the message box.
++   VALID: the local state is really active (badge + local input visible in advanced mode), and the harness can see an overflow (a deliberately overflowing probe element).
++   Not covered (honest limits): other browsers/engines, real devices, text-zoom/font-scaling, landscape phones, keyboard-open viewport, the 3rd UI language (fr), screen readers.
++   Final line: FUI2-VERDICT = ACCEPTED | REJECTED | INVALID. Exit 0 iff ACCEPTED. Set NEXUS_FUI2_SHOTS=<dir> to save screenshots of the worst cells.
++   ========================================================================== */
++import { chromium } from 'playwright';
++import http from 'node:http';
++import { readFile, writeFile, mkdir } from 'node:fs/promises';
++import os from 'node:os';
++import path from 'node:path';
++import { fileURLToPath } from 'node:url';
++
++const HERE = path.dirname(fileURLToPath(import.meta.url));
++const FRONTEND_DIR = path.resolve(HERE, '../frontend');
++const HTML_FILE = 'neural_nexus_ai_agents-4-3-5-3.html';
++const RESULTS_FILE = process.env.NEXUS_FUI2_RESULTS || path.join(os.tmpdir(), 'fui2-results.json');
++const SHOTS = process.env.NEXUS_FUI2_SHOTS || '';
++const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8' };
++
++const WIDTHS = [320, 360, 375, 390, 412, 430, 480, 768, 1024, 1280];
++const LANGS = ['ar', 'en'];
++const MODES = ['simple', 'advanced'];
++const NAMES = { short: 'llama3.1', long: 'qwen2.5-coder:32b-instruct-q4_K_M' };
++const checks = [];
++function rec(kind, name, ok, detail) { checks.push({ kind, name, ok: !!ok, detail: detail ?? null }); if (!ok || kind === 'VALID') console.log(`[${ok ? 'PASS' : 'FAIL'}] [${kind}] ${name}${detail ? ' — ' + detail : ''}`); }
++
++const srv = http.createServer(async (req, res) => {
++  const u = new URL(req.url, 'http://x');
++  const rel = u.pathname === '/' ? HTML_FILE : decodeURIComponent(u.pathname.slice(1));
++  const abs = path.resolve(FRONTEND_DIR, rel);
++  if (!abs.startsWith(FRONTEND_DIR + path.sep)) { res.writeHead(403); return res.end(); }
++  try { const b = await readFile(abs); res.writeHead(200, { 'content-type': MIME[path.extname(rel)] || 'application/octet-stream', 'cache-control': 'no-store' }); res.end(b); }
++  catch { res.writeHead(404); res.end('nf'); }
++});
++await new Promise((r) => srv.listen(0, '127.0.0.1', r));
++const origin = `http://127.0.0.1:${srv.address().port}`;
++
++const browser = await chromium.launch();
++if (SHOTS) await mkdir(SHOTS, { recursive: true });
++
++/** Measure one cell inside an already-loaded page. Everything is measured in the page, in CSS px. */
++const MEASURE = () => {
++  const vw = document.documentElement.clientWidth;
++  const r = (el) => { const b = el.getBoundingClientRect(); return { l: b.left, r: b.right, t: b.top, b: b.bottom, w: b.width, h: b.height }; };
++  const vis = (el) => { const cs = getComputedStyle(el); const b = el.getBoundingClientRect(); return cs.display !== 'none' && cs.visibility !== 'hidden' && b.width > 0 && b.height > 0; };
++  const out = { vw, docScrollW: document.documentElement.scrollWidth, bodyScrollW: document.body.scrollWidth };
++  const row = document.getElementById('chatModelRow');
++  out.rowVisible = !!row && vis(row);
++  out.rowChildren = [];
++  if (row && out.rowVisible) {
++    out.row = r(row); out.rowScrollW = row.scrollWidth; out.rowClientW = row.clientWidth;
++    const walk = [...row.querySelectorAll('select, input, .sovereignty-badge, .active-mode-indicator, .model-pill-inline')];
++    for (const el of walk) if (vis(el)) out.rowChildren.push({ id: el.id || el.className, ...r(el) });
++  }
++  const send = document.getElementById('sendBtn'); const msg = document.getElementById('msgInput');
++  const comp = document.querySelector('.input-compound'); out.compound = comp ? r(comp) : null;
++  out.send = send ? { visible: vis(send), ...r(send) } : null;
++  out.msg = msg ? { visible: vis(msg), ...r(msg) } : null;
++  if (send && out.send.visible) {
++    const cx = out.send.l + out.send.w / 2, cy = out.send.t + out.send.h / 2;
++    const top = document.elementFromPoint(Math.min(Math.max(cx, 0), vw - 1), Math.min(Math.max(cy, 0), innerHeight - 1));
++    out.sendCentreHit = top ? (top === send || send.contains(top)) : false;
++  }
++  out.badgeShown = (() => { const b = document.getElementById('sovereigntyBadge'); return !!b && vis(b); })();
++  out.localInputShown = (() => { const b = document.getElementById('localModelNameInput'); return !!b && vis(b); })();
++  return out;
++};
++
++let cells = 0;
++try {
++  // VALID control: the harness really detects horizontal overflow.
++  {
++    const ctx = await browser.newContext({ viewport: { width: 360, height: 800 } }); const page = await ctx.newPage();
++    await page.goto(origin + '/', { waitUntil: 'load' });
++    const m = await page.evaluate(() => { const d = document.createElement('div'); d.style.cssText = 'width:900px;height:4px;position:absolute;top:0;inset-inline-start:0'; document.body.appendChild(d); return { docScrollW: document.documentElement.scrollWidth, vw: document.documentElement.clientWidth }; });
++    rec('VALID', 'V1 harness control: a deliberately 900px-wide probe element IS detected as horizontal overflow at 360px', m.docScrollW > m.vw, JSON.stringify(m));
++    await ctx.close();
++  }
++
++  const worst = [];
++  for (const lang of LANGS) for (const mode of MODES) for (const [nameKey, nameVal] of Object.entries(NAMES)) for (const indicator of [false, true]) {
++    const ctx = await browser.newContext({ viewport: { width: 360, height: 800 } });
++    await ctx.addInitScript(({ lang, mode, nameVal }) => {
++      try {
++        localStorage.setItem('nexus_ui_lang', lang);
++        localStorage.setItem('nexus_simple_mode', mode === 'simple' ? 'true' : 'false');
++        localStorage.setItem('nexus_backend_url', 'http://127.0.0.1:9'); // local providers are only kept as the chat model when a backend URL is saved (renderChatModelSelect); the URL is never contacted here
++        localStorage.setItem('nexus_chat_model', 'ollama'); // the LOCAL state (as chosen through the advanced-mode select)
++        localStorage.setItem('nexus_local_model_name', nameVal);
++      } catch (e) { /* ignore */ }
++    }, { lang, mode, nameVal });
++    const page = await ctx.newPage();
++    await page.goto(origin + '/', { waitUntil: 'load' });
++    await page.waitForFunction(() => typeof encryptionKey !== 'undefined' && encryptionKey !== null, null, { timeout: 15000 });
++    await page.evaluate((indicator) => {
++      renderChatModelSelect(); updateSovereigntyBadge(); updateLocalModelInputVisibility();
++      for (const id of ['deepAnalysisToggle', 'toolsToggle', 'thoughtTreeToggle', 'multiModelToggle']) { const el = document.getElementById(id); if (el) { el.checked = indicator && id !== 'multiModelToggle' ? true : false; el.dispatchEvent(new Event('change', { bubbles: true })); } }
++      updateActiveModesCount();
++    }, indicator);
++
++    for (const w of WIDTHS) {
++      await page.setViewportSize({ width: w, height: w >= 768 ? 1000 : 800 });
++      await page.waitForTimeout(60);
++      const m = await page.evaluate(MEASURE);
++      const cell = `${lang}/${mode}/name:${nameKey}/indicator:${indicator ? 'on' : 'off'}/w=${w}`;
++      cells++;
++      const problems = [];
++      const overflow = Math.max(m.docScrollW, m.bodyScrollW) - m.vw;
++      if (overflow > 1) problems.push(`page overflows horizontally by ${overflow}px (scrollWidth ${Math.max(m.docScrollW, m.bodyScrollW)} > viewport ${m.vw})`);
++      if (mode === 'advanced') {
++        if (!(m.rowVisible && m.badgeShown && m.localInputShown)) problems.push(`state not as expected (row=${m.rowVisible} badge=${m.badgeShown} localInput=${m.localInputShown})`);
++        for (const c of m.rowChildren) if (c.l < -0.5 || c.r > m.vw + 0.5) problems.push(`row child "${c.id}" outside the viewport (${Math.round(c.l)}..${Math.round(c.r)} of ${m.vw})`);
++        if (m.row && m.rowScrollW > m.rowClientW + 1) problems.push(`#chatModelRow content (${m.rowScrollW}px) wider than its box (${m.rowClientW}px)`);
++      }
++      if (m.compound && (m.compound.l < -0.5 || m.compound.r > m.vw + 0.5)) problems.push(`input dock (.input-compound) outside the viewport (${Math.round(m.compound.l)}..${Math.round(m.compound.r)} of ${m.vw})`);
++      if (m.msg && m.msg.visible && (m.msg.l < -0.5 || m.msg.r > m.vw + 0.5)) problems.push(`message box outside the viewport (${Math.round(m.msg.l)}..${Math.round(m.msg.r)} of ${m.vw})`);
++      const s = m.send;
++      if (!s || !s.visible) problems.push('send button not visible');
++      else {
++        if (s.l < -0.5 || s.r > m.vw + 0.5) problems.push(`send button outside the viewport (${Math.round(s.l)}..${Math.round(s.r)} of ${m.vw})`);
++        if (s.w < 24 || s.h < 24) problems.push(`send button smaller than 24x24 (${Math.round(s.w)}x${Math.round(s.h)})`);
++        if (m.sendCentreHit === false) problems.push('send button centre is covered by another element');
++        if (m.msg && m.msg.visible) {
++          const inter = !(s.r <= m.msg.l || s.l >= m.msg.r || s.b <= m.msg.t || s.t >= m.msg.b);
++          if (inter) problems.push('send button overlaps the message box');
++        }
++      }
++      rec('PS', cell, problems.length === 0, problems.join('; ') || null);
++      if (problems.length && SHOTS && worst.length < 6 && [320, 360, 375].includes(w)) {
++        worst.push(cell);
++        await page.screenshot({ path: path.join(SHOTS, cell.replace(/[/:]/g, '_') + '.png'), fullPage: false });
++      }
++    }
++    await ctx.close();
++  }
++} finally {
++  await browser.close(); srv.close(); srv.closeAllConnections?.();
++}
++
++const vFail = checks.filter((c) => c.kind === 'VALID' && !c.ok); const pFail = checks.filter((c) => c.kind === 'PS' && !c.ok);
++const verdict = vFail.length ? 'INVALID' : pFail.length ? 'REJECTED' : 'ACCEPTED';
++const byW = {}; for (const c of pFail) { const w = /w=(\d+)/.exec(c.name)[1]; byW[w] = (byW[w] || 0) + 1; }
++console.log(`SUMMARY cells=${cells} PS ${checks.filter((c) => c.kind === 'PS' && c.ok).length}/${checks.filter((c) => c.kind === 'PS').length}; failing cells by width: ${JSON.stringify(byW)}`);
++console.log(`FUI2-VERDICT = ${verdict}`);
++await writeFile(RESULTS_FILE, JSON.stringify({ verdict, cells, checks }, null, 2));
++process.exit(verdict === 'ACCEPTED' ? 0 : 1);
+diff -ruN '--exclude=node_modules' '--exclude=dist' pristine/frontend/neural_nexus_ai_agents-4-3-5-3.html work/frontend/neural_nexus_ai_agents-4-3-5-3.html
+--- pristine/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-22 04:58:26.000000000 +0300
++++ work/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-11-13 04:26:43.814817472 +0300
+@@ -831,8 +831,12 @@
+   .model-pill-bar{
+     display:flex; align-items:center; justify-content:space-between; gap:8px;
+     padding:8px 12px 0;
++    /* F-UI-2: the row holds up to 4 non-shrinking pieces (model select + local model name + 🔒 badge + active-modes chip, ~535px together). On a
++       phone with a local provider selected that is wider than the dock, which used to push the whole page wider than the viewport (advanced mode,
++       RTL and LTR). It now wraps onto a second line instead of overflowing; min-width:0 lets it shrink inside its flex/grid parent. */
++    flex-wrap:wrap; row-gap:6px; min-width:0; max-width:100%; box-sizing:border-box;
+   }
+-  .model-pill-inline{ flex-shrink:0; }
++  .model-pill-inline{ flex-shrink:0; max-width:100%; display:flex; align-items:center; min-width:0; }
+   .model-pill-inline select{
+     background:var(--panel2); border:1px solid var(--border); color:var(--txt);
+     font-size:11px; font-family:inherit; height:30px; padding:0 8px; border-radius:10px;
+@@ -861,7 +865,7 @@
+   .local-model-input{
+     background:var(--panel2); border:1px solid var(--border); color:var(--txt);
+     font-size:11px; font-family:inherit; height:30px; padding:0 10px; border-radius:10px;
+-    max-width:130px; margin-inline-start:6px;
++    max-width:130px; margin-inline-start:6px; min-width:0; flex:1 1 auto; /* F-UI-2: may shrink so select + name always fit one line down to 320px */
+   }
+   .local-model-input::placeholder{ color:var(--muted); }
+ 
+@@ -5253,7 +5257,7 @@
+ // triplet with a live-updating bubble labeled `label`, falling back to the
+ // classic typing indicator when no backend is configured (streaming needs
+ // our own backend — see nexus-backend/README.md).
+-async function callClaudeStreamed(prompt, input, history=[], label='', provider='anthropic', useTools=false, imageBase64=null){
++async function callClaudeStreamed(prompt, input, history=[], label='', provider=utilityProvider(), useTools=false, imageBase64=null){
+   const canStream = !!getBackendUrl();
+   let liveBubble = null;
+   if(canStream){
+@@ -5313,7 +5317,7 @@
+       signal: activeStreamController.signal,
+       onToken(tok){ bubbles[i].textContent += tok; document.getElementById('chatArea').scrollTop = document.getElementById('chatArea').scrollHeight; },
+     } : null;
+-    return callClaude(t.prompt, t.input, t.history||[], t.provider||'anthropic', false, null, streamHandlers)
++    return callClaude(t.prompt, t.input, t.history||[], t.provider||utilityProvider(), false, null, streamHandlers)
+       .then(reply => ({ ...t.resultExtra, reply }))
+       .catch(err => {
+         if(err?.name === 'AbortError'){
+@@ -5633,6 +5637,26 @@
+ function isLocalProvider(p){
+   return !!(PROVIDERS_META[p] && PROVIDERS_META[p].local);
+ }
++/* F-UI-1 (local-mode egress): the "🔒 محلي" badge promises that a conversation held with a LOCAL chat model is processed entirely on the
++   person's device/LAN. That promise holds only if EVERY path that carries their text honours it — not just the main reply. So the badge's own
++   condition (a local provider is the selected chat model) is the single definition of "local mode" (isLocalOnlyActive), and it is enforced at ONE
++   choke point (callClaude → assertEgressAllowed, BEFORE any network use) plus at the embeddings call. Internal helper calls that used to be pinned to
++   'anthropic' (smart manager, ask-team picker, independent Verifier, comparison judge) now run on the SAME local model in local mode
++   (utilityProvider) and are unchanged when not in local mode. There is deliberately NO opt-in/bypass here: it fails closed.
++   Honest limits: this is client-side enforcement for the chat UI; direct API callers are governed by the backend (GAP-1/GAP-1B). */
++function isLocalOnlyActive(){
++  return isLocalProvider(getChatModel());
++}
++function utilityProvider(){
++  return isLocalOnlyActive() ? getChatModel() : 'anthropic';
++}
++function assertEgressAllowed(provider){
++  if(isLocalOnlyActive() && !isLocalProvider(provider)){
++    const err = new Error('🔒 الوضع المحلي مفعّل: تم منع إرسال هذا الطلب إلى مزود سحابي ("'+(PROVIDERS_META[provider]?.label || provider)+'") — لم يُرسَل أي محتوى خارج جهازك/شبكتك المحلية. اختر مزوداً سحابياً من قائمة النموذج إن أردت ذلك.');
++    err.name = 'LocalOnlyEgressBlocked';
++    throw err;
++  }
++}
+ // Placement matters here: PROVIDERS_META is declared with `const` further
+ // down the file, but this function's BODY only runs once the user
+ // interacts (button click etc.) — by then the whole script has already
+@@ -5750,9 +5774,12 @@
+ 
+   const backendUrl = getBackendUrl();
+   if(!backendUrl) throw new Error('يتطلب سيرفر backend مفعّل.');
++  // F-UI-1: in local mode the text may only be embedded by a LOCAL provider — the backend honours `localOnly` (it refuses a cloud embedder and
++  // never falls back to one). Callers (knowledge / long-term memory / neural history) already treat a failure here as non-fatal.
++  const embedBody = isLocalOnlyActive() ? { texts:[text], provider:getChatModel(), localOnly:true } : { texts:[text] };
+   const res = await fetch(backendUrl + '/api/embed', {
+     method:'POST', headers:{ 'Content-Type':'application/json' },
+-    body: JSON.stringify({ texts:[text] })
++    body: JSON.stringify(embedBody)
+   });
+   if(!res.ok){
+     // Read as text first — a non-OK response isn't guaranteed to be valid
+@@ -5896,7 +5923,8 @@
+   }
+ }
+ 
+-async function callClaude(systemPrompt, userText, history, provider='anthropic', useTools=false, imageBase64=null, streamHandlers=null){
++async function callClaude(systemPrompt, userText, history, provider=utilityProvider(), useTools=false, imageBase64=null, streamHandlers=null){
++  assertEgressAllowed(provider); // F-UI-1: first statement on purpose — knowledgeContext() below may call /api/embed with the user's text
+   const requestStartTime = Date.now();
+   const fullSystemPrompt = systemPrompt + await knowledgeContext(userText); // embeddings/routing use text only, never the image
+   const userContent = imageBase64
+@@ -7058,9 +7086,11 @@
+   },
+   async verify(questionText, draftAnswer){
+     try{
++      // F-UI-1: in local mode the independent critic runs on the SAME local model (never on Anthropic — it sees the question and the draft answer).
++      const vProvider = utilityProvider();
+       const raw = await NexusOrchestrator.callResilient(
+-        () => callClaude(VERIFIER_SYSTEM_PROMPT, 'السؤال: '+questionText+'\n\nالإجابة المقترحة:\n'+draftAnswer.slice(0,4000), [], 'anthropic', false, null, null),
+-        { provider:'anthropic', model: PROVIDERS_META.anthropic.model, maxRetries: 1 } // verification is best-effort — one retry, not the full default budget
++        () => callClaude(VERIFIER_SYSTEM_PROMPT, 'السؤال: '+questionText+'\n\nالإجابة المقترحة:\n'+draftAnswer.slice(0,4000), [], vProvider, false, null, null),
++        { provider:vProvider, model: PROVIDERS_META[vProvider]?.model, maxRetries: 1 } // verification is best-effort — one retry, not the full default budget
+       );
+       const jsonMatch = raw.match(/\{[\s\S]*\}/);
+       const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : raw);
+@@ -7829,9 +7859,11 @@
+     // reasoning as Verifier/the Multi-Model bias judge) — it just never
+     // actually got NexusOrchestrator.callResilient's retry protection
+     // that the sibling call already has.
++    // F-UI-1: the picker carries the user's text — in local mode it runs on the selected LOCAL model, never on Anthropic.
++    const pickProvider = utilityProvider();
+     const raw = await NexusOrchestrator.callResilient(
+-      () => callClaude(buildTeamPickPrompt(minN, maxN), text, []),
+-      { provider:'anthropic', model: PROVIDERS_META.anthropic.model }
++      () => callClaude(buildTeamPickPrompt(minN, maxN), text, [], pickProvider),
++      { provider:pickProvider, model: PROVIDERS_META[pickProvider]?.model }
+     );
+     const jsonMatch = raw.match(/\{[\s\S]*\}/);
+     const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : raw);
+@@ -10358,6 +10390,14 @@
+   const agent = getAllAgents().find(a=>a.id===selectedAgentIds[0]) || getAllAgents()[0];
+   const providers = ['anthropic', ...getEnabledExtraProviders()];
+ 
++  // F-UI-1: this mode's whole purpose is to send ONE question to several CLOUD providers. It cannot run locally without changing what it is, so in
++  // local mode it is refused (fail closed) BEFORE any request is made, with an explanation — never silently dropped, never sent.
++  if(isLocalOnlyActive()){
++    messages.push({ role:'assistant', agentId:'error', agentName:'🔒 الوضع المحلي', content:'«توافق متعدد النماذج» يرسل سؤالك إلى عدة مزودات سحابية، لذلك هو معطّل أثناء الوضع المحلي حمايةً لخصوصيتك — لم يُرسَل أي محتوى خارج جهازك. اختر Claude أو مزوداً سحابياً من قائمة النموذج لاستخدامه، أو أوقف هذا الوضع.', type:'error' });
++    renderMessages();
++    return;
++  }
++
+   if(!getBackendUrl()){
+     messages.push({ role:'assistant', agentId:'error', agentName:'تنبيه', content:'توافق متعدد النماذج يتطلب ضبط رابط سيرفر backend من ⚙️ الإعدادات (عشان يقدر يستخدم مفاتيح OpenAI/DeepSeek/Gemini بأمان — راجع مجلد nexus-backend).', type:'error' });
+     renderMessages();
+@@ -10393,7 +10433,7 @@
+   if(successes.length >= 2){
+     const biasPrompt = 'قارن الإجابات التالية من نماذج ذكاء اصطناعي مختلفة على نفس السؤال بموضوعية. حدد بإيجاز: أين تتفق؟ أين تختلف بشكل ملحوظ؟ هل هناك انحياز واضح لنموذج معين نحو رأي معين؟ لا تعطِ إجابة نهائية جديدة على السؤال نفسه، فقط قارن المواقف الموجودة.';
+     try{
+-      const comparison = await callClaudeStreamed(biasPrompt, 'السؤال الأصلي: ' + text + '\n\nالإجابات:\n' + successes.join('\n\n---\n\n'), [], '🔍 مقارنة الإجابات وكشف التباين...', 'anthropic');
++      const comparison = await callClaudeStreamed(biasPrompt, 'السؤال الأصلي: ' + text + '\n\nالإجابات:\n' + successes.join('\n\n---\n\n'), [], '🔍 مقارنة الإجابات وكشف التباين...', utilityProvider());
+       messages.push({ role:'assistant', agentId:'comparison', agentName:'🔍 مقارنة النماذج (كشف الانحياز)', content:comparison, type:'synthesis' });
+       renderMessages();
+     }catch(e){
+@@ -10427,7 +10467,10 @@
+       routingReasonForLog = 'مسار سريع (تصنيف تلقائي فوري، ثقة ~' + Math.round(routingPlan.intent.confidence*100) + '٪) — بدون استدعاء نموذج إضافي للتوجيه';
+       logRoutingAudit('auto-route/fast-path', routingPlan);
+     }else{
+-      const routingReplyRaw = await NexusOrchestrator.callResilient(() => callClaude(buildManagerPrompt(), text, []), { provider:'anthropic', model: PROVIDERS_META.anthropic.model });
++      // F-UI-1: the Manager receives the user's raw text. In local mode it runs on the selected LOCAL model (the local alternative — same JSON contract,
++      // same 'general' fallback on an unparsable answer); when not in local mode this is exactly the previous Anthropic call.
++      const mgrProvider = utilityProvider();
++      const routingReplyRaw = await NexusOrchestrator.callResilient(() => callClaude(buildManagerPrompt(), text, [], mgrProvider), { provider:mgrProvider, model: PROVIDERS_META[mgrProvider]?.model });
+       let routed;
+       try{
+         const jsonMatch = routingReplyRaw.match(/\{[\s\S]*\}/);
+diff -ruN '--exclude=node_modules' '--exclude=dist' pristine/src-baseline/nexus-backend/src/routes/legacy/embed.ts work/src-baseline/nexus-backend/src/routes/legacy/embed.ts
+--- pristine/src-baseline/nexus-backend/src/routes/legacy/embed.ts	2026-10-22 04:58:26.000000000 +0300
++++ work/src-baseline/nexus-backend/src/routes/legacy/embed.ts	2026-11-13 04:17:30.026784554 +0300
+@@ -8,15 +8,22 @@
+   router.post(
+     '/api/embed',
+     async (ctx: RouteContext) => {
+-      const body = await readJsonBody<{ texts?: string[]; provider?: string; model?: string }>(ctx.req);
++      const body = await readJsonBody<{ texts?: string[]; provider?: string; model?: string; localOnly?: unknown }>(ctx.req);
+       if (!Array.isArray(body.texts) || body.texts.length === 0) throw Errors.validation('الحقل "texts" مطلوب ويجب أن يكون مصفوفة غير فارغة.');
+       if (body.texts.some((t) => typeof t !== 'string')) throw Errors.validation('كل عنصر في "texts" يجب أن يكون نصاً.');
++      // F-UI-1: the frontend's 🔒 local mode sends `localOnly:true`. It can only TIGHTEN the route: only a LOCAL provider may be chosen, an
++      // explicit cloud provider is refused, and there is no fallback to a cloud embedder. A non-boolean value is rejected, never read as false.
++      if (body.localOnly !== undefined && typeof body.localOnly !== 'boolean') throw Errors.validation('الحقل "localOnly" يجب أن يكون قيمة منطقية (true/false).');
++      const localOnly = body.localOnly === true;
+       // The frontend's current getEmbedding() call doesn't send a
+       // provider — default to the first embeddings-capable configured
+       // provider so the legacy contract keeps working unmodified while
+       // still routing through the SAME unified service future callers
+       // (that DO specify a provider) use.
+-      const providerId = (body.provider && ProviderRegistry.has(body.provider) ? body.provider : firstEmbeddingProvider()) as ProviderId;
++      const providerId = (body.provider && ProviderRegistry.has(body.provider) ? body.provider : firstEmbeddingProvider(localOnly)) as ProviderId;
++      if (localOnly && !ProviderRegistry.resolve(providerId).capabilities.isLocal) {
++        throw Errors.capabilityDenied('وضع المحادثة المحلي مفعّل: لا يُسمح بإرسال النص إلى مزود تضمين سحابي. لم يُرسَل أي محتوى إلى مزود سحابي.');
++      }
+       const result = await embedTexts(body.texts, providerId, ctx.gw, body.model);
+       ctx.res.writeHead(200, { 'Content-Type': 'application/json' });
+       ctx.res.end(JSON.stringify({ embeddings: result.embeddings }));
+@@ -25,8 +32,8 @@
+   );
+ }
+ 
+-function firstEmbeddingProvider(): ProviderId {
+-  const candidates = ProviderRegistry.resolveAll().filter((p) => p.capabilities.embeddings && (p.capabilities.isLocal || p.apiKey));
+-  if (candidates.length === 0) throw Errors.capabilityDenied('لا يوجد أي مزود تضمين (embeddings) مُعدّ على السيرفر.');
++function firstEmbeddingProvider(localOnly = false): ProviderId {
++  const candidates = ProviderRegistry.resolveAll().filter((p) => p.capabilities.embeddings && (p.capabilities.isLocal || (!localOnly && p.apiKey)));
++  if (candidates.length === 0) throw Errors.capabilityDenied(localOnly ? 'لا يوجد مزود تضمين محلي مُعدّ على السيرفر (وضع المحادثة المحلي يمنع المزودات السحابية).' : 'لا يوجد أي مزود تضمين (embeddings) مُعدّ على السيرفر.');
+   return candidates[0]!.id;
+ }
+diff -ruN '--exclude=node_modules' '--exclude=dist' pristine/src-baseline/nexus-backend/test/embedLocalOnly.test.ts work/src-baseline/nexus-backend/test/embedLocalOnly.test.ts
+--- pristine/src-baseline/nexus-backend/test/embedLocalOnly.test.ts	1970-01-01 02:00:00.000000000 +0200
++++ work/src-baseline/nexus-backend/test/embedLocalOnly.test.ts	2026-11-12 04:38:51.260073780 +0300
+@@ -0,0 +1,116 @@
++import './helpers/setFallbackTestEnv.js';
++import { test, before, after, beforeEach } from 'node:test';
++import assert from 'node:assert/strict';
++import { createServer, type Server } from 'node:http';
++import { createNexusServer } from '../src/gateway/server.js';
++
++/**
++ * F-UI-1 (frontend local mode) — /api/embed `localOnly` contract. The frontend's 🔒 local mode promises that nothing leaves the device/LAN, but
++ * the legacy /api/embed route (unauthenticated, see authGateway.test) picked "the first embeddings-capable configured provider" — a CLOUD one (openai)
++ * whenever its key exists — for text such as a user's question or a memory summary. With `localOnly:true` the route must (a) only ever choose a LOCAL
++ * provider, (b) refuse an explicit non-local provider, and (c) fail closed (no cloud call of any kind) when the local embedder fails.
++ * Egress is measured at the fake CLOUD server itself, never inferred from a return value.
++ */
++
++let nexus: Server;
++let nexusUrl: string;
++let local: Server;
++let cloud: Server;
++let localMode: 'ok' | 'fail503' = 'ok';
++const localLog: string[] = [];
++const cloudLog: string[] = [];
++
++function listen(s: Server): Promise<string> {
++  return new Promise((resolve) =>
++    s.listen(0, '127.0.0.1', () => {
++      const a = s.address();
++      resolve(`http://127.0.0.1:${typeof a === 'object' && a ? a.port : 0}`);
++    })
++  );
++}
++async function readBody(req: import('node:http').IncomingMessage): Promise<string> {
++  const chunks: Buffer[] = [];
++  for await (const c of req) chunks.push(c as Buffer);
++  return Buffer.concat(chunks).toString('utf8');
++}
++
++before(async () => {
++  local = createServer(async (req, res) => {
++    const body = await readBody(req);
++    localLog.push(`${req.url}|${body}`);
++    if (localMode === 'fail503') {
++      res.writeHead(503, { 'Content-Type': 'application/json' });
++      return res.end(JSON.stringify({ error: 'local embedder down' }));
++    }
++    const input = (JSON.parse(body).input ?? []) as string[];
++    res.writeHead(200, { 'Content-Type': 'application/json' });
++    res.end(JSON.stringify({ embeddings: input.map(() => [0.1, 0.2, 0.3]) }));
++  });
++  process.env.NEXUS_OLLAMA_BASE_URL = await listen(local);
++  process.env.NEXUS_MODEL_OLLAMA = 'llama3.1';
++
++  cloud = createServer(async (req, res) => {
++    cloudLog.push(`${req.url}|${await readBody(req)}`);
++    res.writeHead(200, { 'Content-Type': 'application/json' });
++    res.end(JSON.stringify({ data: [{ index: 0, embedding: [0.9, 0.8, 0.7] }] }));
++  });
++  process.env.NEXUS_OPENAI_BASE_URL = await listen(cloud);
++  process.env.NEXUS_OPENAI_API_KEY = 'fake-openai-key'; // an embeddings-capable CLOUD provider IS configured (registry order puts it before ollama)
++
++  nexus = createNexusServer();
++  nexusUrl = await listen(nexus);
++});
++
++beforeEach(() => {
++  localMode = 'ok';
++  localLog.length = 0;
++  cloudLog.length = 0;
++});
++
++after(async () => {
++  await Promise.all([nexus, local, cloud].map((s) => new Promise((r) => s.close(r))));
++});
++
++async function embed(body: unknown): Promise<{ status: number; json: any }> {
++  const res = await fetch(`${nexusUrl}/api/embed`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
++  return { status: res.status, json: await res.json().catch(() => ({})) };
++}
++
++test('control (unchanged legacy behaviour): WITHOUT localOnly the route still uses the first embeddings provider — the cloud one when configured', async () => {
++  const r = await embed({ texts: ['legacy-control-text-1'] });
++  assert.equal(r.status, 200);
++  assert.equal(cloudLog.length, 1, 'harness control: the cloud embeddings meter must be live');
++});
++
++test('localOnly:true selects a LOCAL embeddings provider and sends NOTHING to the cloud', async () => {
++  const r = await embed({ texts: ['localonly-secret-text-2'], localOnly: true });
++  assert.equal(r.status, 200, JSON.stringify(r.json));
++  assert.deepEqual(r.json.embeddings, [[0.1, 0.2, 0.3]]);
++  assert.equal(cloudLog.length, 0, 'no request may reach the cloud embeddings provider');
++  assert.ok(localLog.length >= 1, 'the local embedder served the request');
++});
++
++test('localOnly:true + an explicit CLOUD provider is refused (capability_denied) and nothing reaches the cloud', async () => {
++  const r = await embed({ texts: ['localonly-secret-text-3'], localOnly: true, provider: 'openai' });
++  assert.ok(r.status >= 400 && r.status < 500, `expected a 4xx refusal, got ${r.status}`);
++  assert.equal(cloudLog.length, 0);
++});
++
++test('localOnly:true + an explicit LOCAL provider is honoured', async () => {
++  const r = await embed({ texts: ['localonly-secret-text-4'], localOnly: true, provider: 'ollama' });
++  assert.equal(r.status, 200, JSON.stringify(r.json));
++  assert.equal(cloudLog.length, 0);
++});
++
++test('localOnly:true + the local embedder FAILING fails closed: an error status and ZERO cloud requests (no fallback)', async () => {
++  localMode = 'fail503';
++  const r = await embed({ texts: ['localonly-secret-text-5'], localOnly: true });
++  assert.ok(r.status >= 400, `must not report success, got ${r.status}`);
++  assert.equal(cloudLog.length, 0, 'a failed local embedder must never fall back to the cloud');
++});
++
++test('a non-boolean localOnly is rejected (validation) instead of being silently treated as false', async () => {
++  const r = await embed({ texts: ['localonly-secret-text-6'], localOnly: 'yes' });
++  assert.equal(r.status, 400);
++  assert.equal(cloudLog.length, 0);
++});

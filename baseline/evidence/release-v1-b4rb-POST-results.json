@@ -1,0 +1,50 @@
+{
+  "verdict": "ACCEPTED",
+  "checks": [
+    {
+      "kind": "VALID",
+      "name": "V1 the real backend process started and listens",
+      "ok": true
+    },
+    {
+      "kind": "VALID",
+      "name": "V2 control: backend refuses no key (401) and accepts the right key (200) when called directly",
+      "ok": true
+    },
+    {
+      "kind": "PS",
+      "name": "R1 the key typed in the real settings UI is accepted by the real backend (200, Bearer sent)",
+      "ok": true
+    },
+    {
+      "kind": "PS",
+      "name": "R2 cross-origin works under the CSP + CORS allow-list (ACAO = the frontend origin, no CSP violation)",
+      "ok": true
+    },
+    {
+      "kind": "PS",
+      "name": "R3 the real backend response carries the API security headers",
+      "ok": true
+    },
+    {
+      "kind": "PS",
+      "name": "R4 a wrong key typed in the UI is refused by the real backend (401)",
+      "ok": true
+    },
+    {
+      "kind": "PS",
+      "name": "R5 after a reload (memory wiped) the real backend refuses the request (401, no Authorization sent)",
+      "ok": true
+    },
+    {
+      "kind": "PS",
+      "name": "R6 neither the browser console nor the backend process output ever contains a key",
+      "ok": true
+    },
+    {
+      "kind": "PS",
+      "name": "R7 browser web storage holds no key after the whole flow",
+      "ok": true
+    }
+  ]
+}

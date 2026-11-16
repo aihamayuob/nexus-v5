@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 /tmp/claude-0/-home-claude/a103dd58-ea7a-519b-b9fe-4379eeb7780e/scratchpad/repo-extract/nexus-repo/frontend
+
+
+ Test Files  5 passed (5)
+      Tests  168 passed (168)
+   Start at  08:46:11
+   Duration  5.82s (transform 237ms, setup 0ms, import 407ms, tests 702ms, environment 3.90s)
+

@@ -1,0 +1,326 @@
+{
+  "survivors": 0,
+  "restoredOk": true,
+  "originalSha": {
+    "MOD": "a9f711e1b125d34cc7457e6c2c668af671c097bfdf5367dc415be68034faacbe",
+    "MAIN": "85ec41af56c678bc4c82eaa2d399c4115ef8f01dce4a56d4d45c207739510a32",
+    "HTML": "9b2baa32643dd3dae2e62c5a29c9e8dfdd9fa08b45dafa59ea38f4b6075f2441"
+  },
+  "results": [
+    {
+      "id": "U1 restore caches ONE shared default per key",
+      "kind": "unit",
+      "killedByUnit": true,
+      "unit": {
+        "total": 36,
+        "failed": 3,
+        "sample": [
+          "missing keys get a NEW, independent default object on every restore (no shared/mutable default)",
+          "calls default() only for absent keys, set() exactly once per key, never get()",
+          "200 random scenarios: identical resulting state AND identical get/set/default call sequence"
+        ]
+      },
+      "byteProofDetects": true,
+      "byteProofFailedChecks": [
+        "P3a",
+        "P3b",
+        "P3c",
+        "P4",
+        "P4b"
+      ]
+    },
+    {
+      "id": "U2 restore uses truthiness instead of !== undefined",
+      "kind": "unit",
+      "killedByUnit": true,
+      "unit": {
+        "total": 36,
+        "failed": 2,
+        "sample": [
+          "only `undefined` triggers the default: null, 0, \"\", false and [] are real stored values and are kept",
+          "200 random scenarios: identical resulting state AND identical get/set/default call sequence"
+        ]
+      },
+      "byteProofDetects": true,
+      "byteProofFailedChecks": [
+        "P3a",
+        "P3b",
+        "P3c",
+        "P4"
+      ]
+    },
+    {
+      "id": "U3 snapshot returns an array instead of an object",
+      "kind": "unit",
+      "killedByUnit": true,
+      "unit": {
+        "total": 36,
+        "failed": 8,
+        "sample": [
+          "returns one entry per registry key, in registry order, with the get() values",
+          "returns a NEW top-level object on every call (mutating a snapshot never changes state)",
+          "CHARACTERIZATION (existing behavior, preserved byte-for-byte, not a new guarantee): values are live references, the snapshot is shallow"
+        ]
+      },
+      "byteProofDetects": true,
+      "byteProofFailedChecks": [
+        "P3a",
+        "P3b",
+        "P3c",
+        "P4"
+      ]
+    },
+    {
+      "id": "U4 restore skips missing keys (keeps stale value)",
+      "kind": "unit",
+      "killedByUnit": true,
+      "unit": {
+        "total": 36,
+        "failed": 14,
+        "sample": [
+          "a MISSING key is restored to a FRESH default (not left at its current value)",
+          "missing keys get a NEW, independent default object on every restore (no shared/mutable default)",
+          "two keys with structurally equal defaults still get distinct objects"
+        ]
+      },
+      "byteProofDetects": true,
+      "byteProofFailedChecks": [
+        "P3a",
+        "P3b",
+        "P3c",
+        "P4"
+      ]
+    },
+    {
+      "id": "U5 reset stops after the first key",
+      "kind": "unit",
+      "killedByUnit": true,
+      "unit": {
+        "total": 36,
+        "failed": 6,
+        "sample": [
+          "sets every key to its default()",
+          "calls default() then set() once per key (in registry order) and never get()",
+          "each reset installs NEW default objects (fresh every time, independent of earlier ones)"
+        ]
+      },
+      "byteProofDetects": true,
+      "byteProofFailedChecks": [
+        "P3a",
+        "P3b",
+        "P3c",
+        "P4"
+      ]
+    },
+    {
+      "id": "U6 snapshot iterates keys in reverse order",
+      "kind": "unit",
+      "killedByUnit": true,
+      "unit": {
+        "total": 36,
+        "failed": 5,
+        "sample": [
+          "returns one entry per registry key, in registry order, with the get() values",
+          "calls get() exactly once per key and never set()/default()",
+          "returns a NEW top-level object on every call (mutating a snapshot never changes state)"
+        ]
+      },
+      "byteProofDetects": true,
+      "byteProofFailedChecks": [
+        "P3a",
+        "P3b",
+        "P3c",
+        "P4"
+      ]
+    },
+    {
+      "id": "U7 restore writes defaults back into the decrypted input",
+      "kind": "unit",
+      "killedByUnit": true,
+      "unit": {
+        "total": 36,
+        "failed": 1,
+        "sample": [
+          "does not mutate the decrypted input object (key set and top-level values unchanged)"
+        ]
+      },
+      "byteProofDetects": true,
+      "byteProofFailedChecks": [
+        "P3a",
+        "P3b",
+        "P3c",
+        "P4"
+      ]
+    },
+    {
+      "id": "U8 restore calls default() eagerly for every key",
+      "kind": "unit",
+      "killedByUnit": true,
+      "unit": {
+        "total": 36,
+        "failed": 2,
+        "sample": [
+          "calls default() only for absent keys, set() exactly once per key, never get()",
+          "200 random scenarios: identical resulting state AND identical get/set/default call sequence"
+        ]
+      },
+      "byteProofDetects": true,
+      "byteProofFailedChecks": [
+        "P3a",
+        "P3b",
+        "P3c",
+        "P4"
+      ]
+    },
+    {
+      "id": "U9 snapshot deep-copies values (unrequested \"improvement\")",
+      "kind": "unit",
+      "killedByUnit": true,
+      "unit": {
+        "total": 36,
+        "failed": 2,
+        "sample": [
+          "returns one entry per registry key, in registry order, with the get() values",
+          "CHARACTERIZATION (existing behavior, preserved byte-for-byte, not a new guarantee): values are live references, the snapshot is shallow"
+        ]
+      },
+      "byteProofDetects": true,
+      "byteProofFailedChecks": [
+        "P3a",
+        "P3b",
+        "P3c",
+        "P4"
+      ]
+    },
+    {
+      "id": "U10 reset reuses ONE shared default per key",
+      "kind": "unit",
+      "killedByUnit": true,
+      "unit": {
+        "total": 36,
+        "failed": 3,
+        "sample": [
+          "calls default() then set() once per key (in registry order) and never get()",
+          "each reset installs NEW default objects (fresh every time, independent of earlier ones)",
+          "200 random scenarios: identical resulting state AND identical get/set/default call sequence"
+        ]
+      },
+      "byteProofDetects": true,
+      "byteProofFailedChecks": [
+        "P3a",
+        "P3b",
+        "P3c",
+        "P4",
+        "P4b"
+      ]
+    },
+    {
+      "id": "E1 bridge assignment removed from main.js",
+      "kind": "e2e",
+      "killedBySlice4E2E": true,
+      "slice4": {
+        "exit": 1,
+        "passed": 9,
+        "total": 21,
+        "failed": "bridge-core-namespace, snapshot-shape-and-top-level-isolation, snapshot-values-are-live-references (characterization of existing behavior), state-restored-after-reload (marker via real autoInitApp), all-16-variables-restored-via-autoInitApp, crafted-blob-without-6-keys-written, crafted-blob-restored-via-autoInitApp, present-keys-kept-when-others-missing, real-restore-self-noop-and-reset-sets-all-16-defaults-and-rebinds, wrappers-delegate-explicit-registry, resetAllData-real-path-wipes-state-and-blob, no-decrypt-or-persist-errors"
+      },
+      "preExistingCoreSeedE2EAlsoFails": true,
+      "seed": {
+        "exit": 1,
+        "passed": 13,
+        "total": 16,
+        "failed": "persisted-blob-is-encrypted-envelope, state-restored-after-reload, no-decrypt-or-persist-errors"
+      }
+    },
+    {
+      "id": "E2 restore wrapper passes an empty registry",
+      "kind": "e2e",
+      "killedBySlice4E2E": true,
+      "slice4": {
+        "exit": 1,
+        "passed": 16,
+        "total": 21,
+        "failed": "state-restored-after-reload (marker via real autoInitApp), all-16-variables-restored-via-autoInitApp, crafted-blob-restored-via-autoInitApp, present-keys-kept-when-others-missing, wrappers-delegate-explicit-registry"
+      },
+      "preExistingCoreSeedE2EAlsoFails": true,
+      "seed": {
+        "exit": 1,
+        "passed": 15,
+        "total": 16,
+        "failed": "state-restored-after-reload"
+      }
+    },
+    {
+      "id": "E3 snapshot wrapper drops its return value",
+      "kind": "e2e",
+      "killedBySlice4E2E": true,
+      "slice4": {
+        "exit": 1,
+        "passed": 13,
+        "total": 21,
+        "failed": "snapshot-shape-and-top-level-isolation, snapshot-values-are-live-references (characterization of existing behavior), state-restored-after-reload (marker via real autoInitApp), all-16-variables-restored-via-autoInitApp, crafted-blob-without-6-keys-written, crafted-blob-restored-via-autoInitApp, present-keys-kept-when-others-missing, no-decrypt-or-persist-errors"
+      },
+      "preExistingCoreSeedE2EAlsoFails": true,
+      "seed": {
+        "exit": 1,
+        "passed": 14,
+        "total": 16,
+        "failed": "state-restored-after-reload, no-decrypt-or-persist-errors"
+      }
+    },
+    {
+      "id": "E4 bridge swaps restore and reset",
+      "kind": "e2e",
+      "killedBySlice4E2E": true,
+      "slice4": {
+        "exit": 1,
+        "passed": 15,
+        "total": 21,
+        "failed": "bridge-core-namespace, state-restored-after-reload (marker via real autoInitApp), all-16-variables-restored-via-autoInitApp, crafted-blob-restored-via-autoInitApp, present-keys-kept-when-others-missing, real-restore-self-noop-and-reset-sets-all-16-defaults-and-rebinds"
+      },
+      "preExistingCoreSeedE2EAlsoFails": true,
+      "seed": {
+        "exit": 1,
+        "passed": 15,
+        "total": 16,
+        "failed": "state-restored-after-reload"
+      }
+    },
+    {
+      "id": "E5 reset wrapper passes an empty registry",
+      "kind": "e2e",
+      "killedBySlice4E2E": true,
+      "slice4": {
+        "exit": 1,
+        "passed": 18,
+        "total": 21,
+        "failed": "real-restore-self-noop-and-reset-sets-all-16-defaults-and-rebinds, wrappers-delegate-explicit-registry, resetAllData-real-path-wipes-state-and-blob"
+      },
+      "preExistingCoreSeedE2EAlsoFails": false,
+      "seed": {
+        "exit": 0,
+        "passed": 16,
+        "total": 16,
+        "failed": ""
+      }
+    },
+    {
+      "id": "E6 snapshot wrapper silently omits `workflows` (data-loss class)",
+      "kind": "e2e",
+      "killedBySlice4E2E": true,
+      "slice4": {
+        "exit": 1,
+        "passed": 16,
+        "total": 21,
+        "failed": "snapshot-shape-and-top-level-isolation, all-16-variables-restored-via-autoInitApp, crafted-blob-without-6-keys-written, present-keys-kept-when-others-missing, wrappers-delegate-explicit-registry"
+      },
+      "preExistingCoreSeedE2EAlsoFails": false,
+      "seed": {
+        "exit": 0,
+        "passed": 16,
+        "total": 16,
+        "failed": ""
+      }
+    }
+  ]
+}

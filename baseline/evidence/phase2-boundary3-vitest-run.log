@@ -1,0 +1,22 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/home/claude/nexus-v5/frontend[39m
+      [2mCoverage enabled with [22m[33mv8[39m
+
+ [32m✓[39m modules/security.test.mjs [2m([22m[2m19 tests[22m[2m)[22m[32m 159[2mms[22m[39m
+ [32m✓[39m modules/storage.test.mjs [2m([22m[2m27 tests[22m[2m)[22m[32m 32[2mms[22m[39m
+ [32m✓[39m modules/utilities.test.mjs [2m([22m[2m38 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[32m84 passed[39m[22m[90m (84)[39m
+[2m   Start at [22m 02:30:05
+[2m   Duration [22m 3.10s[2m (transform 97ms, setup 0ms, import 175ms, tests 214ms, environment 2.13s)[22m
+
+[34m % [39m[2mCoverage report from [22m[33mv8[39m
+---------------|---------|----------|---------|---------|-------------------
+File           | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+---------------|---------|----------|---------|---------|-------------------
+All files      |   90.65 |    83.13 |   89.55 |   97.42 |                   
+ security.mjs  |   95.83 |    85.71 |     100 |     100 | 49-91             
+ storage.mjs   |    89.2 |     82.6 |   86.11 |      96 | 118,169,190,211   
+ utilities.mjs |   91.13 |    83.01 |    90.9 |   98.27 | 42,123            
+---------------|---------|----------|---------|---------|-------------------

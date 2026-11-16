@@ -1,0 +1,35 @@
+taken_at=2026-10-15T07:03:53Z
+== production files
+b58210df2e30d1175545f8b983df15e228b1fae74f749866471ff05e957e949d  frontend/neural_nexus_ai_agents-4-3-5-3.html
+ae059a3f986268ba76ee3b83510a2d1f3ceee31d9a3d2ef044b6d6c12ed66c77  frontend/main.js
+2eb6668d64834c57f70ceb2134def87ec76d94f45075d08cae4e45bbb992c2fc  frontend/modules/state.mjs
+589b6323c76bdfad4b308bd2f99e2441d80412f9f734fbd2174f039387edc179  frontend/modules/state.test.mjs
+== tree hashes (excl node_modules/dist/data)
+frontend=249c51fe1976216899f8740ded6b7e5ab3e8d5dd570bd1b31f9a9001c27f9a76
+src-baseline=55c8493357e4086fffd1f2d65e84a970861ba9f82ca75d55c08f775ffab061dc
+ADR=66d76d3d91a68f0cce060489917050a6893b29740556e6f11b5d83c742750c37
+e2e(excl node_modules)=4d9a581b2267ef800ddcb41d3074804f9ad2dd2fc46283a98d58ea68105e14fc
+== git
+branch=v5.0-polish
+HEAD=bc05f58247ea837f3df4fd8343fdc52ed21eeedd
+== refs
+bc05f58247ea837f3df4fd8343fdc52ed21eeedd commit	refs/heads/v5.0-polish
+== count-objects
+count: 776
+size: 8140
+in-pack: 0
+packs: 0
+size-pack: 0
+prune-packable: 0
+garbage: 0
+size-garbage: 0
+== stash
+0
+== .git/index sha256
+13f536173cc7a2f774570f21a6afd8c74b10175c0bee7e0f8130ad58ccb463cf  .git/index
+== .git/HEAD + config sha256
+65e00aae0111fcc19e1d3b40af0236107a4351fe5d70b75642c9e83cc9b71e4b  .git/HEAD
+4fdb0325954b7fbb9c5b9ac65cc24920ab7914c4f56790614de0f20a38ffb357  .git/config
+== status counts
+      8  M
+     83 ??

@@ -1,0 +1,3230 @@
+{
+  "meta": {
+    "head": "b9d4808d42d47a3b06961851567905780a1272f0",
+    "acornVersion": "8.19.0",
+    "htmlFile": "frontend/neural_nexus_ai_agents-4-3-5-3.html",
+    "htmlLines": 11747,
+    "readOnly": true,
+    "limits": [
+      "STATIC analysis only: no code was executed; branch feasibility is not evaluated (reachability is an over-approximation).",
+      "Identifier resolution is by bare name with lexical shadowing; dynamic access (window[...], eval, new Function, string-built code) is not resolved.",
+      "In-place mutation detection is syntactic (member assignment/update/delete and known mutator method names rooted at the variable); mutation through an alias is NOT detected — see escapeSites.",
+      "Inline-handler detection reads on*= attributes in the HTML and inside string/template literals; handlers built any other way are not seen.",
+      "unitCallsPersistState = the top-level unit contains a direct bare call to persistState(); persistence reached only transitively or after an await in another unit is not counted."
+    ]
+  },
+  "scripts": [
+    {
+      "idx": 0,
+      "attrs": "type=\"module\" src=\"main.js\"",
+      "src": true,
+      "type": "module",
+      "tagLine": 2341,
+      "nLines": 1
+    },
+    {
+      "idx": 1,
+      "attrs": "",
+      "src": false,
+      "type": "classic",
+      "tagLine": 2342,
+      "nLines": 9379
+    },
+    {
+      "idx": 2,
+      "attrs": "",
+      "src": false,
+      "type": "classic",
+      "tagLine": 11730,
+      "nLines": 15
+    }
+  ],
+  "startupFromMainJs": [
+    {
+      "name": "applyTheme",
+      "line": 98
+    },
+    {
+      "name": "applyTranslations",
+      "line": 99
+    },
+    {
+      "name": "autoInitApp",
+      "line": 100
+    },
+    {
+      "name": "registerServiceWorker",
+      "line": 101
+    },
+    {
+      "name": "updateOnlineStatus",
+      "line": 102
+    }
+  ],
+  "persistableState": {
+    "line": 4931,
+    "endLine": 4952,
+    "kind": "const",
+    "keys": [
+      {
+        "key": "messages",
+        "getTarget": "messages",
+        "setTarget": "messages",
+        "defaultSrc": "[]"
+      },
+      {
+        "key": "selectedAgentIds",
+        "getTarget": "selectedAgentIds",
+        "setTarget": "selectedAgentIds",
+        "defaultSrc": "['general']"
+      },
+      {
+        "key": "knowledgeBase",
+        "getTarget": "knowledgeBase",
+        "setTarget": "knowledgeBase",
+        "defaultSrc": "[]"
+      },
+      {
+        "key": "activityLog",
+        "getTarget": "activityLog",
+        "setTarget": "activityLog",
+        "defaultSrc": "[]"
+      },
+      {
+        "key": "customAgents",
+        "getTarget": "customAgents",
+        "setTarget": "customAgents",
+        "defaultSrc": "[]"
+      },
+      {
+        "key": "longTermMemory",
+        "getTarget": "longTermMemory",
+        "setTarget": "longTermMemory",
+        "defaultSrc": "[]"
+      },
+      {
+        "key": "workflows",
+        "getTarget": "workflows",
+        "setTarget": "workflows",
+        "defaultSrc": "[]"
+      },
+      {
+        "key": "agentOrder",
+        "getTarget": "agentOrder",
+        "setTarget": "agentOrder",
+        "defaultSrc": "[]"
+      },
+      {
+        "key": "usageLog",
+        "getTarget": "usageLog",
+        "setTarget": "usageLog",
+        "defaultSrc": "[]"
+      },
+      {
+        "key": "errorLog",
+        "getTarget": "errorLog",
+        "setTarget": "errorLog",
+        "defaultSrc": "[]"
+      },
+      {
+        "key": "activeGroupId",
+        "getTarget": "activeGroupId",
+        "setTarget": "activeGroupId",
+        "defaultSrc": "null"
+      },
+      {
+        "key": "uploadedDocs",
+        "getTarget": "uploadedDocs",
+        "setTarget": "uploadedDocs",
+        "defaultSrc": "[]"
+      },
+      {
+        "key": "projects",
+        "getTarget": "projects",
+        "setTarget": "projects",
+        "defaultSrc": "[]"
+      },
+      {
+        "key": "decisionJournal",
+        "getTarget": "decisionJournal",
+        "setTarget": "decisionJournal",
+        "defaultSrc": "[]"
+      },
+      {
+        "key": "topicMonitors",
+        "getTarget": "topicMonitors",
+        "setTarget": "topicMonitors",
+        "defaultSrc": "[]"
+      },
+      {
+        "key": "briefingLastSeenAt",
+        "getTarget": "briefingLastSeenAt",
+        "setTarget": "briefingLastSeenAt",
+        "defaultSrc": "null"
+      }
+    ]
+  },
+  "declaredAfterPersistableState": [
+    "errorLog"
+  ],
+  "declaredBeforePersistableState": [
+    "messages",
+    "customAgents",
+    "workflows",
+    "knowledgeBase",
+    "activeGroupId",
+    "agentOrder",
+    "selectedAgentIds",
+    "projects",
+    "decisionJournal",
+    "topicMonitors",
+    "longTermMemory",
+    "uploadedDocs",
+    "activityLog",
+    "usageLog",
+    "briefingLastSeenAt"
+  ],
+  "variables": {
+    "messages": {
+      "declaration": {
+        "kind": "let",
+        "line": 2533,
+        "script": 1,
+        "col0": true,
+        "init": "[]",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 1,
+        "rebindUnits": 1,
+        "rebindFunctionsDistinct": 1,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 73,
+        "mutateNestedSites": 1,
+        "mutateUnits": 16,
+        "readSites": 25,
+        "escapeSites": 2,
+        "readerUnits": 18,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 4994,
+          "unit": "clearConversation",
+          "fn": "clearConversation",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        }
+      ],
+      "mutateSites": [
+        {
+          "line": 3989,
+          "unit": "runWorkflow",
+          "fn": "runWorkflow",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 4005,
+          "unit": "runWorkflow",
+          "fn": "runWorkflow",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 4010,
+          "unit": "runWorkflow",
+          "fn": "runWorkflow",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 4017,
+          "unit": "runWorkflow",
+          "fn": "runWorkflow",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 4976,
+          "unit": "persistState",
+          "fn": "persistState",
+          "detail": "method:splice",
+          "nested": false,
+          "path": "messages.splice",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 7662,
+          "unit": "enrichDeepen",
+          "fn": "enrichDeepen",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 7678,
+          "unit": "enrichCompare",
+          "fn": "enrichCompare",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 7731,
+          "unit": "challengeMessage",
+          "fn": "challengeMessage",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 7746,
+          "unit": "maybeFlagDeepDive",
+          "fn": "maybeFlagDeepDive",
+          "detail": "member-assign",
+          "nested": true,
+          "path": "messages[msgIdx].suggestDeepDive",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8245,
+          "unit": "sendMessage",
+          "fn": "sendMessage",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 8305,
+          "unit": "sendMessage",
+          "fn": "sendMessage",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 8404,
+          "unit": "sendMessage",
+          "fn": "sendMessage",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 8419,
+          "unit": "sendMessage",
+          "fn": "sendMessage",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 8434,
+          "unit": "sendMessage",
+          "fn": "sendMessage",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 8630,
+          "unit": "runDeepAnalysis",
+          "fn": "runDeepAnalysis",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8651,
+          "unit": "runDeepAnalysis",
+          "fn": "runDeepAnalysis",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8684,
+          "unit": "runCrossExamination",
+          "fn": "runCrossExamination",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8689,
+          "unit": "runCrossExamination",
+          "fn": "runCrossExamination",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8718,
+          "unit": "runCrossExamination",
+          "fn": "runCrossExamination",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8726,
+          "unit": "runCrossExamination",
+          "fn": "runCrossExamination",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8734,
+          "unit": "runCrossExamination",
+          "fn": "runCrossExamination",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8772,
+          "unit": "runCrossExamination",
+          "fn": "runCrossExamination",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8782,
+          "unit": "runCrossExamination",
+          "fn": "runCrossExamination",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8812,
+          "unit": "runSandboxTest",
+          "fn": "runSandboxTest",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8817,
+          "unit": "runSandboxTest",
+          "fn": "runSandboxTest",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8834,
+          "unit": "runSandboxTest",
+          "fn": "runSandboxTest",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8839,
+          "unit": "runSandboxTest",
+          "fn": "runSandboxTest",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8844,
+          "unit": "runSandboxTest",
+          "fn": "runSandboxTest",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8850,
+          "unit": "runSandboxTest",
+          "fn": "runSandboxTest",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8868,
+          "unit": "runMirrorMode",
+          "fn": "runMirrorMode",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8873,
+          "unit": "runMirrorMode",
+          "fn": "runMirrorMode",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8893,
+          "unit": "runMirrorMode",
+          "fn": "runMirrorMode",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8898,
+          "unit": "runMirrorMode",
+          "fn": "runMirrorMode",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8906,
+          "unit": "runMirrorMode",
+          "fn": "runMirrorMode",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8923,
+          "unit": "runSituationRoom",
+          "fn": "runSituationRoom",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8966,
+          "unit": "runSituationRoom",
+          "fn": "runSituationRoom > <callback@8963:round1.forEach>",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8969,
+          "unit": "runSituationRoom",
+          "fn": "runSituationRoom > <callback@8963:round1.forEach>",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8971,
+          "unit": "runSituationRoom",
+          "fn": "runSituationRoom > <callback@8963:round1.forEach>",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8995,
+          "unit": "runSituationRoom",
+          "fn": "runSituationRoom",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 9010,
+          "unit": "runSituationRoom",
+          "fn": "runSituationRoom",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 9033,
+          "unit": "runSituationRoom",
+          "fn": "runSituationRoom > <callback@9030:round2.forEach>",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 9061,
+          "unit": "runSituationRoom",
+          "fn": "runSituationRoom",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 9069,
+          "unit": "runSituationRoom",
+          "fn": "runSituationRoom",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 9073,
+          "unit": "runSituationRoom",
+          "fn": "runSituationRoom",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 9077,
+          "unit": "runSituationRoom",
+          "fn": "runSituationRoom",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 9126,
+          "unit": "runSituationRoom",
+          "fn": "runSituationRoom",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 9133,
+          "unit": "runSituationRoom",
+          "fn": "runSituationRoom",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10337,
+          "unit": "runMultiModelConsensus",
+          "fn": "runMultiModelConsensus",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10342,
+          "unit": "runMultiModelConsensus",
+          "fn": "runMultiModelConsensus",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10358,
+          "unit": "runMultiModelConsensus",
+          "fn": "runMultiModelConsensus > <callback@10354:results.forEach>",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10361,
+          "unit": "runMultiModelConsensus",
+          "fn": "runMultiModelConsensus > <callback@10354:results.forEach>",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10363,
+          "unit": "runMultiModelConsensus",
+          "fn": "runMultiModelConsensus > <callback@10354:results.forEach>",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10372,
+          "unit": "runMultiModelConsensus",
+          "fn": "runMultiModelConsensus",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10376,
+          "unit": "runMultiModelConsensus",
+          "fn": "runMultiModelConsensus",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10378,
+          "unit": "runMultiModelConsensus",
+          "fn": "runMultiModelConsensus",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10460,
+          "unit": "runAutoRouteMode",
+          "fn": "runAutoRouteMode",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10468,
+          "unit": "runAutoRouteMode",
+          "fn": "runAutoRouteMode",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10526,
+          "unit": "runCollectiveMode",
+          "fn": "runCollectiveMode > <callback@10523:results.forEach>",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10529,
+          "unit": "runCollectiveMode",
+          "fn": "runCollectiveMode > <callback@10523:results.forEach>",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10531,
+          "unit": "runCollectiveMode",
+          "fn": "runCollectiveMode > <callback@10523:results.forEach>",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10565,
+          "unit": "runCollectiveMode",
+          "fn": "runCollectiveMode",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10572,
+          "unit": "runCollectiveMode",
+          "fn": "runCollectiveMode",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10574,
+          "unit": "runCollectiveMode",
+          "fn": "runCollectiveMode",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10771,
+          "unit": "runAgentRuntime",
+          "fn": "runAgentRuntime",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10800,
+          "unit": "runAgentRuntime",
+          "fn": "runAgentRuntime",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10807,
+          "unit": "runAgentRuntime",
+          "fn": "runAgentRuntime",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10868,
+          "unit": "runAgentRuntime",
+          "fn": "runAgentRuntime",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10878,
+          "unit": "runAgentRuntime",
+          "fn": "runAgentRuntime",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10894,
+          "unit": "runAgentRuntime",
+          "fn": "runAgentRuntime",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10906,
+          "unit": "runAgentRuntime",
+          "fn": "runAgentRuntime",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10912,
+          "unit": "runAgentRuntime",
+          "fn": "runAgentRuntime",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10922,
+          "unit": "runAgentRuntime",
+          "fn": "runAgentRuntime",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10925,
+          "unit": "runAgentRuntime",
+          "fn": "runAgentRuntime",
+          "detail": "method:push",
+          "nested": false,
+          "path": "messages.push",
+          "unitCallsPersistState": false
+        }
+      ],
+      "escapeSites": [
+        {
+          "line": 4932,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.messages.get",
+          "detail": "return"
+        },
+        {
+          "line": 7016,
+          "unit": "MemoryFabric",
+          "fn": "MemoryFabric.session.get",
+          "detail": "return"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "challengeMessage",
+        "clearConversation",
+        "enrichCompare",
+        "enrichDeepen",
+        "maybeFlagDeepDive",
+        "persistState",
+        "runAgentRuntime",
+        "runAutoRouteMode",
+        "runCollectiveMode",
+        "runCrossExamination",
+        "runDeepAnalysis",
+        "runMirrorMode",
+        "runMultiModelConsensus",
+        "runSandboxTest",
+        "runSituationRoom",
+        "runWorkflow",
+        "sendMessage"
+      ],
+      "readerUnits": [
+        "MemoryFabric",
+        "NexusEvaluation",
+        "buildHistoryForAgent",
+        "challengeMessage",
+        "collectRecentRisks",
+        "createMonitorFromMessage",
+        "enrichCompare",
+        "enrichDeepen",
+        "findPrecedingUserText",
+        "maybeFlagDeepDive",
+        "persistState",
+        "renderDashboard",
+        "renderMessages",
+        "runAutoRouteMode",
+        "saveMessageAsDecision",
+        "saveMessageAsFile",
+        "sendMessage",
+        "submitScenario"
+      ],
+      "writerUnitsNotCallingPersistState": [
+        "maybeFlagDeepDive",
+        "persistState",
+        "runAgentRuntime",
+        "runAutoRouteMode",
+        "runCollectiveMode",
+        "runCrossExamination",
+        "runDeepAnalysis",
+        "runMirrorMode",
+        "runMultiModelConsensus",
+        "runSandboxTest",
+        "runSituationRoom",
+        "runWorkflow"
+      ],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "addKnowledgeItem",
+        "approveAgentImprovement",
+        "clearConversation",
+        "clearErrorLog",
+        "clearLongTermMemory",
+        "clearUsageStats",
+        "handleDocFileUpload",
+        "handleKeydown",
+        "importCustomAgentPasted",
+        "importNomadicPasted",
+        "openDashboard",
+        "openWorkspace",
+        "resetAllData",
+        "resolveSyncConflict",
+        "saveCustomAgent",
+        "saveWorkflow",
+        "sendMessage",
+        "startCameraScan",
+        "submitScenario",
+        "switchGroup",
+        "switchWorkspaceTab",
+        "toggleCloudSync",
+        "toggleSimpleMode",
+        "triggerPlusAction"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [
+        "addKnowledgeItem",
+        "approveAgentImprovement",
+        "clearConversation",
+        "clearErrorLog",
+        "clearLongTermMemory",
+        "clearUsageStats",
+        "handleDocFileUpload",
+        "handleKeydown",
+        "importCustomAgentPasted",
+        "importNomadicPasted",
+        "openWorkspace",
+        "resolveSyncConflict",
+        "saveCustomAgent",
+        "saveWorkflow",
+        "sendMessage",
+        "startCameraScan",
+        "submitScenario",
+        "switchGroup",
+        "switchWorkspaceTab",
+        "toggleCloudSync"
+      ],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [
+        "enrichDeepen",
+        "maybeFlagDeepDive",
+        "persistState",
+        "runAgentRuntime",
+        "runAutoRouteMode",
+        "runCollectiveMode",
+        "runCrossExamination",
+        "runDeepAnalysis",
+        "runMirrorMode",
+        "runMultiModelConsensus",
+        "runSandboxTest",
+        "runSituationRoom",
+        "runWorkflow",
+        "sendMessage"
+      ],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "customAgents": {
+      "declaration": {
+        "kind": "let",
+        "line": 2542,
+        "script": 1,
+        "col0": true,
+        "init": "[]",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 1,
+        "rebindUnits": 1,
+        "rebindFunctionsDistinct": 1,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 2,
+        "mutateNestedSites": 0,
+        "mutateUnits": 2,
+        "readSites": 9,
+        "escapeSites": 3,
+        "readerUnits": 10,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 3727,
+          "unit": "deleteCustomAgent",
+          "fn": "deleteCustomAgent",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        }
+      ],
+      "mutateSites": [
+        {
+          "line": 3716,
+          "unit": "saveCustomAgent",
+          "fn": "saveCustomAgent",
+          "detail": "method:push",
+          "nested": false,
+          "path": "customAgents.push",
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 3777,
+          "unit": "importCustomAgentPasted",
+          "fn": "importCustomAgentPasted",
+          "detail": "method:push",
+          "nested": false,
+          "path": "customAgents.push",
+          "unitCallsPersistState": true
+        }
+      ],
+      "escapeSites": [
+        {
+          "line": 4936,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.customAgents.get",
+          "detail": "return"
+        },
+        {
+          "line": 6377,
+          "unit": "NexusRegistry",
+          "fn": "NexusRegistry.agents.custom",
+          "detail": "return"
+        },
+        {
+          "line": 7018,
+          "unit": "MemoryFabric",
+          "fn": "MemoryFabric.user.get",
+          "detail": "object"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "deleteCustomAgent",
+        "importCustomAgentPasted",
+        "saveCustomAgent"
+      ],
+      "readerUnits": [
+        "MemoryFabric",
+        "NexusRegistry",
+        "approveAgentImprovement",
+        "deleteCustomAgent",
+        "editCustomAgent",
+        "getAllAgents",
+        "renderCustomAgentsList",
+        "saveCustomAgent",
+        "shareCustomAgent",
+        "suggestAgentImprovement"
+      ],
+      "writerUnitsNotCallingPersistState": [],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "importCustomAgentPasted",
+        "saveCustomAgent"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [
+        "importCustomAgentPasted",
+        "saveCustomAgent"
+      ],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "workflows": {
+      "declaration": {
+        "kind": "let",
+        "line": 2545,
+        "script": 1,
+        "col0": true,
+        "init": "[]",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 1,
+        "rebindUnits": 1,
+        "rebindFunctionsDistinct": 1,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 1,
+        "mutateNestedSites": 0,
+        "mutateUnits": 1,
+        "readSites": 9,
+        "escapeSites": 1,
+        "readerUnits": 6,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 3958,
+          "unit": "deleteWorkflow",
+          "fn": "deleteWorkflow",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        }
+      ],
+      "mutateSites": [
+        {
+          "line": 3946,
+          "unit": "saveWorkflow",
+          "fn": "saveWorkflow",
+          "detail": "method:push",
+          "nested": false,
+          "path": "workflows.push",
+          "unitCallsPersistState": true
+        }
+      ],
+      "escapeSites": [
+        {
+          "line": 4938,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.workflows.get",
+          "detail": "return"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "deleteWorkflow",
+        "saveWorkflow"
+      ],
+      "readerUnits": [
+        "deleteWorkflow",
+        "editWorkflow",
+        "renderWorkflowSelect",
+        "renderWorkflowsList",
+        "saveWorkflow",
+        "sendMessage"
+      ],
+      "writerUnitsNotCallingPersistState": [],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "saveWorkflow"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [
+        "saveWorkflow"
+      ],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "knowledgeBase": {
+      "declaration": {
+        "kind": "let",
+        "line": 2541,
+        "script": 1,
+        "col0": true,
+        "init": "[]",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 1,
+        "rebindUnits": 1,
+        "rebindFunctionsDistinct": 1,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 2,
+        "mutateNestedSites": 0,
+        "mutateUnits": 2,
+        "readSites": 13,
+        "escapeSites": 4,
+        "readerUnits": 10,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 3550,
+          "unit": "removeKnowledgeItem",
+          "fn": "removeKnowledgeItem",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        }
+      ],
+      "mutateSites": [
+        {
+          "line": 3529,
+          "unit": "addKnowledgeItem",
+          "fn": "addKnowledgeItem",
+          "detail": "method:push",
+          "nested": false,
+          "path": "knowledgeBase.push",
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 4332,
+          "unit": "applyNomadicPayload",
+          "fn": "applyNomadicPayload > <callback@4329:(payload.knowledgeBase || []).fo>",
+          "detail": "method:push",
+          "nested": false,
+          "path": "knowledgeBase.push",
+          "unitCallsPersistState": true
+        }
+      ],
+      "escapeSites": [
+        {
+          "line": 4934,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.knowledgeBase.get",
+          "detail": "return"
+        },
+        {
+          "line": 7018,
+          "unit": "MemoryFabric",
+          "fn": "MemoryFabric.user.get",
+          "detail": "object"
+        },
+        {
+          "line": 7020,
+          "unit": "MemoryFabric",
+          "fn": "MemoryFabric.knowledge.get",
+          "detail": "object"
+        },
+        {
+          "line": 7361,
+          "unit": "NexusEvaluation",
+          "fn": "NexusEvaluation.memoryRetrievalCoverage",
+          "detail": "arg"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "addKnowledgeItem",
+        "applyNomadicPayload",
+        "removeKnowledgeItem"
+      ],
+      "readerUnits": [
+        "MemoryFabric",
+        "NexusEvaluation",
+        "applyNomadicPayload",
+        "buildNomadicPayload",
+        "confirmSensitiveUnlock",
+        "exportNomadicQR",
+        "knowledgeContext",
+        "openSensitiveUnlockModal",
+        "removeKnowledgeItem",
+        "renderKnowledgeList"
+      ],
+      "writerUnitsNotCallingPersistState": [],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "addKnowledgeItem",
+        "importNomadicPasted",
+        "startCameraScan"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [
+        "addKnowledgeItem",
+        "importNomadicPasted",
+        "startCameraScan"
+      ],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "activeGroupId": {
+      "declaration": {
+        "kind": "let",
+        "line": 2405,
+        "script": 1,
+        "col0": true,
+        "init": "null",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 1,
+        "rebindUnits": 1,
+        "rebindFunctionsDistinct": 1,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 0,
+        "mutateNestedSites": 0,
+        "mutateUnits": 0,
+        "readSites": 4,
+        "escapeSites": 5,
+        "readerUnits": 2,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 3405,
+          "unit": "switchGroup",
+          "fn": "switchGroup",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        }
+      ],
+      "mutateSites": [],
+      "escapeSites": [
+        {
+          "line": 3257,
+          "unit": "renderAgentStrip",
+          "fn": "renderAgentStrip",
+          "detail": "arg"
+        },
+        {
+          "line": 3261,
+          "unit": "renderAgentStrip",
+          "fn": "renderAgentStrip",
+          "detail": "arg"
+        },
+        {
+          "line": 3382,
+          "unit": "renderGroupBar",
+          "fn": "renderGroupBar",
+          "detail": "arg"
+        },
+        {
+          "line": 3383,
+          "unit": "renderGroupBar",
+          "fn": "renderGroupBar",
+          "detail": "arg"
+        },
+        {
+          "line": 4942,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.activeGroupId.get",
+          "detail": "return"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "switchGroup"
+      ],
+      "readerUnits": [
+        "renderAgentStrip",
+        "renderGroupBar"
+      ],
+      "writerUnitsNotCallingPersistState": [],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "switchGroup"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [
+        "switchGroup"
+      ],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "agentOrder": {
+      "declaration": {
+        "kind": "let",
+        "line": 3004,
+        "script": 1,
+        "col0": true,
+        "init": "[]",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 1,
+        "rebindUnits": 1,
+        "rebindFunctionsDistinct": 1,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 0,
+        "mutateNestedSites": 0,
+        "mutateUnits": 0,
+        "readSites": 2,
+        "escapeSites": 1,
+        "readerUnits": 1,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 3442,
+          "unit": "moveAgentOrder",
+          "fn": "moveAgentOrder",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        }
+      ],
+      "mutateSites": [],
+      "escapeSites": [
+        {
+          "line": 4939,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.agentOrder.get",
+          "detail": "return"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "moveAgentOrder"
+      ],
+      "readerUnits": [
+        "getOrderedAgents"
+      ],
+      "writerUnitsNotCallingPersistState": [],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "selectedAgentIds": {
+      "declaration": {
+        "kind": "let",
+        "line": 2532,
+        "script": 1,
+        "col0": true,
+        "init": "['general']",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 14,
+        "rebindUnits": 7,
+        "rebindFunctionsDistinct": 7,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 1,
+        "mutateNestedSites": 0,
+        "mutateUnits": 1,
+        "readSites": 29,
+        "escapeSites": 2,
+        "readerUnits": 12,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 3314,
+          "unit": "selectAgentFromGallery",
+          "fn": "selectAgentFromGallery",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 3451,
+          "unit": "toggleAgent",
+          "fn": "toggleAgent",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 3455,
+          "unit": "toggleAgent",
+          "fn": "toggleAgent",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 3457,
+          "unit": "toggleAgent",
+          "fn": "toggleAgent",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 3728,
+          "unit": "deleteCustomAgent",
+          "fn": "deleteCustomAgent",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 3729,
+          "unit": "deleteCustomAgent",
+          "fn": "deleteCustomAgent",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 4337,
+          "unit": "applyNomadicPayload",
+          "fn": "applyNomadicPayload",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 4338,
+          "unit": "applyNomadicPayload",
+          "fn": "applyNomadicPayload",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 7672,
+          "unit": "enrichCompare",
+          "fn": "enrichCompare",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 7681,
+          "unit": "enrichCompare",
+          "fn": "enrichCompare",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 8190,
+          "unit": "runAskFlow",
+          "fn": "runAskFlow",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 8205,
+          "unit": "runAskFlow",
+          "fn": "runAskFlow",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10479,
+          "unit": "runAutoRouteMode",
+          "fn": "runAutoRouteMode",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": false
+        },
+        {
+          "line": 10481,
+          "unit": "runAutoRouteMode",
+          "fn": "runAutoRouteMode",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": false
+        }
+      ],
+      "mutateSites": [
+        {
+          "line": 3453,
+          "unit": "toggleAgent",
+          "fn": "toggleAgent",
+          "detail": "method:push",
+          "nested": false,
+          "path": "selectedAgentIds.push",
+          "unitCallsPersistState": false
+        }
+      ],
+      "escapeSites": [
+        {
+          "line": 4240,
+          "unit": "buildNomadicPayload",
+          "fn": "buildNomadicPayload",
+          "detail": "object"
+        },
+        {
+          "line": 4933,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.selectedAgentIds.get",
+          "detail": "return"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "applyNomadicPayload",
+        "deleteCustomAgent",
+        "enrichCompare",
+        "runAskFlow",
+        "runAutoRouteMode",
+        "selectAgentFromGallery",
+        "toggleAgent"
+      ],
+      "readerUnits": [
+        "NexusIntentEngine",
+        "applyNomadicPayload",
+        "buildNomadicPayload",
+        "deleteCustomAgent",
+        "enrichCompare",
+        "renderAgentStrip",
+        "runCollectiveMode",
+        "runMultiModelConsensus",
+        "runSituationRoom",
+        "sendMessage",
+        "toggleAgent",
+        "updateAgentsAccordionSummary"
+      ],
+      "writerUnitsNotCallingPersistState": [
+        "runAskFlow",
+        "runAutoRouteMode",
+        "selectAgentFromGallery",
+        "toggleAgent"
+      ],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "clearConversation",
+        "handleKeydown",
+        "importNomadicPasted",
+        "resetAllData",
+        "resolveSyncConflict",
+        "sendMessage",
+        "startCameraScan",
+        "submitScenario",
+        "toggleCloudSync",
+        "toggleSimpleMode",
+        "triggerPlusAction"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [
+        "handleKeydown",
+        "importNomadicPasted",
+        "sendMessage",
+        "startCameraScan",
+        "submitScenario"
+      ],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [
+        "runAskFlow",
+        "runAutoRouteMode"
+      ],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "projects": {
+      "declaration": {
+        "kind": "let",
+        "line": 2547,
+        "script": 1,
+        "col0": true,
+        "init": "[]",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 1,
+        "rebindUnits": 1,
+        "rebindFunctionsDistinct": 1,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 1,
+        "mutateNestedSites": 0,
+        "mutateUnits": 1,
+        "readSites": 8,
+        "escapeSites": 2,
+        "readerUnits": 8,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 11331,
+          "unit": "deleteProject",
+          "fn": "deleteProject",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        }
+      ],
+      "mutateSites": [
+        {
+          "line": 11281,
+          "unit": "saveProjectForm",
+          "fn": "saveProjectForm",
+          "detail": "method:unshift",
+          "nested": false,
+          "path": "projects.unshift",
+          "unitCallsPersistState": true
+        }
+      ],
+      "escapeSites": [
+        {
+          "line": 4948,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.projects.get",
+          "detail": "return"
+        },
+        {
+          "line": 7019,
+          "unit": "MemoryFabric",
+          "fn": "MemoryFabric.project.get",
+          "detail": "object"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "deleteProject",
+        "saveProjectForm"
+      ],
+      "readerUnits": [
+        "MemoryFabric",
+        "deleteProject",
+        "renderProjectDetail",
+        "renderProjectForm",
+        "renderProjectsTab",
+        "renderWorkspaceOverview",
+        "saveProjectForm",
+        "wsProjectOptionsHtml"
+      ],
+      "writerUnitsNotCallingPersistState": [],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "openWorkspace",
+        "switchWorkspaceTab"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [
+        "deleteProject",
+        "saveProjectForm"
+      ],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "decisionJournal": {
+      "declaration": {
+        "kind": "let",
+        "line": 2548,
+        "script": 1,
+        "col0": true,
+        "init": "[]",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 1,
+        "rebindUnits": 1,
+        "rebindFunctionsDistinct": 1,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 1,
+        "mutateNestedSites": 0,
+        "mutateUnits": 1,
+        "readSites": 12,
+        "escapeSites": 2,
+        "readerUnits": 12,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 11503,
+          "unit": "deleteDecision",
+          "fn": "deleteDecision",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        }
+      ],
+      "mutateSites": [
+        {
+          "line": 11416,
+          "unit": "saveDecisionForm",
+          "fn": "saveDecisionForm",
+          "detail": "method:unshift",
+          "nested": false,
+          "path": "decisionJournal.unshift",
+          "unitCallsPersistState": true
+        }
+      ],
+      "escapeSites": [
+        {
+          "line": 4949,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.decisionJournal.get",
+          "detail": "return"
+        },
+        {
+          "line": 7019,
+          "unit": "MemoryFabric",
+          "fn": "MemoryFabric.project.get",
+          "detail": "object"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "deleteDecision",
+        "saveDecisionForm"
+      ],
+      "readerUnits": [
+        "MemoryFabric",
+        "collectRecentRisks",
+        "computeBriefingCounts",
+        "deleteDecision",
+        "deleteProject",
+        "renderDecisionDetail",
+        "renderDecisionForm",
+        "renderDecisionsTab",
+        "renderProjectDetail",
+        "saveDecisionForm",
+        "saveDecisionReview",
+        "wsProjectCard"
+      ],
+      "writerUnitsNotCallingPersistState": [],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "openWorkspace",
+        "switchWorkspaceTab"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [
+        "deleteDecision",
+        "saveDecisionForm"
+      ],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "topicMonitors": {
+      "declaration": {
+        "kind": "let",
+        "line": 2549,
+        "script": 1,
+        "col0": true,
+        "init": "[]",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 1,
+        "rebindUnits": 1,
+        "rebindFunctionsDistinct": 1,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 2,
+        "mutateNestedSites": 0,
+        "mutateUnits": 2,
+        "readSites": 12,
+        "escapeSites": 2,
+        "readerUnits": 12,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 11648,
+          "unit": "deleteMonitor",
+          "fn": "deleteMonitor",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        }
+      ],
+      "mutateSites": [
+        {
+          "line": 11569,
+          "unit": "saveMonitorForm",
+          "fn": "saveMonitorForm",
+          "detail": "method:unshift",
+          "nested": false,
+          "path": "topicMonitors.unshift",
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 11685,
+          "unit": "createMonitorFromMessage",
+          "fn": "createMonitorFromMessage",
+          "detail": "method:unshift",
+          "nested": false,
+          "path": "topicMonitors.unshift",
+          "unitCallsPersistState": true
+        }
+      ],
+      "escapeSites": [
+        {
+          "line": 4950,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.topicMonitors.get",
+          "detail": "return"
+        },
+        {
+          "line": 7019,
+          "unit": "MemoryFabric",
+          "fn": "MemoryFabric.project.get",
+          "detail": "object"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "createMonitorFromMessage",
+        "deleteMonitor",
+        "saveMonitorForm"
+      ],
+      "readerUnits": [
+        "MemoryFabric",
+        "checkMonitorNow",
+        "computeBriefingCounts",
+        "deleteMonitor",
+        "deleteProject",
+        "renderMonitorDetail",
+        "renderMonitorForm",
+        "renderMonitorsTab",
+        "renderProjectDetail",
+        "renderWorkspaceOverview",
+        "saveMonitorForm",
+        "wsProjectCard"
+      ],
+      "writerUnitsNotCallingPersistState": [],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "openWorkspace",
+        "switchWorkspaceTab"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [
+        "deleteMonitor",
+        "saveMonitorForm"
+      ],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "longTermMemory": {
+      "declaration": {
+        "kind": "let",
+        "line": 2544,
+        "script": 1,
+        "col0": true,
+        "init": "[]",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 2,
+        "rebindUnits": 2,
+        "rebindFunctionsDistinct": 2,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 1,
+        "mutateNestedSites": 0,
+        "mutateUnits": 1,
+        "readSites": 6,
+        "escapeSites": 2,
+        "readerUnits": 5,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 5726,
+          "unit": "clearLongTermMemory",
+          "fn": "clearLongTermMemory",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 5783,
+          "unit": "storeLongTermMemory",
+          "fn": "storeLongTermMemory",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        }
+      ],
+      "mutateSites": [
+        {
+          "line": 5782,
+          "unit": "storeLongTermMemory",
+          "fn": "storeLongTermMemory",
+          "detail": "method:push",
+          "nested": false,
+          "path": "longTermMemory.push",
+          "unitCallsPersistState": true
+        }
+      ],
+      "escapeSites": [
+        {
+          "line": 4937,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.longTermMemory.get",
+          "detail": "return"
+        },
+        {
+          "line": 7021,
+          "unit": "MemoryFabric",
+          "fn": "MemoryFabric.episodic.get",
+          "detail": "object"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "clearLongTermMemory",
+        "storeLongTermMemory"
+      ],
+      "readerUnits": [
+        "MemoryFabric",
+        "findRelatedMemories",
+        "openSettingsPanel",
+        "retrieveLongTermMemoryContext",
+        "storeLongTermMemory"
+      ],
+      "writerUnitsNotCallingPersistState": [],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "clearConversation",
+        "clearLongTermMemory",
+        "handleKeydown",
+        "resetAllData",
+        "resolveSyncConflict",
+        "sendMessage",
+        "submitScenario",
+        "toggleCloudSync",
+        "toggleSimpleMode",
+        "triggerPlusAction"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [
+        "clearLongTermMemory",
+        "handleKeydown",
+        "sendMessage",
+        "submitScenario"
+      ],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [
+        "storeLongTermMemory"
+      ],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "uploadedDocs": {
+      "declaration": {
+        "kind": "let",
+        "line": 2543,
+        "script": 1,
+        "col0": true,
+        "init": "[]",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 1,
+        "rebindUnits": 1,
+        "rebindFunctionsDistinct": 1,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 1,
+        "mutateNestedSites": 0,
+        "mutateUnits": 1,
+        "readSites": 4,
+        "escapeSites": 2,
+        "readerUnits": 4,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 2859,
+          "unit": "removeDoc",
+          "fn": "removeDoc",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        }
+      ],
+      "mutateSites": [
+        {
+          "line": 2828,
+          "unit": "handleDocFileUpload",
+          "fn": "handleDocFileUpload",
+          "detail": "method:push",
+          "nested": false,
+          "path": "uploadedDocs.push",
+          "unitCallsPersistState": true
+        }
+      ],
+      "escapeSites": [
+        {
+          "line": 4943,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.uploadedDocs.get",
+          "detail": "return"
+        },
+        {
+          "line": 7020,
+          "unit": "MemoryFabric",
+          "fn": "MemoryFabric.knowledge.get",
+          "detail": "object"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "handleDocFileUpload",
+        "removeDoc"
+      ],
+      "readerUnits": [
+        "MemoryFabric",
+        "fileDocsContext",
+        "removeDoc",
+        "renderDocsList"
+      ],
+      "writerUnitsNotCallingPersistState": [],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "handleDocFileUpload"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [
+        "handleDocFileUpload"
+      ],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "activityLog": {
+      "declaration": {
+        "kind": "let",
+        "line": 2995,
+        "script": 1,
+        "col0": true,
+        "init": "[]",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 1,
+        "rebindUnits": 1,
+        "rebindFunctionsDistinct": 1,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 1,
+        "mutateNestedSites": 0,
+        "mutateUnits": 1,
+        "readSites": 4,
+        "escapeSites": 2,
+        "readerUnits": 4,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 3000,
+          "unit": "logActivity",
+          "fn": "logActivity",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": false
+        }
+      ],
+      "mutateSites": [
+        {
+          "line": 2999,
+          "unit": "logActivity",
+          "fn": "logActivity",
+          "detail": "method:unshift",
+          "nested": false,
+          "path": "activityLog.unshift",
+          "unitCallsPersistState": false
+        }
+      ],
+      "escapeSites": [
+        {
+          "line": 4935,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.activityLog.get",
+          "detail": "return"
+        },
+        {
+          "line": 7021,
+          "unit": "MemoryFabric",
+          "fn": "MemoryFabric.episodic.get",
+          "detail": "object"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "logActivity"
+      ],
+      "readerUnits": [
+        "MemoryFabric",
+        "logActivity",
+        "renderActivityLog",
+        "renderDashboard"
+      ],
+      "writerUnitsNotCallingPersistState": [
+        "logActivity"
+      ],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "addKnowledgeItem",
+        "approveAgentImprovement",
+        "clearConversation",
+        "clearLongTermMemory",
+        "confirmSensitiveUnlock",
+        "createSchedule",
+        "exportNomadicQR",
+        "handleDocFileUpload",
+        "handleImageSelected",
+        "handleInstallClick",
+        "handleKeydown",
+        "importCustomAgentPasted",
+        "importNomadicPasted",
+        "lockSensitiveData",
+        "openWorkspace",
+        "opsBuildDataset",
+        "opsCreateCouncil",
+        "opsCreateMission",
+        "opsCreateSwarm",
+        "opsGenomeRollback",
+        "opsProposeGenome",
+        "opsRegisterDevice",
+        "opsRunBenchmark",
+        "opsScanFreshness",
+        "opsSubmitClaim",
+        "opsWardenDeisolate",
+        "opsWardenIsolate",
+        "registerWebAuthn",
+        "removeWebAuthn",
+        "resetAllData",
+        "resolveSyncConflict",
+        "saveBackendUrl",
+        "saveChatModelSetting",
+        "saveCustomAgent",
+        "saveLTMSetting",
+        "saveLangSetting",
+        "saveMarketContextSettings",
+        "saveProviderSettings",
+        "saveThemeSetting",
+        "saveWorkflow",
+        "sendMessage",
+        "shareApp",
+        "startCameraScan",
+        "submitScenario",
+        "switchWorkspaceTab",
+        "toggleCloudSync",
+        "toggleSimpleMode",
+        "triggerPlusAction"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [
+        "addKnowledgeItem",
+        "approveAgentImprovement",
+        "clearLongTermMemory",
+        "confirmSensitiveUnlock",
+        "createSchedule",
+        "exportNomadicQR",
+        "handleDocFileUpload",
+        "handleImageSelected",
+        "handleInstallClick",
+        "handleKeydown",
+        "importCustomAgentPasted",
+        "importNomadicPasted",
+        "lockSensitiveData",
+        "opsBuildDataset",
+        "opsCreateCouncil",
+        "opsCreateMission",
+        "opsCreateSwarm",
+        "opsGenomeRollback",
+        "opsProposeGenome",
+        "opsRegisterDevice",
+        "opsRunBenchmark",
+        "opsScanFreshness",
+        "opsSubmitClaim",
+        "opsWardenDeisolate",
+        "opsWardenIsolate",
+        "registerWebAuthn",
+        "removeWebAuthn",
+        "saveBackendUrl",
+        "saveChatModelSetting",
+        "saveCustomAgent",
+        "saveLTMSetting",
+        "saveLangSetting",
+        "saveMarketContextSettings",
+        "saveProviderSettings",
+        "saveThemeSetting",
+        "saveWorkflow",
+        "sendMessage",
+        "shareApp",
+        "startCameraScan",
+        "submitScenario",
+        "toggleSimpleMode"
+      ],
+      "writersReachableFromStartup_syncCalls": [
+        "logActivity"
+      ],
+      "startupPathToWriter_syncCalls": {
+        "logActivity": [
+          "updateOnlineStatus",
+          "logActivity"
+        ]
+      },
+      "writersReachableFromStartup_looseAllCalls": [
+        "logActivity"
+      ],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "errorLog": {
+      "declaration": {
+        "kind": "let",
+        "line": 5530,
+        "script": 1,
+        "col0": true,
+        "init": "[]",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": false
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 2,
+        "rebindUnits": 2,
+        "rebindFunctionsDistinct": 2,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 1,
+        "mutateNestedSites": 0,
+        "mutateUnits": 1,
+        "readSites": 3,
+        "escapeSites": 1,
+        "readerUnits": 2,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 5534,
+          "unit": "logError",
+          "fn": "logError",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 5570,
+          "unit": "clearErrorLog",
+          "fn": "clearErrorLog",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        }
+      ],
+      "mutateSites": [
+        {
+          "line": 5533,
+          "unit": "logError",
+          "fn": "logError",
+          "detail": "method:unshift",
+          "nested": false,
+          "path": "errorLog.unshift",
+          "unitCallsPersistState": true
+        }
+      ],
+      "escapeSites": [
+        {
+          "line": 4941,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.errorLog.get",
+          "detail": "return"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "clearErrorLog",
+        "logError"
+      ],
+      "readerUnits": [
+        "logError",
+        "renderErrorLog"
+      ],
+      "writerUnitsNotCallingPersistState": [],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "clearConversation",
+        "clearErrorLog",
+        "handleDocFileUpload",
+        "handleKeydown",
+        "openWorkspace",
+        "resetAllData",
+        "resolveSyncConflict",
+        "sendMessage",
+        "submitScenario",
+        "switchWorkspaceTab",
+        "toggleCloudSync",
+        "toggleSimpleMode",
+        "triggerPlusAction"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [
+        "clearErrorLog",
+        "handleDocFileUpload",
+        "handleKeydown",
+        "sendMessage",
+        "submitScenario"
+      ],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [
+        "logError"
+      ],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "usageLog": {
+      "declaration": {
+        "kind": "let",
+        "line": 2565,
+        "script": 1,
+        "col0": true,
+        "init": "[]",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 2,
+        "rebindUnits": 2,
+        "rebindFunctionsDistinct": 2,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 1,
+        "mutateNestedSites": 0,
+        "mutateUnits": 1,
+        "readSites": 17,
+        "escapeSites": 1,
+        "readerUnits": 5,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 2574,
+          "unit": "recordUsage",
+          "fn": "recordUsage",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        },
+        {
+          "line": 4054,
+          "unit": "clearUsageStats",
+          "fn": "clearUsageStats",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        }
+      ],
+      "mutateSites": [
+        {
+          "line": 2573,
+          "unit": "recordUsage",
+          "fn": "recordUsage",
+          "detail": "method:push",
+          "nested": false,
+          "path": "usageLog.push",
+          "unitCallsPersistState": true
+        }
+      ],
+      "escapeSites": [
+        {
+          "line": 4940,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.usageLog.get",
+          "detail": "return"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "clearUsageStats",
+        "recordUsage"
+      ],
+      "readerUnits": [
+        "AdaptiveModelRouter",
+        "NexusEvaluation",
+        "checkBudgetSoftLimit",
+        "recordUsage",
+        "renderDashboard"
+      ],
+      "writerUnitsNotCallingPersistState": [],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "clearConversation",
+        "clearUsageStats",
+        "handleKeydown",
+        "openWorkspace",
+        "resetAllData",
+        "resolveSyncConflict",
+        "sendMessage",
+        "submitScenario",
+        "switchWorkspaceTab",
+        "toggleCloudSync",
+        "toggleSimpleMode",
+        "triggerPlusAction"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [
+        "clearUsageStats",
+        "handleKeydown",
+        "sendMessage",
+        "submitScenario"
+      ],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [
+        "recordUsage"
+      ],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    },
+    "briefingLastSeenAt": {
+      "declaration": {
+        "kind": "let",
+        "line": 2550,
+        "script": 1,
+        "col0": true,
+        "init": "null",
+        "sameStatementAs": null,
+        "declaredOnce": true,
+        "beforePersistableState": true
+      },
+      "counts": {
+        "rebindSitesOutsideSetter": 1,
+        "rebindUnits": 1,
+        "rebindFunctionsDistinct": 1,
+        "rebindViaPersistableStateSetter": 1,
+        "mutateSites": 0,
+        "mutateNestedSites": 0,
+        "mutateUnits": 0,
+        "readSites": 0,
+        "escapeSites": 3,
+        "readerUnits": 1,
+        "loadTimeSites": 0
+      },
+      "rebindSites": [
+        {
+          "line": 11075,
+          "unit": "acknowledgeBriefing",
+          "fn": "acknowledgeBriefing",
+          "op": "=",
+          "loadTime": false,
+          "unitCallsPersistState": true
+        }
+      ],
+      "mutateSites": [],
+      "escapeSites": [
+        {
+          "line": 4951,
+          "unit": "PERSISTABLE_STATE",
+          "fn": "PERSISTABLE_STATE.briefingLastSeenAt.get",
+          "detail": "return"
+        },
+        {
+          "line": 11104,
+          "unit": "renderBriefingBanner",
+          "fn": "renderBriefingBanner",
+          "detail": "alias"
+        },
+        {
+          "line": 11104,
+          "unit": "renderBriefingBanner",
+          "fn": "renderBriefingBanner",
+          "detail": "arg"
+        }
+      ],
+      "loadTimeSites": [],
+      "writerUnits": [
+        "acknowledgeBriefing"
+      ],
+      "readerUnits": [
+        "renderBriefingBanner"
+      ],
+      "writerUnitsNotCallingPersistState": [],
+      "inlineHandlerDirectRefs": [],
+      "inlineHandlerEntryUnitsReachingAWriter_looseAnyEdges": [
+        "openWorkspace",
+        "switchWorkspaceTab"
+      ],
+      "inlineHandlerEntryUnitsReachingAWriter_syncCalls": [
+        "openWorkspace",
+        "switchWorkspaceTab"
+      ],
+      "writersReachableFromStartup_syncCalls": [],
+      "startupPathToWriter_syncCalls": {},
+      "writersReachableFromStartup_looseAllCalls": [
+        "acknowledgeBriefing"
+      ],
+      "writersReachableFromLoadTimeCalls_syncCalls": [],
+      "writersReachableFromLoadTimeCalls_looseAllCalls": []
+    }
+  },
+  "persistence": {
+    "PERSISTABLE_STATE": {
+      "declared": {
+        "kind": "const",
+        "line": 4931,
+        "endLine": 4952
+      },
+      "callSites": 0,
+      "refSites": 7,
+      "distinctCallerUnits": 3,
+      "callerUnits": [
+        "resetPersistableState",
+        "restorePersistableState",
+        "snapshotPersistableState"
+      ],
+      "loadTimeCallers": [],
+      "isInlineHandlerEntry": false,
+      "reachableFromStartup_syncCalls": false,
+      "reachableFromStartup_looseAllCalls": false
+    },
+    "snapshotPersistableState": {
+      "declared": {
+        "kind": "function",
+        "line": 4953,
+        "endLine": 4957
+      },
+      "callSites": 3,
+      "refSites": 0,
+      "distinctCallerUnits": 3,
+      "callerUnits": [
+        "persistState",
+        "pushSync",
+        "resolveSyncConflict"
+      ],
+      "loadTimeCallers": [],
+      "isInlineHandlerEntry": false,
+      "reachableFromStartup_syncCalls": false,
+      "reachableFromStartup_looseAllCalls": true
+    },
+    "restorePersistableState": {
+      "declared": {
+        "kind": "function",
+        "line": 4958,
+        "endLine": 4963
+      },
+      "callSites": 3,
+      "refSites": 0,
+      "distinctCallerUnits": 3,
+      "callerUnits": [
+        "autoInitApp",
+        "pullSyncIfNewer",
+        "resolveSyncConflict"
+      ],
+      "loadTimeCallers": [],
+      "isInlineHandlerEntry": false,
+      "reachableFromStartup_syncCalls": true,
+      "reachableFromStartup_looseAllCalls": true
+    },
+    "resetPersistableState": {
+      "declared": {
+        "kind": "function",
+        "line": 4964,
+        "endLine": 4966
+      },
+      "callSites": 1,
+      "refSites": 0,
+      "distinctCallerUnits": 1,
+      "callerUnits": [
+        "resetAllData"
+      ],
+      "loadTimeCallers": [],
+      "isInlineHandlerEntry": false,
+      "reachableFromStartup_syncCalls": false,
+      "reachableFromStartup_looseAllCalls": false
+    },
+    "persistState": {
+      "declared": {
+        "kind": "function",
+        "line": 4969,
+        "endLine": 4992
+      },
+      "callSites": 39,
+      "refSites": 0,
+      "distinctCallerUnits": 38,
+      "callerUnits": [
+        "acknowledgeBriefing",
+        "addKnowledgeItem",
+        "applyNomadicPayload",
+        "approveAgentImprovement",
+        "challengeMessage",
+        "checkMonitorNow",
+        "clearConversation",
+        "clearErrorLog",
+        "clearLongTermMemory",
+        "clearUsageStats",
+        "createMonitorFromMessage",
+        "deleteCustomAgent",
+        "deleteDecision",
+        "deleteMonitor",
+        "deleteProject",
+        "deleteWorkflow",
+        "enrichCompare",
+        "enrichDeepen",
+        "handleDocFileUpload",
+        "importCustomAgentPasted",
+        "logError",
+        "moveAgentOrder",
+        "pullSyncIfNewer",
+        "recordUsage",
+        "removeDoc",
+        "removeKnowledgeItem",
+        "renderMonitorDetail",
+        "resolveSyncConflict",
+        "routeEntries",
+        "saveCustomAgent",
+        "saveDecisionForm",
+        "saveDecisionReview",
+        "saveMonitorForm",
+        "saveProjectForm",
+        "saveWorkflow",
+        "sendMessage",
+        "storeLongTermMemory",
+        "switchGroup"
+      ],
+      "loadTimeCallers": [],
+      "isInlineHandlerEntry": false,
+      "reachableFromStartup_syncCalls": false,
+      "reachableFromStartup_looseAllCalls": true
+    },
+    "autoInitApp": {
+      "declared": {
+        "kind": "function",
+        "line": 4810,
+        "endLine": 4880
+      },
+      "callSites": 0,
+      "refSites": 0,
+      "distinctCallerUnits": 0,
+      "callerUnits": [],
+      "loadTimeCallers": [],
+      "isInlineHandlerEntry": false,
+      "reachableFromStartup_syncCalls": true,
+      "reachableFromStartup_looseAllCalls": true
+    },
+    "resetAllData": {
+      "declared": {
+        "kind": "function",
+        "line": 4882,
+        "endLine": 4922
+      },
+      "callSites": 0,
+      "refSites": 0,
+      "distinctCallerUnits": 0,
+      "callerUnits": [],
+      "loadTimeCallers": [],
+      "isInlineHandlerEntry": true,
+      "reachableFromStartup_syncCalls": false,
+      "reachableFromStartup_looseAllCalls": false
+    }
+  },
+  "callSequences": {
+    "autoInitApp": [
+      {
+        "line": 4812,
+        "callee": "localStore.get"
+      },
+      {
+        "line": 4816,
+        "callee": "b64ToBuf"
+      },
+      {
+        "line": 4818,
+        "callee": "crypto.getRandomValues"
+      },
+      {
+        "line": 4819,
+        "callee": "localStore.set"
+      },
+      {
+        "line": 4819,
+        "callee": "bufToB64"
+      },
+      {
+        "line": 4820,
+        "callee": "console.error"
+      },
+      {
+        "line": 4824,
+        "callee": "crypto.subtle.importKey"
+      },
+      {
+        "line": 4826,
+        "callee": "console.error"
+      },
+      {
+        "line": 4830,
+        "callee": "localStore.get"
+      },
+      {
+        "line": 4834,
+        "callee": "JSON.parse"
+      },
+      {
+        "line": 4835,
+        "callee": "decryptState"
+      },
+      {
+        "line": 4836,
+        "callee": "restorePersistableState"
+      },
+      {
+        "line": 4838,
+        "callee": "console.error"
+      },
+      {
+        "line": 4842,
+        "callee": "renderGroupBar"
+      },
+      {
+        "line": 4843,
+        "callee": "renderChatModelSelect"
+      },
+      {
+        "line": 4844,
+        "callee": "renderAgentStrip"
+      },
+      {
+        "line": 4845,
+        "callee": "renderWorkflowSelect"
+      },
+      {
+        "line": 4846,
+        "callee": "restoreModeToggleStates"
+      },
+      {
+        "line": 4847,
+        "callee": "updateActiveModesCount"
+      },
+      {
+        "line": 4848,
+        "callee": "applySimpleModeUI"
+      },
+      {
+        "line": 4849,
+        "callee": "restoreAccordionState"
+      },
+      {
+        "line": 4850,
+        "callee": "updateBriefingBadge"
+      },
+      {
+        "line": 4852,
+        "callee": "document.getElementById"
+      },
+      {
+        "line": 4854,
+        "callee": "isCloudSyncEnabled"
+      },
+      {
+        "line": 4855,
+        "callee": "document.getElementById"
+      },
+      {
+        "line": 4856,
+        "callee": "isCloudSyncEnabled"
+      },
+      {
+        "line": 4857,
+        "callee": "updateSyncStatusLabel"
+      },
+      {
+        "line": 4865,
+        "callee": "ExecutionCheckpoint.checkForResumable"
+      },
+      {
+        "line": 4874,
+        "callee": "syncProviderCatalogFromBackend().then"
+      },
+      {
+        "line": 4874,
+        "callee": "syncProviderCatalogFromBackend"
+      },
+      {
+        "line": 4876,
+        "callee": "renderChatModelSelect"
+      },
+      {
+        "line": 4877,
+        "callee": "updateSchedModelPlaceholder"
+      }
+    ],
+    "persistState": [
+      {
+        "line": 4976,
+        "callee": "messages.splice"
+      },
+      {
+        "line": 4977,
+        "callee": "MessageArchive.appendBatch(overflow).catch"
+      },
+      {
+        "line": 4977,
+        "callee": "MessageArchive.appendBatch"
+      },
+      {
+        "line": 4980,
+        "callee": "encryptState"
+      },
+      {
+        "line": 4980,
+        "callee": "snapshotPersistableState"
+      },
+      {
+        "line": 4981,
+        "callee": "localStore.set"
+      },
+      {
+        "line": 4981,
+        "callee": "JSON.stringify"
+      },
+      {
+        "line": 4982,
+        "callee": "console.error"
+      },
+      {
+        "line": 4988,
+        "callee": "isCloudSyncEnabled"
+      },
+      {
+        "line": 4989,
+        "callee": "clearTimeout"
+      },
+      {
+        "line": 4990,
+        "callee": "setTimeout"
+      },
+      {
+        "line": 4990,
+        "callee": "syncNow"
+      }
+    ],
+    "resetAllData": [
+      {
+        "line": 4883,
+        "callee": "confirm"
+      },
+      {
+        "line": 4884,
+        "callee": "resetPersistableState"
+      },
+      {
+        "line": 4894,
+        "callee": "localStore.delete"
+      },
+      {
+        "line": 4894,
+        "callee": "console.error"
+      },
+      {
+        "line": 4901,
+        "callee": "ImageStore.gcAll"
+      },
+      {
+        "line": 4902,
+        "callee": "MessageArchive.clear"
+      },
+      {
+        "line": 4904,
+        "callee": "localStorage.removeItem"
+      },
+      {
+        "line": 4905,
+        "callee": "localStorage.removeItem"
+      },
+      {
+        "line": 4909,
+        "callee": "localStorage.setItem"
+      },
+      {
+        "line": 4910,
+        "callee": "localStorage.removeItem"
+      },
+      {
+        "line": 4911,
+        "callee": "console.error"
+      },
+      {
+        "line": 4912,
+        "callee": "document.getElementById"
+      },
+      {
+        "line": 4914,
+        "callee": "document.getElementById"
+      },
+      {
+        "line": 4916,
+        "callee": "updateSyncStatusLabel"
+      },
+      {
+        "line": 4917,
+        "callee": "renderGroupBar"
+      },
+      {
+        "line": 4918,
+        "callee": "renderAgentStrip"
+      },
+      {
+        "line": 4919,
+        "callee": "renderWorkflowSelect"
+      },
+      {
+        "line": 4920,
+        "callee": "renderMessages"
+      },
+      {
+        "line": 4921,
+        "callee": "renderActivityLog"
+      }
+    ]
+  },
+  "handlers": {
+    "total": 143,
+    "html": 118,
+    "jsString": 25,
+    "entryUnits": 102,
+    "directVarRefs": []
+  },
+  "loadTime": {
+    "callTargets": [
+      "loadVoices"
+    ],
+    "refTargets": [
+      "NEXUS_MODE_REGISTRY",
+      "NexusOrchestrator",
+      "RESULT_ENVELOPE_MARKER",
+      "SYNTH_TABLE_MARKER",
+      "SYNTH_VOTE_MARKER",
+      "THOUGHT_TREE_MARKER",
+      "loadVoices",
+      "updateOnlineStatus"
+    ],
+    "startupRoots": [
+      "applyTheme",
+      "applyTranslations",
+      "autoInitApp",
+      "registerServiceWorker",
+      "updateOnlineStatus"
+    ],
+    "startupReachableUnits_looseAllCalls": 176,
+    "startupReachableUnits_syncCalls": 55,
+    "loadReachableUnits_looseAllCalls": 1,
+    "loadReachableUnits_syncCalls": 1
+  },
+  "integrity": {
+    "hashesBefore": {
+      "frontend/neural_nexus_ai_agents-4-3-5-3.html": "bb39cf641e28132e9140d7735984e47d857b6d7c6ec76a9d6473cf7ac5180670",
+      "frontend/main.js": "85f40854c0166246773c5085bf2dfa0cc7af4744eeb766f1ea4b0162a0ad660d",
+      "frontend/modules/security.mjs": "b70ffcf2959973647da2147cf178c78f14c97ace6c9f0ea853b1cec15856869d",
+      "frontend/modules/storage.mjs": "0059119296cee84146d25385ddf4ae71751dfd594fd31e31662e377f66589a51",
+      "frontend/modules/utilities.mjs": "41a73683381fd7d4f8a23c2fc4925ab38188a4962e415737fdc30ef73e735ddf",
+      "frontend/modules/settings.mjs": "68b4f28c14b08b617fc0e445000d5a7ef0e96c6a9d8f3a008ad20a28ac52070d"
+    },
+    "hashesAfter": {
+      "frontend/neural_nexus_ai_agents-4-3-5-3.html": "bb39cf641e28132e9140d7735984e47d857b6d7c6ec76a9d6473cf7ac5180670",
+      "frontend/main.js": "85f40854c0166246773c5085bf2dfa0cc7af4744eeb766f1ea4b0162a0ad660d",
+      "frontend/modules/security.mjs": "b70ffcf2959973647da2147cf178c78f14c97ace6c9f0ea853b1cec15856869d",
+      "frontend/modules/storage.mjs": "0059119296cee84146d25385ddf4ae71751dfd594fd31e31662e377f66589a51",
+      "frontend/modules/utilities.mjs": "41a73683381fd7d4f8a23c2fc4925ab38188a4962e415737fdc30ef73e735ddf",
+      "frontend/modules/settings.mjs": "68b4f28c14b08b617fc0e445000d5a7ef0e96c6a9d8f3a008ad20a28ac52070d"
+    },
+    "statusBefore": "",
+    "statusAfter": ""
+  },
+  "acceptance": {
+    "total": 22,
+    "passed": 22,
+    "checks": [
+      {
+        "name": "self-test: rebind(a) counts only w1 (shadowed w4/w5 excluded)",
+        "ok": true,
+        "detail": "got 1"
+      },
+      {
+        "name": "self-test: mutate(a) = push + member-assign + nested push = 3",
+        "ok": true,
+        "detail": "got 3"
+      },
+      {
+        "name": "self-test: rebind(b) = destructuring + update + IIFE = 3; IIFE is loadTime",
+        "ok": true,
+        "detail": null
+      },
+      {
+        "name": "self-test: rebind(c) via object method labelled o.m",
+        "ok": true,
+        "detail": null
+      },
+      {
+        "name": "self-test: escape(a) = alias + arg",
+        "ok": true,
+        "detail": null
+      },
+      {
+        "name": "self-test: member read of a.length classified read",
+        "ok": true,
+        "detail": null
+      },
+      {
+        "name": "self-test: handler var-ref ignores string literal argument, detects a real reference",
+        "ok": true,
+        "detail": "literal=[] real=[projects]"
+      },
+      {
+        "name": "self-test: window.w1() and w2() recorded as load-time call edges",
+        "ok": true,
+        "detail": null
+      },
+      {
+        "name": "3 <script> elements found; 2 inline classic + 1 external module",
+        "ok": true,
+        "detail": "module(src)@2341 classic@2342 classic@11730"
+      },
+      {
+        "name": "both inline classic scripts parsed by acorn without error",
+        "ok": true,
+        "detail": null
+      },
+      {
+        "name": "all 16 variables declared exactly once at top level as `let`, column 0",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "name": "PERSISTABLE_STATE is a top-level const with exactly 16 keys equal to the 16 names",
+        "ok": true,
+        "detail": null
+      },
+      {
+        "name": "every PERSISTABLE_STATE entry: get/set closures target the SAME-named variable",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "name": "every variable has exactly one setter-closure rebind (the PERSISTABLE_STATE entry)",
+        "ok": true,
+        "detail": null
+      },
+      {
+        "name": "declaration position relative to PERSISTABLE_STATE recorded for all 16 (facts, not a pass/fail on order)",
+        "ok": true,
+        "detail": "declared AFTER it: errorLog"
+      },
+      {
+        "name": "TDZ safety: no load-time code (outside functions) and no load-time call closure touches any of the 16",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "name": "main.js startup sequence parsed (5 window.* calls) and all resolve to monolith functions",
+        "ok": true,
+        "detail": "applyTheme,applyTranslations,autoInitApp,registerServiceWorker,updateOnlineStatus"
+      },
+      {
+        "name": "persistence functions all found as top-level functions/const",
+        "ok": true,
+        "detail": ""
+      },
+      {
+        "name": "sensitivity control (in-memory injection of 1 writer): selectedAgentIds rebind count +1 and the new writer unit is reported",
+        "ok": true,
+        "detail": "14 -> 15"
+      },
+      {
+        "name": "negative control (in-memory shadowing local of the same name): count unchanged",
+        "ok": true,
+        "detail": null
+      },
+      {
+        "name": "integrity: sha256 of 6 production frontend files identical before/after",
+        "ok": true,
+        "detail": null
+      },
+      {
+        "name": "integrity: `git status --porcelain` of production paths empty before and after",
+        "ok": true,
+        "detail": "before=\"\" after=\"\""
+      }
+    ]
+  }
+}

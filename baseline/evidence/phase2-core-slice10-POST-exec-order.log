@@ -1,0 +1,14 @@
+[PASS] A1 load-time statements analysed — 129 top-level non-function statements; 370 top-level functions
+[PASS] A2 no load-time statement mentions the 3 functions or PersistableStateCore directly — []
+[PASS] A3 strict (synchronous-call) closure from load time does NOT reach the 3 functions — strict closure size=3; hits=[]
+INFO loose (callback/handler over-approximation) closure size=93; hits=["logError > persistState > snapshotPersistableState"]
+[PASS] A4 callers of the 3 functions (static) — {"snapshotPersistableState":["persistState","pushSync","resolveSyncConflict","snapshotPersistableState"],"restorePersistableState":["autoInitApp","pullSyncIfNewer","resolveSyncConflict","restorePersistableState"],"resetPersistableState":["resetAllData","resetPersistableState"]}
+[PASS] A5 persistState begins with `if(!encryptionKey) return;` (nothing reaches snapshot before the key exists)
+[PASS] A6 encryptionKey is assigned only inside autoInitApp (init `encryptionKey = null`) — ["autoInitApp"]
+INFO other callers reachable in the loose closure: ["logError > persistState > syncNow > pushSync"]
+[PASS] A7 main.js: window.PersistableStateCore assigned BEFORE all 5 startup calls — {"iBridge":4252,"startupIdx":[6704,6725,6770,6792,7297]}
+INFO sync paths from the 5 startup calls: ["autoInitApp > restorePersistableState"]
+[PASS] A8 PersistableStateCore is referenced only by the 3 wrappers — ["resetPersistableState","restorePersistableState","snapshotPersistableState"]
+[PASS] A9 each wrapper body is exactly one statement
+
+=== EXECUTION-ORDER CHECK: 9/9 ===

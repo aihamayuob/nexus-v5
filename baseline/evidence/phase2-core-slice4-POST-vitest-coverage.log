@@ -1,0 +1,27 @@
+
+ RUN  v4.1.11 /home/claude/work/repo-extract/nexus-repo/frontend
+      Coverage enabled with v8
+
+
+ Test Files  5 passed (5)
+      Tests  168 passed (168)
+   Start at  22:02:47
+   Duration  5.60s (transform 205ms, setup 0ms, import 356ms, tests 372ms, environment 3.61s)
+
+ % Coverage report from v8
+---------------|---------|----------|---------|---------|-------------------
+File           | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+---------------|---------|----------|---------|---------|-------------------
+All files      |   92.34 |    86.13 |   92.63 |   97.61 |                   
+ security.mjs  |   96.87 |    85.71 |     100 |     100 | 49-112            
+ settings.mjs  |    98.5 |      100 |     100 |   97.77 | 119               
+ storage.mjs   |   89.86 |       84 |   87.17 |   96.26 | 118,169,190,211   
+ utilities.mjs |   91.13 |    83.01 |    90.9 |   98.27 | 42,123            
+---------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 92.34% ( 374/405 )
+Branches     : 86.13% ( 174/202 )
+Functions    : 92.63% ( 88/95 )
+Lines        : 97.61% ( 286/293 )
+================================================================================

@@ -1,0 +1,27 @@
+PASS  self-test: rebind(a) counts only w1 (shadowed w4/w5 excluded)  — got 1
+PASS  self-test: mutate(a) = push + member-assign + nested push = 3  — got 3
+PASS  self-test: rebind(b) = destructuring + update + IIFE = 3; IIFE is loadTime
+PASS  self-test: rebind(c) via object method labelled o.m
+PASS  self-test: escape(a) = alias + arg
+PASS  self-test: member read of a.length classified read
+PASS  self-test: handler var-ref ignores string literal argument, detects a real reference  — literal=[] real=[projects]
+PASS  self-test: window.w1() and w2() recorded as load-time call edges
+PASS  3 <script> elements found; 2 inline classic + 1 external module  — module(src)@2341 classic@2342 classic@11742
+PASS  both inline classic scripts parsed by acorn without error
+FAIL  all 16 variables declared exactly once at top level as `let`, column 0  — agentOrder
+PASS  PERSISTABLE_STATE is a top-level const with exactly 16 keys equal to the 16 names
+PASS  every PERSISTABLE_STATE entry: get/set closures target the SAME-named variable
+PASS  every variable has exactly one setter-closure rebind (the PERSISTABLE_STATE entry)
+file:///tmp/claude-0/-home-claude/ee84fa53-2e42-5457-afd0-6ba2746dc23e/scratchpad/s10/clone-POST/baseline/evidence/phase2-core-slice3-state-map.mjs:584
+const declaredAfterPS = TARGETS.filter((v) => A.vars[v].declaration.beforePersistableState === false);
+                                                                    ^
+
+TypeError: Cannot read properties of null (reading 'beforePersistableState')
+    at file:///tmp/claude-0/-home-claude/ee84fa53-2e42-5457-afd0-6ba2746dc23e/scratchpad/s10/clone-POST/baseline/evidence/phase2-core-slice3-state-map.mjs:584:69
+    at Array.filter (<anonymous>)
+    at file:///tmp/claude-0/-home-claude/ee84fa53-2e42-5457-afd0-6ba2746dc23e/scratchpad/s10/clone-POST/baseline/evidence/phase2-core-slice3-state-map.mjs:584:33
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v22.22.0

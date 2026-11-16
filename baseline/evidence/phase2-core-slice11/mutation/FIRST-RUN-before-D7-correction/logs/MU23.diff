@@ -1,0 +1,11 @@
+--- /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-13 14:00:00.000000000 +0300
++++ /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/mut/work/MU23/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-15 05:18:37.826357976 +0300
+@@ -6944,7 +6944,7 @@
+ const ContextFabric = {
+   now(){
+     try{ return new Date().toLocaleString('ar', { dateStyle:'full', timeStyle:'short' }); }
+-    catch(e){ return new Date().toISOString(); }
++    catch(e){ return ''; }
+   },
+   async build(agent, queryText, opts={}){
+     const intent = opts.intent || NexusIntentEngine.analyze(queryText, opts);

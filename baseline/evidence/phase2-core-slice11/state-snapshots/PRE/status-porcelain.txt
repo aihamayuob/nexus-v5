@@ -1,0 +1,90 @@
+ M ADR/003-phase2-storage-boundary.md
+ M CHANGELOG.md
+ M NEXUS-CONTINUATION.md
+ M NEXUS-CURRENT-STATE.md
+ M baseline/evidence/phase2-core-slice3-state-map.mjs
+ M baseline/evidence/phase2-core-slice4-extract-script.mjs
+ M frontend/main.js
+ M frontend/neural_nexus_ai_agents-4-3-5-3.html
+?? ADR/005-global-accessor-state-ownership.md
+?? baseline/evidence/phase2-core-slice10-CTRL-slice3-analyzer-adapted-on-HEAD.log
+?? baseline/evidence/phase2-core-slice10-POST-backend-test.log
+?? baseline/evidence/phase2-core-slice10-POST-backend-tsc.log
+?? baseline/evidence/phase2-core-slice10-POST-baseline-flows.log
+?? baseline/evidence/phase2-core-slice10-POST-ei-ui-flows.log
+?? baseline/evidence/phase2-core-slice10-POST-exec-order.log
+?? baseline/evidence/phase2-core-slice10-POST-phase1-security-flows.log
+?? baseline/evidence/phase2-core-slice10-POST-phase2-core-seed-flows-run1-E1-flake.log
+?? baseline/evidence/phase2-core-slice10-POST-phase2-core-seed-flows.log
+?? baseline/evidence/phase2-core-slice10-POST-phase2-core-slice4-flows.log
+?? baseline/evidence/phase2-core-slice10-POST-results.json
+?? baseline/evidence/phase2-core-slice10-POST-slice10-flows-v2.log
+?? baseline/evidence/phase2-core-slice10-POST-slice10-flows.log
+?? baseline/evidence/phase2-core-slice10-POST-slice2-probe.log
+?? baseline/evidence/phase2-core-slice10-POST-slice3-analyzer-adapted.log
+?? baseline/evidence/phase2-core-slice10-POST-slice3-analyzer-before-adaptation.log
+?? baseline/evidence/phase2-core-slice10-POST-slice4-mutation.log
+?? baseline/evidence/phase2-core-slice10-POST-slice4-verify-adapted.log
+?? baseline/evidence/phase2-core-slice10-POST-slice4-verify-before-adaptation.log
+?? baseline/evidence/phase2-core-slice10-POST-slice5-flows.log
+?? baseline/evidence/phase2-core-slice10-POST-slice5-mutation.log
+?? baseline/evidence/phase2-core-slice10-POST-slice6-flows.log
+?? baseline/evidence/phase2-core-slice10-POST-slice6-mutation.log
+?? baseline/evidence/phase2-core-slice10-POST-slice7-flows.log
+?? baseline/evidence/phase2-core-slice10-POST-slice7-mutation.log
+?? baseline/evidence/phase2-core-slice10-POST-slice8-flows.log
+?? baseline/evidence/phase2-core-slice10-POST-slice8-mutation.log
+?? baseline/evidence/phase2-core-slice10-POST-unit-vs-original.log
+?? baseline/evidence/phase2-core-slice10-POST-vitest.log
+?? baseline/evidence/phase2-core-slice10-PRE-backend-test.log
+?? baseline/evidence/phase2-core-slice10-PRE-backend-tsc.log
+?? baseline/evidence/phase2-core-slice10-PRE-baseline-flows.log
+?? baseline/evidence/phase2-core-slice10-PRE-ei-ui-flows.log
+?? baseline/evidence/phase2-core-slice10-PRE-phase1-security-flows.log
+?? baseline/evidence/phase2-core-slice10-PRE-phase2-core-seed-flows.log
+?? baseline/evidence/phase2-core-slice10-PRE-phase2-core-slice4-flows.log
+?? baseline/evidence/phase2-core-slice10-PRE-results-v1-requests-fingerprint-flawed.json
+?? baseline/evidence/phase2-core-slice10-PRE-results.json
+?? baseline/evidence/phase2-core-slice10-PRE-slice10-flows-v2.log
+?? baseline/evidence/phase2-core-slice10-PRE-slice10-flows.log
+?? baseline/evidence/phase2-core-slice10-PRE-slice2-probe.log
+?? baseline/evidence/phase2-core-slice10-PRE-slice3-analyzer.log
+?? baseline/evidence/phase2-core-slice10-PRE-slice5-flows.log
+?? baseline/evidence/phase2-core-slice10-PRE-slice6-flows.log
+?? baseline/evidence/phase2-core-slice10-PRE-slice7-flows.log
+?? baseline/evidence/phase2-core-slice10-PRE-slice8-flows.log
+?? baseline/evidence/phase2-core-slice10-PRE-vitest.log
+?? baseline/evidence/phase2-core-slice10-acceptance-criteria.md
+?? baseline/evidence/phase2-core-slice10-compare.log
+?? baseline/evidence/phase2-core-slice10-compare.mjs
+?? baseline/evidence/phase2-core-slice10-mutation-results.json
+?? baseline/evidence/phase2-core-slice10-mutation-script.mjs
+?? baseline/evidence/phase2-core-slice10-mutation.log
+?? baseline/evidence/phase2-core-slice9-POST-baseline-flows.log
+?? baseline/evidence/phase2-core-slice9-POST-exec-order.log
+?? baseline/evidence/phase2-core-slice9-POST-phase1-security-flows.log
+?? baseline/evidence/phase2-core-slice9-POST-phase2-core-seed-flows.log
+?? baseline/evidence/phase2-core-slice9-POST-phase2-core-slice4-flows.log
+?? baseline/evidence/phase2-core-slice9-POST-slice2-probe.log
+?? baseline/evidence/phase2-core-slice9-POST-slice3-analyzer.log
+?? baseline/evidence/phase2-core-slice9-POST-slice4-verify.log
+?? baseline/evidence/phase2-core-slice9-POST-slice5-flows.log
+?? baseline/evidence/phase2-core-slice9-POST-slice6-flows.log
+?? baseline/evidence/phase2-core-slice9-POST-slice7-flows.log
+?? baseline/evidence/phase2-core-slice9-POST-slice8-flows.log
+?? baseline/evidence/phase2-core-slice9-PRE-baseline-flows.log
+?? baseline/evidence/phase2-core-slice9-PRE-phase1-security-flows.log
+?? baseline/evidence/phase2-core-slice9-PRE-phase2-core-seed-flows.log
+?? baseline/evidence/phase2-core-slice9-PRE-phase2-core-slice4-flows.log
+?? baseline/evidence/phase2-core-slice9-PRE-slice2-probe.log
+?? baseline/evidence/phase2-core-slice9-PRE-slice3-analyzer.log
+?? baseline/evidence/phase2-core-slice9-ownership-acceptance-criteria.md
+?? baseline/evidence/phase2-core-slice9-ownership-probe.mjs
+?? baseline/evidence/phase2-core-slice9-ownership-prototypes-results.json
+?? baseline/evidence/phase2-core-slice9-ownership-prototypes.log
+?? baseline/evidence/phase2-core-slice9-ownership-prototypes.mjs
+?? docs/checkpoints/CP-17.md
+?? docs/checkpoints/CP-18.md
+?? e2e/phase2-core-slice10-flows.mjs
+?? frontend/modules/state.mjs
+?? frontend/modules/state.test.mjs

@@ -1,0 +1,365 @@
+{
+  "slice": "core-7",
+  "subject": "isSendingMessage after an offline send attempt (CP-13 §8)",
+  "chromium": "141.0.7390.37",
+  "verdict": "STUCK",
+  "frontendSha256": {
+    "neural_nexus_ai_agents-4-3-5-3.html": "9b2baa32643dd3dae2e62c5a29c9e8dfdd9fa08b45dafa59ea38f4b6075f2441",
+    "main.js": "ae7b7a32180655a61cfc3fa0a5e5889e54284d1294ce48959865bf34bab47080"
+  },
+  "validity": {
+    "passed": 47,
+    "total": 47,
+    "failed": []
+  },
+  "checks": [
+    {
+      "name": "C0-boot-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "C0-online-send-added-user-and-error-message",
+      "ok": true,
+      "detail": "dMsgs=2 shape=[\"user/-\",\"assistant/error\"]"
+    },
+    {
+      "name": "C0-online-send-reached-network-layer-aborted-request",
+      "ok": true,
+      "detail": "externalRequests=3"
+    },
+    {
+      "name": "C0-online-send-cycle-ended-flag-false-btn-enabled-input-cleared",
+      "ok": true,
+      "detail": "cycleEnded=true flag=false btnDisabled=false input=\"\""
+    },
+    {
+      "name": "C2-boot-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "C2-offline-really-in-effect",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "C2-reconnected-really-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "C2-online-send-added-user-and-error-message",
+      "ok": true,
+      "detail": "dMsgs=2 shape=[\"user/-\",\"assistant/error\"]"
+    },
+    {
+      "name": "C2-online-send-reached-network-layer-aborted-request",
+      "ok": true,
+      "detail": "externalRequests=3"
+    },
+    {
+      "name": "C2-online-send-cycle-ended-flag-false-btn-enabled-input-cleared",
+      "ok": true,
+      "detail": "cycleEnded=true flag=false btnDisabled=false input=\"\""
+    },
+    {
+      "name": "click1-boot-online-and-flag-initially-false",
+      "ok": true,
+      "detail": "inited=true onLine=true flag=false"
+    },
+    {
+      "name": "click1-offline-really-in-effect-banner-shown",
+      "ok": true,
+      "detail": "navigator.onLine===false and #offlineBanner shown"
+    },
+    {
+      "name": "click1-AC4-offline-attempt-showed-the-offline-toast",
+      "ok": true,
+      "detail": "[\"🔌 لا يوجد اتصال بالإنترنت حالياً — تعذر إرسال الرسالة. حاول لما يرجع الاتصال.\"]"
+    },
+    {
+      "name": "click1-AC4-offline-attempt-sent-nothing-and-kept-the-text",
+      "ok": true,
+      "detail": "dMsgs=0 dExt=0 input=\"S7-click1-message\" btnDisabled=false"
+    },
+    {
+      "name": "click1-reconnected-really-online-banner-hidden-btn-enabled",
+      "ok": true,
+      "detail": "navigator.onLine===true, banner hidden, sendBtn enabled"
+    },
+    {
+      "name": "click1-after-reconnect-input-still-holds-the-text",
+      "ok": true,
+      "detail": "\"S7-click1-message\""
+    },
+    {
+      "name": "click1-previous-toast-waited-out-so-a-new-toast-is-attributable",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "click1-AC9-offline-again",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "click1-AC9-toasts-cleared-before-second-offline-attempt",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "click1-AC9-back-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "click1-AC8-reload-valid-online-initialised",
+      "ok": true,
+      "detail": "inited=true onLine=true"
+    },
+    {
+      "name": "click2-boot-online-and-flag-initially-false",
+      "ok": true,
+      "detail": "inited=true onLine=true flag=false"
+    },
+    {
+      "name": "click2-offline-really-in-effect-banner-shown",
+      "ok": true,
+      "detail": "navigator.onLine===false and #offlineBanner shown"
+    },
+    {
+      "name": "click2-AC4-offline-attempt-showed-the-offline-toast",
+      "ok": true,
+      "detail": "[\"🔌 لا يوجد اتصال بالإنترنت حالياً — تعذر إرسال الرسالة. حاول لما يرجع الاتصال.\"]"
+    },
+    {
+      "name": "click2-AC4-offline-attempt-sent-nothing-and-kept-the-text",
+      "ok": true,
+      "detail": "dMsgs=0 dExt=0 input=\"S7-click2-message\" btnDisabled=false"
+    },
+    {
+      "name": "click2-reconnected-really-online-banner-hidden-btn-enabled",
+      "ok": true,
+      "detail": "navigator.onLine===true, banner hidden, sendBtn enabled"
+    },
+    {
+      "name": "click2-after-reconnect-input-still-holds-the-text",
+      "ok": true,
+      "detail": "\"S7-click2-message\""
+    },
+    {
+      "name": "click2-previous-toast-waited-out-so-a-new-toast-is-attributable",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "click2-AC7-resetting-only-the-flag-makes-the-same-send-work",
+      "ok": true,
+      "detail": "dMsgs=2 dExt=3 flag=false"
+    },
+    {
+      "name": "click3-boot-online-and-flag-initially-false",
+      "ok": true,
+      "detail": "inited=true onLine=true flag=false"
+    },
+    {
+      "name": "click3-offline-really-in-effect-banner-shown",
+      "ok": true,
+      "detail": "navigator.onLine===false and #offlineBanner shown"
+    },
+    {
+      "name": "click3-AC4-offline-attempt-showed-the-offline-toast",
+      "ok": true,
+      "detail": "[\"🔌 لا يوجد اتصال بالإنترنت حالياً — تعذر إرسال الرسالة. حاول لما يرجع الاتصال.\"]"
+    },
+    {
+      "name": "click3-AC4-offline-attempt-sent-nothing-and-kept-the-text",
+      "ok": true,
+      "detail": "dMsgs=0 dExt=0 input=\"S7-click3-message\" btnDisabled=false"
+    },
+    {
+      "name": "click3-reconnected-really-online-banner-hidden-btn-enabled",
+      "ok": true,
+      "detail": "navigator.onLine===true, banner hidden, sendBtn enabled"
+    },
+    {
+      "name": "click3-after-reconnect-input-still-holds-the-text",
+      "ok": true,
+      "detail": "\"S7-click3-message\""
+    },
+    {
+      "name": "click3-previous-toast-waited-out-so-a-new-toast-is-attributable",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "click3-AC7-resetting-only-the-flag-makes-the-same-send-work",
+      "ok": true,
+      "detail": "dMsgs=2 dExt=3 flag=false"
+    },
+    {
+      "name": "enter1-boot-online-and-flag-initially-false",
+      "ok": true,
+      "detail": "inited=true onLine=true flag=false"
+    },
+    {
+      "name": "enter1-offline-really-in-effect-banner-shown",
+      "ok": true,
+      "detail": "navigator.onLine===false and #offlineBanner shown"
+    },
+    {
+      "name": "enter1-AC4-offline-attempt-showed-the-offline-toast",
+      "ok": true,
+      "detail": "[\"🔌 لا يوجد اتصال بالإنترنت حالياً — تعذر إرسال الرسالة. حاول لما يرجع الاتصال.\"]"
+    },
+    {
+      "name": "enter1-AC4-offline-attempt-sent-nothing-and-kept-the-text",
+      "ok": true,
+      "detail": "dMsgs=0 dExt=0 input=\"S7-enter1-message\" btnDisabled=false"
+    },
+    {
+      "name": "enter1-reconnected-really-online-banner-hidden-btn-enabled",
+      "ok": true,
+      "detail": "navigator.onLine===true, banner hidden, sendBtn enabled"
+    },
+    {
+      "name": "enter1-after-reconnect-input-still-holds-the-text",
+      "ok": true,
+      "detail": "\"S7-enter1-message\""
+    },
+    {
+      "name": "enter1-previous-toast-waited-out-so-a-new-toast-is-attributable",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "enter1-AC7-resetting-only-the-flag-makes-the-same-send-work",
+      "ok": true,
+      "detail": "dMsgs=2 dExt=3 flag=false"
+    },
+    {
+      "name": "main-all-runs-classified-consistently",
+      "ok": true,
+      "detail": "[\"STUCK\",\"STUCK\",\"STUCK\",\"STUCK\"]"
+    },
+    {
+      "name": "no-uncaught-page-errors",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "observed": [
+    {
+      "name": "click1-flag-right-after-offline-attempt",
+      "value": true,
+      "detail": "isSendingMessage (the CP-13 §8 inference says true)"
+    },
+    {
+      "name": "click1-follow-up-after-reconnect",
+      "value": {
+        "dMsgs": 0,
+        "dExt": 0,
+        "newToasts": [],
+        "flag": true,
+        "input": "S7-click1-message",
+        "btnDisabled": false
+      },
+      "detail": "same text, same entry point (click); onLine=true banner=none"
+    },
+    {
+      "name": "click1-run-classification",
+      "value": "STUCK",
+      "detail": null
+    },
+    {
+      "name": "click1-AC9-second-offline-attempt-while-stuck",
+      "value": {
+        "dMsgs": 0,
+        "dExt": 0,
+        "toasts": []
+      },
+      "detail": "inference: silent (no toast), because the entry guard returns first"
+    },
+    {
+      "name": "click1-AC8-flag-after-reload",
+      "value": false,
+      "detail": "isSendingMessage is not persisted; reload re-initialises the let"
+    },
+    {
+      "name": "click1-AC8-send-after-reload",
+      "value": {
+        "dMsgs": 2,
+        "dExt": 3,
+        "flag": false
+      },
+      "detail": "a new user message + error message expected if recovered"
+    },
+    {
+      "name": "click2-flag-right-after-offline-attempt",
+      "value": true,
+      "detail": "isSendingMessage (the CP-13 §8 inference says true)"
+    },
+    {
+      "name": "click2-follow-up-after-reconnect",
+      "value": {
+        "dMsgs": 0,
+        "dExt": 0,
+        "newToasts": [],
+        "flag": true,
+        "input": "S7-click2-message",
+        "btnDisabled": false
+      },
+      "detail": "same text, same entry point (click); onLine=true banner=none"
+    },
+    {
+      "name": "click2-run-classification",
+      "value": "STUCK",
+      "detail": null
+    },
+    {
+      "name": "click3-flag-right-after-offline-attempt",
+      "value": true,
+      "detail": "isSendingMessage (the CP-13 §8 inference says true)"
+    },
+    {
+      "name": "click3-follow-up-after-reconnect",
+      "value": {
+        "dMsgs": 0,
+        "dExt": 0,
+        "newToasts": [],
+        "flag": true,
+        "input": "S7-click3-message",
+        "btnDisabled": false
+      },
+      "detail": "same text, same entry point (click); onLine=true banner=none"
+    },
+    {
+      "name": "click3-run-classification",
+      "value": "STUCK",
+      "detail": null
+    },
+    {
+      "name": "enter1-flag-right-after-offline-attempt",
+      "value": true,
+      "detail": "isSendingMessage (the CP-13 §8 inference says true)"
+    },
+    {
+      "name": "enter1-follow-up-after-reconnect",
+      "value": {
+        "dMsgs": 0,
+        "dExt": 0,
+        "newToasts": [],
+        "flag": true,
+        "input": "S7-enter1-message",
+        "btnDisabled": false
+      },
+      "detail": "same text, same entry point (enter); onLine=true banner=none"
+    },
+    {
+      "name": "enter1-run-classification",
+      "value": "STUCK",
+      "detail": null
+    }
+  ]
+}

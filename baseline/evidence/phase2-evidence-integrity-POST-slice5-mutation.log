@@ -1,0 +1,7 @@
+[PASS] M1 post-slice-6 revert: sequential window.updateOnlineStatus() (undoes O2) -> loss returns -> verdict=LOST exit=0 validity=27/27 failed=0
+[PASS] M2 sabotage: restorePersistableState wrapper is a no-op -> verdict=INCONCLUSIVE exit=1 validity=15/27 failed=12
+[PASS] M3 sabotage: updateOnlineStatus does not log the offline entry -> verdict=INCONCLUSIVE exit=1 validity=22/27 failed=5
+[PASS] production frontend/ tree sha256 unchanged (a2fb7dd4cc5d25d1… -> a2fb7dd4cc5d25d1…)
+
+=== SUMMARY ===
+3/3 mutants behaved as expected; production untouched=true

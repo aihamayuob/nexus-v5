@@ -1,0 +1,25 @@
+[PASS] static-server-boot — serving neural_nexus_ai_agents-4-3-5-3.html on :8924
+[PASS] page-load-and-init — inited=true pageErrors=0
+[PASS] wrappers-present-original-signatures — {"snap":"function","restore":"function","reset":"function","arity":"0/1/0","onWindow":"function/function/function","registryKeys":16}
+[PASS] bridge-core-namespace — (patch-specific; expected FAIL pre-extraction) {"hasCore":true,"keys":"resetPersistableState,restorePersistableState,snapshotPersistableState","sameAsModule":true,"pureArity":"1/2/1","wrappersAreNotTheModuleFns":true}
+[PASS] seed-16-variables — 16 keys seeded through PERSISTABLE_STATE setters
+[PASS] snapshot-shape-and-top-level-isolation — {"keysEqualRegistry":true,"distinctObjects":true,"liveRefs":true,"stateUntouchedByMutatingSnapshot":true}
+[PASS] snapshot-values-are-live-references (characterization of existing behavior) — shallow snapshot preserved byte-for-byte; not a new guarantee
+[PASS] persist-call-completed — ok
+[PASS] state-restored-after-reload (marker via real autoInitApp) — inited=true restored=true
+[PASS] all-16-variables-restored-via-autoInitApp — mismatching=[]
+[PASS] crafted-blob-without-6-keys-written — remaining keys=10
+[PASS] crafted-blob-restored-via-autoInitApp — inited=true restored=true
+[PASS] missing-keys-restored-to-their-defaults — {"knowledgeBase":true,"selectedAgentIds":true,"activeGroupId":true,"briefingLastSeenAt":true,"customAgents":true,"agentOrder":true}
+[PASS] present-keys-kept-when-others-missing — mismatching=[]
+[PASS] restored-defaults-are-independent-fresh-objects — {"distinct":true,"siblingsUnaffected":true,"nextDefaultsClean":true,"defaultIsFreshObject":true}
+[PASS] real-restore-self-noop-and-reset-sets-all-16-defaults-and-rebinds — {"restoreSelfIsNoop":true,"allDefaultsAfterReset":true,"rebinds":true,"heldArraysKeepContents":true,"selectedDefault":true}
+[PASS] wrappers-delegate-explicit-registry — (patch-specific; expected FAIL pre-extraction) {"snapshotArgs":true,"restoreArgs":true,"resetArgs":true,"callCount":3}
+[PASS] resetAllData-real-path-wipes-state-and-blob — {"reseed":{"blobBefore":true},"resetRun":{"allDefaults":true,"blobGone":true}}
+[PASS] no-resurrection-after-reset-and-reload — {"inited3":true,"afterReset":{"allDefaults":true,"messages":0}}
+[PASS] no-decrypt-or-persist-errors
+[PASS] no-page-errors
+
+=== SUMMARY ===
+21/21 checks passed
+exit=0

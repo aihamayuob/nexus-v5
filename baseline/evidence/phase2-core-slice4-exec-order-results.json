@@ -1,0 +1,93 @@
+{
+  "slice": "core-slice-4/C1",
+  "checks": [
+    {
+      "name": "A1 load-time statements analysed",
+      "ok": true,
+      "detail": "130 top-level non-function statements; 370 top-level functions"
+    },
+    {
+      "name": "A2 no load-time statement mentions the 3 functions or PersistableStateCore directly",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "A3 strict (synchronous-call) closure from load time does NOT reach the 3 functions",
+      "ok": true,
+      "detail": "strict closure size=3; hits=[]"
+    },
+    {
+      "name": "A4 callers of the 3 functions (static)",
+      "ok": true,
+      "detail": "{\"snapshotPersistableState\":[\"persistState\",\"pushSync\",\"resolveSyncConflict\",\"snapshotPersistableState\"],\"restorePersistableState\":[\"autoInitApp\",\"pullSyncIfNewer\",\"resolveSyncConflict\",\"restorePersistableState\"],\"resetPersistableState\":[\"resetAllData\",\"resetPersistableState\"]}"
+    },
+    {
+      "name": "A5 persistState begins with `if(!encryptionKey) return;` (nothing reaches snapshot before the key exists)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "A6 encryptionKey is assigned only inside autoInitApp (init `encryptionKey = null`)",
+      "ok": true,
+      "detail": "[\"autoInitApp\"]"
+    },
+    {
+      "name": "A7 main.js: window.PersistableStateCore assigned BEFORE all 5 startup calls",
+      "ok": true,
+      "detail": "{\"iBridge\":4185,\"startupIdx\":[6371,6392,6420,6442,6474]}"
+    },
+    {
+      "name": "A8 PersistableStateCore is referenced only by the 3 wrappers",
+      "ok": true,
+      "detail": "[\"resetPersistableState\",\"restorePersistableState\",\"snapshotPersistableState\"]"
+    },
+    {
+      "name": "A9 each wrapper body is exactly one statement",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "summary": {
+    "total": 9,
+    "passed": 9,
+    "failed": []
+  },
+  "info": {
+    "looseClosureHits": [
+      [
+        "logError",
+        "persistState",
+        "snapshotPersistableState"
+      ]
+    ],
+    "strictClosureSize": 3,
+    "looseClosureSize": 93,
+    "callers": {
+      "snapshotPersistableState": [
+        "persistState",
+        "pushSync",
+        "resolveSyncConflict",
+        "snapshotPersistableState"
+      ],
+      "restorePersistableState": [
+        "autoInitApp",
+        "pullSyncIfNewer",
+        "resolveSyncConflict",
+        "restorePersistableState"
+      ],
+      "resetPersistableState": [
+        "resetAllData",
+        "resetPersistableState"
+      ]
+    },
+    "otherCallersInLooseClosure": [
+      "logError > persistState > syncNow > pushSync"
+    ],
+    "startupSyncPaths": [
+      [
+        "autoInitApp",
+        "restorePersistableState"
+      ]
+    ]
+  }
+}

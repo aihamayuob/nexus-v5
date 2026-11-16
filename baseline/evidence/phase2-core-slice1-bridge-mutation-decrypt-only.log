@@ -1,0 +1,22 @@
+[PASS] static-server-boot — serving neural_nexus_ai_agents-4-3-5-3.html on :8922
+[PASS] page-load-and-init — pageErrors=0
+[FAIL] functions-present-on-window — {"enc":"function","dec":"undefined","encAsync":"AsyncFunction"}
+[FAIL] bridge-identity — (patch-specific; expected FAIL pre-extraction) {"exported":true,"sameEnc":true,"sameDec":false}
+[FAIL] direct-behavior-block-ran — ReferenceError: decryptState is not defined
+[FAIL] encrypt-shape-and-fresh-iv — keys=data,iv ivBytes=12 b64=true freshIv=undefined
+[PASS] ciphertext-hides-plaintext
+[FAIL] round-trip-exact — Arabic keys/values, emoji, nested arrays, null, quotes
+[FAIL] wrong-key-rejected
+[FAIL] tampered-ciphertext-rejected
+[FAIL] tampered-iv-rejected
+[FAIL] malformed-payloads-rejected — {}
+[PASS] persist-call-completed — ok
+[PASS] persisted-blob-is-encrypted-envelope — shape=data,iv plaintextLeak=false
+[FAIL] state-restored-after-reload — marker written pre-reload is present post-reload (decryptState + restorePersistableState via real autoInitApp)
+[FAIL] no-decrypt-or-persist-errors — Decrypt error (starting fresh): ReferenceError: decryptState is not defined
+    at autoInitApp (http://127.0.0.1:8922/:4835:25)
+[PASS] no-page-errors
+
+=== SUMMARY ===
+6/17 checks passed
+FAILED: functions-present-on-window, bridge-identity, direct-behavior-block-ran, encrypt-shape-and-fresh-iv, round-trip-exact, wrong-key-rejected, tampered-ciphertext-rejected, tampered-iv-rejected, malformed-payloads-rejected, state-restored-after-reload, no-decrypt-or-persist-errors

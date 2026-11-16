@@ -1,0 +1,224 @@
+{
+  "slice": "core-5",
+  "inference": "I-1",
+  "chromium": "141.0.7390.37",
+  "verdict": "LOST",
+  "validity": {
+    "passed": 27,
+    "total": 27,
+    "failed": []
+  },
+  "checks": [
+    {
+      "name": "C0-online-boot-seed-persisted",
+      "ok": true,
+      "detail": "{\"ok\":true,\"blobActivity\":[\"S5-C0-plain-online-1791610904244-act-1\",\"S5-C0-plain-online-1791610904244-act-2\"],\"blobMsgs\":[\"S5-C0-plain-online-1791610904244-msg\"]}"
+    },
+    {
+      "name": "C0-online-boot-really-online",
+      "ok": true,
+      "detail": "onLineAtStart=true banner=none"
+    },
+    {
+      "name": "C0-online-boot-restore-ran-and-activityLog-restored-exactly",
+      "ok": true,
+      "detail": "activity=[\"S5-C0-plain-online-1791610904244-act-1\",\"S5-C0-plain-online-1791610904244-act-2\"]"
+    },
+    {
+      "name": "C0-online-boot-no-offline-entry-anywhere",
+      "ok": true,
+      "detail": "mem=0 dom=false"
+    },
+    {
+      "name": "C1-offline-no-blob-really-offline",
+      "ok": true,
+      "detail": "onLineAtStart=false banner=block"
+    },
+    {
+      "name": "C1-offline-no-blob-nothing-to-restore",
+      "ok": true,
+      "detail": "inited=true blobPresent=false"
+    },
+    {
+      "name": "C1-POSITIVE-CONTROL-offline-entry-written-and-visible",
+      "ok": true,
+      "detail": "activity=[\"انقطع الاتصال\"] dom=true"
+    },
+    {
+      "name": "B0-plain-offline-boot-valid-measurement",
+      "ok": true,
+      "detail": "inited=true restored=true onLineAtStart=false banner=block seedPersisted=true"
+    },
+    {
+      "name": "B0-seed-was-persisted-before-reboot",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "B1-plain-offline-boot-valid-measurement",
+      "ok": true,
+      "detail": "inited=true restored=true onLineAtStart=false banner=block seedPersisted=true"
+    },
+    {
+      "name": "B1-seed-was-persisted-before-reboot",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "B2-plain-offline-boot-valid-measurement",
+      "ok": true,
+      "detail": "inited=true restored=true onLineAtStart=false banner=block seedPersisted=true"
+    },
+    {
+      "name": "B2-seed-was-persisted-before-reboot",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "B3-plain-offline-boot-valid-measurement",
+      "ok": true,
+      "detail": "inited=true restored=true onLineAtStart=false banner=block seedPersisted=true"
+    },
+    {
+      "name": "B3-seed-was-persisted-before-reboot",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "B4-plain-offline-boot-valid-measurement",
+      "ok": true,
+      "detail": "inited=true restored=true onLineAtStart=false banner=block seedPersisted=true"
+    },
+    {
+      "name": "B4-seed-was-persisted-before-reboot",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "B-plain-verdicts-identical-across-runs",
+      "ok": true,
+      "detail": "[\"LOST\",\"LOST\",\"LOST\",\"LOST\",\"LOST\"]"
+    },
+    {
+      "name": "T0-traced-valid-measurement-and-single-write-single-restore",
+      "ok": true,
+      "detail": "verdict=LOST writes=1 restores=1"
+    },
+    {
+      "name": "T1-traced-valid-measurement-and-single-write-single-restore",
+      "ok": true,
+      "detail": "verdict=LOST writes=1 restores=1"
+    },
+    {
+      "name": "T2-traced-valid-measurement-and-single-write-single-restore",
+      "ok": true,
+      "detail": "verdict=LOST writes=1 restores=1"
+    },
+    {
+      "name": "T-traced-verdicts-identical-across-runs",
+      "ok": true,
+      "detail": "[\"LOST\",\"LOST\",\"LOST\"]"
+    },
+    {
+      "name": "T-plain-and-traced-agree",
+      "ok": true,
+      "detail": "plain=LOST traced=LOST"
+    },
+    {
+      "name": "T-mechanism-explains-outcome",
+      "ok": true,
+      "detail": "verdict=LOST writeBeforeRestore=true"
+    },
+    {
+      "name": "D-valid-measurement-blob-lacks-activityLog",
+      "ok": true,
+      "detail": "seeded={\"ok\":true,\"blobActivity\":null,\"blobMsgs\":[\"S5-D-plain-offline-1791610917583-msg\"]}"
+    },
+    {
+      "name": "F-post-boot-transition-valid",
+      "ok": true,
+      "detail": "restored=true onLineNow=false banner=block"
+    },
+    {
+      "name": "no-uncaught-page-errors",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "observed": [
+    {
+      "name": "C1-no-blob-offline-boot-entry",
+      "value": "SURVIVES",
+      "detail": null
+    },
+    {
+      "name": "B-plain-offline-boot-with-blob-verdict",
+      "value": "LOST",
+      "detail": "runs=[\"LOST\",\"LOST\",\"LOST\",\"LOST\",\"LOST\"]"
+    },
+    {
+      "name": "B-plain-final-activityLog-in-memory",
+      "value": [
+        "S5-B0-plain-offline-1791610907154-act-1",
+        "S5-B0-plain-offline-1791610907154-act-2"
+      ],
+      "detail": "seed was [\"S5-B0-plain-offline-1791610907154-act-1\",\"S5-B0-plain-offline-1791610907154-act-2\"]"
+    },
+    {
+      "name": "B-plain-final-activityLog-equals-seed-exactly",
+      "value": true,
+      "detail": null
+    },
+    {
+      "name": "B-plain-DOM-activity-panel-shows-offline-entry",
+      "value": true,
+      "detail": "dom entries=1 (rendered by logActivity at boot; no re-render is asserted here)"
+    },
+    {
+      "name": "B-plain-next-save-would-persist-activityLog",
+      "value": [
+        "S5-B0-plain-offline-1791610907154-act-1",
+        "S5-B0-plain-offline-1791610907154-act-2"
+      ],
+      "detail": "activityLog inside the blob after persistState() called post-boot"
+    },
+    {
+      "name": "T-order-offline-write-vs-restore",
+      "value": "WRITE_BEFORE_RESTORE",
+      "detail": "write.seq=0 restore-begin.seq=1"
+    },
+    {
+      "name": "T-activityLog-just-BEFORE-restore",
+      "value": [
+        "انقطع الاتصال"
+      ],
+      "detail": "contains the boot entry iff it was written before restore"
+    },
+    {
+      "name": "T-decrypted-activityLog-given-to-restore",
+      "value": [
+        "S5-T0-traced-offline-1791610913634-act-1",
+        "S5-T0-traced-offline-1791610913634-act-2"
+      ],
+      "detail": null
+    },
+    {
+      "name": "T-activityLog-just-AFTER-restore",
+      "value": [
+        "S5-T0-traced-offline-1791610913634-act-1",
+        "S5-T0-traced-offline-1791610913634-act-2"
+      ],
+      "detail": null
+    },
+    {
+      "name": "D-offline-boot-blob-without-activityLog-verdict",
+      "value": "LOST",
+      "detail": "activity=[]"
+    },
+    {
+      "name": "F-post-boot-offline-event-entry",
+      "value": "SURVIVES_ON_TOP_OF_RESTORED_LOG",
+      "detail": "activity=[\"انقطع الاتصال\",\"S5-F-1791610918900-act-1\",\"S5-F-1791610918900-act-2\"]"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+expected boot JS (independent resolver): /main.js, /modules/security.mjs, /modules/settings.mjs, /modules/state.mjs, /modules/storage.mjs, /modules/utilities.mjs
+[PASS] [VALID] V2-resolver-yields-6-js-files-incl-state-mjs — /main.js,/modules/security.mjs,/modules/settings.mjs,/modules/state.mjs,/modules/storage.mjs,/modules/utilities.mjs
+[PASS] [VALID] V2b-resolver-equals-observed-online-js-requests — observed=/main.js,/modules/security.mjs,/modules/settings.mjs,/modules/state.mjs,/modules/storage.mjs,/modules/utilities.mjs
+[PASS] [VALID] V3-offline-is-real-server-closed-fetch-fails
+[PASS] [VALID] V4a-control-transform-applied-sw-without-state-mjs — no sw.js in tree (PRE)
+[PASS] [VALID] V5-determinism-two-runs-identical
+[PASS] [VALID] V6-online-boot-initialises-with-and-without-sw
+[PASS] [PRES] R1-no-pageerror-online-and-offline — []
+[FAIL] [PS] P0-sw-registered-active-and-controlling
+[FAIL] [PS] P1-one-versioned-cache-holds-every-expected-js — caches= cached=
+[FAIL] [PS] P1b-document-cached-for-offline-navigation
+[FAIL] [PS] P2-offline-reload-boots-app — nav=false init=false bridged=false accessor=false
+[FAIL] [PS] P2b-no-failed-same-origin-request-offline — /
+[FAIL] [PS] P3-every-boot-js-served-by-sw-offline — {}
+[PASS] [PS] P4-api-like-get-not-cached — [1,2]
+[PASS] [PS] P5-non-allowlisted-path-not-cached — ["other 1","other 2"]
+[FAIL] [PS] P6-activate-removes-old-shell-cache-keeps-foreign-cache — nexus-shell-v0,other-cache
+[FAIL] [PS] P7-sw-source-has-no-web-storage-or-header-persistence — no sw.js
+[FAIL] [PS] P8-control-without-state-mjs-breaks-offline-boot-and-the-real-sw-does-not — control: nav=false init=false failed=/ errs=0
+
+VALID 6/6  PRES 1/1  PS 2/11  chromium=141.0.7390.37  frontend=../frontend
+B1-VERDICT = REJECTED
+exit=1

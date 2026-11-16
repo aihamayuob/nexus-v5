@@ -1,0 +1,10 @@
+
+ RUN  v4.1.11 /home/claude/work/repo-extract/nexus-repo/frontend
+
+
+ Test Files  1 passed (1)
+      Tests  36 passed (36)
+   Start at  21:47:15
+   Duration  1.12s (transform 58ms, setup 0ms, import 112ms, tests 79ms, environment 752ms)
+
+temporary file removed: true | vitest exit code: 0

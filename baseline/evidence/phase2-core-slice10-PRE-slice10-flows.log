@@ -1,0 +1,40 @@
+[PASS] [VALID] A-boot-and-init — inited=true
+[PASS] [VALID] A-functions-present — function,function,function,function,function,function,function,function
+[PASS] [VALID] A-agents-readable — agents=24
+[PASS] [PRES] AC3-initial-order-natural-registry-empty-bare-readable — {"regLen":0,"bare":true}
+[PASS] [VALID] A-moveAgentOrder-ran
+[PASS] [PRES] AC3-moveAgentOrder-swaps-first-two — first=general
+[PASS] [PRES] AC3-registry-sees-full-explicit-order — registryLen=24
+[PASS] [PRES] AC3-reorder-list-rows-equal-agent-count — rows=24 agents=24
+[PASS] [PRES] AC3-order-survives-reload-via-autoInitApp — inited=true restored=true
+[PASS] [PRES] AC3-snapshot-value-is-the-live-reference — {"snapshotIsLiveRef":true,"inPlaceVisible":true,"bareWriteRegistry":true,"bareWriteOrdered":true,"restoreRebinds":true,"others":true}
+[PASS] [PRES] AC3-in-place-mutation-visible-to-registry
+[PASS] [PRES] AC3-bare-name-write-visible-to-registry-and-getOrderedAgents
+[PASS] [PRES] AC3-restorePersistableState-rebinds-old-reference-detached
+[PASS] [VALID] A-crafted-blob-without-agentOrder-written — keys=15
+[PASS] [VALID] A-crafted-blob-restored-via-autoInitApp — inited=true restored=true
+[PASS] [PRES] AC3-missing-key-restores-fresh-empty-default-and-natural-order — {"isEmptyArray":true,"fresh":true,"natural":true,"bareSame":true}
+[PASS] [PRES] AC3-reset-restores-default-and-natural-order — {"natural":true,"regLen":0,"bareLen":0}
+[PASS] [PRES] AC4-other-15-variables-not-on-window-and-bare-readable — bad=[]
+[PASS] [VALID] B-boot-and-init
+[FAIL] [PS] AC1-window-agentOrder-is-an-accessor-configurable-non-enumerable — {"has":false}
+[FAIL] [PS] AC2-bare-name-and-window-property-are-the-same-binding — {"bareWriteSeenViaWindow":false,"windowWriteSeenViaBare":false}
+[FAIL] [PS] AC2-static-monolith-has-no-top-level-declaration-of-agentOrder
+[FAIL] [PS] AC6-modules-state-mjs-exports-installGlobalStateAccessors — {"ok":false,"error":"Failed to fetch dynamically imported module: https://nexus.test/modules/state.mj"}
+[FAIL] [PS] AC5-static-main-js-installs-after-bridges-and-before-the-first-startup-call — {"iBridge":4185,"iInstall":-1,"iFirst":6371}
+[FAIL] [PS] AC6-install-is-idempotent-value-survives-a-second-install — {"error":"Failed to fetch dynamically imported module: https://nexus.test/modules/state.mj"}
+[PASS] [VALID] B-control-delete-of-a-classic-let-leaves-the-bare-name-readable — messagesStillReadable=true
+[FAIL] [PS] AC2-ownership-after-deleting-the-accessor-the-bare-name-is-a-ReferenceError — {"deleteResult":true,"afterDeleteTypeof":"object","readThrows":false}
+[PASS] [VALID] no-uncaught-page-errors
+
+=== SUMMARY ===
+21/28 checks passed  (VALID 9/9, PRES 12/12, PS 0/7)
+FAILED: [PS] AC1-window-agentOrder-is-an-accessor-configurable-non-enumerable
+        [PS] AC2-bare-name-and-window-property-are-the-same-binding
+        [PS] AC2-static-monolith-has-no-top-level-declaration-of-agentOrder
+        [PS] AC6-modules-state-mjs-exports-installGlobalStateAccessors
+        [PS] AC5-static-main-js-installs-after-bridges-and-before-the-first-startup-call
+        [PS] AC6-install-is-idempotent-value-survives-a-second-install
+        [PS] AC2-ownership-after-deleting-the-accessor-the-bare-name-is-a-ReferenceError
+S10-VERDICT = REJECTED  (chromium 141.0.7390.37; frontend=../frontend)
+results -> /tmp/claude-0/-home-claude/ee84fa53-2e42-5457-afd0-6ba2746dc23e/scratchpad/s10/res-PRE/s10.json

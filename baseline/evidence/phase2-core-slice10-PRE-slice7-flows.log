@@ -1,0 +1,58 @@
+Chromium 141.0.7390.37; FRONTEND_DIR=/tmp/claude-0/-home-claude/ee84fa53-2e42-5457-afd0-6ba2746dc23e/scratchpad/repo/nexus-repo/frontend
+[PASS] C0-boot-online
+[PASS] C0-online-send-added-user-and-error-message — dMsgs=2 shape=["user/-","assistant/error"]
+[PASS] C0-online-send-reached-network-layer-aborted-request — externalRequests=3
+[PASS] C0-online-send-cycle-ended-flag-false-btn-enabled-input-cleared — cycleEnded=true flag=false btnDisabled=false input=""
+[PASS] C2-boot-online
+[PASS] C2-offline-really-in-effect
+[PASS] C2-reconnected-really-online
+[PASS] C2-online-send-added-user-and-error-message — dMsgs=2 shape=["user/-","assistant/error"]
+[PASS] C2-online-send-reached-network-layer-aborted-request — externalRequests=3
+[PASS] C2-online-send-cycle-ended-flag-false-btn-enabled-input-cleared — cycleEnded=true flag=false btnDisabled=false input=""
+[PASS] click1-boot-online-and-flag-initially-false — inited=true onLine=true flag=false
+[PASS] click1-offline-really-in-effect-banner-shown — navigator.onLine===false and #offlineBanner shown
+[PASS] click1-AC4-offline-attempt-showed-the-offline-toast — ["🔌 لا يوجد اتصال بالإنترنت حالياً — تعذر إرسال الرسالة. حاول لما يرجع الاتصال."]
+[PASS] click1-AC4-offline-attempt-sent-nothing-and-kept-the-text — dMsgs=0 dExt=0 input="S7-click1-message" btnDisabled=false
+[OBSERVED] click1-flag-right-after-offline-attempt = false — isSendingMessage (the CP-13 §8 inference says true)
+[PASS] click1-reconnected-really-online-banner-hidden-btn-enabled — navigator.onLine===true, banner hidden, sendBtn enabled
+[PASS] click1-after-reconnect-input-still-holds-the-text — "S7-click1-message"
+[PASS] click1-previous-toast-waited-out-so-a-new-toast-is-attributable
+[OBSERVED] click1-follow-up-after-reconnect = {"dMsgs":2,"dExt":3,"newToasts":[],"flag":false,"input":"","btnDisabled":false} — same text, same entry point (click); onLine=true banner=none
+[OBSERVED] click1-run-classification = NOT-STUCK
+[PASS] click2-boot-online-and-flag-initially-false — inited=true onLine=true flag=false
+[PASS] click2-offline-really-in-effect-banner-shown — navigator.onLine===false and #offlineBanner shown
+[PASS] click2-AC4-offline-attempt-showed-the-offline-toast — ["🔌 لا يوجد اتصال بالإنترنت حالياً — تعذر إرسال الرسالة. حاول لما يرجع الاتصال."]
+[PASS] click2-AC4-offline-attempt-sent-nothing-and-kept-the-text — dMsgs=0 dExt=0 input="S7-click2-message" btnDisabled=false
+[OBSERVED] click2-flag-right-after-offline-attempt = false — isSendingMessage (the CP-13 §8 inference says true)
+[PASS] click2-reconnected-really-online-banner-hidden-btn-enabled — navigator.onLine===true, banner hidden, sendBtn enabled
+[PASS] click2-after-reconnect-input-still-holds-the-text — "S7-click2-message"
+[PASS] click2-previous-toast-waited-out-so-a-new-toast-is-attributable
+[OBSERVED] click2-follow-up-after-reconnect = {"dMsgs":2,"dExt":3,"newToasts":[],"flag":false,"input":"","btnDisabled":false} — same text, same entry point (click); onLine=true banner=none
+[OBSERVED] click2-run-classification = NOT-STUCK
+[PASS] click3-boot-online-and-flag-initially-false — inited=true onLine=true flag=false
+[PASS] click3-offline-really-in-effect-banner-shown — navigator.onLine===false and #offlineBanner shown
+[PASS] click3-AC4-offline-attempt-showed-the-offline-toast — ["🔌 لا يوجد اتصال بالإنترنت حالياً — تعذر إرسال الرسالة. حاول لما يرجع الاتصال."]
+[PASS] click3-AC4-offline-attempt-sent-nothing-and-kept-the-text — dMsgs=0 dExt=0 input="S7-click3-message" btnDisabled=false
+[OBSERVED] click3-flag-right-after-offline-attempt = false — isSendingMessage (the CP-13 §8 inference says true)
+[PASS] click3-reconnected-really-online-banner-hidden-btn-enabled — navigator.onLine===true, banner hidden, sendBtn enabled
+[PASS] click3-after-reconnect-input-still-holds-the-text — "S7-click3-message"
+[PASS] click3-previous-toast-waited-out-so-a-new-toast-is-attributable
+[OBSERVED] click3-follow-up-after-reconnect = {"dMsgs":2,"dExt":3,"newToasts":[],"flag":false,"input":"","btnDisabled":false} — same text, same entry point (click); onLine=true banner=none
+[OBSERVED] click3-run-classification = NOT-STUCK
+[PASS] enter1-boot-online-and-flag-initially-false — inited=true onLine=true flag=false
+[PASS] enter1-offline-really-in-effect-banner-shown — navigator.onLine===false and #offlineBanner shown
+[PASS] enter1-AC4-offline-attempt-showed-the-offline-toast — ["🔌 لا يوجد اتصال بالإنترنت حالياً — تعذر إرسال الرسالة. حاول لما يرجع الاتصال."]
+[PASS] enter1-AC4-offline-attempt-sent-nothing-and-kept-the-text — dMsgs=0 dExt=0 input="S7-enter1-message" btnDisabled=false
+[OBSERVED] enter1-flag-right-after-offline-attempt = false — isSendingMessage (the CP-13 §8 inference says true)
+[PASS] enter1-reconnected-really-online-banner-hidden-btn-enabled — navigator.onLine===true, banner hidden, sendBtn enabled
+[PASS] enter1-after-reconnect-input-still-holds-the-text — "S7-enter1-message"
+[PASS] enter1-previous-toast-waited-out-so-a-new-toast-is-attributable
+[OBSERVED] enter1-follow-up-after-reconnect = {"dMsgs":2,"dExt":3,"newToasts":[],"flag":false,"input":"","btnDisabled":false} — same text, same entry point (enter); onLine=true banner=none
+[OBSERVED] enter1-run-classification = NOT-STUCK
+[PASS] main-all-runs-classified-consistently — ["NOT-STUCK","NOT-STUCK","NOT-STUCK","NOT-STUCK"]
+[PASS] no-uncaught-page-errors
+
+=== SUMMARY ===
+40/40 validity checks passed
+S7-VERDICT = NOT-STUCK  (chromium 141.0.7390.37; frontend=../frontend)
+results -> /tmp/claude-0/-home-claude/ee84fa53-2e42-5457-afd0-6ba2746dc23e/scratchpad/s10/res-PRE/s7.json

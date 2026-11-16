@@ -1,0 +1,344 @@
+TAP version 13
+# (node:733) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: POST /v2/evaluation/claim evaluates a real claim against real supplied evidence and persists it
+not ok 1 - POST /v2/evaluation/claim evaluates a real claim against real supplied evidence and persists it
+  ---
+  duration_ms: 49.885253
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/claimEvaluationRoutes.test.ts:60:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'UNVERIFIED'
+    - 'SUPPORTED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'SUPPORTED'
+  actual: 'UNVERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    <anonymous> (/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/claimEvaluationRoutes.test.ts:69:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async withServer (/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/claimEvaluationRoutes.test.ts:54:5)
+    async TestContext.<anonymous> (/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/claimEvaluationRoutes.test.ts:61:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# {"ts":"2026-10-09T02:21:04.919Z","level":"warn","msg":"Request failed","path":"/v2/evaluation/claim","status":400,"code":"validation_error","message":"الحقل \\"claim\\" مطلوب."}
+# Subtest: POST /v2/evaluation/claim rejects a missing claim with a real 400
+ok 2 - POST /v2/evaluation/claim rejects a missing claim with a real 400
+  ---
+  duration_ms: 17.94294
+  type: 'test'
+  ...
+# {"ts":"2026-10-09T02:21:04.956Z","level":"warn","msg":"Request failed","path":"/v2/evaluation/claims/does-not-exist","status":404,"code":"not_found","message":"لم يُعثر على هذا التقييم."}
+# Subtest: GET /v2/evaluation/claims/:id retrieves a persisted evaluation by id; an unknown id is a real 404
+ok 3 - GET /v2/evaluation/claims/:id retrieves a persisted evaluation by id; an unknown id is a real 404
+  ---
+  duration_ms: 33.602688
+  type: 'test'
+  ...
+# Subtest: GET /v2/evaluation/claims lists persisted evaluations, filterable by subjectType
+ok 4 - GET /v2/evaluation/claims lists persisted evaluations, filterable by subjectType
+  ---
+  duration_ms: 41.981124
+  type: 'test'
+  ...
+# Subtest: POST /v2/evaluation/claim with zero evidence uses the fast path (UNVERIFIED, ran:true) end to end over real HTTP
+ok 5 - POST /v2/evaluation/claim with zero evidence uses the fast path (UNVERIFIED, ran:true) end to end over real HTTP
+  ---
+  duration_ms: 20.950201
+  type: 'test'
+  ...
+# Subtest: EvaluationEngine.evaluate degrades gracefully (ran:false) when the fixed judge provider is not configured
+ok 6 - EvaluationEngine.evaluate degrades gracefully (ran:false) when the fixed judge provider is not configured
+  ---
+  duration_ms: 9.54087
+  type: 'test'
+  ...
+# Subtest: EvaluationEngine.evaluate with zero evidence returns UNVERIFIED via a fast path — makes no provider call at all
+ok 7 - EvaluationEngine.evaluate with zero evidence returns UNVERIFIED via a fast path — makes no provider call at all
+  ---
+  duration_ms: 0.185747
+  type: 'test'
+  ...
+# Subtest: EvaluationEngine.evaluate returns a real VERIFIED verdict with parsed confidence and rationale from the judge
+not ok 8 - EvaluationEngine.evaluate returns a real VERIFIED verdict with parsed confidence and rationale from the judge
+  ---
+  duration_ms: 1.138954
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:58:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'UNVERIFIED'
+    - 'VERIFIED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'VERIFIED'
+  actual: 'UNVERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:65:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: EvaluationEngine.evaluate returns CONFLICTING when told the evidence disagrees
+not ok 9 - EvaluationEngine.evaluate returns CONFLICTING when told the evidence disagrees
+  ---
+  duration_ms: 0.451768
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:72:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'UNVERIFIED'
+    - 'CONFLICTING'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'CONFLICTING'
+  actual: 'UNVERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:78:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: EvaluationEngine.evaluate returns SUPPORTED for a single-source, uncorroborated but uncontradicted claim
+not ok 10 - EvaluationEngine.evaluate returns SUPPORTED for a single-source, uncorroborated but uncontradicted claim
+  ---
+  duration_ms: 0.308307
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:82:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'UNVERIFIED'
+    - 'SUPPORTED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'SUPPORTED'
+  actual: 'UNVERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:85:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: EvaluationEngine.evaluate returns UNCERTAIN when evidence is present but insufficient/ambiguous
+not ok 11 - EvaluationEngine.evaluate returns UNCERTAIN when evidence is present but insufficient/ambiguous
+  ---
+  duration_ms: 0.318772
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:88:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'UNVERIFIED'
+    - 'UNCERTAIN'
+         ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNCERTAIN'
+  actual: 'UNVERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:91:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: EvaluationEngine.evaluate falls back to UNCERTAIN when the judge returns an invalid/unrecognized verdict string
+not ok 12 - EvaluationEngine.evaluate falls back to UNCERTAIN when the judge returns an invalid/unrecognized verdict string
+  ---
+  duration_ms: 0.376984
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:94:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'UNVERIFIED'
+    - 'UNCERTAIN'
+         ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNCERTAIN'
+  actual: 'UNVERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:97:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: EvaluationEngine.evaluate ignores an out-of-range confidence value (returns null rather than trusting a bad number)
+not ok 13 - EvaluationEngine.evaluate ignores an out-of-range confidence value (returns null rather than trusting a bad number)
+  ---
+  duration_ms: 0.354082
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:100:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== null
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ~
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:103:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: EvaluationEngine.evaluate degrades to unavailable (not a throw) on a genuinely malformed, non-JSON judge response
+not ok 14 - EvaluationEngine.evaluate degrades to unavailable (not a throw) on a genuinely malformed, non-JSON judge response
+  ---
+  duration_ms: 0.574356
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:106:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'UNVERIFIED'
+    - 'UNCERTAIN'
+         ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNCERTAIN'
+  actual: 'UNVERIFIED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:111:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: EvaluationEngine.evaluate degrades to unavailable (ran:false) when the judge response contains braces but genuinely invalid JSON inside them
+not ok 15 - EvaluationEngine.evaluate degrades to unavailable (ran:false) when the judge response contains braces but genuinely invalid JSON inside them
+  ---
+  duration_ms: 0.3637
+  type: 'test'
+  location: '/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:114:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/tmp/claude-0/-home-claude/85ece596-f27b-5128-97bb-25f0d69135ff/scratchpad/exp/backend/test/evaluationEngine.test.ts:117:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# (node:809) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: runWebResearch rejects an empty question
+ok 16 - runWebResearch rejects an empty question
+  ---
+  duration_ms: 14.836553
+  type: 'test'
+  ...
+# Subtest: runWebResearch degrades gracefully (ran:false, no throw) when Gemini is not configured — mirrors verifier.ts's pattern
+ok 17 - runWebResearch degrades gracefully (ran:false, no throw) when Gemini is not configured — mirrors verifier.ts's pattern
+  ---
+  duration_ms: 4.574601
+  type: 'test'
+  ...
+# {"ts":"2026-10-09T02:21:06.012Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.com/gold-analysis","message":"تعذّر تحليل عنوان النطاق."}
+# {"ts":"2026-10-09T02:21:06.012Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.org/market-news","message":"تعذّر تحليل عنوان النطاق."}
+# Subtest: runWebResearch produces a real grounded answer with real webSearchQueries and correctly-extracted source domains
+ok 18 - runWebResearch produces a real grounded answer with real webSearchQueries and correctly-extracted source domains
+  ---
+  duration_ms: 47.478597
+  type: 'test'
+  ...
+# {"ts":"2026-10-09T02:21:06.038Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.com/gold-analysis","message":"تعذّر تحليل عنوان النطاق."}
+# {"ts":"2026-10-09T02:21:06.038Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.org/market-news","message":"تعذّر تحليل عنوان النطاق."}
+# Subtest: a citation whose follow-up fetch genuinely fails (real SSRF/network constraint in this environment) is recorded with fetchOk:false, not silently dropped
+ok 19 - a citation whose follow-up fetch genuinely fails (real SSRF/network constraint in this environment) is recorded with fetchOk:false, not silently dropped
+  ---
+  duration_ms: 24.919707
+  type: 'test'
+  ...
+# {"ts":"2026-10-09T02:21:06.060Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.com/gold-analysis","message":"تعذّر تحليل عنوان النطاق."}
+# {"ts":"2026-10-09T02:21:06.060Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.org/market-news","message":"تعذّر تحليل عنوان النطاق."}
+# Subtest: runWebResearch persists a real Memory item by default, with real provenance included
+ok 20 - runWebResearch persists a real Memory item by default, with real provenance included
+  ---
+  duration_ms: 21.922953
+  type: 'test'
+  ...
+# {"ts":"2026-10-09T02:21:06.079Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.com/gold-analysis","message":"تعذّر تحليل عنوان النطاق."}
+# {"ts":"2026-10-09T02:21:06.083Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.org/market-news","message":"تعذّر تحليل عنوان النطاق."}
+# Subtest: runWebResearch skips Memory persistence when explicitly told to
+ok 21 - runWebResearch skips Memory persistence when explicitly told to
+  ---
+  duration_ms: 22.099331
+  type: 'test'
+  ...
+# {"ts":"2026-10-09T02:21:06.101Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.com/gold-analysis","message":"تعذّر تحليل عنوان النطاق."}
+# {"ts":"2026-10-09T02:21:06.102Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.org/market-news","message":"تعذّر تحليل عنوان النطاق."}
+# Subtest: runWebResearch evaluates the answer by default — zero fetched evidence in this sandbox correctly yields UNVERIFIED via evaluationEngine.ts's fast path, persisted to claim_evaluations
+ok 22 - runWebResearch evaluates the answer by default — zero fetched evidence in this sandbox correctly yields UNVERIFIED via evaluationEngine.ts's fast path, persisted to claim_evaluations
+  ---
+  duration_ms: 19.08808
+  type: 'test'
+  ...
+# {"ts":"2026-10-09T02:21:06.130Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.com/gold-analysis","message":"تعذّر تحليل عنوان النطاق."}
+# {"ts":"2026-10-09T02:21:06.131Z","level":"warn","msg":"Web research: follow-up fetch for a cited source failed (non-fatal — citation itself still recorded)","url":"https://example.org/market-news","message":"تعذّر تحليل عنوان النطاق."}
+# Subtest: runWebResearch skips evaluation entirely when evaluate:false — no claim_evaluations row, evaluation:null
+ok 23 - runWebResearch skips evaluation entirely when evaluate:false — no claim_evaluations row, evaluation:null
+  ---
+  duration_ms: 28.855797
+  type: 'test'
+  ...
+# Subtest: runWebResearch never attempts evaluation when Gemini itself is not configured (no answer exists to evaluate)
+ok 24 - runWebResearch never attempts evaluation when Gemini itself is not configured (no answer exists to evaluate)
+  ---
+  duration_ms: 6.098222
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 15
+# fail 9
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2318.062755

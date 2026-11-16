@@ -1,0 +1,12 @@
+{
+  "name": "nexus-v5-workspace",
+  "version": "5.0.0-operational-test-build",
+  "private": true,
+  "description": "NEXUS workspace root: one-command runner and verification entry points. Frontend and backend keep their own package.json.",
+  "engines": { "node": ">=22.5.0" },
+  "scripts": {
+    "setup": "npm --prefix src-baseline/nexus-backend ci && npm --prefix src-baseline/nexus-backend run build && npm --prefix frontend ci",
+    "nexus": "node scripts/nexus-run.mjs",
+    "verify": "bash scripts/verify-all.sh"
+  }
+}

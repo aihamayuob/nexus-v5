@@ -1,0 +1,1 @@
+This slice 7 mutation script is bound to the pre-fix tree (389813f); the frontend already contains the core slice 8 fix. Use `git checkout 389813f` for it, or phase2-core-slice8-mutation-script.mjs for the patched tree.

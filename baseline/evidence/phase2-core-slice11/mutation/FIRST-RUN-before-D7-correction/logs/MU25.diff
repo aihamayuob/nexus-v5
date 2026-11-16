@@ -1,0 +1,13 @@
+--- /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-13 14:00:00.000000000 +0300
++++ /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/mut/work/MU25/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-15 05:18:43.954122804 +0300
+@@ -6968,9 +6968,9 @@
+     // ever touching the agent's own pinned knowledge above.
+     const wantsMemoryAndFiles = intent.requiredEvidence || intent.complexity !== 'low' || intent.freshness !== 'static';
+     if(wantsMemoryAndFiles){
+-      ctx += await NexusContext._safe('long-term memory', () => retrieveLongTermMemoryContext(queryText));
+       const fileCtx = await NexusContext._safe('uploaded documents', () => fileDocsContext(queryText));
+       ctx += PromptInjectionGuard.fence('مستند مرفوع', fileCtx.replace(/^\n\n/, ''));
++      ctx += await NexusContext._safe('long-term memory', () => retrieveLongTermMemoryContext(queryText));
+     }
+     if(agent.id === 'financial' && (intent.freshness !== 'static' || intent.domain === 'business')){
+       const marketCtx = await NexusContext._safe('market context', () => getMarketContext());

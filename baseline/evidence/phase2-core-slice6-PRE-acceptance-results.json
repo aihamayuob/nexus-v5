@@ -1,0 +1,264 @@
+{
+  "slice": "core-6",
+  "option": "O2",
+  "chromium": "141.0.7390.37",
+  "verdict": "REJECTED",
+  "summary": {
+    "VALID": {
+      "total": 12,
+      "failed": []
+    },
+    "PRES": {
+      "total": 12,
+      "failed": []
+    },
+    "PS": {
+      "total": 11,
+      "failed": [
+        "AC1-final-activityLog=[offline-entry,seed-1,seed-2]-exactly-in-all-5-runs",
+        "AC1-DOM-activity-panel-matches-memory (entry visible, same item count)",
+        "AC1-next-persistState-persists-the-offline-entry-on-top-of-seed",
+        "AC7-offline-entry-written-AFTER-restore-end",
+        "AC7-banner-applied-AFTER-restore-end",
+        "AC1-traced-final-activityLog-equals-plain-outcome (tool-independence)",
+        "AC2-offline-blob-without-activityLog-key -> [offline-entry]",
+        "AC7-banner-NOT-yet-shown-while-init-is-held-open (documented trade-off, no event occurred)",
+        "AC7-after-gate-release-banner-shown-and-entry-survives-on-top-of-seed",
+        "AC5-event-inside-init-window -> after release exactly ONE entry on top of the seed (no loss, no duplicate)",
+        "AC6-offline-entry-written-after-the-rejected-init (entry on top of restored seed)"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "tag": "VALID",
+      "name": "AC1-plain-offline-boots-valid-and-seed-persisted",
+      "ok": true,
+      "detail": "inited=true restored=true onLineAtStart=false banner=block | inited=true restored=true onLineAtStart=false banner=block | inited=true restored=true onLineAtStart=false banner=block | inited=true restored=true onLineAtStart=false banner=block | inited=true restored=true onLineAtStart=false banner=block"
+    },
+    {
+      "tag": "PS",
+      "name": "AC1-final-activityLog=[offline-entry,seed-1,seed-2]-exactly-in-all-5-runs",
+      "ok": false,
+      "detail": "run0=[\"S6-B0-plain-offline-1791628605862-act-1\",\"S6-B0-plain-offline-1791628605862-act-2\"]"
+    },
+    {
+      "tag": "PS",
+      "name": "AC1-DOM-activity-panel-matches-memory (entry visible, same item count)",
+      "ok": false,
+      "detail": "dom=1 mem=2 domHasOffline=true"
+    },
+    {
+      "tag": "PS",
+      "name": "AC1-next-persistState-persists-the-offline-entry-on-top-of-seed",
+      "ok": false,
+      "detail": "durable0=[\"S6-B0-plain-offline-1791628605862-act-1\",\"S6-B0-plain-offline-1791628605862-act-2\"]"
+    },
+    {
+      "tag": "VALID",
+      "name": "AC7-traced-runs-valid-single-write-single-restore-sw-and-banner-observed",
+      "ok": true,
+      "detail": "writes=1 restores=1 sw=true banner=true | writes=1 restores=1 sw=true banner=true | writes=1 restores=1 sw=true banner=true"
+    },
+    {
+      "tag": "PRES",
+      "name": "AC7-serviceWorker.register-called-before-restore-begin (SW registration not delayed)",
+      "ok": true,
+      "detail": "sw=0 restore-begin=3 | sw=0 restore-begin=3 | sw=0 restore-begin=3"
+    },
+    {
+      "tag": "PS",
+      "name": "AC7-offline-entry-written-AFTER-restore-end",
+      "ok": false,
+      "detail": "write=1 restore-end=4 | write=1 restore-end=4 | write=1 restore-end=4"
+    },
+    {
+      "tag": "PS",
+      "name": "AC7-banner-applied-AFTER-restore-end",
+      "ok": false,
+      "detail": "banner=2 restore-end=4 | banner=2 restore-end=4 | banner=2 restore-end=4"
+    },
+    {
+      "tag": "PS",
+      "name": "AC1-traced-final-activityLog-equals-plain-outcome (tool-independence)",
+      "ok": false,
+      "detail": "traced0=[\"S6-T0-traced-offline-1791628613613-act-1\",\"S6-T0-traced-offline-1791628613613-act-2\"]"
+    },
+    {
+      "tag": "VALID",
+      "name": "AC2-offline-no-blob-valid (really offline, banner shown, no blob, app initialised)",
+      "ok": true,
+      "detail": "onLineAtStart=false banner=block blob=false"
+    },
+    {
+      "tag": "PRES",
+      "name": "AC2-offline-no-blob-exactly-one-entry-and-DOM-shows-it (positive control)",
+      "ok": true,
+      "detail": "activity=[\"انقطع الاتصال\"]"
+    },
+    {
+      "tag": "VALID",
+      "name": "AC2-offline-blob-without-activityLog-key-valid",
+      "ok": true,
+      "detail": "seeded={\"ok\":true,\"blobActivity\":null,\"blobMsgs\":[\"S6-A3-plain-offline-1791628619341-msg\"]}"
+    },
+    {
+      "tag": "PS",
+      "name": "AC2-offline-blob-without-activityLog-key -> [offline-entry]",
+      "ok": false,
+      "detail": "activity=[]"
+    },
+    {
+      "tag": "VALID",
+      "name": "AC2-offline-corrupt-blob-valid (decrypt really throws, offline really in effect, app initialised)",
+      "ok": true,
+      "detail": "seeded={\"ok\":true,\"corruptDecryptThrows\":true} banner=block"
+    },
+    {
+      "tag": "PRES",
+      "name": "AC2-offline-corrupt-blob-starts-fresh-with-exactly-one-entry",
+      "ok": true,
+      "detail": "activity=[\"انقطع الاتصال\"] messages=0"
+    },
+    {
+      "tag": "VALID",
+      "name": "AC3-online-blob-valid (really online, restore ran)",
+      "ok": true,
+      "detail": "onLineAtStart=true restored=true"
+    },
+    {
+      "tag": "PRES",
+      "name": "AC3-online-blob-activityLog==seed-exactly-no-offline-entry-banner-hidden-send-enabled",
+      "ok": true,
+      "detail": "activity=[\"S6-O1-plain-online-1791628622340-act-1\",\"S6-O1-plain-online-1791628622340-act-2\"] banner=none sendDisabled=false"
+    },
+    {
+      "tag": "VALID",
+      "name": "AC3-online-no-blob-valid",
+      "ok": true,
+      "detail": "onLineAtStart=true blob=false"
+    },
+    {
+      "tag": "PRES",
+      "name": "AC3-online-no-blob-activityLog==[]-banner-hidden-send-enabled",
+      "ok": true,
+      "detail": "activity=[] banner=none"
+    },
+    {
+      "tag": "VALID",
+      "name": "AC4-online-boot-then-transitions-valid",
+      "ok": true,
+      "detail": "offNow=false onNow=true"
+    },
+    {
+      "tag": "PRES",
+      "name": "AC4-offline-event-after-boot -> banner shown + exactly one entry on top of the restored log",
+      "ok": true,
+      "detail": "activity=[\"انقطع الاتصال\",\"S6-L1-plain-online-1791628624939-act-1\",\"S6-L1-plain-online-1791628624939-act-2\"]"
+    },
+    {
+      "tag": "PRES",
+      "name": "AC4-online-event-after-that -> banner hidden + send enabled (entry kept)",
+      "ok": true,
+      "detail": "banner=none sendDisabled=false"
+    },
+    {
+      "tag": "VALID",
+      "name": "AC4-offline-boot-then-online-valid",
+      "ok": true,
+      "detail": "onLineNow=true"
+    },
+    {
+      "tag": "PRES",
+      "name": "AC4-online-event-after-offline-boot -> banner hidden",
+      "ok": true,
+      "detail": "banner=none"
+    },
+    {
+      "tag": "VALID",
+      "name": "AC5-gate-really-held-init-open (encryptionKey still null) and offline really in effect",
+      "ok": true,
+      "detail": "keyNullDuring=true onLineAtStart=false"
+    },
+    {
+      "tag": "PS",
+      "name": "AC7-banner-NOT-yet-shown-while-init-is-held-open (documented trade-off, no event occurred)",
+      "ok": false,
+      "detail": "bannerDuring=block"
+    },
+    {
+      "tag": "PS",
+      "name": "AC7-after-gate-release-banner-shown-and-entry-survives-on-top-of-seed",
+      "ok": false,
+      "detail": "banner=block activity=[\"S6-G1-plain-offline-1791628629440-act-1\",\"S6-G1-plain-offline-1791628629440-act-2\"]"
+    },
+    {
+      "tag": "VALID",
+      "name": "AC5-event-window-valid",
+      "ok": true,
+      "detail": "keyNullDuring=true"
+    },
+    {
+      "tag": "PRES",
+      "name": "AC5-offline-listener-still-shows-banner-immediately-inside-the-init-window",
+      "ok": true,
+      "detail": "bannerDuring=block"
+    },
+    {
+      "tag": "PS",
+      "name": "AC5-event-inside-init-window -> after release exactly ONE entry on top of the seed (no loss, no duplicate)",
+      "ok": false,
+      "detail": "activity=[\"S6-G2-plain-offline-1791628631673-act-1\",\"S6-G2-plain-offline-1791628631673-act-2\"]"
+    },
+    {
+      "tag": "VALID",
+      "name": "AC6-injected-failure-really-rejected-autoInitApp-after-restore (restore ran, offline in effect)",
+      "ok": true,
+      "detail": "restored=true rejections=[\"S6-injected-autoInit-failure\"]"
+    },
+    {
+      "tag": "PRES",
+      "name": "AC6-updateOnlineStatus-STILL-runs-when-autoInitApp-rejects (banner shown)",
+      "ok": true,
+      "detail": "banner=block"
+    },
+    {
+      "tag": "PS",
+      "name": "AC6-offline-entry-written-after-the-rejected-init (entry on top of restored seed)",
+      "ok": false,
+      "detail": "activity=[\"S6-R1-plain-offline-1791628633825-act-1\",\"S6-R1-plain-offline-1791628633825-act-2\"]"
+    },
+    {
+      "tag": "PRES",
+      "name": "AC6-rejection-still-reported-as-unhandled-rejection (not swallowed)",
+      "ok": true,
+      "detail": "rejections=[\"S6-injected-autoInit-failure\"]"
+    },
+    {
+      "tag": "PRES",
+      "name": "no-uncaught-page-errors-in-non-injected-scenarios",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "observed": [
+    {
+      "name": "plain-offline-blob-final-activityLog",
+      "value": [
+        "S6-B0-plain-offline-1791628605862-act-1",
+        "S6-B0-plain-offline-1791628605862-act-2"
+      ],
+      "detail": null
+    },
+    {
+      "name": "traced-order",
+      "value": "WRITE_BEFORE_RESTORE",
+      "detail": "{\"sw\":0,\"restoreBegin\":3,\"restoreEnd\":4,\"write\":1,\"banner\":2}"
+    },
+    {
+      "name": "banner-during-held-init (no event)",
+      "value": "block",
+      "detail": null
+    }
+  ]
+}

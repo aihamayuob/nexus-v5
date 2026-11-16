@@ -1,0 +1,20 @@
+[PASS] P1 original block found exactly once in base monolith — occurrences=1 sha256(O)=1a8920d4ef3d46f8…
+[PASS] P2a wrapper block present exactly once in current monolith — occurrences=1
+[PASS] P2b current monolith with W->O equals base monolith byte-for-byte (no other byte changed) — sha256(base)=bb39cf641e28132e… sha256(restored)=bb39cf641e28132e…
+[PASS] P2c the original block no longer appears in the current monolith
+[PASS] P3a storage.mjs is base + an appended section (base bytes untouched, additions only) — appendedBytes=1503
+[PASS] P3b module code === forward(ORIGINAL) (token-exact) — sha256(module code)=f3f44ec0796ec19c…
+[PASS] P3c reverse(module code) === ORIGINAL byte-for-byte — sha256(reverse)=1a8920d4ef3d46f8… sha256(O)=1a8920d4ef3d46f8…
+[PASS] P4 token-level diff contains only the allowed edit kinds — {"hunks":{"\"\" -> \"export \"":3,"\"\" -> \"registry\"":2,"\"PERSISTABLE_STATE\" -> \"registry\"":7,"\"\" -> \"registry, \"":1},"unexpected":[],"PERSISTABLE_STATE_occurrences_in_O":7}
+[PASS] P4b signatures gained exactly: registry (x2: snapshot, reset) and "registry, " (x1: restore); export (x3)
+[PASS] P5 main.js = base + {import line, header sentence, bridge comment+assignment} only (reverse edits give base byte-for-byte) — import=true header=true bridge=true sha256(base)=85f40854c0166246…
+[PASS] P5b the bridge assignment precedes the startup calls (applyTheme … autoInitApp)
+[PASS] P6a PERSISTABLE_STATE registry, persistState, autoInitApp, resetAllData: sha256 identical before/after — {"PERSISTABLE_STATE_registry":{"base":"76ce092c5fa698ee","cur":"76ce092c5fa698ee","same":true},"persistState_function":{"base":"cfd416360f8908b4","cur":"cfd416360f8908b4","same":true},"autoInitApp_function":{"base":"01b7137aa622ca68","cur":"01b7137aa622ca68","same":true},"resetAllData_function":{"base":"660be1f263255729","cur":"660be1f263255729","same":true}}
+[PASS] P6b the 16 `let` declaration lines: present once each and identical before/after — declared=16/16
+[PASS] P6c ADR/003 unchanged (blob hash equals base)
+[PASS] P7 changed paths are within the declared scope (nothing else touched) — {"changed":["baseline/evidence/phase2-core-slice4-acceptance-criteria.md","baseline/evidence/phase2-core-slice4-exec-order-check.mjs","baseline/evidence/phase2-core-slice4-exec-order-results.json","baseline/evidence/phase2-core-slice4-extract-results.json","baseline/evidence/phase2-core-slice4-extract-script.mjs","baseline/evidence/phase2-core-slice4-mutation-results.json","baseline/evidence/phase2-core-slice4-mutation-script.mjs","baseline/evidence/phase2-core-slice4-unit-vs-original.mjs","e2e/phase2-core-slice4-flows.mjs","frontend/main.js","frontend/modules/persistable-state.test.mjs","frontend/modules/storage.mjs","frontend/neural_nexus_ai_agents-4-3-5-3.html"],"outside":[]}
+[PASS] P7b backend (src-baseline/) untouched
+[PASS] P7c the other 4 modules and the 4 existing test files are byte-identical to base
+
+=== EXTRACTION PROOF: 17/17 ===
+exit=0

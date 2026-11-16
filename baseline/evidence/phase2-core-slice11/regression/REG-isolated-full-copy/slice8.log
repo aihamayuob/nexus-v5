@@ -1,0 +1,85 @@
+Chromium 141.0.7390.37; FRONTEND_DIR=/tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend
+[PASS] [VALID] C0-boot-online-lock-initially-false
+[PASS] [VALID] C0-online-send-completes-cycle-and-releases-lock — dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=""
+[PASS] [VALID] C2-boot-online
+[PASS] [VALID] C2-offline-really-in-effect
+[PASS] [VALID] C2-reconnected-really-online
+[PASS] [VALID] C2-offline-period-without-attempt-does-not-break-sending — dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=""
+[PASS] [VALID] AC4-5-click-boot-online-lock-initially-false
+[PASS] [VALID] AC4-5-click-offline-really-in-effect-banner-shown
+[PASS] [PRES] AC4-5-click-offline-attempt-shows-the-offline-toast — ["🔌 لا يوجد اتصال بالإنترنت حالياً — تعذر إرسال الرسالة. حاول لما يرجع الاتصال."]
+[PASS] [PRES] AC4-5-click-offline-attempt-sends-nothing-keeps-text-button-enabled — dMsgs=0 dExt=0 input="S8-AC4-5-click-message" btnDisabled=false
+[PASS] [PS] AC4-5-click-lock-released-right-after-the-offline-attempt — isSendingMessage=false
+[PASS] [VALID] AC4-5-click-reconnected-really-online
+[PASS] [VALID] AC4-5-click-input-still-holds-the-text-after-reconnect
+[PASS] [VALID] AC4-5-click-previous-toast-waited-out
+[PASS] [PS] AC4-5-click-follow-up-after-reconnect-sends-same-text-same-entry-point — dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=""
+[PASS] [VALID] AC4-5-enter-boot-online-lock-initially-false
+[PASS] [VALID] AC4-5-enter-offline-really-in-effect-banner-shown
+[PASS] [PRES] AC4-5-enter-offline-attempt-shows-the-offline-toast — ["🔌 لا يوجد اتصال بالإنترنت حالياً — تعذر إرسال الرسالة. حاول لما يرجع الاتصال."]
+[PASS] [PRES] AC4-5-enter-offline-attempt-sends-nothing-keeps-text-button-enabled — dMsgs=0 dExt=0 input="S8-AC4-5-enter-message" btnDisabled=false
+[PASS] [PS] AC4-5-enter-lock-released-right-after-the-offline-attempt — isSendingMessage=false
+[PASS] [VALID] AC4-5-enter-reconnected-really-online
+[PASS] [VALID] AC4-5-enter-input-still-holds-the-text-after-reconnect
+[PASS] [VALID] AC4-5-enter-previous-toast-waited-out
+[PASS] [PS] AC4-5-enter-follow-up-after-reconnect-sends-same-text-same-entry-point — dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=""
+[PASS] [VALID] AC5-repeat-boot-online
+[PASS] [VALID] AC5-repeat-offline-really-in-effect
+[PASS] [PRES] AC5-empty-input-offline-attempt-does-nothing-lock-false-no-toast — flag=false toasts=[]
+[PASS] [VALID] AC5-repeat-toasts-cleared-before-attempt-1
+[PASS] [VALID] AC5-repeat-toasts-cleared-before-attempt-2
+[PASS] [VALID] AC5-repeat-toasts-cleared-before-attempt-3
+[PASS] [PS] AC5-three-offline-attempts-each-show-the-toast — [true,true,true]
+[PASS] [PS] AC5-three-offline-attempts-keep-the-lock-false — [false,false,false]
+[PASS] [VALID] AC5-repeat-reconnected-really-online
+[PASS] [VALID] AC5-repeat-toasts-waited-out
+[PASS] [PS] AC5-follow-up-after-repeated-offline-attempts-sends — dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=""
+[PASS] [VALID] AC7-boot-online
+[PASS] [VALID] AC7a-control-single-send-cycle-ok — dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=""
+[PASS] [PRES] AC7a-two-synchronous-sends-start-one-pipeline — dUser=1 dMsgs=2 dExt=3 (control 3)
+[PASS] [VALID] AC7b-control-single-image-send-cycle-ended — dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=""
+[PASS] [PRES] AC7b-two-synchronous-sends-with-image-start-one-pipeline — dUser=1 dMsgs=2 dExt=3 (control dMsgs=2 dExt=3)
+[PASS] [VALID] AC7c-first-request-reached-the-network-layer-and-is-held
+[PASS] [PRES] AC7c-in-flight-lock-true-and-button-disabled — flag=true btnDisabled=true
+[PASS] [PRES] AC7c-click-and-Enter-during-flight-are-no-ops — dMsgs=0 dExt=0
+[PASS] [PRES] AC7c-after-release-cycle-ends-lock-false-button-enabled — flag=false btnDisabled=false dMsgs=2
+[PASS] [VALID] AC9-boot-online
+[PASS] [VALID] AC9-request-held-in-flight
+[PASS] [VALID] AC9-offline-really-in-effect-mid-flight
+[PASS] [PRES] AC9-mid-flight-failure-gives-exactly-one-error-message-and-releases-lock-and-button — dMsgs=2 shape=["user/-","assistant/error"] flag=false btnDisabled=false
+[PASS] [VALID] AC9-reconnected-really-online
+[PASS] [PRES] AC9-send-after-reconnect-works — dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=""
+[PASS] [VALID] AC8-E1-ImageStore.save-rejects-boot-online
+[PASS] [VALID] AC8-E1-ImageStore.save-rejects-fault-armed
+[PASS] [VALID] AC8-E1-ImageStore.save-rejects-fault-fired-exactly-once
+[PASS] [PS] AC8-E1-ImageStore.save-rejects-sendMessage-promise-resolves-failure-is-handled — resolved=true err=
+[PASS] [PS] AC8-E1-ImageStore.save-rejects-lock-released-and-button-enabled — flag=false btnDisabled=false
+[PASS] [PS] AC8-E1-ImageStore.save-rejects-error-message-shown-in-chat — {"role":"assistant","type":"error","content":"INJECTED-E1-IMAGESTORE"}
+[PASS] [PS] AC8-E1-ImageStore.save-rejects-next-send-works-after-the-fault-is-removed — dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=""
+[PASS] [VALID] AC8-E2-resolveActiveMode-throws-boot-online
+[PASS] [VALID] AC8-E2-resolveActiveMode-throws-fault-armed
+[PASS] [VALID] AC8-E2-resolveActiveMode-throws-fault-fired-exactly-once
+[PASS] [PS] AC8-E2-resolveActiveMode-throws-sendMessage-promise-resolves-failure-is-handled — resolved=true err=
+[PASS] [PS] AC8-E2-resolveActiveMode-throws-lock-released-and-button-enabled — flag=false btnDisabled=false
+[PASS] [PS] AC8-E2-resolveActiveMode-throws-error-message-shown-in-chat — {"role":"assistant","type":"error","content":"INJECTED-E2-RESOLVE"}
+[PASS] [PS] AC8-E2-resolveActiveMode-throws-next-send-works-after-the-fault-is-removed — dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=""
+[PASS] [VALID] AC8-E3-startTask-throws-boot-online
+[PASS] [VALID] AC8-E3-startTask-throws-fault-armed
+[PASS] [VALID] AC8-E3-startTask-throws-fault-fired-exactly-once
+[PASS] [PS] AC8-E3-startTask-throws-sendMessage-promise-resolves-failure-is-handled — resolved=true err=
+[PASS] [PS] AC8-E3-startTask-throws-lock-released-and-button-enabled — flag=false btnDisabled=false
+[PASS] [PS] AC8-E3-startTask-throws-error-message-shown-in-chat — {"role":"assistant","type":"error","content":"INJECTED-E3-STARTTASK"}
+[PASS] [PS] AC8-E3-startTask-throws-next-send-works-after-the-fault-is-removed — dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=""
+[PASS] [VALID] AC8-E4-required-DOM-element-missing-boot-online
+[PASS] [VALID] AC8-E4-required-DOM-element-missing-fault-armed
+[PASS] [VALID] AC8-E4-required-DOM-element-missing-fault-was-present-at-send-time — resolved=true err=undefined last=Cannot read properties of null (reading 'checked')
+[PASS] [PS] AC8-E4-required-DOM-element-missing-sendMessage-promise-resolves-failure-is-handled — resolved=true err=
+[PASS] [PS] AC8-E4-required-DOM-element-missing-lock-released-and-button-enabled — flag=false btnDisabled=false
+[PASS] [PS] AC8-E4-required-DOM-element-missing-error-message-shown-in-chat — {"role":"assistant","type":"error","content":"Cannot read properties of null (reading 'checked')"}
+[PASS] [PS] AC8-E4-required-DOM-element-missing-next-send-works-after-the-fault-is-removed — dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=""
+[PASS] [VALID] no-uncaught-page-errors
+
+=== SUMMARY ===
+79/79 checks passed  (VALID 44/44, PRES 12/12, PS 23/23)
+S8-VERDICT = ACCEPTED  (chromium 141.0.7390.37; frontend=../frontend)
+results -> /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/logs/REG/slice8-results.json

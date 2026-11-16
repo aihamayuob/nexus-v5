@@ -1,0 +1,139 @@
+{
+  "slice": "core-6",
+  "frontendTreeSha256Before": "8eda236c702e5ca7b560c53f757a8a3f93f8f580097fcfc9e97f19425b7767da",
+  "frontendTreeSha256After": "8eda236c702e5ca7b560c53f757a8a3f93f8f580097fcfc9e97f19425b7767da",
+  "productionUntouched": true,
+  "mutants": [
+    {
+      "id": "K1",
+      "desc": "revert to sequential window.updateOnlineStatus()",
+      "verdict": "REJECTED",
+      "exit": 1,
+      "failedCount": 11,
+      "mustFail": [
+        "AC1-final-activityLog=",
+        "AC7-offline-entry-written-AFTER-restore-end",
+        "AC5-event-inside-init-window"
+      ],
+      "mustFailAllPresent": true,
+      "caught": true,
+      "matchesExpectation": true,
+      "failedChecks": [
+        "AC1-final-activityLog=[offline-entry,seed-1,seed-2]-exactly-in-all-5-runs",
+        "AC1-DOM-activity-panel-matches-memory (entry visible, same item count)",
+        "AC1-next-persistState-persists-the-offline-entry-on-top-of-seed",
+        "AC7-offline-entry-written-AFTER-restore-end",
+        "AC7-banner-applied-AFTER-restore-end",
+        "AC1-traced-final-activityLog-equals-plain-outcome (tool-independence)",
+        "AC2-offline-blob-without-activityLog-key -> [offline-entry]",
+        "AC7-banner-NOT-yet-shown-while-init-is-held-open (documented trade-off, no event occurred)",
+        "AC7-after-gate-release-banner-shown-and-entry-survives-on-top-of-seed",
+        "AC5-event-inside-init-window -> after release exactly ONE entry on top of the seed (no loss, no duplicate)",
+        "AC6-offline-entry-written-after-the-rejected-init (entry on top of restored seed)"
+      ]
+    },
+    {
+      "id": "K2",
+      "desc": ".then instead of .finally (rejection skips the call)",
+      "verdict": "REJECTED",
+      "exit": 1,
+      "failedCount": 2,
+      "mustFail": [
+        "AC6-updateOnlineStatus-STILL-runs-when-autoInitApp-rejects"
+      ],
+      "mustFailAllPresent": true,
+      "caught": true,
+      "matchesExpectation": true,
+      "failedChecks": [
+        "AC6-updateOnlineStatus-STILL-runs-when-autoInitApp-rejects (banner shown)",
+        "AC6-offline-entry-written-after-the-rejected-init (entry on top of restored seed)"
+      ]
+    },
+    {
+      "id": "K3",
+      "desc": "updateOnlineStatus call dropped",
+      "verdict": "INVALID",
+      "exit": 1,
+      "failedCount": 19,
+      "mustFail": [
+        "AC1-plain-offline-boots-valid-and-seed-persisted",
+        "AC6-updateOnlineStatus-STILL-runs-when-autoInitApp-rejects"
+      ],
+      "mustFailAllPresent": true,
+      "caught": true,
+      "matchesExpectation": true,
+      "failedChecks": [
+        "AC1-plain-offline-boots-valid-and-seed-persisted",
+        "AC1-final-activityLog=[offline-entry,seed-1,seed-2]-exactly-in-all-5-runs",
+        "AC1-DOM-activity-panel-matches-memory (entry visible, same item count)",
+        "AC1-next-persistState-persists-the-offline-entry-on-top-of-seed",
+        "AC7-traced-runs-valid-single-write-single-restore-sw-and-banner-observed",
+        "AC7-offline-entry-written-AFTER-restore-end",
+        "AC7-banner-applied-AFTER-restore-end",
+        "AC1-traced-final-activityLog-equals-plain-outcome (tool-independence)",
+        "AC2-offline-no-blob-valid (really offline, banner shown, no blob, app initialised)",
+        "AC2-offline-no-blob-exactly-one-entry-and-DOM-shows-it (positive control)",
+        "AC2-offline-blob-without-activityLog-key-valid",
+        "AC2-offline-blob-without-activityLog-key -> [offline-entry]",
+        "AC2-offline-corrupt-blob-valid (decrypt really throws, offline really in effect, app initialised)",
+        "AC2-offline-corrupt-blob-starts-fresh-with-exactly-one-entry",
+        "AC4-offline-boot-then-online-valid",
+        "AC7-after-gate-release-banner-shown-and-entry-survives-on-top-of-seed",
+        "AC5-event-inside-init-window -> after release exactly ONE entry on top of the seed (no loss, no duplicate)",
+        "AC6-updateOnlineStatus-STILL-runs-when-autoInitApp-rejects (banner shown)",
+        "AC6-offline-entry-written-after-the-rejected-init (entry on top of restored seed)"
+      ]
+    },
+    {
+      "id": "K4",
+      "desc": "registerServiceWorker moved behind init",
+      "verdict": "REJECTED",
+      "exit": 1,
+      "failedCount": 1,
+      "mustFail": [
+        "AC7-serviceWorker.register-called-before-restore-begin"
+      ],
+      "mustFailAllPresent": true,
+      "caught": true,
+      "matchesExpectation": true,
+      "failedChecks": [
+        "AC7-serviceWorker.register-called-before-restore-begin (SW registration not delayed)"
+      ]
+    },
+    {
+      "id": "K5",
+      "desc": "rejection swallowed (.then(f, f))",
+      "verdict": "REJECTED",
+      "exit": 1,
+      "failedCount": 1,
+      "mustFail": [
+        "AC6-rejection-still-reported-as-unhandled-rejection"
+      ],
+      "mustFailAllPresent": true,
+      "caught": true,
+      "matchesExpectation": true,
+      "failedChecks": [
+        "AC6-rejection-still-reported-as-unhandled-rejection (not swallowed)"
+      ]
+    },
+    {
+      "id": "K6",
+      "desc": "naive top-level await bootInit; updateOnlineStatus()",
+      "verdict": "REJECTED",
+      "exit": 1,
+      "failedCount": 3,
+      "mustFail": [
+        "AC6-updateOnlineStatus-STILL-runs-when-autoInitApp-rejects"
+      ],
+      "mustFailAllPresent": true,
+      "caught": true,
+      "matchesExpectation": true,
+      "failedChecks": [
+        "AC6-updateOnlineStatus-STILL-runs-when-autoInitApp-rejects (banner shown)",
+        "AC6-offline-entry-written-after-the-rejected-init (entry on top of restored seed)",
+        "AC6-rejection-still-reported-as-unhandled-rejection (not swallowed)"
+      ]
+    }
+  ],
+  "allMutantsCaught": true
+}

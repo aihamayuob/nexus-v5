@@ -1,0 +1,457 @@
+{
+ "CTRL": {
+  "exit": 0,
+  "verdict": "ACCEPTED",
+  "fails": []
+ },
+ "MU01": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P33-fault-isolation-agentKnowledgeContext",
+   "PRES:P34-fault-isolation-retrieveLongTermMemoryContext",
+   "PRES:P35-fault-isolation-fileDocsContext",
+   "PRES:P36-fault-isolation-getMarketContext",
+   "PRES:P38-safe-direct"
+  ]
+ },
+ "MU02": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P33-fault-isolation-agentKnowledgeContext",
+   "PRES:P34-fault-isolation-retrieveLongTermMemoryContext",
+   "PRES:P35-fault-isolation-fileDocsContext",
+   "PRES:P36-fault-isolation-getMarketContext",
+   "PRES:P38-safe-direct"
+  ]
+ },
+ "MU03": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P33-fault-isolation-agentKnowledgeContext",
+   "PRES:P34-fault-isolation-retrieveLongTermMemoryContext",
+   "PRES:P35-fault-isolation-fileDocsContext",
+   "PRES:P36-fault-isolation-getMarketContext",
+   "PRES:P38-safe-direct"
+  ]
+ },
+ "MU04": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P05-pinned-knowledge-on-low-intent",
+   "PRES:P09-gate-G0-low-static",
+   "PRES:P16-build-all-negative-knowledge-only-analyze-not-called"
+  ]
+ },
+ "MU05": {
+  "exit": 1,
+  "verdict": "INVALID",
+  "fails": [
+   "VALID:V05-fixtures-yield-all-five-segments",
+   "VALID:V13-spy-records-labels",
+   "PRES:P03-segment-order",
+   "PRES:P04-baseline-segments-exact",
+   "PRES:P10-gate-G1-risk-only",
+   "PRES:P11-gate-G2-complexity-only",
+   "PRES:P12-gate-G3-freshness",
+   "PRES:P13-build-requiredEvidence-only",
+   "PRES:P14-build-complexity-medium-only",
+   "PRES:P15-build-freshness-recent-only",
+   "PRES:P18-ltm-selection-exact",
+   "PRES:P20-ltm-embed-500-non-fatal",
+   "PRES:P21-files-backend-routing",
+   "PRES:P22-files-no-backend-tfidf",
+   "PRES:P23-files-empty-no-segment",
+   "PRES:P24-files-embed-500-falls-back-to-tfidf",
+   "PRES:P25-files-lazy-embed-side-effect",
+   "PRES:P26-market-financial-domain-business",
+   "VALID:V08-inj-target-agentKnowledgeContext",
+   "VALID:V09-inj-target-retrieveLongTermMemoryContext",
+   "VALID:V10-inj-target-fileDocsContext",
+   "VALID:V11-inj-target-getMarketContext",
+   "VALID:V12-restore-returns-baseline",
+   "PRES:P33-fault-isolation-agentKnowledgeContext",
+   "PRES:P34-fault-isolation-retrieveLongTermMemoryContext",
+   "PRES:P35-fault-isolation-fileDocsContext",
+   "PRES:P36-fault-isolation-getMarketContext",
+   "PRES:P37-sentinel-placement",
+   "PRES:P39-fullAgentPrompt-never-includes-task-state",
+   "PRES:P40-build-taskId-line-exact",
+   "PRES:P42-baseline-no-state-mutation"
+  ]
+ },
+ "MU06": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P11-gate-G2-complexity-only",
+   "PRES:P14-build-complexity-medium-only"
+  ]
+ },
+ "MU07": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P10-gate-G1-risk-only",
+   "PRES:P13-build-requiredEvidence-only",
+   "PRES:P26-market-financial-domain-business"
+  ]
+ },
+ "MU08": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P15-build-freshness-recent-only"
+  ]
+ },
+ "MU09": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P05-pinned-knowledge-on-low-intent",
+   "PRES:P07-knowledge-topK-3",
+   "PRES:P09-gate-G0-low-static",
+   "PRES:P16-build-all-negative-knowledge-only-analyze-not-called"
+  ]
+ },
+ "MU10": {
+  "exit": 1,
+  "verdict": "INVALID",
+  "fails": [
+   "VALID:V05-fixtures-yield-all-five-segments",
+   "PRES:P02-time-segment-first-exact",
+   "PRES:P03-segment-order",
+   "PRES:P04-baseline-segments-exact",
+   "PRES:P05-pinned-knowledge-on-low-intent",
+   "PRES:P09-gate-G0-low-static",
+   "PRES:P10-gate-G1-risk-only",
+   "PRES:P11-gate-G2-complexity-only",
+   "PRES:P12-gate-G3-freshness",
+   "PRES:P13-build-requiredEvidence-only",
+   "PRES:P14-build-complexity-medium-only",
+   "PRES:P15-build-freshness-recent-only",
+   "PRES:P16-build-all-negative-knowledge-only-analyze-not-called",
+   "PRES:P18-ltm-selection-exact",
+   "PRES:P19-ltm-gates",
+   "PRES:P20-ltm-embed-500-non-fatal",
+   "PRES:P21-files-backend-routing",
+   "PRES:P23-files-empty-no-segment",
+   "PRES:P25-files-lazy-embed-side-effect",
+   "PRES:P26-market-financial-domain-business",
+   "PRES:P27-market-freshness-branch",
+   "PRES:P30-market-gates",
+   "PRES:P31-market-500-non-fatal-no-cache",
+   "PRES:P32-market-client-cache",
+   "VALID:V08-inj-target-agentKnowledgeContext",
+   "VALID:V09-inj-target-retrieveLongTermMemoryContext",
+   "VALID:V10-inj-target-fileDocsContext",
+   "VALID:V11-inj-target-getMarketContext",
+   "VALID:V12-restore-returns-baseline",
+   "PRES:P33-fault-isolation-agentKnowledgeContext",
+   "PRES:P34-fault-isolation-retrieveLongTermMemoryContext",
+   "PRES:P35-fault-isolation-fileDocsContext",
+   "PRES:P36-fault-isolation-getMarketContext",
+   "PRES:P37-sentinel-placement",
+   "PRES:P39-fullAgentPrompt-never-includes-task-state",
+   "PRES:P40-build-taskId-line-exact",
+   "PRES:P42-baseline-no-state-mutation"
+  ]
+ },
+ "MU11": {
+  "exit": 1,
+  "verdict": "INVALID",
+  "fails": [
+   "PRES:P02-time-segment-first-exact",
+   "PRES:P03-segment-order",
+   "PRES:P04-baseline-segments-exact",
+   "PRES:P05-pinned-knowledge-on-low-intent",
+   "PRES:P10-gate-G1-risk-only",
+   "PRES:P11-gate-G2-complexity-only",
+   "PRES:P12-gate-G3-freshness",
+   "PRES:P13-build-requiredEvidence-only",
+   "PRES:P14-build-complexity-medium-only",
+   "PRES:P15-build-freshness-recent-only",
+   "PRES:P16-build-all-negative-knowledge-only-analyze-not-called",
+   "VALID:V08-inj-target-agentKnowledgeContext",
+   "VALID:V09-inj-target-retrieveLongTermMemoryContext",
+   "VALID:V10-inj-target-fileDocsContext",
+   "VALID:V11-inj-target-getMarketContext",
+   "VALID:V12-restore-returns-baseline",
+   "PRES:P34-fault-isolation-retrieveLongTermMemoryContext",
+   "PRES:P35-fault-isolation-fileDocsContext",
+   "PRES:P36-fault-isolation-getMarketContext",
+   "PRES:P37-sentinel-placement",
+   "PRES:P39-fullAgentPrompt-never-includes-task-state",
+   "PRES:P40-build-taskId-line-exact",
+   "PRES:P42-baseline-no-state-mutation"
+  ]
+ },
+ "MU12": {
+  "exit": 1,
+  "verdict": "INVALID",
+  "fails": [
+   "VALID:V05-fixtures-yield-all-five-segments",
+   "PRES:P03-segment-order",
+   "PRES:P04-baseline-segments-exact",
+   "PRES:P10-gate-G1-risk-only",
+   "PRES:P11-gate-G2-complexity-only",
+   "PRES:P12-gate-G3-freshness",
+   "PRES:P13-build-requiredEvidence-only",
+   "PRES:P14-build-complexity-medium-only",
+   "PRES:P15-build-freshness-recent-only",
+   "PRES:P21-files-backend-routing",
+   "PRES:P22-files-no-backend-tfidf",
+   "PRES:P24-files-embed-500-falls-back-to-tfidf",
+   "PRES:P25-files-lazy-embed-side-effect",
+   "VALID:V08-inj-target-agentKnowledgeContext",
+   "VALID:V09-inj-target-retrieveLongTermMemoryContext",
+   "VALID:V10-inj-target-fileDocsContext",
+   "VALID:V11-inj-target-getMarketContext",
+   "VALID:V12-restore-returns-baseline",
+   "PRES:P33-fault-isolation-agentKnowledgeContext",
+   "PRES:P34-fault-isolation-retrieveLongTermMemoryContext",
+   "PRES:P36-fault-isolation-getMarketContext",
+   "PRES:P37-sentinel-placement",
+   "PRES:P39-fullAgentPrompt-never-includes-task-state",
+   "PRES:P40-build-taskId-line-exact",
+   "PRES:P42-baseline-no-state-mutation"
+  ]
+ },
+ "MU13": {
+  "exit": 1,
+  "verdict": "INVALID",
+  "fails": [
+   "VALID:V05-fixtures-yield-all-five-segments",
+   "PRES:P03-segment-order",
+   "PRES:P04-baseline-segments-exact",
+   "PRES:P19-ltm-gates",
+   "PRES:P20-ltm-embed-500-non-fatal",
+   "PRES:P26-market-financial-domain-business",
+   "PRES:P27-market-freshness-branch",
+   "PRES:P31-market-500-non-fatal-no-cache",
+   "PRES:P32-market-client-cache",
+   "VALID:V08-inj-target-agentKnowledgeContext",
+   "VALID:V09-inj-target-retrieveLongTermMemoryContext",
+   "VALID:V10-inj-target-fileDocsContext",
+   "VALID:V11-inj-target-getMarketContext",
+   "VALID:V12-restore-returns-baseline",
+   "PRES:P33-fault-isolation-agentKnowledgeContext",
+   "PRES:P34-fault-isolation-retrieveLongTermMemoryContext",
+   "PRES:P35-fault-isolation-fileDocsContext",
+   "PRES:P37-sentinel-placement",
+   "PRES:P39-fullAgentPrompt-never-includes-task-state",
+   "PRES:P40-build-taskId-line-exact",
+   "PRES:P42-baseline-no-state-mutation"
+  ]
+ },
+ "MU14": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P10-gate-G1-risk-only",
+   "PRES:P12-gate-G3-freshness",
+   "PRES:P15-build-freshness-recent-only",
+   "PRES:P18-ltm-selection-exact",
+   "PRES:P21-files-backend-routing",
+   "PRES:P23-files-empty-no-segment",
+   "PRES:P25-files-lazy-embed-side-effect",
+   "PRES:P29-market-excluded-non-financial-agent"
+  ]
+ },
+ "MU15": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P26-market-financial-domain-business"
+  ]
+ },
+ "MU16": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P27-market-freshness-branch"
+  ]
+ },
+ "MU17": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P18-ltm-selection-exact"
+  ]
+ },
+ "MU18": {
+  "exit": 1,
+  "verdict": "INVALID",
+  "fails": [
+   "PRES:P04-baseline-segments-exact",
+   "PRES:P10-gate-G1-risk-only",
+   "PRES:P11-gate-G2-complexity-only",
+   "PRES:P12-gate-G3-freshness",
+   "PRES:P13-build-requiredEvidence-only",
+   "PRES:P14-build-complexity-medium-only",
+   "PRES:P15-build-freshness-recent-only",
+   "PRES:P18-ltm-selection-exact",
+   "VALID:V08-inj-target-agentKnowledgeContext",
+   "VALID:V10-inj-target-fileDocsContext",
+   "VALID:V11-inj-target-getMarketContext",
+   "VALID:V12-restore-returns-baseline",
+   "PRES:P33-fault-isolation-agentKnowledgeContext",
+   "PRES:P35-fault-isolation-fileDocsContext",
+   "PRES:P36-fault-isolation-getMarketContext",
+   "PRES:P39-fullAgentPrompt-never-includes-task-state",
+   "PRES:P40-build-taskId-line-exact",
+   "PRES:P41-buildAgentContext-characterization",
+   "PRES:P42-baseline-no-state-mutation"
+  ]
+ },
+ "MU19": {
+  "exit": 1,
+  "verdict": "INVALID",
+  "fails": [
+   "PRES:P01-prompt-plus-build-text",
+   "PRES:P02-time-segment-first-exact",
+   "PRES:P04-baseline-segments-exact",
+   "PRES:P05-pinned-knowledge-on-low-intent",
+   "PRES:P09-gate-G0-low-static",
+   "PRES:P10-gate-G1-risk-only",
+   "PRES:P11-gate-G2-complexity-only",
+   "PRES:P12-gate-G3-freshness",
+   "PRES:P18-ltm-selection-exact",
+   "PRES:P19-ltm-gates",
+   "PRES:P20-ltm-embed-500-non-fatal",
+   "PRES:P21-files-backend-routing",
+   "PRES:P23-files-empty-no-segment",
+   "PRES:P25-files-lazy-embed-side-effect",
+   "PRES:P26-market-financial-domain-business",
+   "PRES:P27-market-freshness-branch",
+   "PRES:P30-market-gates",
+   "PRES:P31-market-500-non-fatal-no-cache",
+   "PRES:P32-market-client-cache",
+   "VALID:V08-inj-target-agentKnowledgeContext",
+   "VALID:V09-inj-target-retrieveLongTermMemoryContext",
+   "VALID:V10-inj-target-fileDocsContext",
+   "VALID:V11-inj-target-getMarketContext",
+   "VALID:V12-restore-returns-baseline",
+   "PRES:P33-fault-isolation-agentKnowledgeContext",
+   "PRES:P34-fault-isolation-retrieveLongTermMemoryContext",
+   "PRES:P35-fault-isolation-fileDocsContext",
+   "PRES:P36-fault-isolation-getMarketContext",
+   "PRES:P37-sentinel-placement",
+   "PRES:P39-fullAgentPrompt-never-includes-task-state",
+   "PRES:P42-baseline-no-state-mutation"
+  ]
+ },
+ "MU20": {
+  "exit": 1,
+  "verdict": "INVALID",
+  "fails": [
+   "PRES:P04-baseline-segments-exact",
+   "PRES:P10-gate-G1-risk-only",
+   "PRES:P11-gate-G2-complexity-only",
+   "PRES:P12-gate-G3-freshness",
+   "PRES:P13-build-requiredEvidence-only",
+   "PRES:P14-build-complexity-medium-only",
+   "PRES:P15-build-freshness-recent-only",
+   "PRES:P21-files-backend-routing",
+   "PRES:P25-files-lazy-embed-side-effect",
+   "VALID:V08-inj-target-agentKnowledgeContext",
+   "VALID:V09-inj-target-retrieveLongTermMemoryContext",
+   "VALID:V11-inj-target-getMarketContext",
+   "VALID:V12-restore-returns-baseline",
+   "PRES:P33-fault-isolation-agentKnowledgeContext",
+   "PRES:P34-fault-isolation-retrieveLongTermMemoryContext",
+   "PRES:P36-fault-isolation-getMarketContext",
+   "PRES:P39-fullAgentPrompt-never-includes-task-state",
+   "PRES:P40-build-taskId-line-exact",
+   "PRES:P41-buildAgentContext-characterization",
+   "PRES:P42-baseline-no-state-mutation"
+  ]
+ },
+ "MU21": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P40-build-taskId-line-exact"
+  ]
+ },
+ "MU22": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P01-prompt-plus-build-text",
+   "PRES:P13-build-requiredEvidence-only",
+   "PRES:P14-build-complexity-medium-only",
+   "PRES:P15-build-freshness-recent-only",
+   "PRES:P16-build-all-negative-knowledge-only-analyze-not-called",
+   "PRES:P17-analyze-called-once-without-intent",
+   "PRES:P40-build-taskId-line-exact"
+  ]
+ },
+ "MU23": {
+  "exit": 0,
+  "verdict": "ACCEPTED",
+  "fails": []
+ },
+ "MU24": {
+  "exit": 1,
+  "verdict": "REJECTED",
+  "fails": [
+   "PRES:P41-buildAgentContext-characterization"
+  ]
+ },
+ "MU25": {
+  "exit": 1,
+  "verdict": "INVALID",
+  "fails": [
+   "VALID:V13-spy-records-labels",
+   "PRES:P03-segment-order",
+   "PRES:P04-baseline-segments-exact",
+   "PRES:P10-gate-G1-risk-only",
+   "PRES:P11-gate-G2-complexity-only",
+   "PRES:P12-gate-G3-freshness",
+   "PRES:P13-build-requiredEvidence-only",
+   "PRES:P14-build-complexity-medium-only",
+   "PRES:P15-build-freshness-recent-only",
+   "PRES:P26-market-financial-domain-business",
+   "VALID:V08-inj-target-agentKnowledgeContext",
+   "VALID:V09-inj-target-retrieveLongTermMemoryContext",
+   "VALID:V10-inj-target-fileDocsContext",
+   "VALID:V11-inj-target-getMarketContext",
+   "VALID:V12-restore-returns-baseline",
+   "PRES:P33-fault-isolation-agentKnowledgeContext",
+   "PRES:P34-fault-isolation-retrieveLongTermMemoryContext",
+   "PRES:P35-fault-isolation-fileDocsContext",
+   "PRES:P36-fault-isolation-getMarketContext",
+   "PRES:P37-sentinel-placement",
+   "PRES:P39-fullAgentPrompt-never-includes-task-state",
+   "PRES:P40-build-taskId-line-exact",
+   "PRES:P42-baseline-no-state-mutation"
+  ]
+ },
+ "MU26": {
+  "exit": 1,
+  "verdict": "INVALID",
+  "fails": [
+   "VALID:V13-spy-records-labels",
+   "PRES:P03-segment-order",
+   "PRES:P05-pinned-knowledge-on-low-intent",
+   "PRES:P06-no-knowledge-no-segment",
+   "PRES:P09-gate-G0-low-static",
+   "PRES:P10-gate-G1-risk-only",
+   "PRES:P11-gate-G2-complexity-only",
+   "PRES:P12-gate-G3-freshness",
+   "PRES:P13-build-requiredEvidence-only",
+   "PRES:P14-build-complexity-medium-only",
+   "PRES:P15-build-freshness-recent-only",
+   "PRES:P16-build-all-negative-knowledge-only-analyze-not-called",
+   "PRES:P26-market-financial-domain-business",
+   "PRES:P33-fault-isolation-agentKnowledgeContext",
+   "PRES:P34-fault-isolation-retrieveLongTermMemoryContext",
+   "PRES:P35-fault-isolation-fileDocsContext",
+   "PRES:P36-fault-isolation-getMarketContext"
+  ]
+ }
+}

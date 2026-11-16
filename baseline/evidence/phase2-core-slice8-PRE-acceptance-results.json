@@ -1,0 +1,516 @@
+{
+  "slice": "core-8",
+  "subject": "isSendingMessage lock release (CP-14 fix)",
+  "chromium": "141.0.7390.37",
+  "verdict": "REJECTED",
+  "frontendSha256": {
+    "neural_nexus_ai_agents-4-3-5-3.html": "9b2baa32643dd3dae2e62c5a29c9e8dfdd9fa08b45dafa59ea38f4b6075f2441",
+    "main.js": "ae7b7a32180655a61cfc3fa0a5e5889e54284d1294ce48959865bf34bab47080"
+  },
+  "counts": {
+    "VALID": "44/44",
+    "PRES": "12/12",
+    "PS": "0/23"
+  },
+  "failed": [
+    "[PS] AC4-5-click-lock-released-right-after-the-offline-attempt",
+    "[PS] AC4-5-click-follow-up-after-reconnect-sends-same-text-same-entry-point",
+    "[PS] AC4-5-enter-lock-released-right-after-the-offline-attempt",
+    "[PS] AC4-5-enter-follow-up-after-reconnect-sends-same-text-same-entry-point",
+    "[PS] AC5-three-offline-attempts-each-show-the-toast",
+    "[PS] AC5-three-offline-attempts-keep-the-lock-false",
+    "[PS] AC5-follow-up-after-repeated-offline-attempts-sends",
+    "[PS] AC8-E1-ImageStore.save-rejects-sendMessage-promise-resolves-failure-is-handled",
+    "[PS] AC8-E1-ImageStore.save-rejects-lock-released-and-button-enabled",
+    "[PS] AC8-E1-ImageStore.save-rejects-error-message-shown-in-chat",
+    "[PS] AC8-E1-ImageStore.save-rejects-next-send-works-after-the-fault-is-removed",
+    "[PS] AC8-E2-resolveActiveMode-throws-sendMessage-promise-resolves-failure-is-handled",
+    "[PS] AC8-E2-resolveActiveMode-throws-lock-released-and-button-enabled",
+    "[PS] AC8-E2-resolveActiveMode-throws-error-message-shown-in-chat",
+    "[PS] AC8-E2-resolveActiveMode-throws-next-send-works-after-the-fault-is-removed",
+    "[PS] AC8-E3-startTask-throws-sendMessage-promise-resolves-failure-is-handled",
+    "[PS] AC8-E3-startTask-throws-lock-released-and-button-enabled",
+    "[PS] AC8-E3-startTask-throws-error-message-shown-in-chat",
+    "[PS] AC8-E3-startTask-throws-next-send-works-after-the-fault-is-removed",
+    "[PS] AC8-E4-required-DOM-element-missing-sendMessage-promise-resolves-failure-is-handled",
+    "[PS] AC8-E4-required-DOM-element-missing-lock-released-and-button-enabled",
+    "[PS] AC8-E4-required-DOM-element-missing-error-message-shown-in-chat",
+    "[PS] AC8-E4-required-DOM-element-missing-next-send-works-after-the-fault-is-removed"
+  ],
+  "checks": [
+    {
+      "kind": "VALID",
+      "name": "C0-boot-online-lock-initially-false",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "C0-online-send-completes-cycle-and-releases-lock",
+      "ok": true,
+      "detail": "dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=\"\""
+    },
+    {
+      "kind": "VALID",
+      "name": "C2-boot-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "C2-offline-really-in-effect",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "C2-reconnected-really-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "C2-offline-period-without-attempt-does-not-break-sending",
+      "ok": true,
+      "detail": "dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=\"\""
+    },
+    {
+      "kind": "VALID",
+      "name": "AC4-5-click-boot-online-lock-initially-false",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC4-5-click-offline-really-in-effect-banner-shown",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "AC4-5-click-offline-attempt-shows-the-offline-toast",
+      "ok": true,
+      "detail": "[\"🔌 لا يوجد اتصال بالإنترنت حالياً — تعذر إرسال الرسالة. حاول لما يرجع الاتصال.\"]"
+    },
+    {
+      "kind": "PRES",
+      "name": "AC4-5-click-offline-attempt-sends-nothing-keeps-text-button-enabled",
+      "ok": true,
+      "detail": "dMsgs=0 dExt=0 input=\"S8-AC4-5-click-message\" btnDisabled=false"
+    },
+    {
+      "kind": "PS",
+      "name": "AC4-5-click-lock-released-right-after-the-offline-attempt",
+      "ok": false,
+      "detail": "isSendingMessage=true"
+    },
+    {
+      "kind": "VALID",
+      "name": "AC4-5-click-reconnected-really-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC4-5-click-input-still-holds-the-text-after-reconnect",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC4-5-click-previous-toast-waited-out",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PS",
+      "name": "AC4-5-click-follow-up-after-reconnect-sends-same-text-same-entry-point",
+      "ok": false,
+      "detail": "dMsgs=0 dExt=0 cycleEnded=null flag=true btnDisabled=false input=\"S8-AC4-5-click-message\""
+    },
+    {
+      "kind": "VALID",
+      "name": "AC4-5-enter-boot-online-lock-initially-false",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC4-5-enter-offline-really-in-effect-banner-shown",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "AC4-5-enter-offline-attempt-shows-the-offline-toast",
+      "ok": true,
+      "detail": "[\"🔌 لا يوجد اتصال بالإنترنت حالياً — تعذر إرسال الرسالة. حاول لما يرجع الاتصال.\"]"
+    },
+    {
+      "kind": "PRES",
+      "name": "AC4-5-enter-offline-attempt-sends-nothing-keeps-text-button-enabled",
+      "ok": true,
+      "detail": "dMsgs=0 dExt=0 input=\"S8-AC4-5-enter-message\" btnDisabled=false"
+    },
+    {
+      "kind": "PS",
+      "name": "AC4-5-enter-lock-released-right-after-the-offline-attempt",
+      "ok": false,
+      "detail": "isSendingMessage=true"
+    },
+    {
+      "kind": "VALID",
+      "name": "AC4-5-enter-reconnected-really-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC4-5-enter-input-still-holds-the-text-after-reconnect",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC4-5-enter-previous-toast-waited-out",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PS",
+      "name": "AC4-5-enter-follow-up-after-reconnect-sends-same-text-same-entry-point",
+      "ok": false,
+      "detail": "dMsgs=0 dExt=0 cycleEnded=null flag=true btnDisabled=false input=\"S8-AC4-5-enter-message\""
+    },
+    {
+      "kind": "VALID",
+      "name": "AC5-repeat-boot-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC5-repeat-offline-really-in-effect",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "AC5-empty-input-offline-attempt-does-nothing-lock-false-no-toast",
+      "ok": true,
+      "detail": "flag=false toasts=[]"
+    },
+    {
+      "kind": "VALID",
+      "name": "AC5-repeat-toasts-cleared-before-attempt-1",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC5-repeat-toasts-cleared-before-attempt-2",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC5-repeat-toasts-cleared-before-attempt-3",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PS",
+      "name": "AC5-three-offline-attempts-each-show-the-toast",
+      "ok": false,
+      "detail": "[true,false,false]"
+    },
+    {
+      "kind": "PS",
+      "name": "AC5-three-offline-attempts-keep-the-lock-false",
+      "ok": false,
+      "detail": "[true,true,true]"
+    },
+    {
+      "kind": "VALID",
+      "name": "AC5-repeat-reconnected-really-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC5-repeat-toasts-waited-out",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PS",
+      "name": "AC5-follow-up-after-repeated-offline-attempts-sends",
+      "ok": false,
+      "detail": "dMsgs=0 dExt=0 cycleEnded=null flag=true btnDisabled=false input=\"S8-repeat-message\""
+    },
+    {
+      "kind": "VALID",
+      "name": "AC7-boot-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC7a-control-single-send-cycle-ok",
+      "ok": true,
+      "detail": "dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=\"\""
+    },
+    {
+      "kind": "PRES",
+      "name": "AC7a-two-synchronous-sends-start-one-pipeline",
+      "ok": true,
+      "detail": "dUser=1 dMsgs=2 dExt=3 (control 3)"
+    },
+    {
+      "kind": "VALID",
+      "name": "AC7b-control-single-image-send-cycle-ended",
+      "ok": true,
+      "detail": "dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=\"\""
+    },
+    {
+      "kind": "PRES",
+      "name": "AC7b-two-synchronous-sends-with-image-start-one-pipeline",
+      "ok": true,
+      "detail": "dUser=1 dMsgs=2 dExt=3 (control dMsgs=2 dExt=3)"
+    },
+    {
+      "kind": "VALID",
+      "name": "AC7c-first-request-reached-the-network-layer-and-is-held",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "AC7c-in-flight-lock-true-and-button-disabled",
+      "ok": true,
+      "detail": "flag=true btnDisabled=true"
+    },
+    {
+      "kind": "PRES",
+      "name": "AC7c-click-and-Enter-during-flight-are-no-ops",
+      "ok": true,
+      "detail": "dMsgs=0 dExt=0"
+    },
+    {
+      "kind": "PRES",
+      "name": "AC7c-after-release-cycle-ends-lock-false-button-enabled",
+      "ok": true,
+      "detail": "flag=false btnDisabled=false dMsgs=2"
+    },
+    {
+      "kind": "VALID",
+      "name": "AC9-boot-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC9-request-held-in-flight",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC9-offline-really-in-effect-mid-flight",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "AC9-mid-flight-failure-gives-exactly-one-error-message-and-releases-lock-and-button",
+      "ok": true,
+      "detail": "dMsgs=2 shape=[\"user/-\",\"assistant/error\"] flag=false btnDisabled=false"
+    },
+    {
+      "kind": "VALID",
+      "name": "AC9-reconnected-really-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "AC9-send-after-reconnect-works",
+      "ok": true,
+      "detail": "dMsgs=2 dExt=3 cycleEnded=true flag=false btnDisabled=false input=\"\""
+    },
+    {
+      "kind": "VALID",
+      "name": "AC8-E1-ImageStore.save-rejects-boot-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC8-E1-ImageStore.save-rejects-fault-armed",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC8-E1-ImageStore.save-rejects-fault-fired-exactly-once",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E1-ImageStore.save-rejects-sendMessage-promise-resolves-failure-is-handled",
+      "ok": false,
+      "detail": "resolved=false err=INJECTED-E1-IMAGESTORE"
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E1-ImageStore.save-rejects-lock-released-and-button-enabled",
+      "ok": false,
+      "detail": "flag=true btnDisabled=false"
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E1-ImageStore.save-rejects-error-message-shown-in-chat",
+      "ok": false,
+      "detail": "null"
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E1-ImageStore.save-rejects-next-send-works-after-the-fault-is-removed",
+      "ok": false,
+      "detail": "dMsgs=0 dExt=0 cycleEnded=null flag=true btnDisabled=false input=\"S8-E1-text-next\""
+    },
+    {
+      "kind": "VALID",
+      "name": "AC8-E2-resolveActiveMode-throws-boot-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC8-E2-resolveActiveMode-throws-fault-armed",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC8-E2-resolveActiveMode-throws-fault-fired-exactly-once",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E2-resolveActiveMode-throws-sendMessage-promise-resolves-failure-is-handled",
+      "ok": false,
+      "detail": "resolved=false err=INJECTED-E2-RESOLVE"
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E2-resolveActiveMode-throws-lock-released-and-button-enabled",
+      "ok": false,
+      "detail": "flag=true btnDisabled=true"
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E2-resolveActiveMode-throws-error-message-shown-in-chat",
+      "ok": false,
+      "detail": "{\"role\":\"user\",\"type\":null,\"content\":\"S8-E2-text\"}"
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E2-resolveActiveMode-throws-next-send-works-after-the-fault-is-removed",
+      "ok": false,
+      "detail": "dMsgs=0 dExt=0 cycleEnded=null flag=true btnDisabled=true input=\"S8-E2-text-next\""
+    },
+    {
+      "kind": "VALID",
+      "name": "AC8-E3-startTask-throws-boot-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC8-E3-startTask-throws-fault-armed",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC8-E3-startTask-throws-fault-fired-exactly-once",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E3-startTask-throws-sendMessage-promise-resolves-failure-is-handled",
+      "ok": false,
+      "detail": "resolved=false err=INJECTED-E3-STARTTASK"
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E3-startTask-throws-lock-released-and-button-enabled",
+      "ok": false,
+      "detail": "flag=true btnDisabled=true"
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E3-startTask-throws-error-message-shown-in-chat",
+      "ok": false,
+      "detail": "{\"role\":\"user\",\"type\":null,\"content\":\"S8-E3-text\"}"
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E3-startTask-throws-next-send-works-after-the-fault-is-removed",
+      "ok": false,
+      "detail": "dMsgs=0 dExt=0 cycleEnded=null flag=true btnDisabled=true input=\"S8-E3-text-next\""
+    },
+    {
+      "kind": "VALID",
+      "name": "AC8-E4-required-DOM-element-missing-boot-online",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC8-E4-required-DOM-element-missing-fault-armed",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "VALID",
+      "name": "AC8-E4-required-DOM-element-missing-fault-was-present-at-send-time",
+      "ok": true,
+      "detail": "resolved=false err=Cannot read properties of null (reading 'checked') last=S8-E4-text"
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E4-required-DOM-element-missing-sendMessage-promise-resolves-failure-is-handled",
+      "ok": false,
+      "detail": "resolved=false err=Cannot read properties of null (reading 'checked')"
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E4-required-DOM-element-missing-lock-released-and-button-enabled",
+      "ok": false,
+      "detail": "flag=true btnDisabled=true"
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E4-required-DOM-element-missing-error-message-shown-in-chat",
+      "ok": false,
+      "detail": "{\"role\":\"user\",\"type\":null,\"content\":\"S8-E4-text\"}"
+    },
+    {
+      "kind": "PS",
+      "name": "AC8-E4-required-DOM-element-missing-next-send-works-after-the-fault-is-removed",
+      "ok": false,
+      "detail": "dMsgs=0 dExt=0 cycleEnded=null flag=true btnDisabled=true input=\"S8-E4-text-next\""
+    },
+    {
+      "kind": "VALID",
+      "name": "no-uncaught-page-errors",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

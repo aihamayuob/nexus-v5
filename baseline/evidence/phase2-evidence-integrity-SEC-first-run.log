@@ -1,0 +1,406 @@
+TAP version 13
+# (node:356) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: AC-1 [PS] evidence with no declared kind is not an Evidence Delta: UNVERIFIED / CONSENSUS_ONLY, the judge is never called
+ok 1 - AC-1 [PS] evidence with no declared kind is not an Evidence Delta: UNVERIFIED / CONSENSUS_ONLY, the judge is never called
+  ---
+  duration_ms: 74.230986
+  type: 'test'
+  ...
+# Subtest: AC-1 [PS] three agents that "agree" (three items, none declaring a kind) can NOT reach SUPPORTED/VERIFIED even though the judge would say VERIFIED
+ok 2 - AC-1 [PS] three agents that "agree" (three items, none declaring a kind) can NOT reach SUPPORTED/VERIFIED even though the judge would say VERIFIED
+  ---
+  duration_ms: 6.839099
+  type: 'test'
+  ...
+# Subtest: AC-1 [PS] an invalid kind ("independent_source") is a non-delta
+ok 3 - AC-1 [PS] an invalid kind ("independent_source") is a non-delta
+  ---
+  duration_ms: 5.040102
+  type: 'test'
+  ...
+# Subtest: AC-1 [PS] an invalid kind ("FOO") is a non-delta
+ok 4 - AC-1 [PS] an invalid kind ("FOO") is a non-delta
+  ---
+  duration_ms: 4.978418
+  type: 'test'
+  ...
+# Subtest: AC-1 [PS] an invalid kind ("") is a non-delta
+ok 5 - AC-1 [PS] an invalid kind ("") is a non-delta
+  ---
+  duration_ms: 6.261175
+  type: 'test'
+  ...
+# Subtest: AC-1 [PS] an invalid kind (42) is a non-delta
+ok 6 - AC-1 [PS] an invalid kind (42) is a non-delta
+  ---
+  duration_ms: 4.787874
+  type: 'test'
+  ...
+# Subtest: AC-1 [PS] an invalid kind (null) is a non-delta
+ok 7 - AC-1 [PS] an invalid kind (null) is a non-delta
+  ---
+  duration_ms: 4.872922
+  type: 'test'
+  ...
+# Subtest: AC-1 [PS] an invalid kind ({}) is a non-delta
+ok 8 - AC-1 [PS] an invalid kind ({}) is a non-delta
+  ---
+  duration_ms: 5.792792
+  type: 'test'
+  ...
+# Subtest: AC-1 [PS] an invalid kind (["TOOL_RESULT"]) is a non-delta
+ok 9 - AC-1 [PS] an invalid kind (["TOOL_RESULT"]) is a non-delta
+  ---
+  duration_ms: 5.193728
+  type: 'test'
+  ...
+# Subtest: AC-2 [PS] mixed list: exactly one judge call, and the prompt contains the delta but NOT the non-delta
+ok 10 - AC-2 [PS] mixed list: exactly one judge call, and the prompt contains the delta but NOT the non-delta
+  ---
+  duration_ms: 42.805358
+  type: 'test'
+  ...
+# Subtest: AC-3 [PS] kind INDEPENDENT_SOURCE is an Evidence Delta: the judge runs and its verdict passes through
+ok 11 - AC-3 [PS] kind INDEPENDENT_SOURCE is an Evidence Delta: the judge runs and its verdict passes through
+  ---
+  duration_ms: 10.330508
+  type: 'test'
+  ...
+# Subtest: AC-3 [PS] kind TOOL_RESULT is an Evidence Delta: the judge runs and its verdict passes through
+ok 12 - AC-3 [PS] kind TOOL_RESULT is an Evidence Delta: the judge runs and its verdict passes through
+  ---
+  duration_ms: 9.840854
+  type: 'test'
+  ...
+# Subtest: AC-3 [PS] kind EXECUTABLE_VERIFICATION is an Evidence Delta: the judge runs and its verdict passes through
+ok 13 - AC-3 [PS] kind EXECUTABLE_VERIFICATION is an Evidence Delta: the judge runs and its verdict passes through
+  ---
+  duration_ms: 10.070089
+  type: 'test'
+  ...
+# Subtest: AC-3 [PS] kind ENVIRONMENTAL_OBSERVATION is an Evidence Delta: the judge runs and its verdict passes through
+ok 14 - AC-3 [PS] kind ENVIRONMENTAL_OBSERVATION is an Evidence Delta: the judge runs and its verdict passes through
+  ---
+  duration_ms: 9.831201
+  type: 'test'
+  ...
+# Subtest: AC-3 [PS] kind HUMAN_CONFIRMATION is an Evidence Delta: the judge runs and its verdict passes through
+ok 15 - AC-3 [PS] kind HUMAN_CONFIRMATION is an Evidence Delta: the judge runs and its verdict passes through
+  ---
+  duration_ms: 16.108629
+  type: 'test'
+  ...
+# Subtest: AC-3 [PS] CONTRADICTORY_EVIDENCE alone is also a delta (the judge runs)
+ok 16 - AC-3 [PS] CONTRADICTORY_EVIDENCE alone is also a delta (the judge runs)
+  ---
+  duration_ms: 9.067519
+  type: 'test'
+  ...
+# Subtest: AC-3 [PS] reason precedence: CONTRADICTORY > EXECUTABLE_VERIFICATION > INDEPENDENT
+ok 17 - AC-3 [PS] reason precedence: CONTRADICTORY > EXECUTABLE_VERIFICATION > INDEPENDENT
+  ---
+  duration_ms: 13.686656
+  type: 'test'
+  ...
+# Subtest: AC-4 [PS] a CONTRADICTORY_EVIDENCE delta lowers a judge SUPPORTED to CONFLICTING (confidence null, guard noted)
+ok 18 - AC-4 [PS] a CONTRADICTORY_EVIDENCE delta lowers a judge SUPPORTED to CONFLICTING (confidence null, guard noted)
+  ---
+  duration_ms: 9.199247
+  type: 'test'
+  ...
+# Subtest: AC-4 [PS] a CONTRADICTORY_EVIDENCE delta lowers a judge VERIFIED to CONFLICTING (confidence null, guard noted)
+ok 19 - AC-4 [PS] a CONTRADICTORY_EVIDENCE delta lowers a judge VERIFIED to CONFLICTING (confidence null, guard noted)
+  ---
+  duration_ms: 8.782541
+  type: 'test'
+  ...
+# Subtest: AC-5 [PS] the guard never raises or rewrites: a judge UNCERTAIN stays UNCERTAIN with its confidence
+ok 20 - AC-5 [PS] the guard never raises or rewrites: a judge UNCERTAIN stays UNCERTAIN with its confidence
+  ---
+  duration_ms: 10.989338
+  type: 'test'
+  ...
+# Subtest: AC-5 [PS] the guard never raises or rewrites: a judge CONFLICTING stays CONFLICTING with its confidence
+ok 21 - AC-5 [PS] the guard never raises or rewrites: a judge CONFLICTING stays CONFLICTING with its confidence
+  ---
+  duration_ms: 7.71773
+  type: 'test'
+  ...
+# Subtest: AC-5 [PS] the guard never raises or rewrites: a judge UNVERIFIED stays UNVERIFIED with its confidence
+ok 22 - AC-5 [PS] the guard never raises or rewrites: a judge UNVERIFIED stays UNVERIFIED with its confidence
+  ---
+  duration_ms: 8.987887
+  type: 'test'
+  ...
+# Subtest: AC-5 [PRES] without a contradictory delta, two INDEPENDENT_SOURCE items keep a judge VERIFIED and its confidence
+ok 23 - AC-5 [PRES] without a contradictory delta, two INDEPENDENT_SOURCE items keep a judge VERIFIED and its confidence
+  ---
+  duration_ms: 8.365146
+  type: 'test'
+  ...
+# Subtest: AC-5 [PS] …and that result carries integrityReason INDEPENDENT_EVIDENCE
+ok 24 - AC-5 [PS] …and that result carries integrityReason INDEPENDENT_EVIDENCE
+  ---
+  duration_ms: 7.301424
+  type: 'test'
+  ...
+# Subtest: AC-6 [PRES] provider not configured: ran:false / UNVERIFIED / confidence null — with deltas AND with non-deltas, no provider call
+ok 25 - AC-6 [PRES] provider not configured: ran:false / UNVERIFIED / confidence null — with deltas AND with non-deltas, no provider call
+  ---
+  duration_ms: 5.60662
+  type: 'test'
+  ...
+# Subtest: AC-6 [PS] provider not configured: integrityReason is null (the engine determined nothing about integrity) — with deltas AND with non-deltas
+ok 26 - AC-6 [PS] provider not configured: integrityReason is null (the engine determined nothing about integrity) — with deltas AND with non-deltas
+  ---
+  duration_ms: 5.261147
+  type: 'test'
+  ...
+# Subtest: AC-6 [PS] zero evidence: the fast path (no call) now also carries integrityReason NO_EVIDENCE
+ok 27 - AC-6 [PS] zero evidence: the fast path (no call) now also carries integrityReason NO_EVIDENCE
+  ---
+  duration_ms: 5.444884
+  type: 'test'
+  ...
+# {"ts":"2026-10-12T05:36:29.124Z","level":"warn","msg":"EvaluationEngine call failed (non-fatal — treated as did-not-run)","message":"Expected double-quoted property name in JSON at position 26 (line 1 column 27)"}
+# Subtest: AC-6 [PRES] judge quirks still handled with declared-kind evidence: invalid verdict → UNCERTAIN; confidence out of range → null; non-JSON → UNCERTAIN; broken JSON in braces → ran:false
+ok 28 - AC-6 [PRES] judge quirks still handled with declared-kind evidence: invalid verdict → UNCERTAIN; confidence out of range → null; non-JSON → UNCERTAIN; broken JSON in braces → ran:false
+  ---
+  duration_ms: 13.654922
+  type: 'test'
+  ...
+# {"ts":"2026-10-12T05:36:29.132Z","level":"warn","msg":"EvaluationEngine call failed (non-fatal — treated as did-not-run)","message":"Expected double-quoted property name in JSON at position 26 (line 1 column 27)"}
+# Subtest: AC-6 [PS] a judge call that fails (broken JSON) yields ran:false with integrityReason null
+ok 29 - AC-6 [PS] a judge call that fails (broken JSON) yields ran:false with integrityReason null
+  ---
+  duration_ms: 7.770135
+  type: 'test'
+  ...
+# Subtest: AC-7 [PS] migration 016 exists, is the last one, and adds exactly one nullable TEXT column `integrity_reason` to claim_evaluations
+ok 30 - AC-7 [PS] migration 016 exists, is the last one, and adds exactly one nullable TEXT column `integrity_reason` to claim_evaluations
+  ---
+  duration_ms: 15.308253
+  type: 'test'
+  ...
+# Subtest: AC-7 [PS] the real runner upgrades a database that already has 001–015 and a legacy row: row byte-identical, integrityReason null, second open is a no-op
+ok 31 - AC-7 [PS] the real runner upgrades a database that already has 001–015 and a legacy row: row byte-identical, integrityReason null, second open is a no-op
+  ---
+  duration_ms: 839.235987
+  type: 'test'
+  ...
+# Subtest: AC-8 [PS] POST with a delta: integrityReason is returned, stored in the DB column, and returned again by GET /claims/:id and GET /claims
+ok 32 - AC-8 [PS] POST with a delta: integrityReason is returned, stored in the DB column, and returned again by GET /claims/:id and GET /claims
+  ---
+  duration_ms: 26.864861
+  type: 'test'
+  ...
+# Subtest: AC-8 [PS] POST without any kind (the pre-guard contract): HTTP 200, UNVERIFIED, CONSENSUS_ONLY, zero provider calls, reason persisted
+ok 33 - AC-8 [PS] POST without any kind (the pre-guard contract): HTTP 200, UNVERIFIED, CONSENSUS_ONLY, zero provider calls, reason persisted
+  ---
+  duration_ms: 11.099378
+  type: 'test'
+  ...
+# Subtest: AC-8 [PS] an invalid kind is dropped from the stored evidence (the item itself is kept) and counts as a non-delta; a valid kind is stored
+ok 34 - AC-8 [PS] an invalid kind is dropped from the stored evidence (the item itself is kept) and counts as a non-delta; a valid kind is stored
+  ---
+  duration_ms: 8.828495
+  type: 'test'
+  ...
+# Subtest: AC-8 [PS] a contradictory delta over HTTP: a judge SUPPORTED is persisted as CONFLICTING with reason CONTRADICTORY_EVIDENCE
+ok 35 - AC-8 [PS] a contradictory delta over HTTP: a judge SUPPORTED is persisted as CONFLICTING with reason CONTRADICTORY_EVIDENCE
+  ---
+  duration_ms: 9.12039
+  type: 'test'
+  ...
+# {"ts":"2026-10-12T05:36:30.050Z","level":"warn","msg":"Request failed","path":"/v2/evaluation/claim","status":400,"code":"validation_error","message":"الحقل \\"claim\\" مطلوب."}
+# {"ts":"2026-10-12T05:36:30.052Z","level":"warn","msg":"Request failed","path":"/v2/evaluation/claims/does-not-exist","status":404,"code":"not_found","message":"لم يُعثر على هذا التقييم."}
+# Subtest: AC-8 [PRES] status codes are unchanged: 400 for a missing claim, 404 for an unknown id
+ok 36 - AC-8 [PRES] status codes are unchanged: 400 for a missing claim, 404 for an unknown id
+  ---
+  duration_ms: 9.715727
+  type: 'test'
+  ...
+# Subtest: AC-8 [PS] ran:false (provider unavailable) is persisted with a NULL integrity_reason
+ok 37 - AC-8 [PS] ran:false (provider unavailable) is persisted with a NULL integrity_reason
+  ---
+  duration_ms: 8.482958
+  type: 'test'
+  ...
+# Subtest: AC-9 [PS] buildResearchEvidence: fetchOk:true sources become TOOL_RESULT evidence; fetchOk:false sources are not evidence
+ok 38 - AC-9 [PS] buildResearchEvidence: fetchOk:true sources become TOOL_RESULT evidence; fetchOk:false sources are not evidence
+  ---
+  duration_ms: 6.058047
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "__proto__" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 39 - AC-S1 [SEC] hostile kind "__proto__" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 6.361544
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "constructor" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 40 - AC-S1 [SEC] hostile kind "constructor" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.825589
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "toString" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 41 - AC-S1 [SEC] hostile kind "toString" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.425982
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "hasOwnProperty" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 42 - AC-S1 [SEC] hostile kind "hasOwnProperty" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.477496
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "valueOf" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 43 - AC-S1 [SEC] hostile kind "valueOf" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.254233
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "length" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 44 - AC-S1 [SEC] hostile kind "length" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.308281
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "0" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 45 - AC-S1 [SEC] hostile kind "0" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.470129
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind " TOOL_RESULT" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 46 - AC-S1 [SEC] hostile kind " TOOL_RESULT" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.428433
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "TOOL_RESULT " is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 47 - AC-S1 [SEC] hostile kind "TOOL_RESULT " is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.232975
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "TOOL_RESULT\\n" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 48 - AC-S1 [SEC] hostile kind "TOOL_RESULT\\n" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.563138
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "TOOL_RESULT\\u0000" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 49 - AC-S1 [SEC] hostile kind "TOOL_RESULT\\u0000" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.616798
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "tool_result" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 50 - AC-S1 [SEC] hostile kind "tool_result" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.591924
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "Tool_Result" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 51 - AC-S1 [SEC] hostile kind "Tool_Result" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.80248
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "ＴＯＯＬ_RESULT" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 52 - AC-S1 [SEC] hostile kind "ＴＯＯＬ_RESULT" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.867127
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "TOOL_RESULT,INDEPENDENT_SOURCE" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 53 - AC-S1 [SEC] hostile kind "TOOL_RESULT,INDEPENDENT_SOURCE" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.434309
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "TOOL_RESULT|CONTRADICTORY_EVIDENCE" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 54 - AC-S1 [SEC] hostile kind "TOOL_RESULT|CONTRADICTORY_EVIDENCE" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.509591
+  type: 'test'
+  ...
+# Subtest: AC-S1 [SEC] hostile kind "INDEPENDENT_SOURCE​" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+ok 55 - AC-S1 [SEC] hostile kind "INDEPENDENT_SOURCE​" is a non-delta: 0 provider calls, CONSENSUS_ONLY
+  ---
+  duration_ms: 4.83551
+  type: 'test'
+  ...
+# Subtest: AC-S2 [SEC] an own "__proto__" / "constructor.prototype" property on a raw JSON evidence item cannot make it a delta, and Object.prototype stays clean
+ok 56 - AC-S2 [SEC] an own "__proto__" / "constructor.prototype" property on a raw JSON evidence item cannot make it a delta, and Object.prototype stays clean
+  ---
+  duration_ms: 11.070714
+  type: 'test'
+  ...
+# Subtest: AC-S3 [SEC] evidence given as an object → HTTP 200, NO_EVIDENCE, 0 provider calls
+ok 57 - AC-S3 [SEC] evidence given as an object → HTTP 200, NO_EVIDENCE, 0 provider calls
+  ---
+  duration_ms: 11.031384
+  type: 'test'
+  ...
+# Subtest: AC-S3 [SEC] evidence given as a string → HTTP 200, NO_EVIDENCE, 0 provider calls
+ok 58 - AC-S3 [SEC] evidence given as a string → HTTP 200, NO_EVIDENCE, 0 provider calls
+  ---
+  duration_ms: 8.311884
+  type: 'test'
+  ...
+# Subtest: AC-S3 [SEC] evidence given as a number → HTTP 200, NO_EVIDENCE, 0 provider calls
+ok 59 - AC-S3 [SEC] evidence given as a number → HTTP 200, NO_EVIDENCE, 0 provider calls
+  ---
+  duration_ms: 14.866046
+  type: 'test'
+  ...
+# Subtest: AC-S3 [SEC] evidence given as null → HTTP 200, NO_EVIDENCE, 0 provider calls
+ok 60 - AC-S3 [SEC] evidence given as null → HTTP 200, NO_EVIDENCE, 0 provider calls
+  ---
+  duration_ms: 7.978679
+  type: 'test'
+  ...
+# Subtest: AC-S3 [SEC] evidence given as an array of non-objects → HTTP 200, NO_EVIDENCE, 0 provider calls
+ok 61 - AC-S3 [SEC] evidence given as an array of non-objects → HTTP 200, NO_EVIDENCE, 0 provider calls
+  ---
+  duration_ms: 7.828701
+  type: 'test'
+  ...
+# Subtest: AC-S3 [SEC] evidence given as items with non-string source/content but a valid kind → HTTP 200, NO_EVIDENCE, 0 provider calls
+ok 62 - AC-S3 [SEC] evidence given as items with non-string source/content but a valid kind → HTTP 200, NO_EVIDENCE, 0 provider calls
+  ---
+  duration_ms: 7.847685
+  type: 'test'
+  ...
+# Subtest: AC-S4 [SEC] evaluate() tolerates null/undefined entries next to one valid delta: no throw, the judge sees only the valid one
+ok 63 - AC-S4 [SEC] evaluate() tolerates null/undefined entries next to one valid delta: no throw, the judge sees only the valid one
+  ---
+  duration_ms: 6.753684
+  type: 'test'
+  ...
+# Subtest: AC-S5 [SEC] SQL metacharacters in source/content/claim/subjectType are stored literally; the table survives and reads back exactly
+ok 64 - AC-S5 [SEC] SQL metacharacters in source/content/claim/subjectType are stored literally; the table survives and reads back exactly
+  ---
+  duration_ms: 10.302326
+  type: 'test'
+  ...
+# Subtest: AC-S6 [SEC] a non-delta that imitates a delta block / fake fence / verdict instruction never reaches the judge prompt; the real delta still does
+ok 65 - AC-S6 [SEC] a non-delta that imitates a delta block / fake fence / verdict instruction never reaches the judge prompt; the real delta still does
+  ---
+  duration_ms: 6.498366
+  type: 'test'
+  ...
+1..65
+# tests 65
+# suites 0
+# pass 65
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2701.08224

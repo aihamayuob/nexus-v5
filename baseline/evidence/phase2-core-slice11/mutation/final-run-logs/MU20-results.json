@@ -1,0 +1,373 @@
+{
+  "verdict": "REJECTED",
+  "chromium": "141.0.7390.37",
+  "frontendDir": "frontend",
+  "checks": [
+    {
+      "kind": "VALID",
+      "name": "V01-boot-init",
+      "ok": true,
+      "detail": "inited=true"
+    },
+    {
+      "kind": "VALID",
+      "name": "V02-clock-fixed",
+      "ok": true,
+      "detail": "a=1791979200000 b=1791979200000 iso=2026-10-14T12:00:00.000Z"
+    },
+    {
+      "kind": "VALID",
+      "name": "V03-now-matches-Intl",
+      "ok": true,
+      "detail": "len=35 hasYear=true"
+    },
+    {
+      "kind": "VALID",
+      "name": "V04-network-intercepted",
+      "ok": true,
+      "detail": "{\"ext\":\"blocked\",\"nope\":404}"
+    },
+    {
+      "kind": "VALID",
+      "name": "V06-determinism-same-page",
+      "ok": true,
+      "detail": "len=766"
+    },
+    {
+      "kind": "VALID",
+      "name": "V05-fixtures-yield-all-five-segments",
+      "ok": true,
+      "detail": "[true,true,true,true,true]"
+    },
+    {
+      "kind": "VALID",
+      "name": "V13-spy-records-labels",
+      "ok": true,
+      "detail": "[\"agent knowledge\",\"long-term memory\",\"uploaded documents\",\"market context\"]"
+    },
+    {
+      "kind": "PRES",
+      "name": "P01-prompt-plus-build-text",
+      "ok": true,
+      "detail": "eq=true keysOk=true"
+    },
+    {
+      "kind": "PRES",
+      "name": "P02-time-segment-first-exact",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "P03-segment-order",
+      "ok": true,
+      "detail": "{\"pos\":[12,75,250,349,473],\"labels\":[\"agent knowledge\",\"long-term memory\",\"uploaded documents\",\"market context\"]}"
+    },
+    {
+      "kind": "PRES",
+      "name": "P04-baseline-segments-exact",
+      "ok": false,
+      "detail": "first-diff@443 got=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n--- نهاية مستند مرفوع ---\\n\\n--- بيانات سوقية (بيان\" want=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n- [من ملف \\\"t3\\\"]: ملف٣\\n--- نهاية مستند مرفوع ---\\n\\n\""
+    },
+    {
+      "kind": "PRES",
+      "name": "P05-pinned-knowledge-on-low-intent",
+      "ok": true,
+      "detail": "null labels=[\"agent knowledge\"] embed=1"
+    },
+    {
+      "kind": "PRES",
+      "name": "P06-no-knowledge-no-segment",
+      "ok": true,
+      "detail": "[\"agent knowledge\",\"long-term memory\",\"uploaded documents\",\"market context\"]"
+    },
+    {
+      "kind": "PRES",
+      "name": "P07-knowledge-topK-3",
+      "ok": true,
+      "detail": "lines=3 embed=0"
+    },
+    {
+      "kind": "PRES",
+      "name": "P08-knowledge-fenced-label",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "P09-gate-G0-low-static",
+      "ok": true,
+      "detail": "null labels=[\"agent knowledge\"] embed=0 market=0"
+    },
+    {
+      "kind": "VALID",
+      "name": "V14-P09-intent-as-declared",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "P10-gate-G1-risk-only",
+      "ok": false,
+      "detail": "first-diff@441 got=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n--- نهاية مستند مرفوع ---\" want=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n- [من ملف \\\"t3\\\"]: ملف٣\\n--- نهاية مستند مرفوع ---\" labels=[\"agent knowledge\",\"long-term memory\",\"uploaded documents\"]"
+    },
+    {
+      "kind": "VALID",
+      "name": "V14-P10-intent-as-declared",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "P11-gate-G2-complexity-only",
+      "ok": false,
+      "detail": "first-diff@441 got=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n--- نهاية مستند مرفوع ---\" want=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n- [من ملف \\\"t3\\\"]: ملف٣\\n--- نهاية مستند مرفوع ---\" labels=[\"agent knowledge\",\"long-term memory\",\"uploaded documents\"]"
+    },
+    {
+      "kind": "VALID",
+      "name": "V14-P11-intent-as-declared",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "P12-gate-G3-freshness",
+      "ok": false,
+      "detail": "first-diff@441 got=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n--- نهاية مستند مرفوع ---\" want=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n- [من ملف \\\"t3\\\"]: ملف٣\\n--- نهاية مستند مرفوع ---\" labels=[\"agent knowledge\",\"long-term memory\",\"uploaded documents\"]"
+    },
+    {
+      "kind": "VALID",
+      "name": "V14-P12-intent-as-declared",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "P13-build-requiredEvidence-only",
+      "ok": false,
+      "detail": "first-diff@433 got=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n--- نهاية مستند مرفوع ---\" want=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n- [من ملف \\\"t3\\\"]: ملف٣\\n--- نهاية مستند مرفوع ---\" labels=[\"agent knowledge\",\"long-term memory\",\"uploaded documents\"] analyze=0"
+    },
+    {
+      "kind": "PRES",
+      "name": "P14-build-complexity-medium-only",
+      "ok": false,
+      "detail": "first-diff@433 got=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n--- نهاية مستند مرفوع ---\" want=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n- [من ملف \\\"t3\\\"]: ملف٣\\n--- نهاية مستند مرفوع ---\" labels=[\"agent knowledge\",\"long-term memory\",\"uploaded documents\"] analyze=0"
+    },
+    {
+      "kind": "PRES",
+      "name": "P15-build-freshness-recent-only",
+      "ok": false,
+      "detail": "first-diff@433 got=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n--- نهاية مستند مرفوع ---\" want=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n- [من ملف \\\"t3\\\"]: ملف٣\\n--- نهاية مستند مرفوع ---\" labels=[\"agent knowledge\",\"long-term memory\",\"uploaded documents\"] analyze=0"
+    },
+    {
+      "kind": "PRES",
+      "name": "P16-build-all-negative-knowledge-only-analyze-not-called",
+      "ok": true,
+      "detail": "null labels=[\"agent knowledge\"] analyze=0"
+    },
+    {
+      "kind": "PRES",
+      "name": "P17-analyze-called-once-without-intent",
+      "ok": true,
+      "detail": "build=1 full=1"
+    },
+    {
+      "kind": "PRES",
+      "name": "P18-ltm-selection-exact",
+      "ok": true,
+      "detail": "full:null threshold:null unfenced=true"
+    },
+    {
+      "kind": "PRES",
+      "name": "P19-ltm-gates",
+      "ok": true,
+      "detail": "flag-off:true | no-backend:true | empty-memory:true"
+    },
+    {
+      "kind": "PRES",
+      "name": "P20-ltm-embed-500-non-fatal",
+      "ok": true,
+      "detail": "null logged=true"
+    },
+    {
+      "kind": "PRES",
+      "name": "P21-files-backend-routing",
+      "ok": false,
+      "detail": "first-diff@167 got=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n--- نهاية مستند مرفوع ---\" want=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n- [من ملف \\\"t3\\\"]: ملف٣\\n--- نهاية مستند مرفوع ---\""
+    },
+    {
+      "kind": "PRES",
+      "name": "P22-files-no-backend-tfidf",
+      "ok": true,
+      "detail": "lines=1 first=\"- [من ملف \\\"عنوان٢\\\"]: سعر الذهب اليوم ارتفع\" fenced=true"
+    },
+    {
+      "kind": "PRES",
+      "name": "P23-files-empty-no-segment",
+      "ok": true,
+      "detail": "[\"agent knowledge\",\"long-term memory\",\"uploaded documents\"]"
+    },
+    {
+      "kind": "PRES",
+      "name": "P24-files-embed-500-falls-back-to-tfidf",
+      "ok": true,
+      "detail": "logged=true"
+    },
+    {
+      "kind": "PRES",
+      "name": "P25-files-lazy-embed-side-effect",
+      "ok": false,
+      "detail": "first-diff@167 got=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n--- نهاية مستند مرفوع ---\" want=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n- [من ملف \\\"t3\\\"]: ملف٣\\n--- نهاية مستند مرفوع ---\" allEmb=true embed=4 persist=1 ctrl(persist=0,embed=1)"
+    },
+    {
+      "kind": "PRES",
+      "name": "P26-market-financial-domain-business",
+      "ok": true,
+      "detail": "null fresh=static domain=business req=1"
+    },
+    {
+      "kind": "PRES",
+      "name": "P27-market-freshness-branch",
+      "ok": true,
+      "detail": "null fresh=recent domain=tech"
+    },
+    {
+      "kind": "PRES",
+      "name": "P28-market-excluded-static-nonbusiness",
+      "ok": true,
+      "detail": "[\"agent knowledge\"]"
+    },
+    {
+      "kind": "PRES",
+      "name": "P29-market-excluded-non-financial-agent",
+      "ok": true,
+      "detail": "[\"agent knowledge\",\"long-term memory\",\"uploaded documents\"]"
+    },
+    {
+      "kind": "PRES",
+      "name": "P30-market-gates",
+      "ok": true,
+      "detail": "flag-off:true | no-backend:true"
+    },
+    {
+      "kind": "PRES",
+      "name": "P31-market-500-non-fatal-no-cache",
+      "ok": true,
+      "detail": "first=1 second=1 logged=true"
+    },
+    {
+      "kind": "PRES",
+      "name": "P32-market-client-cache",
+      "ok": true,
+      "detail": "first=1 second=0"
+    },
+    {
+      "kind": "VALID",
+      "name": "V08-inj-target-agentKnowledgeContext",
+      "ok": true,
+      "detail": "sentinel=true changed=true"
+    },
+    {
+      "kind": "VALID",
+      "name": "V09-inj-target-retrieveLongTermMemoryContext",
+      "ok": true,
+      "detail": "sentinel=true changed=true"
+    },
+    {
+      "kind": "VALID",
+      "name": "V10-inj-target-fileDocsContext",
+      "ok": true,
+      "detail": "sentinel=true changed=true"
+    },
+    {
+      "kind": "VALID",
+      "name": "V11-inj-target-getMarketContext",
+      "ok": true,
+      "detail": "sentinel=true changed=true"
+    },
+    {
+      "kind": "VALID",
+      "name": "V12-restore-returns-baseline",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "P33-fault-isolation-agentKnowledgeContext",
+      "ok": false,
+      "detail": "first-diff@264 got=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n--- نهاية مستند مرفوع ---\\n\\n--- بيانات سوقية (بيان\" want=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n- [من ملف \\\"t3\\\"]: ملف٣\\n--- نهاية مستند مرفوع ---\\n\\n\" logged=true"
+    },
+    {
+      "kind": "PRES",
+      "name": "P34-fault-isolation-retrieveLongTermMemoryContext",
+      "ok": false,
+      "detail": "first-diff@348 got=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n--- نهاية مستند مرفوع ---\\n\\n--- بيانات سوقية (بيان\" want=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n- [من ملف \\\"t3\\\"]: ملف٣\\n--- نهاية مستند مرفوع ---\\n\\n\" logged=true"
+    },
+    {
+      "kind": "PRES",
+      "name": "P35-fault-isolation-fileDocsContext",
+      "ok": true,
+      "detail": "null logged=true"
+    },
+    {
+      "kind": "PRES",
+      "name": "P36-fault-isolation-getMarketContext",
+      "ok": false,
+      "detail": "first-diff@443 got=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n--- نهاية مستند مرفوع ---\" want=\"\\n- [من ملف \\\"t1\\\"]: ملف١\\n- [من ملف \\\"t3\\\"]: ملف٣\\n--- نهاية مستند مرفوع ---\" logged=true"
+    },
+    {
+      "kind": "PRES",
+      "name": "P37-sentinel-placement",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "P38-safe-direct",
+      "ok": true,
+      "detail": "{\"ok\":\"VAL\",\"bad\":\"\",\"sync\":\"\"}"
+    },
+    {
+      "kind": "VALID",
+      "name": "V15-checkpoint-seeded",
+      "ok": true,
+      "detail": "{\"taskId\":\"t1\",\"phase\":\"phaseA\",\"results\":{\"a\":1,\"b\":2},\"meta\":{},\"ts\":1}"
+    },
+    {
+      "kind": "PRES",
+      "name": "P39-fullAgentPrompt-never-includes-task-state",
+      "ok": false,
+      "detail": null
+    },
+    {
+      "kind": "PRES",
+      "name": "P40-build-taskId-line-exact",
+      "ok": false,
+      "detail": "null empty=true other=true none=true"
+    },
+    {
+      "kind": "PRES",
+      "name": "P41-buildAgentContext-characterization",
+      "ok": false,
+      "detail": "first-diff@337 got=\":\\n- [من ملف \\\"t1\\\"]: ملف١\\n\\nسياق السوق الحالي (حقيقي، محدَّث 14‏/10‏/2026 1\" want=\":\\n- [من ملف \\\"t1\\\"]: ملف١\\n- [من ملف \\\"t3\\\"]: ملف٣\\n\\nسياق السوق الحالي (حقيقي،\" | first-diff@336 got=\"م:\\n- [من ملف \\\"t1\\\"]: ملف١\" want=\"م:\\n- [من ملف \\\"t1\\\"]: ملف١\\n- [من ملف \\\"t3\\\"]: ملف٣\""
+    },
+    {
+      "kind": "PRES",
+      "name": "P42-baseline-no-state-mutation",
+      "ok": false,
+      "detail": "keys=14 equal=true"
+    },
+    {
+      "kind": "VALID",
+      "name": "V07-determinism-fresh-context",
+      "ok": true,
+      "detail": "sha=7bbcaa1ccf9fb120"
+    },
+    {
+      "kind": "VALID",
+      "name": "V04b-every-external-request-was-aborted",
+      "ok": true,
+      "detail": "attempted=1 aborted=1"
+    }
+  ]
+}

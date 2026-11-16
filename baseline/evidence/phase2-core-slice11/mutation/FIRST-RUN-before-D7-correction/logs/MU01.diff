@@ -1,0 +1,12 @@
+--- /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-13 14:00:00.000000000 +0300
++++ /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/mut/work/MU01/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-15 05:17:30.556768169 +0300
+@@ -6446,8 +6446,7 @@
+ // receives it uniformly, with zero change to any of those call sites.
+ const NexusContext = {
+   async _safe(label, fn){
+-    try{ return await fn(); }
+-    catch(e){ console.error('NexusContext: ' + label + ' failed (non-fatal):', e.message); return ''; }
++    return await fn();
+   },
+   async buildAgentContext(agent, queryText){
+     let ctx = '';

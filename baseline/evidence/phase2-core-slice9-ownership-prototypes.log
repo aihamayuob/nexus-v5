@@ -1,0 +1,75 @@
+
+##### CTRL: patch []
+vitest {"failed":0,"passed":168,"total":168}
+baseline-flows {"passed":12,"total":12,"exit":0,"failed":[]}
+phase1-security-flows {"passed":16,"total":16,"exit":0,"failed":[]}
+phase2-core-seed-flows {"passed":16,"total":16,"exit":0,"failed":[]}
+phase2-core-slice4-flows {"passed":21,"total":21,"exit":0,"failed":[]}
+phase2-core-slice5-flows {"passed":27,"total":27,"parts":null,"verdict":"SURVIVES","exit":0,"failed":[]}
+phase2-core-slice6-flows {"passed":35,"total":35,"parts":"VALID 12/12, PRES 12/12, PS 11/11","verdict":"ACCEPTED","exit":0,"failed":[]}
+phase2-core-slice7-flows {"passed":40,"total":40,"parts":null,"verdict":"NOT-STUCK","exit":0,"failed":[]}
+phase2-core-slice8-flows {"passed":79,"total":79,"parts":null,"verdict":"ACCEPTED","exit":0,"failed":[]}
+probe {"passed":8,"total":8,"exit":0,"failed":[],"observed":{"bare":{"typeofBare":"object","readBare":"array(0)","inWindow":false,"windowDescriptor":null,"hasNexusState":"undefined"},"bareWrite":{"threw":false,"registrySees":"[\"stray-bare-write\"]","orderedFirst":"general","createdPlainGlobal":false}}}
+slice3 analyzer {"passed":22,"total":22,"exit":0,"failed":[]}
+slice2 probe {"passed":19,"total":19,"exit":0,"failed":[]}
+
+##### PA: patch [{"file":"frontend/main.js","added":2,"deleted":0},{"file":"frontend/modules/state.mjs","added":1,"deleted":0},{"file":"frontend/neural_nexus_ai_agents-4-3-5-3.html","added":5,"deleted":5}]
+vitest {"failed":2,"passed":166,"total":168}
+baseline-flows {"passed":12,"total":12,"exit":0,"failed":[]}
+phase1-security-flows {"passed":16,"total":16,"exit":0,"failed":[]}
+phase2-core-seed-flows {"passed":16,"total":16,"exit":0,"failed":[]}
+phase2-core-slice4-flows {"passed":17,"total":21,"exit":1,"failed":["missing-keys-restored-to-their-defaults","present-keys-kept-when-others-missing","restored-defaults-are-independent-fresh-objects","real-restore-self-noop-and-reset-sets-all-16-defaults-and-rebinds"]}
+probe {"passed":8,"total":8,"exit":0,"failed":[],"observed":{"bare":{"typeofBare":"undefined","readBare":"THROWS:ReferenceError","inWindow":false,"windowDescriptor":null,"hasNexusState":"object"},"bareWrite":{"threw":false,"registrySees":"[]","orderedFirst":"general","createdPlainGlobal":true}}}
+slice3 analyzer {"passed":0,"total":0,"exit":1,"failed":["all 16 variables declared exactly once at top level as `let`, column 0  — agentOrder","every PERSISTABLE_STATE entry: get/set closures target the SAME-named variable  — agentOrder","every variable has exactly one setter-closure rebind (the PERSISTABLE_STATE entry)"]}
+slice2 probe {"passed":19,"total":19,"exit":0,"failed":[]}
+
+##### PB: patch [{"file":"frontend/main.js","added":2,"deleted":0},{"file":"frontend/modules/state.mjs","added":4,"deleted":0},{"file":"frontend/neural_nexus_ai_agents-4-3-5-3.html","added":1,"deleted":1}]
+vitest {"failed":0,"passed":168,"total":168}
+baseline-flows {"passed":12,"total":12,"exit":0,"failed":[]}
+phase1-security-flows {"passed":16,"total":16,"exit":0,"failed":[]}
+phase2-core-seed-flows {"passed":16,"total":16,"exit":0,"failed":[]}
+phase2-core-slice4-flows {"passed":21,"total":21,"exit":0,"failed":[]}
+phase2-core-slice5-flows {"passed":27,"total":27,"parts":null,"verdict":"SURVIVES","exit":0,"failed":[]}
+phase2-core-slice6-flows {"passed":35,"total":35,"parts":"VALID 12/12, PRES 12/12, PS 11/11","verdict":"ACCEPTED","exit":0,"failed":[]}
+phase2-core-slice7-flows {"passed":40,"total":40,"parts":null,"verdict":"NOT-STUCK","exit":0,"failed":[]}
+phase2-core-slice8-flows {"passed":79,"total":79,"parts":null,"verdict":"ACCEPTED","exit":0,"failed":[]}
+probe {"passed":8,"total":8,"exit":0,"failed":[],"observed":{"bare":{"typeofBare":"object","readBare":"array(0)","inWindow":true,"windowDescriptor":"configurable,enumerable,get,set","hasNexusState":"undefined"},"bareWrite":{"threw":false,"registrySees":"[\"stray-bare-write\"]","orderedFirst":"general","createdPlainGlobal":false}}}
+slice3 analyzer {"passed":0,"total":0,"exit":1,"failed":["all 16 variables declared exactly once at top level as `let`, column 0  — agentOrder"]}
+slice2 probe {"passed":19,"total":19,"exit":0,"failed":[]}
+
+##### MUT-PA: patch [{"file":"frontend/main.js","added":2,"deleted":0},{"file":"frontend/modules/state.mjs","added":1,"deleted":0},{"file":"frontend/neural_nexus_ai_agents-4-3-5-3.html","added":4,"deleted":4}]
+vitest {"failed":2,"passed":166,"total":168}
+baseline-flows {"passed":12,"total":12,"exit":0,"failed":[]}
+phase1-security-flows {"passed":16,"total":16,"exit":0,"failed":[]}
+phase2-core-seed-flows {"passed":16,"total":16,"exit":0,"failed":[]}
+phase2-core-slice4-flows {"passed":17,"total":21,"exit":1,"failed":["missing-keys-restored-to-their-defaults","present-keys-kept-when-others-missing","restored-defaults-are-independent-fresh-objects","real-restore-self-noop-and-reset-sets-all-16-defaults-and-rebinds"]}
+probe {"passed":6,"total":8,"exit":1,"failed":["moveAgentOrder-swaps-first-two","registry-sees-full-explicit-order"],"observed":{"bare":{"typeofBare":"undefined","readBare":"THROWS:ReferenceError","inWindow":false,"windowDescriptor":null,"hasNexusState":"object"},"bareWrite":{"threw":false,"registrySees":"[]","orderedFirst":"general","createdPlainGlobal":true}}}
+slice3 analyzer {"passed":0,"total":0,"exit":1,"failed":["all 16 variables declared exactly once at top level as `let`, column 0  — agentOrder","every PERSISTABLE_STATE entry: get/set closures target the SAME-named variable  — agentOrder","every variable has exactly one setter-closure rebind (the PERSISTABLE_STATE entry)"]}
+slice2 probe {"passed":19,"total":19,"exit":0,"failed":[]}
+
+##### MUT-PB: patch [{"file":"frontend/main.js","added":2,"deleted":0},{"file":"frontend/modules/state.mjs","added":4,"deleted":0},{"file":"frontend/neural_nexus_ai_agents-4-3-5-3.html","added":1,"deleted":1}]
+vitest {"failed":0,"passed":168,"total":168}
+baseline-flows {"passed":12,"total":12,"exit":0,"failed":[]}
+phase1-security-flows {"passed":16,"total":16,"exit":0,"failed":[]}
+phase2-core-seed-flows {"passed":16,"total":16,"exit":0,"failed":[]}
+phase2-core-slice4-flows {"passed":20,"total":21,"exit":1,"failed":["all-16-variables-restored-via-autoInitApp"]}
+probe {"passed":6,"total":8,"exit":1,"failed":["moveAgentOrder-swaps-first-two","registry-sees-full-explicit-order"],"observed":{"bare":{"typeofBare":"object","readBare":"array(0)","inWindow":true,"windowDescriptor":"configurable,enumerable,get,set","hasNexusState":"undefined"},"bareWrite":{"threw":false,"registrySees":"[]","orderedFirst":"general","createdPlainGlobal":false}}}
+slice3 analyzer {"passed":0,"total":0,"exit":1,"failed":["all 16 variables declared exactly once at top level as `let`, column 0  — agentOrder"]}
+slice2 probe {"passed":19,"total":19,"exit":0,"failed":[]}
+
+##### PB-C3: patch [{"file":"frontend/main.js","added":2,"deleted":0},{"file":"frontend/modules/state.mjs","added":6,"deleted":0},{"file":"frontend/neural_nexus_ai_agents-4-3-5-3.html","added":2,"deleted":2}]
+vitest {"failed":0,"passed":168,"total":168}
+baseline-flows {"passed":12,"total":12,"exit":0,"failed":[]}
+phase1-security-flows {"passed":16,"total":16,"exit":0,"failed":[]}
+phase2-core-seed-flows {"passed":16,"total":16,"exit":0,"failed":[]}
+phase2-core-slice4-flows {"passed":21,"total":21,"exit":0,"failed":[]}
+phase2-core-slice5-flows {"passed":27,"total":27,"parts":null,"verdict":"SURVIVES","exit":0,"failed":[]}
+phase2-core-slice6-flows {"passed":35,"total":35,"parts":"VALID 12/12, PRES 12/12, PS 11/11","verdict":"ACCEPTED","exit":0,"failed":[]}
+phase2-core-slice7-flows {"passed":40,"total":40,"parts":null,"verdict":"NOT-STUCK","exit":0,"failed":[]}
+phase2-core-slice8-flows {"passed":79,"total":79,"parts":null,"verdict":"ACCEPTED","exit":0,"failed":[]}
+probe {"passed":8,"total":8,"exit":0,"failed":[],"observed":{"bare":{"typeofBare":"object","readBare":"array(0)","inWindow":false,"windowDescriptor":null,"hasNexusState":"undefined"},"bareWrite":{"threw":false,"registrySees":"[\"stray-bare-write\"]","orderedFirst":"general","createdPlainGlobal":false}}}
+slice3 analyzer {"passed":0,"total":0,"exit":1,"failed":["all 16 variables declared exactly once at top level as `let`, column 0  — messages,selectedAgentIds"]}
+slice2 probe {"passed":19,"total":19,"exit":0,"failed":[]}
+
+production monolith/main.js sha256 unchanged: true
+results -> <scratch>/logs/s9-results-run3.json

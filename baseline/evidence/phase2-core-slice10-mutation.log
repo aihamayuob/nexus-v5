@@ -1,0 +1,17 @@
+[AS-EXPECTED] CTRL unmutated copy of the patched tree | expected ACCEPTED observed ACCEPTED (e2e ACCEPTED VALID 9/9 PRES 12/12 PS 7/7)
+[AS-EXPECTED] M1 setter no-op | expected KILLED observed KILLED (e2e REJECTED VALID 9/9 PRES 8/12 PS 5/7) failed: [PRES] AC3-moveAgentOrder-swaps-first-two, [PRES] AC3-registry-sees-full-explicit-order, [PRES] AC3-bare-name-write-visible-to-registry-and-getOrderedAgents, [PRES] AC3-restorePersistableState-rebinds-old-reference-detached, [PS] AC2-bare-name-and-window-property-are-the-same-binding, [PS] AC6-insta
+[AS-EXPECTED] M2 getter returns a fresh [] each call | expected KILLED observed KILLED (e2e REJECTED VALID 9/9 PRES 5/12 PS 5/7) failed: [PRES] AC3-moveAgentOrder-swaps-first-two, [PRES] AC3-registry-sees-full-explicit-order, [PRES] AC3-snapshot-value-is-the-live-reference, [PRES] AC3-in-place-mutation-visible-to-registry, [PRES] AC3-bare-name-write-visible-to-registry-and-getOrderedAgents, [PRES] AC3-restorePersistableState-rebinds-
+[AS-EXPECTED] M3 install call removed from main.js | expected KILLED observed KILLED (e2e INVALID)
+[DIFFERS] M4 install call moved after the startup calls | expected SURVIVES observed KILLED (e2e REJECTED VALID 9/9 PRES 12/12 PS 6/7) failed: [PS] AC5-static-main-js-installs-after-bridges-and-before-the-first-startup-call
+[AS-EXPECTED] M5 classic `let agentOrder = []` re-added (silent shadow) | expected KILLED observed KILLED (e2e REJECTED VALID 9/9 PRES 12/12 PS 4/7) failed: [PS] AC2-bare-name-and-window-property-are-the-same-binding, [PS] AC2-static-monolith-has-no-top-level-declaration-of-agentOrder, [PS] AC2-ownership-after-deleting-the-accessor-the-bare-name-is-a-ReferenceError
+[AS-EXPECTED] M6 enumerable:true | expected KILLED observed KILLED (e2e REJECTED VALID 9/9 PRES 12/12 PS 6/7) failed: [PS] AC1-window-agentOrder-is-an-accessor-configurable-non-enumerable
+[AS-EXPECTED] M7 wrong initial value ['x'] | expected KILLED observed KILLED (e2e REJECTED VALID 9/9 PRES 11/12 PS 7/7) failed: [PRES] AC3-initial-order-natural-registry-empty-bare-readable
+[AS-EXPECTED] M8 configurable:false | expected KILLED observed KILLED (e2e REJECTED VALID 9/9 PRES 12/12 PS 4/7) failed: [PS] AC1-window-agentOrder-is-an-accessor-configurable-non-enumerable, [PS] AC6-install-is-idempotent-value-survives-a-second-install, [PS] AC2-ownership-after-deleting-the-accessor-the-bare-name-is-a-ReferenceError
+[UNIT] M1 setter no-op | state.test.mjs failed 5/10 -> KILLED
+[UNIT] M2 getter returns a fresh [] each call | state.test.mjs failed 7/10 -> KILLED
+[UNIT] M6 enumerable:true | state.test.mjs failed 2/10 -> KILLED
+[UNIT] M7 wrong initial value ['x'] | state.test.mjs failed 3/10 -> KILLED
+[UNIT] M8 configurable:false | state.test.mjs failed 3/10 -> KILLED
+[PASS] production frontend/ tree sha256 unchanged (36d3939ab4613c90… -> 36d3939ab4613c90…)
+
+MUTATION: 8/9 as pre-registered (incl. control)  DIFFERS: M4; production untouched: true

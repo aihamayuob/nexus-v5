@@ -1,0 +1,18 @@
+production frontend tree sha256 BEFORE: 2a3812303b01e68155ab56de939406541c078e2d1166a8665d8da8f17234d20d
+OK  CTRL (unmodified copy of the patched tree): verdict=ACCEPTED expected=ACCEPTED VALID 44/44 PRES 12/12 PS 23/23
+OK  K1 (revert to the pre-fix layout): verdict=REJECTED expected=REJECTED VALID 44/44 PRES 12/12 PS 0/23
+     failed 23: [FAIL] [PS] AC4-5-click-lock-released-right-after-the-offline-attempt | [FAIL] [PS] AC4-5-click-follow-up-after-reconnect-sends-same-text-same-entry-point | [FAIL] [PS] AC4-5-enter-lock-released-right-after-the-offline-attempt
+OK  K2 (offline fix only (F1), no try move): verdict=REJECTED expected=REJECTED VALID 44/44 PRES 12/12 PS 7/23
+     failed 16: [FAIL] [PS] AC8-E1-ImageStore.save-rejects-sendMessage-promise-resolves-failure-is-handled | [FAIL] [PS] AC8-E1-ImageStore.save-rejects-lock-released-and-button-enabled | [FAIL] [PS] AC8-E1-ImageStore.save-rejects-error-message-shown-in-chat
+OK  K3 (re-entrancy guard condition removed): verdict=REJECTED expected=REJECTED VALID 44/44 PRES 11/12 PS 23/23
+     failed 1: [FAIL] [PRES] AC7b-two-synchronous-sends-with-image-start-one-pipeline
+OK  K4 (lock taken after the await ImageStore.save): verdict=REJECTED expected=REJECTED VALID 44/44 PRES 11/12 PS 23/23
+     failed 1: [FAIL] [PRES] AC7b-two-synchronous-sends-with-image-start-one-pipeline
+OK  K5 (reset removed from the finally): verdict=INVALID expected=INVALID VALID 39/44 PRES 6/12 PS 8/23
+     failed 26: [FAIL] [VALID] C0-online-send-completes-cycle-and-releases-lock | [FAIL] [VALID] C2-offline-period-without-attempt-does-not-break-sending | [FAIL] [PS] AC4-5-click-lock-released-right-after-the-offline-attempt
+BAD K6 (offline check disabled): verdict=INVALID expected=REJECTED VALID 42/44 PRES 8/12 PS 16/23
+     failed 13: [FAIL] [PRES] AC4-5-click-offline-attempt-shows-the-offline-toast | [FAIL] [PRES] AC4-5-click-offline-attempt-sends-nothing-keeps-text-button-enabled | [FAIL] [PS] AC4-5-click-lock-released-right-after-the-offline-attempt
+production frontend tree sha256 AFTER:  2a3812303b01e68155ab56de939406541c078e2d1166a8665d8da8f17234d20d  (IDENTICAL)
+
+=== SUMMARY ===
+6/7 scenarios behaved as expected; production tree unchanged

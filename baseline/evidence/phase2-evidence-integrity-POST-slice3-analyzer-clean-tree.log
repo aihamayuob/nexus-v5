@@ -1,0 +1,43 @@
+PASS  self-test: rebind(a) counts only w1 (shadowed w4/w5 excluded)  — got 1
+PASS  self-test: mutate(a) = push + member-assign + nested push = 3  — got 3
+PASS  self-test: rebind(b) = destructuring + update + IIFE = 3; IIFE is loadTime
+PASS  self-test: rebind(c) via object method labelled o.m
+PASS  self-test: escape(a) = alias + arg
+PASS  self-test: member read of a.length classified read
+PASS  self-test: handler var-ref ignores string literal argument, detects a real reference  — literal=[] real=[projects]
+PASS  self-test: window.w1() and w2() recorded as load-time call edges
+PASS  3 <script> elements found; 2 inline classic + 1 external module  — module(src)@2341 classic@2342 classic@11742
+PASS  both inline classic scripts parsed by acorn without error
+PASS  all 16 variables declared exactly once at top level as `let`, column 0
+PASS  PERSISTABLE_STATE is a top-level const with exactly 16 keys equal to the 16 names
+PASS  every PERSISTABLE_STATE entry: get/set closures target the SAME-named variable
+PASS  every variable has exactly one setter-closure rebind (the PERSISTABLE_STATE entry)
+PASS  declaration position relative to PERSISTABLE_STATE recorded for all 16 (facts, not a pass/fail on order)  — declared AFTER it: errorLog
+PASS  TDZ safety: no load-time code (outside functions) and no load-time call closure touches any of the 16
+PASS  main.js startup sequence parsed (5 window.* calls) and all resolve to monolith functions  — applyTheme,applyTranslations,autoInitApp,registerServiceWorker,updateOnlineStatus
+PASS  persistence functions all found as top-level functions/const
+PASS  sensitivity control (in-memory injection of 1 writer): selectedAgentIds rebind count +1 and the new writer unit is reported  — 14 -> 15
+PASS  negative control (in-memory shadowing local of the same name): count unchanged
+PASS  integrity: sha256 of 6 production frontend files identical before/after
+PASS  integrity: `git status --porcelain` of production paths empty before and after  — before="" after=""
+
+=== SUMMARY (static; see results JSON for every site) ===
+var                 decl      rebind(sites/units)  mutate  read  escape  loadTime  handlerDirect  handlerReach(sync)
+messages            let@2533  1/1                  73      25    2       0         0              20
+customAgents        let@2542  1/1                  2       9     3       0         0              2
+workflows           let@2545  1/1                  1       9     1       0         0              1
+knowledgeBase       let@2541  1/1                  2       13    4       0         0              3
+activeGroupId       let@2405  1/1                  0       4     5       0         0              1
+agentOrder          let@3004  1/1                  0       2     1       0         0              0
+selectedAgentIds    let@2532  14/7                 1       29    2       0         0              5
+projects            let@2547  1/1                  1       8     2       0         0              0
+decisionJournal     let@2548  1/1                  1       12    2       0         0              0
+topicMonitors       let@2549  1/1                  2       12    2       0         0              0
+longTermMemory      let@2544  2/2                  1       6     2       0         0              4
+uploadedDocs        let@2543  1/1                  1       4     2       0         0              1
+activityLog         let@2995  1/1                  1       4     2       0         0              41
+errorLog            let@5525  2/2                  1       3     1       0         0              5
+usageLog            let@2565  2/2                  1       17    1       0         0              4
+briefingLastSeenAt  let@2550  1/1                  0       0     3       0         0              2
+
+ACCEPTANCE: 22/22

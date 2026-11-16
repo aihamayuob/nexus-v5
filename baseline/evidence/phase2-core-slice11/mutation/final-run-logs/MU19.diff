@@ -1,0 +1,11 @@
+--- /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-13 14:00:00.000000000 +0300
++++ /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/mut/work/MU19/frontend/neural_nexus_ai_agents-4-3-5-3.html	2026-10-15 05:20:50.093109951 +0300
+@@ -2932,7 +2932,7 @@
+   // Room, Multi-Model Consensus, Auto-Route, Collective Mode, single-agent
+   // chat) needed zero changes.
+   const built = await ContextFabric.build(agent, queryText);
+-  return agent.prompt + built.text;
++  return built.text + agent.prompt;
+ }
+ 
+ /* ========================================================================

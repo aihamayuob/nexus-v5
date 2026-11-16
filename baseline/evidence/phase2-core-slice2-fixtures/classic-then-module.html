@@ -1,0 +1,24 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>ADR-003 synthetic probe — classic + module</title></head>
+<body>
+<!-- Layout deliberately mirrors the real monolith: the <script type="module">
+     tag comes BEFORE the big classic <script> (module scripts are deferred, so
+     the classic script still executes first). -->
+<script type="module" src="probe-module.mjs"></script>
+<script>
+window.__order = ['classic-start'];
+// One binding of each declaration kind, at the classic script's top level.
+let   CL_LET   = 'let-initial';
+const CL_CONST = 'const-initial';
+var   CL_VAR   = 'var-initial';
+let   CL_ARR   = [1, 2, 3];
+const CL_OBJ   = { k: 'obj-initial' };
+// Classic-side accessors so the module's writes can be observed FROM the classic side.
+function classicView() { return { CL_LET: CL_LET, CL_CONST: CL_CONST, CL_VAR: CL_VAR, CL_ARR: CL_ARR.slice(), CL_OBJ_k: CL_OBJ.k }; }
+function classicSetLet(v) { CL_LET = v; }
+// Reverse-isolation probes: can the CLASSIC script see names the MODULE declares?
+function classicTypeofModLet() { return typeof MOD_LET; }
+function classicTypeofModVar() { return typeof MOD_VAR; }
+window.__order.push('classic-end');
+</script>
+</body></html>

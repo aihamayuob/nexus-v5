@@ -1,0 +1,410 @@
+
+ RUN  v4.1.11 /home/claude/work/repo-extract/nexus-repo/frontend
+
+ ❯ modules/persistable-state.test.mjs (36 tests | 34 failed) 62ms
+     × returns one entry per registry key, in registry order, with the get() values 13ms
+     × calls get() exactly once per key and never set()/default() 5ms
+     × returns a NEW top-level object on every call (mutating a snapshot never changes state) 1ms
+     × CHARACTERIZATION (existing behavior, preserved byte-for-byte, not a new guarantee): values are live references, the snapshot is shallow 1ms
+     × does not write to the registry or its entries (a deeply frozen registry works) 5ms
+     × an empty registry gives an empty snapshot 1ms
+     × restores every present key to the exact decrypted value (by reference) 1ms
+     × a MISSING key is restored to a FRESH default (not left at its current value) 0ms
+     × missing keys get a NEW, independent default object on every restore (no shared/mutable default) 1ms
+     × two keys with structurally equal defaults still get distinct objects 1ms
+     × calls default() only for absent keys, set() exactly once per key, never get() 1ms
+     × only `undefined` triggers the default: null, 0, "", false and [] are real stored values and are kept 0ms
+     × decrypted=null (null/undefined/non-object) => every key falls back to its default 0ms
+     × decrypted=undefined (null/undefined/non-object) => every key falls back to its default 0ms
+     × decrypted=0 (null/undefined/non-object) => every key falls back to its default 0ms
+     × decrypted="" (null/undefined/non-object) => every key falls back to its default 0ms
+     × decrypted=false (null/undefined/non-object) => every key falls back to its default 1ms
+     × decrypted="a string" (null/undefined/non-object) => every key falls back to its default 0ms
+     × decrypted=42 (null/undefined/non-object) => every key falls back to its default 0ms
+     × keys in decrypted that are not in the registry are ignored (never added to state or registry) 0ms
+     × does not mutate the decrypted input object (key set and top-level values unchanged) 0ms
+     × CHARACTERIZATION (existing behavior, preserved): restored values are assigned by reference, so state aliases the decrypted object's values 0ms
+     × does not write to the registry entries (a deeply frozen registry works) 1ms
+     × sets every key to its default() 0ms
+     × calls default() then set() once per key (in registry order) and never get() 0ms
+     × each reset installs NEW default objects (fresh every time, independent of earlier ones) 0ms
+     × rebinds rather than clearing in place: a previously held array keeps its contents 0ms
+     × does not write to the registry entries (a deeply frozen registry works) 0ms
+     × snapshot -> mutate state -> restore(snapshot) returns the original values 0ms
+     × snapshot after reset equals the defaults (and JSON drops nothing for these shapes) 0ms
+     × 200 random scenarios: identical resulting state AND identical get/set/default call sequence 1ms
+     × the embedded ORIGINAL is real code (sanity: it is not the extracted function) 1ms
+     × restore with a decrypted blob that lacks keys => defaults for the missing ones, kept values for the present 5ms
+     × real snapshot -> reset -> restore(snapshot) round trip over all 16 keys 4ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 34 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  modules/persistable-state.test.mjs > snapshotPersistableState(registry) > returns one entry per registry key, in registry order, with the get() values
+TypeError: snapshotPersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:82:18
+     80|   it('returns one entry per registry key, in registry order, with the …
+     81|     const { registry, state } = build(DEFS());
+     82|     const snap = snapshotPersistableState(registry);
+       |                  ^
+     83|     expect(Object.keys(snap)).toEqual(Object.keys(registry));
+     84|     for (const k of Object.keys(registry)) expect(snap[k]).toBe(state[…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > snapshotPersistableState(registry) > calls get() exactly once per key and never set()/default()
+TypeError: snapshotPersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:88:5
+     86|   it('calls get() exactly once per key and never set()/default()', () …
+     87|     const { registry, trace } = build(DEFS());
+     88|     snapshotPersistableState(registry);
+       |     ^
+     89|     expect(trace).toEqual(Object.keys(registry).map((k) => 'get:' + k)…
+     90|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > snapshotPersistableState(registry) > returns a NEW top-level object on every call (mutating a snapshot never changes state)
+TypeError: snapshotPersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:93:15
+     91|   it('returns a NEW top-level object on every call (mutating a snapsho…
+     92|     const { registry, state } = build(DEFS());
+     93|     const a = snapshotPersistableState(registry);
+       |               ^
+     94|     const b = snapshotPersistableState(registry);
+     95|     expect(a).not.toBe(b);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > snapshotPersistableState(registry) > CHARACTERIZATION (existing behavior, preserved byte-for-byte, not a new guarantee): values are live references, the snapshot is shallow
+TypeError: snapshotPersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:105:18
+    103|   it('CHARACTERIZATION (existing behavior, preserved byte-for-byte, no…
+    104|     const { registry, state } = build(DEFS());
+    105|     const snap = snapshotPersistableState(registry);
+       |                  ^
+    106|     expect(snap.messages).toBe(state.messages);
+    107|     snap.messages.push({ role: 'assistant' });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > snapshotPersistableState(registry) > does not write to the registry or its entries (a deeply frozen registry works)
+AssertionError: expected [Function] to not throw an error but 'TypeError: (0 , __vite_ssr_import_4__…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"TypeError: (0 , __vite_ssr_import_4__.snapshotPersistableState) is not a function"
+
+ ❯ modules/persistable-state.test.mjs:114:58
+    112|     for (const k of Object.keys(registry)) Object.freeze(registry[k]);
+    113|     Object.freeze(registry);
+    114|     expect(() => snapshotPersistableState(registry)).not.toThrow();
+       |                                                          ^
+    115|   });
+    116|   it('an empty registry gives an empty snapshot', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > snapshotPersistableState(registry) > an empty registry gives an empty snapshot
+TypeError: snapshotPersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:117:12
+    115|   });
+    116|   it('an empty registry gives an empty snapshot', () => {
+    117|     expect(snapshotPersistableState({})).toEqual({});
+       |            ^
+    118|   });
+    119| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > restores every present key to the exact decrypted value (by reference)
+TypeError: restorePersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:125:5
+    123|     const { registry, state } = build(DEFS());
+    124|     const dec = { messages: [{ role: 'x' }], selectedAgentIds: ['z'], …
+    125|     restorePersistableState(registry, dec);
+       |     ^
+    126|     for (const k of Object.keys(dec)) expect(state[k]).toBe(dec[k]);
+    127|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > a MISSING key is restored to a FRESH default (not left at its current value)
+TypeError: restorePersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:130:5
+    128|   it('a MISSING key is restored to a FRESH default (not left at its cu…
+    129|     const { registry, state } = build(DEFS());
+    130|     restorePersistableState(registry, { messages: [{ role: 'only' }] }…
+       |     ^
+    131|     expect(state.messages).toEqual([{ role: 'only' }]);
+    132|     expect(state.selectedAgentIds).toEqual(['general']);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > missing keys get a NEW, independent default object on every restore (no shared/mutable default)
+TypeError: restorePersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:139:5
+    137|   it('missing keys get a NEW, independent default object on every rest…
+    138|     const { registry, state } = build(DEFS());
+    139|     restorePersistableState(registry, {});
+       |     ^
+    140|     const first = { ids: state.selectedAgentIds, cfg: state.settingsLi…
+    141|     restorePersistableState(registry, {});
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > two keys with structurally equal defaults still get distinct objects
+TypeError: restorePersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:158:5
+    156|   it('two keys with structurally equal defaults still get distinct obj…
+    157|     const { registry, state } = build({ a: { init: 1, def: () => [] },…
+    158|     restorePersistableState(registry, {});
+       |     ^
+    159|     expect(state.a).toEqual([]);
+    160|     expect(state.b).toEqual([]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > calls default() only for absent keys, set() exactly once per key, never get()
+TypeError: restorePersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:167:5
+    165|   it('calls default() only for absent keys, set() exactly once per key…
+    166|     const { registry, trace } = build(DEFS());
+    167|     restorePersistableState(registry, { messages: [], activeGroupId: '…
+       |     ^
+    168|     expect(trace.filter((t) => t.startsWith('get:'))).toEqual([]);
+    169|     expect(trace.filter((t) => t.startsWith('set:'))).toEqual(Object.k…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > only `undefined` triggers the default: null, 0, "", false and [] are real stored values and are kept
+TypeError: restorePersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:179:5
+    177|       d: { init: 'i', def: () => 'D' }, e: { init: 'i', def: () => 'D'…
+    178|     });
+    179|     restorePersistableState(registry, { a: null, b: 0, c: '', d: false…
+       |     ^
+    180|     expect(state.a).toBeNull();
+    181|     expect(state.b).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > decrypted=null (null/undefined/non-object) => every key falls back to its default
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > decrypted=undefined (null/undefined/non-object) => every key falls back to its default
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > decrypted=0 (null/undefined/non-object) => every key falls back to its default
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > decrypted="" (null/undefined/non-object) => every key falls back to its default
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > decrypted=false (null/undefined/non-object) => every key falls back to its default
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > decrypted="a string" (null/undefined/non-object) => every key falls back to its default
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > decrypted=42 (null/undefined/non-object) => every key falls back to its default
+TypeError: restorePersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:190:7
+    188|     'decrypted=%j (null/undefined/non-object) => every key falls back …
+    189|       const { registry, state } = build(DEFS());
+    190|       restorePersistableState(registry, dec);
+       |       ^
+    191|       expect(state.messages).toEqual([]);
+    192|       expect(state.selectedAgentIds).toEqual(['general']);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > keys in decrypted that are not in the registry are ignored (never added to state or registry)
+TypeError: restorePersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:198:5
+    196|   it('keys in decrypted that are not in the registry are ignored (neve…
+    197|     const { registry, state } = build(DEFS());
+    198|     restorePersistableState(registry, { messages: [], rogue: 'x' });
+       |     ^
+    199|     expect('rogue' in state).toBe(false);
+    200|     expect('rogue' in registry).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > does not mutate the decrypted input object (key set and top-level values unchanged)
+TypeError: restorePersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:207:5
+    205|     const keysBefore = Object.keys(dec).join(',');
+    206|     const valsBefore = JSON.stringify(dec);
+    207|     restorePersistableState(registry, dec);
+       |     ^
+    208|     expect(Object.keys(dec).join(',')).toBe(keysBefore);
+    209|     expect(JSON.stringify(dec)).toBe(valsBefore);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > CHARACTERIZATION (existing behavior, preserved): restored values are assigned by reference, so state aliases the decrypted object's values
+TypeError: restorePersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:216:5
+    214|     const { registry, state } = build(DEFS());
+    215|     const dec = { messages: [{ role: 'x' }] };
+    216|     restorePersistableState(registry, dec);
+       |     ^
+    217|     expect(state.messages).toBe(dec.messages);
+    218|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > restorePersistableState(registry, decrypted) > does not write to the registry entries (a deeply frozen registry works)
+AssertionError: expected [Function] to not throw an error but 'TypeError: (0 , __vite_ssr_import_4__…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"TypeError: (0 , __vite_ssr_import_4__.restorePersistableState) is not a function"
+
+ ❯ modules/persistable-state.test.mjs:223:75
+    221|     for (const k of Object.keys(registry)) Object.freeze(registry[k]);
+    222|     Object.freeze(registry);
+    223|     expect(() => restorePersistableState(registry, { messages: [] })).…
+       |                                                                           ^
+    224|   });
+    225| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > resetPersistableState(registry) > sets every key to its default()
+TypeError: resetPersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:230:5
+    228|   it('sets every key to its default()', () => {
+    229|     const { registry, state } = build(DEFS());
+    230|     resetPersistableState(registry);
+       |     ^
+    231|     expect(state).toEqual({
+    232|       messages: [], selectedAgentIds: ['general'], activeGroupId: null,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > resetPersistableState(registry) > calls default() then set() once per key (in registry order) and never get()
+TypeError: resetPersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:238:5
+    236|   it('calls default() then set() once per key (in registry order) and …
+    237|     const { registry, trace } = build(DEFS());
+    238|     resetPersistableState(registry);
+       |     ^
+    239|     const expected = [];
+    240|     for (const k of Object.keys(registry)) expected.push('default:' + …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > resetPersistableState(registry) > each reset installs NEW default objects (fresh every time, independent of earlier ones)
+TypeError: resetPersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:245:5
+    243|   it('each reset installs NEW default objects (fresh every time, indep…
+    244|     const { registry, state } = build(DEFS());
+    245|     resetPersistableState(registry);
+       |     ^
+    246|     const a = state.settingsLike;
+    247|     resetPersistableState(registry);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > resetPersistableState(registry) > rebinds rather than clearing in place: a previously held array keeps its contents
+TypeError: resetPersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:258:5
+    256|     const { registry, state } = build(DEFS());
+    257|     const held = state.messages;
+    258|     resetPersistableState(registry);
+       |     ^
+    259|     expect(state.messages).not.toBe(held);
+    260|     expect(held).toEqual([{ role: 'user' }]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > resetPersistableState(registry) > does not write to the registry entries (a deeply frozen registry works)
+AssertionError: expected [Function] to not throw an error but 'TypeError: (0 , __vite_ssr_import_4__…' was thrown
+
+- Expected:
+undefined
+
++ Received:
+"TypeError: (0 , __vite_ssr_import_4__.resetPersistableState) is not a function"
+
+ ❯ modules/persistable-state.test.mjs:266:55
+    264|     for (const k of Object.keys(registry)) Object.freeze(registry[k]);
+    265|     Object.freeze(registry);
+    266|     expect(() => resetPersistableState(registry)).not.toThrow();
+       |                                                       ^
+    267|   });
+    268| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > round trips > snapshot -> mutate state -> restore(snapshot) returns the original values
+TypeError: snapshotPersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:274:44
+    272|     const { registry, state } = build(DEFS());
+    273|     const original = JSON.stringify(state);
+    274|     const snap = JSON.parse(JSON.stringify(snapshotPersistableState(re…
+       |                                            ^
+    275|     resetPersistableState(registry);
+    276|     expect(JSON.stringify(state)).not.toBe(original);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > round trips > snapshot after reset equals the defaults (and JSON drops nothing for these shapes)
+TypeError: resetPersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:282:5
+    280|   it('snapshot after reset equals the defaults (and JSON drops nothing…
+    281|     const { registry } = build(DEFS());
+    282|     resetPersistableState(registry);
+       |     ^
+    283|     expect(JSON.parse(JSON.stringify(snapshotPersistableState(registry…
+    284|       messages: [], selectedAgentIds: ['general'], activeGroupId: null,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > differential: extracted functions vs the ORIGINAL implementation (HEAD 9c95fbd text) > 200 random scenarios: identical resulting state AND identical get/set/default call sequence
+TypeError: snapshotPersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:316:21
+    314|       const decArg = rnd() < 0.1 ? [null, undefined, 0, '', 'x'][Math.…
+    315|       const snapO = orig.snapshotPersistableState();
+    316|       const snapN = snapshotPersistableState(b.registry);
+       |                     ^
+    317|       expect(snapN).toEqual(snapO);
+    318|       orig.restorePersistableState(decArg);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > differential: extracted functions vs the ORIGINAL implementation (HEAD 9c95fbd text) > the embedded ORIGINAL is real code (sanity: it is not the extracted function)
+TypeError: Cannot read properties of undefined (reading 'length')
+ ❯ modules/persistable-state.test.mjs:331:37
+    329|     expect(orig.snapshotPersistableState.length).toBe(0);
+    330|     expect(orig.restorePersistableState.length).toBe(1);
+    331|     expect(snapshotPersistableState.length).toBe(1);
+       |                                     ^
+    332|     expect(restorePersistableState.length).toBe(2);
+    333|     expect(resetPersistableState.length).toBe(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > against the REAL registry text (read-only from the monolith) > restore with a decrypted blob that lacks keys => defaults for the missing ones, kept values for the present
+TypeError: restorePersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:369:5
+    367|   it('restore with a decrypted blob that lacks keys => defaults for th…
+    368|     const reg = loadRealRegistry();
+    369|     restorePersistableState(reg, { messages: [{ role: 'user', content:…
+       |     ^
+    370|     expect(reg.messages.get()).toEqual([{ role: 'user', content: 'kept…
+    371|     expect(reg.workflows.get()).toEqual([{ id: 'w' }]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/34]⎯
+
+ FAIL  modules/persistable-state.test.mjs > against the REAL registry text (read-only from the monolith) > real snapshot -> reset -> restore(snapshot) round trip over all 16 keys
+TypeError: snapshotPersistableState is not a function
+ ❯ modules/persistable-state.test.mjs:388:18
+    386|     const reg = loadRealRegistry();
+    387|     for (const k of REAL_KEYS) reg[k].set(k === 'activeGroupId' || k =…
+    388|     const snap = snapshotPersistableState(reg);
+       |                  ^
+    389|     expect(Object.keys(snap)).toEqual(Object.keys(reg));
+    390|     const wire = JSON.parse(JSON.stringify(snap));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/34]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  34 failed | 134 passed (168)
+   Start at  21:46:40
+   Duration  5.35s (transform 206ms, setup 0ms, import 374ms, tests 339ms, environment 3.67s)
+

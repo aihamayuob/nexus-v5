@@ -1,0 +1,33 @@
+Chromium 141.0.7390.37; FRONTEND_DIR=/home/claude/nexus-repo/nexus-repo/frontend
+[PASS] [VALID] C0-ops-evaluation-tab-mounts-and-has-one-evidence-row
+[PASS] [VALID] C0-empty-evidence-claim-reaches-the-recorded-backend-origin — {"claim":"C0 claim","evidence":[]}
+[FAIL] [PS] AC-U1-first-row-has-exactly-one-kind-selector
+[FAIL] [PS] AC-U1-first-row-selector-has-no-preselected-kind
+[FAIL] [PS] AC-U1-every-added-row-also-has-one-selector — rows=3 selectors=0
+[FAIL] [PS] AC-U1-no-row-has-a-preselected-kind — []
+[FAIL] [PS] AC-U2-selector-offers-a-placeholder-and-exactly-the-six-valid-kinds — []
+[FAIL] [PS] AC-U3-filled-row-without-kind-sends-ZERO-requests — posts=1
+[FAIL] [PS] AC-U3-a-toast-explains-the-block — []
+[FAIL] [PS] AC-U3-no-evaluation-record-is-rendered — "U3 claim\nUNVERIFIED\n15‏/11‏/2023 1:13:20 ص · ثقة: 100% · أدلة داعمة: 0 · متعارضة: 0\nfake"
+[PASS] [VALID] U3-control-clicking-evaluate-again-after-choosing-a-kind-sends-exactly-one-more-request — before=1 after=2
+[FAIL] [PS] AC-U4-one-row-with-a-kind-plus-one-filled-row-without-sends-ZERO-requests-no-silent-partial-send — posts=1
+[FAIL] [PS] AC-U5-INDEPENDENT_SOURCE-is-sent-in-the-request-body — {"claim":"U5 claim","evidence":[{"source":"src-INDEPENDENT_SOURCE","content":"content-INDEPENDENT_SOURCE"}]}
+[FAIL] [PS] AC-U5-TOOL_RESULT-is-sent-in-the-request-body — {"claim":"U5 claim","evidence":[{"source":"src-TOOL_RESULT","content":"content-TOOL_RESULT"}]}
+[FAIL] [PS] AC-U5-EXECUTABLE_VERIFICATION-is-sent-in-the-request-body — {"claim":"U5 claim","evidence":[{"source":"src-EXECUTABLE_VERIFICATION","content":"content-EXECUTABLE_VERIFICATION"}]}
+[FAIL] [PS] AC-U5-ENVIRONMENTAL_OBSERVATION-is-sent-in-the-request-body — {"claim":"U5 claim","evidence":[{"source":"src-ENVIRONMENTAL_OBSERVATION","content":"content-ENVIRONMENTAL_OBSERVATION"}]}
+[FAIL] [PS] AC-U5-HUMAN_CONFIRMATION-is-sent-in-the-request-body — {"claim":"U5 claim","evidence":[{"source":"src-HUMAN_CONFIRMATION","content":"content-HUMAN_CONFIRMATION"}]}
+[FAIL] [PS] AC-U5-CONTRADICTORY_EVIDENCE-is-sent-in-the-request-body — {"claim":"U5 claim","evidence":[{"source":"src-CONTRADICTORY_EVIDENCE","content":"content-CONTRADICTORY_EVIDENCE"}]}
+[PASS] [PRES] AC-U6-empty-claim-still-toasts-and-sends-nothing — posts=0 toasts=["⚠️ اكتب الادّعاء أولاً."]
+[PASS] [PRES] AC-U6-fully-empty-rows-are-ignored-and-the-claim-is-sent-with-empty-evidence — {"claim":"U6b claim","evidence":[]}
+[PASS] [PRES] AC-U6-partial-rows-and-a-kind-only-row-are-ignored-only-the-complete-row-is-sent — {"claim":"U6c claim","evidence":[{"source":"full-src","content":"full-content"}]}
+[FAIL] [PS] AC-U7-the-reason-is-shown-when-present
+[PASS] [PRES] AC-U7-no-reason-text-for-a-legacy-record-null
+[PASS] [PRES] AC-U7-no-reason-text-for-a-record-without-the-field
+[PASS] [PRES] AC-U7-the-reason-is-HTML-escaped — <div class="log-item" style="margin-top:6px;">
+    <div style="display:flex; justify-content:space-between;"><span>ادعاء للعرض</span><span style="display:inline
+[PASS] [VALID] AC-U8-no-uncaught-page-errors-in-any-scenario
+
+=== SUMMARY ===
+10/26 checks passed  (VALID 4/4, PRES 6/6, PS 0/16)
+EI-UI-VERDICT = REJECTED  (frontend=../frontend)
+results -> /home/claude/nexus-repo/nexus-repo/baseline/evidence/phase2-evidence-integrity-ui-PRE-results.json

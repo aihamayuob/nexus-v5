@@ -1,0 +1,31 @@
+[PASS] [VALID] V1 scanner sees a planted marker in localStorage
+[PASS] [VALID] V2 scanner sees a planted marker in sessionStorage
+[PASS] [VALID] V3 scanner sees a planted marker in IndexedDB
+[PASS] [VALID] V4 scanner sees a planted marker in Cache Storage
+[PASS] [VALID] V5 legacy key really seeded in both storages before boot
+[PASS] [VALID] V6 app boots (autoInitApp finished) with the CSP in place
+[FAIL] [PS] F3 legacy persisted key is purged from localStorage AND sessionStorage at boot — local=still-there session=still-there
+[FAIL] [PS] F3b legacy key is NOT adopted into memory — getGatewayKey()="<non-empty>"
+[PASS] [VALID] V7 the app really sent a /v2/models request after saving settings
+[PASS] [PS] F2 the key is attached as Authorization: Bearer on the wire while the page lives (in-memory path works) — requests=1
+[FAIL] [PS] F1a the key is in neither localStorage nor sessionStorage (values scanned)
+[FAIL] [PS] F1b no storage entry is named like a gateway key — local=nexus_gateway_key
+[FAIL] [PS] F1c the key is in no IndexedDB / Cache Storage / cookie either
+[PASS] [PS] F5a persistable state snapshot (what is encrypted/synced) does not contain the key
+[PASS] [PS] F5b no console message and no pageerror contains the key or the legacy key — console=2
+[PASS] [VALID] V8 app boots again after reload
+[FAIL] [PS] F4a after reload the key is gone from memory (no persistence anywhere)
+[PASS] [VALID] V9 the stored backend URL still triggers a request after reload
+[FAIL] [PS] F4b after reload requests carry NO Authorization header — requests=2
+[PASS] [PS] F5c still no key in console after reload
+[FAIL] [PS] F6a a CSP <meta http-equiv> exists and precedes every <script>
+[FAIL] [PS] F6b policy: default-src self; object-src none; base-uri self; form-action self; frame-src none — no policy
+[FAIL] [PS] F6c policy: script-src is exactly self + unsafe-inline + the cdnjs origin (no wildcard, no http:, no data:)
+[FAIL] [PS] F6d policy: no "unsafe-eval", img/manifest/worker/connect directives present
+[PASS] [PS] F7 zero CSP violations (event + console) across boot, settings, reload and the allowed cdnjs load; zero pageerrors — violations=0 console=0 pageerrors=0
+[FAIL] [PS] F8a foreign <script src> is blocked (script-src violation observed)
+[FAIL] [PS] F8b foreign <object> is blocked (object-src violation observed)
+[FAIL] [PS] F8c <iframe> is blocked (frame-src violation observed)
+[FAIL] [PS] F8d <base href> to a foreign origin is blocked (base-uri violation observed)
+SUMMARY VALID 9/9  PS 5/20
+B4FE-VERDICT = REJECTED

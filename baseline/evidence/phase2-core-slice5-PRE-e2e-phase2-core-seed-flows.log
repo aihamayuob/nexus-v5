@@ -1,0 +1,19 @@
+[PASS] static-server-boot — serving neural_nexus_ai_agents-4-3-5-3.html on :8922
+[PASS] page-load-and-init — pageErrors=0
+[PASS] functions-present-on-window — {"enc":"function","dec":"function","encAsync":"AsyncFunction","decAsync":"AsyncFunction"}
+[PASS] bridge-identity — (patch-specific; expected FAIL pre-extraction) {"exported":true,"sameEnc":true,"sameDec":true}
+[PASS] encrypt-shape-and-fresh-iv — keys=data,iv ivBytes=12 b64=true freshIv=true
+[PASS] ciphertext-hides-plaintext
+[PASS] round-trip-exact — Arabic keys/values, emoji, nested arrays, null, quotes
+[PASS] wrong-key-rejected — rejected:OperationError
+[PASS] tampered-ciphertext-rejected — rejected:OperationError
+[PASS] tampered-iv-rejected — rejected:OperationError
+[PASS] malformed-payloads-rejected — {"missingIv":"rejected:InvalidCharacterError","missingData":"rejected:InvalidCharacterError","notBase64":"rejected:InvalidCharacterError","null":"rejected:TypeError"}
+[PASS] persist-call-completed — ok
+[PASS] persisted-blob-is-encrypted-envelope — shape=data,iv plaintextLeak=false
+[PASS] state-restored-after-reload — marker written pre-reload is present post-reload (decryptState + restorePersistableState via real autoInitApp)
+[PASS] no-decrypt-or-persist-errors
+[PASS] no-page-errors
+
+=== SUMMARY ===
+16/16 checks passed

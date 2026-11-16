@@ -1,0 +1,45 @@
+Chromium 141.0.7390.37; FRONTEND_DIR=/tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/iso/nexus-v5/frontend
+[PASS] C0-online-boot-seed-persisted — {"ok":true,"blobActivity":["S5-C0-plain-online-1792030973736-act-1","S5-C0-plain-online-1792030973736-act-2"],"blobMsgs":["S5-C0-plain-online-1792030973736-msg"]}
+[PASS] C0-online-boot-really-online — onLineAtStart=true banner=none
+[PASS] C0-online-boot-restore-ran-and-activityLog-restored-exactly — activity=["S5-C0-plain-online-1792030973736-act-1","S5-C0-plain-online-1792030973736-act-2"]
+[PASS] C0-online-boot-no-offline-entry-anywhere — mem=0 dom=false
+[PASS] C1-offline-no-blob-really-offline — onLineAtStart=false banner=block
+[PASS] C1-offline-no-blob-nothing-to-restore — inited=true blobPresent=false
+[PASS] C1-POSITIVE-CONTROL-offline-entry-written-and-visible — activity=["انقطع الاتصال"] dom=true
+[OBSERVED] C1-no-blob-offline-boot-entry = SURVIVES
+[PASS] B0-plain-offline-boot-valid-measurement — inited=true restored=true onLineAtStart=false banner=block seedPersisted=true
+[PASS] B0-seed-was-persisted-before-reboot
+[PASS] B1-plain-offline-boot-valid-measurement — inited=true restored=true onLineAtStart=false banner=block seedPersisted=true
+[PASS] B1-seed-was-persisted-before-reboot
+[PASS] B2-plain-offline-boot-valid-measurement — inited=true restored=true onLineAtStart=false banner=block seedPersisted=true
+[PASS] B2-seed-was-persisted-before-reboot
+[PASS] B3-plain-offline-boot-valid-measurement — inited=true restored=true onLineAtStart=false banner=block seedPersisted=true
+[PASS] B3-seed-was-persisted-before-reboot
+[PASS] B4-plain-offline-boot-valid-measurement — inited=true restored=true onLineAtStart=false banner=block seedPersisted=true
+[PASS] B4-seed-was-persisted-before-reboot
+[PASS] B-plain-verdicts-identical-across-runs — ["SURVIVES","SURVIVES","SURVIVES","SURVIVES","SURVIVES"]
+[OBSERVED] B-plain-offline-boot-with-blob-verdict = SURVIVES — runs=["SURVIVES","SURVIVES","SURVIVES","SURVIVES","SURVIVES"]
+[OBSERVED] B-plain-final-activityLog-in-memory = ["انقطع الاتصال","S5-B0-plain-offline-1792030976504-act-1","S5-B0-plain-offline-1792030976504-act-2"] — seed was ["S5-B0-plain-offline-1792030976504-act-1","S5-B0-plain-offline-1792030976504-act-2"]
+[OBSERVED] B-plain-final-activityLog-equals-seed-exactly = false
+[OBSERVED] B-plain-DOM-activity-panel-shows-offline-entry = true — dom entries=3 (rendered by logActivity at boot; no re-render is asserted here)
+[OBSERVED] B-plain-next-save-would-persist-activityLog = ["انقطع الاتصال","S5-B0-plain-offline-1792030976504-act-1","S5-B0-plain-offline-1792030976504-act-2"] — activityLog inside the blob after persistState() called post-boot
+[PASS] T0-traced-valid-measurement-and-single-write-single-restore — verdict=SURVIVES writes=1 restores=1
+[PASS] T1-traced-valid-measurement-and-single-write-single-restore — verdict=SURVIVES writes=1 restores=1
+[PASS] T2-traced-valid-measurement-and-single-write-single-restore — verdict=SURVIVES writes=1 restores=1
+[PASS] T-traced-verdicts-identical-across-runs — ["SURVIVES","SURVIVES","SURVIVES"]
+[PASS] T-plain-and-traced-agree — plain=SURVIVES traced=SURVIVES
+[OBSERVED] T-order-offline-write-vs-restore = WRITE_AFTER_RESTORE — write.seq=2 restore-begin.seq=0
+[OBSERVED] T-activityLog-just-BEFORE-restore = [] — contains the boot entry iff it was written before restore
+[OBSERVED] T-decrypted-activityLog-given-to-restore = ["S5-T0-traced-offline-1792030982871-act-1","S5-T0-traced-offline-1792030982871-act-2"]
+[OBSERVED] T-activityLog-just-AFTER-restore = ["S5-T0-traced-offline-1792030982871-act-1","S5-T0-traced-offline-1792030982871-act-2"]
+[PASS] T-mechanism-explains-outcome — verdict=SURVIVES writeBeforeRestore=false
+[PASS] D-valid-measurement-blob-lacks-activityLog — seeded={"ok":true,"blobActivity":null,"blobMsgs":["S5-D-plain-offline-1792030986560-msg"]}
+[OBSERVED] D-offline-boot-blob-without-activityLog-verdict = SURVIVES — activity=["انقطع الاتصال"]
+[PASS] F-post-boot-transition-valid — restored=true onLineNow=false banner=block
+[OBSERVED] F-post-boot-offline-event-entry = SURVIVES_ON_TOP_OF_RESTORED_LOG — activity=["انقطع الاتصال","S5-F-1792030987769-act-1","S5-F-1792030987769-act-2"]
+[PASS] no-uncaught-page-errors
+
+=== SUMMARY ===
+27/27 validity checks passed
+I1-VERDICT = SURVIVES  (chromium 141.0.7390.37; frontend=../frontend)
+results -> /tmp/claude-0/-home-claude/ab9ed084-7608-5722-8dc1-06ac77002352/scratchpad/CP19/logs/REG/slice5-results.json

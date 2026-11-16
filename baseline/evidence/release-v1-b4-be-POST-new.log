@@ -1,0 +1,257 @@
+TAP version 13
+# (node:605) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# {"ts":"2026-10-16T11:36:24.380Z","level":"security","msg":"[SECURITY] Auth failed: missing Bearer token","severity":"warn","ip":"127.0.0.1","path":"/v2/models"}
+# {"ts":"2026-10-16T11:36:24.385Z","level":"warn","msg":"Request failed","path":"/v2/models","status":401,"code":"auth_error","message":"مفتاح الدخول غير صالح أو مفقود."}
+# Subtest: protected route rejects a request with no Authorization header
+ok 1 - protected route rejects a request with no Authorization header
+  ---
+  duration_ms: 23.332272
+  type: 'test'
+  ...
+# {"ts":"2026-10-16T11:36:24.394Z","level":"security","msg":"[SECURITY] Auth failed: invalid gateway key","severity":"warn","ip":"127.0.0.1","path":"/v2/models"}
+# {"ts":"2026-10-16T11:36:24.394Z","level":"warn","msg":"Request failed","path":"/v2/models","status":401,"code":"auth_error","message":"مفتاح الدخول غير صالح أو مفقود."}
+# Subtest: protected route rejects an invalid bearer token
+ok 2 - protected route rejects an invalid bearer token
+  ---
+  duration_ms: 3.648797
+  type: 'test'
+  ...
+# Subtest: protected route accepts a valid configured bearer token
+ok 3 - protected route accepts a valid configured bearer token
+  ---
+  duration_ms: 2.493081
+  type: 'test'
+  ...
+# Subtest: protected route accepts the SECOND configured key too (multi-key support)
+ok 4 - protected route accepts the SECOND configured key too (multi-key support)
+  ---
+  duration_ms: 1.845894
+  type: 'test'
+  ...
+# Subtest: a route explicitly marked skipAuth (health) works with NO token even when gateway keys ARE configured
+ok 5 - a route explicitly marked skipAuth (health) works with NO token even when gateway keys ARE configured
+  ---
+  duration_ms: 1.666268
+  type: 'test'
+  ...
+# {"ts":"2026-10-16T11:36:24.407Z","level":"warn","msg":"Request failed","path":"/api/embed","status":502,"code":"provider_error","message":"تعذّر الاتصال بالمزود: ECONNREFUSED"}
+# Subtest: the legacy /api/embed route works with no token (documented compatibility gap — see README)
+ok 6 - the legacy /api/embed route works with no token (documented compatibility gap — see README)
+  ---
+  duration_ms: 7.769425
+  type: 'test'
+  ...
+# Subtest: G1 loopback host 127.0.0.1: allowed with no keys (warning only), not network-exposed
+ok 7 - G1 loopback host 127.0.0.1: allowed with no keys (warning only), not network-exposed
+  ---
+  duration_ms: 1.310096
+  type: 'test'
+  ...
+# Subtest: G1 loopback host 127.0.1.1: allowed with no keys (warning only), not network-exposed
+ok 8 - G1 loopback host 127.0.1.1: allowed with no keys (warning only), not network-exposed
+  ---
+  duration_ms: 0.225021
+  type: 'test'
+  ...
+# Subtest: G1 loopback host ::1: allowed with no keys (warning only), not network-exposed
+ok 9 - G1 loopback host ::1: allowed with no keys (warning only), not network-exposed
+  ---
+  duration_ms: 0.074634
+  type: 'test'
+  ...
+# Subtest: G1 loopback host [::1]: allowed with no keys (warning only), not network-exposed
+ok 10 - G1 loopback host [::1]: allowed with no keys (warning only), not network-exposed
+  ---
+  duration_ms: 0.064787
+  type: 'test'
+  ...
+# Subtest: G1 loopback host localhost: allowed with no keys (warning only), not network-exposed
+ok 11 - G1 loopback host localhost: allowed with no keys (warning only), not network-exposed
+  ---
+  duration_ms: 0.059748
+  type: 'test'
+  ...
+# Subtest: G1 loopback host LOCALHOST: allowed with no keys (warning only), not network-exposed
+ok 12 - G1 loopback host LOCALHOST: allowed with no keys (warning only), not network-exposed
+  ---
+  duration_ms: 0.076738
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback host 0.0.0.0 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+ok 13 - G1 non-loopback host 0.0.0.0 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+  ---
+  duration_ms: 0.511986
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback host :: + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+ok 14 - G1 non-loopback host :: + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+  ---
+  duration_ms: 0.158336
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback host 192.168.1.20 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+ok 15 - G1 non-loopback host 192.168.1.20 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+  ---
+  duration_ms: 0.250038
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback host 10.0.0.5 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+ok 16 - G1 non-loopback host 10.0.0.5 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+  ---
+  duration_ms: 0.372935
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback host nexus.lan + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+ok 17 - G1 non-loopback host nexus.lan + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+  ---
+  duration_ms: 0.091001
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback host 172.16.0.9 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+ok 18 - G1 non-loopback host 172.16.0.9 + NO keys is REFUSED and names NEXUS_GATEWAY_KEYS
+  ---
+  duration_ms: 0.066546
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback + valid keys is accepted, with the plain-HTTP/LAN-only warning
+ok 19 - G1 non-loopback + valid keys is accepted, with the plain-HTTP/LAN-only warning
+  ---
+  duration_ms: 0.280534
+  type: 'test'
+  ...
+# Subtest: G1 non-loopback: a short key, a key with whitespace and a duplicate key are each refused; the key value is never echoed
+ok 20 - G1 non-loopback: a short key, a key with whitespace and a duplicate key are each refused; the key value is never echoed
+  ---
+  duration_ms: 0.221718
+  type: 'test'
+  ...
+# Subtest: G1 loopback + short key is NOT refused (the length rule only guards network exposure)
+ok 21 - G1 loopback + short key is NOT refused (the length rule only guards network exposure)
+  ---
+  duration_ms: 0.057402
+  type: 'test'
+  ...
+# Subtest: G2 ServerConfig.host defaults to loopback when NEXUS_HOST is unset
+ok 22 - G2 ServerConfig.host defaults to loopback when NEXUS_HOST is unset
+  ---
+  duration_ms: 2.501518
+  type: 'test'
+  ...
+# Subtest: G3 real process: NEXUS_HOST=0.0.0.0 with NO keys exits non-zero and never listens
+ok 23 - G3 real process: NEXUS_HOST=0.0.0.0 with NO keys exits non-zero and never listens
+  ---
+  duration_ms: 356.899744
+  type: 'test'
+  ...
+# Subtest: G3 real process: network bind with a SHORT key is refused and the key is not printed
+ok 24 - G3 real process: network bind with a SHORT key is refused and the key is not printed
+  ---
+  duration_ms: 311.100972
+  type: 'test'
+  ...
+# Subtest: G3 real process: default host (no NEXUS_HOST, no keys) starts on loopback and answers /v2/health
+ok 25 - G3 real process: default host (no NEXUS_HOST, no keys) starts on loopback and answers /v2/health
+  ---
+  duration_ms: 462.970868
+  type: 'test'
+  ...
+# Subtest: G3 real process: network bind WITH valid keys starts, enforces auth, and does not print the keys
+ok 26 - G3 real process: network bind WITH valid keys starts, enforces auth, and does not print the keys
+  ---
+  duration_ms: 433.647282
+  type: 'test'
+  ...
+# Subtest: G7 .env.example ships a loopback host, documents the key requirement and contains no real key
+ok 27 - G7 .env.example ships a loopback host, documents the key requirement and contains no real key
+  ---
+  duration_ms: 0.468033
+  type: 'test'
+  ...
+# (node:694) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: G4 clientKey for a keyed request is a derived id: stable, distinct per key, never contains the token
+ok 28 - G4 clientKey for a keyed request is a derived id: stable, distinct per key, never contains the token
+  ---
+  duration_ms: 6.634204
+  type: 'test'
+  ...
+# Subtest: G4 sync compatibility: ownerKey for a keyed request equals sha256(raw key) — the value /api/sync always stored under — and the sync route round-trips under it
+ok 29 - G4 sync compatibility: ownerKey for a keyed request equals sha256(raw key) — the value /api/sync always stored under — and the sync route round-trips under it
+  ---
+  duration_ms: 36.515863
+  type: 'test'
+  ...
+# Subtest: G4 trusted (no-key) behaviour is unchanged: loopback/LAN identity is the client IP — checked on the pure function with keys cleared
+ok 30 - G4 trusted (no-key) behaviour is unchanged: loopback/LAN identity is the client IP — checked on the pure function with keys cleared
+  ---
+  duration_ms: 1.63839
+  type: 'test'
+  ...
+# Subtest: G5 valid, invalid, missing and rate-limited requests + an approval decision leave the raw key NOWHERE (logs, audit rows, decided_by)
+ok 31 - G5 valid, invalid, missing and rate-limited requests + an approval decision leave the raw key NOWHERE (logs, audit rows, decided_by)
+  ---
+  duration_ms: 15.920138
+  type: 'test'
+  ...
+# (node:711) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: G6 secure headers on a real 200 response (public health route)
+ok 32 - G6 secure headers on a real 200 response (public health route)
+  ---
+  duration_ms: 27.181142
+  type: 'test'
+  ...
+# {"ts":"2026-10-16T11:37:11.124Z","level":"security","msg":"[SECURITY] Auth failed: missing Bearer token","severity":"warn","ip":"127.0.0.1","path":"/v2/models"}
+# {"ts":"2026-10-16T11:37:11.126Z","level":"info","msg":"Migration applied","file":"001_init.sql"}
+# {"ts":"2026-10-16T11:37:11.127Z","level":"info","msg":"Migration applied","file":"002_phase3_evaluation_and_policy.sql"}
+# {"ts":"2026-10-16T11:37:11.128Z","level":"info","msg":"Migration applied","file":"003_mission_agent_runtime.sql"}
+# {"ts":"2026-10-16T11:37:11.129Z","level":"info","msg":"Migration applied","file":"004_council.sql"}
+# {"ts":"2026-10-16T11:37:11.130Z","level":"info","msg":"Migration applied","file":"005_situation_room.sql"}
+# {"ts":"2026-10-16T11:37:11.131Z","level":"info","msg":"Migration applied","file":"006_metacognition.sql"}
+# {"ts":"2026-10-16T11:37:11.131Z","level":"info","msg":"Migration applied","file":"007_dreaming.sql"}
+# {"ts":"2026-10-16T11:37:11.132Z","level":"info","msg":"Migration applied","file":"008_iot.sql"}
+# {"ts":"2026-10-16T11:37:11.132Z","level":"info","msg":"Migration applied","file":"009_agent_learning.sql"}
+# {"ts":"2026-10-16T11:37:11.133Z","level":"info","msg":"Migration applied","file":"010_agent_isolation.sql"}
+# {"ts":"2026-10-16T11:37:11.133Z","level":"info","msg":"Migration applied","file":"011_council_veto_flag.sql"}
+# {"ts":"2026-10-16T11:37:11.134Z","level":"info","msg":"Migration applied","file":"012_claim_evaluations.sql"}
+# {"ts":"2026-10-16T11:37:11.134Z","level":"info","msg":"Migration applied","file":"013_agent_genomes.sql"}
+# {"ts":"2026-10-16T11:37:11.135Z","level":"info","msg":"Migration applied","file":"014_knowledge_freshness.sql"}
+# {"ts":"2026-10-16T11:37:11.135Z","level":"info","msg":"Migration applied","file":"015_finetuning_jobs.sql"}
+# {"ts":"2026-10-16T11:37:11.135Z","level":"info","msg":"Migration applied","file":"016_claim_evaluation_integrity_reason.sql"}
+# {"ts":"2026-10-16T11:37:11.136Z","level":"warn","msg":"Request failed","path":"/v2/models","status":401,"code":"auth_error","message":"مفتاح الدخول غير صالح أو مفقود."}
+# Subtest: G6 secure headers on a real 401 response (missing key)
+ok 33 - G6 secure headers on a real 401 response (missing key)
+  ---
+  duration_ms: 19.581227
+  type: 'test'
+  ...
+# Subtest: G6 secure headers on a real 404 response
+ok 34 - G6 secure headers on a real 404 response
+  ---
+  duration_ms: 2.051775
+  type: 'test'
+  ...
+# Subtest: G6 an Origin that is not allow-listed gets no CORS grant even with a valid key
+ok 35 - G6 an Origin that is not allow-listed gets no CORS grant even with a valid key
+  ---
+  duration_ms: 3.310508
+  type: 'test'
+  ...
+# {"ts":"2026-10-16T11:37:11.151Z","level":"security","msg":"[SECURITY] Rate limit exceeded","severity":"info","clientKey":"key:55a780e6"}
+# {"ts":"2026-10-16T11:37:11.151Z","level":"warn","msg":"Request failed","path":"/v2/models","status":429,"code":"rate_limited","message":"عدد كبير جداً من الطلبات — حاول لاحقاً."}
+# Subtest: G6 secure headers on a real 429 response (rate limit actually exceeded)
+ok 36 - G6 secure headers on a real 429 response (rate limit actually exceeded)
+  ---
+  duration_ms: 9.966954
+  type: 'test'
+  ...
+1..36
+# tests 36
+# suites 0
+# pass 36
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 47462.122679
