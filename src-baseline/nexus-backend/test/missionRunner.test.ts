@@ -501,11 +501,39 @@ test('process recovery: a mission left RUNNING with a persisted plan checkpoint 
   assert.equal(mission.state, 'COMPLETED');
 });
 
-test('process recovery: a mission with no persisted checkpoint is left alone (not silently marked done/failed)', async () => {
+// F-03 (owner-closed 2026-11-15; re-implemented 2026-11-16 from the R3 specification): the OLD test here was
+//   "process recovery: a mission with no persisted checkpoint is left alone (not silently marked done/failed)"
+// and it PINNED A DEFECT — a mission whose process died while still PLANNING (before the plan checkpoint was saved) stayed PLANNING forever:
+// not resumable, not terminal, counted as "active". Replaced by the two tests below (the owner ratified this replacement). The "never COMPLETED" property is kept.
+test('F-03: a PLANNING mission with no plan checkpoint (process died during planning) becomes FAILED with an explicit reason — idempotently, never COMPLETED', async () => {
   const { missionId } = createMission('مهمة بلا نقطة استرجاع', ctx);
-  // deliberately do NOT save a checkpoint — matches an interruption that happened before planning finished
+  // deliberately do NOT save a checkpoint — an interruption that happened before planning finished
   await resumeInterruptedMissions();
   await new Promise((r) => setTimeout(r, 50));
   const mission = getRepos().missions.get(missionId)!;
-  assert.equal(mission.state, 'PLANNING', 'must stay untouched, not be force-completed or force-failed without real recovery data');
+  assert.equal(mission.state, 'FAILED', 'an unrecoverable PLANNING orphan must reach a terminal state');
+  assert.notEqual(mission.state, 'COMPLETED');
+  const transitions = getRepos().missions.transitions(missionId);
+  const last = transitions[transitions.length - 1]!;
+  assert.equal(last.fromState, 'PLANNING');
+  assert.equal(last.toState, 'FAILED');
+  assert.ok(last.reason && last.reason.length > 10, 'an explicit (Arabic) reason must be recorded');
+  const task = getRepos().tasks.get(missionId)!;
+  assert.equal(task.status, 'failed', 'the task row must be failed too');
+  assert.ok(task.errorMessage && task.errorMessage.length > 0);
+  assert.ok(!getRepos().missions.resumableMissionIds().includes(missionId), 'no longer counted as active/resumable');
+  const n = transitions.length;
+  await resumeInterruptedMissions(); // idempotent second pass
+  assert.equal(getRepos().missions.transitions(missionId).length, n, 'a second pass must not append transitions');
+});
+
+test('F-03 scope guard: RUNNING without a checkpoint and PAUSED (Warden) missions are left exactly as before', async () => {
+  const a = createMission('مهمة قيد التنفيذ بلا نقطة', ctx).missionId;
+  getRepos().missions.transition(a, 'RUNNING', 'test setup');
+  const b = createMission('مهمة موقوفة يدوياً', ctx).missionId;
+  getRepos().missions.transition(b, 'PAUSED', 'test setup (Warden pause)');
+  await resumeInterruptedMissions();
+  await new Promise((r) => setTimeout(r, 50));
+  assert.equal(getRepos().missions.get(a)!.state, 'RUNNING', 'RUNNING-without-checkpoint behaviour is unchanged (out of F-03 scope)');
+  assert.equal(getRepos().missions.get(b)!.state, 'PAUSED', 'a deliberate human PAUSE must survive a restart');
 });

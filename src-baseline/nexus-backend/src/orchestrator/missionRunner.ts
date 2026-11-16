@@ -329,7 +329,17 @@ export async function resumeInterruptedMissions(): Promise<void> {
     if (!task || !mission) continue;
     const checkpoint = ExecutionCheckpoint.latest(missionId);
     if (!checkpoint || checkpoint.phase !== 'plan_definition') {
-      logger.warn('Cannot resume mission — no persisted plan definition found, leaving for manual retry', { missionId });
+      if (mission.state === 'PLANNING') {
+        // F-03 (2026-11-16): the process died while PLANNING, before the plan checkpoint was saved — nothing exists to resume from, and leaving the
+        // mission PLANNING made it neither resumable nor terminal (counted "active" forever). Make it terminal with an explicit reason. Idempotent:
+        // FAILED is excluded from interruptedMissionIds(). RUNNING-without-checkpoint and PAUSED (Warden) deliberately keep the previous behaviour.
+        const reason = 'توقفت العملية أثناء مرحلة التخطيط قبل حفظ نقطة استرجاع الخطة؛ لا يمكن استئناف المهمة فوُسمت FAILED. أعد إرسال المهمة.';
+        logger.warn('Mission interrupted during PLANNING with no persisted plan — marking FAILED', { missionId });
+        repos.missions.transition(missionId, 'FAILED', reason);
+        repos.tasks.updateStatus(missionId, 'failed', reason);
+      } else {
+        logger.warn('Cannot resume mission — no persisted plan definition found, leaving for manual retry', { missionId });
+      }
       continue;
     }
     logger.info('Resuming interrupted mission', { missionId, state: mission.state });
