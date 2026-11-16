@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <!-- Release V1 · B4 — Content-Security-Policy (meta). MEASURED against this file: one inline classic script + ~168 inline
      handlers => 'unsafe-inline' for script/style is REQUIRED until the monolith is split (disclosed weakening: this CSP does NOT
-     stop inline-script XSS; it blocks foreign scripts/objects/frames/base/form targets). cdnjs = lazy qrcode/jsQR/pdf.js (+worker).
+     stop inline-script XSS; it blocks foreign scripts/objects/frames/base/form targets). qrcode/jsQR/pdf.js (+worker) are lazy-loaded from ./vendor/ (same origin, SHA-256 pinned in vendor/VENDOR-SHA256.txt; F-05, 2026-11-16 — no third-party script origin remains).
      connect-src allows http(s)/ws(s) because the backend URL is user-configured (LAN IP / own host) and api.anthropic.com is the
      claude.ai-preview mode. manifest-src data: = the embedded manifest below. frame-ancestors / HSTS / report-uri cannot be set
      from a meta tag: they need the HTTP server that serves this file (see docs/DEPLOYMENT-LAN.md). -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' http: https: ws: wss:; manifest-src 'self' data:; worker-src 'self' blob: https://cdnjs.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' http: https: ws: wss:; manifest-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'">
 <meta name="theme-color" content="#0a0e1a">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -2758,16 +2758,17 @@ function loadScriptOnce(url){
     const script = document.createElement('script');
     script.src = url;
     script.onload = () => resolve();
-    script.onerror = () => { _scriptLoadPromises.delete(url); reject(new Error('تعذر تحميل مكتبة خارجية — تحقق من اتصال الإنترنت.')); };
+    script.onerror = () => { _scriptLoadPromises.delete(url); reject(new Error('تعذر تحميل مكتبة مضمّنة محلياً (vendor/) — تحقق من أن الخادم يقدّم المجلد vendor.')); };
     document.head.appendChild(script);
   });
   _scriptLoadPromises.set(url, promise);
   return promise;
 }
 const LIB_URLS = {
-  qrcode: 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js',
-  jsQR: 'https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.js',
-  pdfjs: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
+  // F-05 (2026-11-16): same-origin, pinned (vendor/VENDOR-SHA256.txt): qrcodejs 1.0.0, jsQR 1.4.0, pdf.js 3.11.174.
+  qrcode: './vendor/qrcode.min.js',
+  jsQR: './vendor/jsQR.js',
+  pdfjs: './vendor/pdf.min.js',
 };
 
 /* ========================================================================
@@ -2782,9 +2783,10 @@ const LIB_URLS = {
 async function extractPdfText(arrayBuffer){
   try{ await loadScriptOnce(LIB_URLS.pdfjs); }
   catch(e){ throw new Error('تعذر تحميل مكتبة قراءة PDF: ' + e.message); }
-  if(typeof pdfjsLib === 'undefined') throw new Error('مكتبة قراءة PDF لم تُحمَّل — تحقق من اتصال الإنترنت وحاول من جديد.');
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  if(typeof pdfjsLib === 'undefined') throw new Error('مكتبة قراءة PDF لم تُحمَّل — تحقق من أن الخادم يقدّم المجلد vendor وحاول من جديد.');
+  pdfjsLib.GlobalWorkerOptions.workerSrc = './vendor/pdf.worker.min.js';
+  // isEvalSupported:false — GHSA-wgrm-67xf-hhpq / CVE-2024-4367 (pdfjs-dist < 4.2.67): never compile font programs via eval/new Function for a user-supplied PDF.
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer, isEvalSupported: false }).promise;
   let text = '';
   for(let i=1; i<=pdf.numPages; i++){
     const page = await pdf.getPage(i);

@@ -11,12 +11,12 @@
    - Best-effort precaches the document ('./' and the known HTML name). A deployment under another file name is
      cached at its first successful navigation.
    - Network-first with cache fallback, ONLY for that allowlist (fresh when online, boots offline from cache).
-   - Everything else is passed through untouched: non-GET, cross-origin (cdnjs, providers), and every other
+   - Everything else is passed through untouched: non-GET, cross-origin (providers), and every other
      same-origin path — including /api/*, /v2/* and SSE streams. No API response is ever cached.
    - Uses no web storage and never reads or stores request headers.
 
    Cache versioning: bump CACHE_VERSION when the SHELL list changes. `activate` removes older `nexus-shell-*`
-   caches (and only those). Not available offline (disclosed): features loaded lazily from cdnjs (QR, PDF.js).
+   caches (and only those). Not precached (disclosed): the lazily loaded same-origin ./vendor/ libs (QR, PDF.js) — they work offline only if cached by the browser HTTP cache; F-05 (2026-11-16) removed the cdnjs origin.
    ========================================================================== */
 const CACHE_VERSION = 'v1';
 const CACHE_NAME = 'nexus-shell-' + CACHE_VERSION;

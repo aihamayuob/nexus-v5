@@ -188,18 +188,19 @@ try {
   const has = (n, v) => dir(n).includes(v);
   ps('F6b policy: default-src self; object-src none; base-uri self; form-action self; frame-src none',
     has('default-src', "'self'") && has('object-src', "'none'") && has('base-uri', "'self'") && has('form-action', "'self'") && has('frame-src', "'none'"), policy ? null : 'no policy');
-  ps('F6c policy: script-src is exactly self + unsafe-inline + the cdnjs origin (no wildcard, no http:, no data:)',
-    JSON.stringify(dir('script-src').sort()) === JSON.stringify(["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com'].sort()), dir('script-src').join(' '));
+  // 2026-11-16 (F-05, owner-authorized contract change): the cdnjs origin was REMOVED — libs are same-origin under ./vendor/ (pinned). Previously: self + unsafe-inline + cdnjs.
+  ps('F6c policy: script-src is exactly self + unsafe-inline (no third-party origin, no wildcard, no http:, no data:)',
+    JSON.stringify(dir('script-src').sort()) === JSON.stringify(["'self'", "'unsafe-inline'"].sort()), dir('script-src').join(' '));
   ps('F6d policy: no "unsafe-eval", img/manifest/worker/connect directives present', !/unsafe-eval/.test(policy) && dir('img-src').length > 0 && has('manifest-src', 'data:') && dir('worker-src').length > 0 && dir('connect-src').length > 0);
 
   // exercise the app a bit more, then count violations (F7)
   await page.evaluate(() => openSettingsPanel());
   await page.evaluate(() => closeModal('settingsModal'));
-  await page.evaluate(() => loadScriptOnce(LIB_URLS.qrcode).catch(() => 'net-fail-is-ok')); // allowed origin: may fail by NETWORK, must not fail by CSP
+  await page.evaluate(() => loadScriptOnce(LIB_URLS.qrcode).catch(() => 'load-fail')); // same-origin ./vendor/ (F-05): must not fail by CSP; the dedicated vendored-libs flow asserts it actually loads
   await page.waitForTimeout(500);
   const viol = await page.evaluate(() => window.__csp);
   const cspConsole = consoleTexts.filter((t) => /Content Security Policy|violates the following/i.test(t));
-  ps('F7 zero CSP violations (event + console) across boot, settings, reload and the allowed cdnjs load; zero pageerrors', viol.length === 0 && cspConsole.length === 0 && pageErrors.length === 0, `violations=${viol.length} console=${cspConsole.length} pageerrors=${pageErrors.length}`);
+  ps('F7 zero CSP violations (event + console) across boot, settings, reload and the same-origin vendor load; zero pageerrors', viol.length === 0 && cspConsole.length === 0 && pageErrors.length === 0, `violations=${viol.length} console=${cspConsole.length} pageerrors=${pageErrors.length}`);
 
   // F8 negative control: the policy really blocks foreign script / object / frame / base
   await page.evaluate((o) => {
