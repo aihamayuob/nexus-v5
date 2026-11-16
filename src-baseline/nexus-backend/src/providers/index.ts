@@ -7,23 +7,26 @@ import { createGeminiAdapter } from './geminiAdapter.js';
 import { createOllamaAdapter } from './ollamaAdapter.js';
 import { createLmStudioAdapter } from './lmstudioAdapter.js';
 import { Errors } from '../core/errors.js';
+import { withProviderTimeout } from './timeoutFetch.js';
 
 export function createProviderAdapter(id: ProviderId, fetchImpl: FetchLike = fetch): ProviderAdapter {
   if (!ProviderRegistry.has(id)) throw Errors.validation(`مزود غير معروف: ${id}`);
   const cfg = ProviderRegistry.resolve(id);
+  // Enforce the registry's per-provider timeout on real calls (time-to-headers + stream idle gap) — see timeoutFetch.ts.
+  const f = withProviderTimeout(fetchImpl, cfg.timeoutMs);
   switch (id) {
     case 'anthropic':
-      return new AnthropicAdapter(cfg, fetchImpl);
+      return new AnthropicAdapter(cfg, f);
     case 'openai':
-      return createOpenAIAdapter(cfg, fetchImpl);
+      return createOpenAIAdapter(cfg, f);
     case 'deepseek':
-      return createDeepSeekAdapter(cfg, fetchImpl);
+      return createDeepSeekAdapter(cfg, f);
     case 'gemini':
-      return createGeminiAdapter(cfg, fetchImpl);
+      return createGeminiAdapter(cfg, f);
     case 'ollama':
-      return createOllamaAdapter(cfg, fetchImpl);
+      return createOllamaAdapter(cfg, f);
     case 'lmstudio':
-      return createLmStudioAdapter(cfg, fetchImpl);
+      return createLmStudioAdapter(cfg, f);
   }
 }
 

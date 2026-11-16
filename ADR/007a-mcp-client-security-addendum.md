@@ -1,8 +1,8 @@
-# ADR-007 — MCP client (M1), A2A inbound and Universal Connector SDK: security criteria (PROPOSED)
+# ADR-007a — Security addendum to ADR-007 (MCP client M1 / A2A / Connector SDK) — gate criteria M1.0
 
 - Date: 2026-11-16
-- Status: **PROPOSED — not accepted, nothing implemented.** Implementation status of every item below: **PENDING**. Acceptance needs the owner (new architectural surface: outbound network egress to third-party servers).
-- Supersedes nothing. Extends ADR-006 (read-only MCP *server*), which stays unchanged.
+- Status: **ACCEPTED as an addendum** under the owner authorization "NEXUS R4 — FULL OWNER AUTHORIZATION" (2026-11-16, §3 "adopt ADR-007 and implement MCP M1, then A2A and the Connector SDK"). Implementation status: see per-slice records.
+- Complements `ADR/007-protocol-completion-criteria.md` (R3, owner-supplied), which stays the primary document for objectives/acceptance (A-M1.x, A-A1.x, A-C1.x). Where both state a criterion, the stricter applies. Extends ADR-006.
 
 ## Context
 ADR-006 lists MCP client, A2A and a connector SDK as "Not decided here". The 2026-11-15 owner-review report and the 2026-11-16 mandate ask for criteria to be written **before** code. This ADR records those criteria only.

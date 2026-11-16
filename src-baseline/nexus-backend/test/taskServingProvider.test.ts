@@ -1,120 +1,158 @@
-// F-04 (owner-closed 2026-11-15; re-implemented 2026-11-16 from the R3 specification — NOT a copy of R3's file, which is not in the available tree).
-// Defect A: claimTask writes the REQUESTED provider/model before routing; after a fallback the task row still named the failed provider.
-// Defect B (same root): chatService re-sent the PRIMARY's model string to the fallback provider (`providerModel || model`).
+// F-04 (2026-11-15): after a provider fallback, the task row used to keep the REQUESTED provider/model (written by claimTask before routing),
+// so /v2/tasks and any audit built on it blamed the wrong vendor. Diagnosis also showed the fallback attempt was sent the PRIMARY's model
+// string (`providerModel || model`), i.e. a real OpenAI endpoint would have received "claude-…". Both are covered here on real HTTP servers.
 import './helpers/setFallbackTestEnv.js';
-import { test, before, after, beforeEach } from 'node:test';
+import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer, type Server } from 'node:http';
 import { createNexusServer } from '../src/gateway/server.js';
 import { getRepos } from '../src/persistence/repos.js';
 
-const OPENAI_OWN = 'openai-own-model';
-const ANTHROPIC_OWN = 'claude-own-model';
-const CLIENT_EXPLICIT = 'CLIENT-EXPLICIT-claude-model';
-process.env.NEXUS_MODEL_OPENAI = OPENAI_OWN;
-process.env.NEXUS_MODEL_ANTHROPIC = ANTHROPIC_OWN;
+let nexus: Server;
+let nexusUrl: string;
+let failingAnthropic: Server;
+let workingOpenAI: Server;
+const openaiSeenModels: string[] = [];
+let primaryAlsoWorks = false;
+let anthropicHits = 0;
 
-let nexus: Server, nexusUrl: string, anthropic: Server, openai: Server;
-let seen: { anthropic: string[]; openai: string[] };
-let mode: { anthropic: 'fail' | 'ok'; openai: 'fail' | 'ok' };
-
-const listen = (s: Server): Promise<string> => new Promise((r) => s.listen(0, '127.0.0.1', () => r(`http://127.0.0.1:${(s.address() as any).port}`)));
-const readBody = async (req: any) => { let t = ''; for await (const c of req) t += c; try { return JSON.parse(t); } catch { return {}; } };
+function listen(server: Server): Promise<string> {
+  return new Promise((resolve) => {
+    server.listen(0, '127.0.0.1', () => {
+      const addr = server.address();
+      resolve(`http://127.0.0.1:${typeof addr === 'object' && addr ? addr.port : 0}`);
+    });
+  });
+}
 
 before(async () => {
-  anthropic = createServer(async (req, res) => {
-    const b = await readBody(req); seen.anthropic.push(b.model);
-    if (mode.anthropic === 'fail') { res.writeHead(503, { 'Content-Type': 'application/json' }); return res.end(JSON.stringify({ error: { message: 'upstream overloaded' } })); }
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ content: [{ type: 'text', text: 'answered by PRIMARY' }], stop_reason: 'end_turn', usage: { input_tokens: 5, output_tokens: 4 } }));
-  });
-  process.env.NEXUS_ANTHROPIC_BASE_URL = await listen(anthropic); process.env.NEXUS_ANTHROPIC_API_KEY = 'fake-anthropic';
-  openai = createServer(async (req, res) => {
-    const b = await readBody(req); seen.openai.push(b.model);
-    if (mode.openai === 'fail') { res.writeHead(503, { 'Content-Type': 'application/json' }); return res.end(JSON.stringify({ error: { message: 'down' } })); }
-    if (b.stream) {
-      res.writeHead(200, { 'Content-Type': 'text/event-stream' });
-      res.write(`data: ${JSON.stringify({ choices: [{ delta: { content: 'answered by FALLBACK' }, finish_reason: null }] })}\n\n`);
-      res.write(`data: ${JSON.stringify({ choices: [{ delta: {}, finish_reason: 'stop' }], usage: { prompt_tokens: 5, completion_tokens: 4 } })}\n\n`);
-      res.write('data: [DONE]\n\n'); return res.end();
+  failingAnthropic = createServer(async (req, res) => {
+    anthropicHits++;
+    for await (const _ of req) void _;
+    if (primaryAlsoWorks) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ content: [{ type: 'text', text: 'primary ok' }], stop_reason: 'end_turn', usage: { input_tokens: 3, output_tokens: 2 } }));
+      return;
     }
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ choices: [{ message: { content: 'answered by FALLBACK' }, finish_reason: 'stop' }], usage: { prompt_tokens: 5, completion_tokens: 4 } }));
+    res.writeHead(503, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: { message: 'upstream overloaded' } }));
   });
-  process.env.NEXUS_OPENAI_BASE_URL = await listen(openai); process.env.NEXUS_OPENAI_API_KEY = 'fake-openai';
-  nexus = createNexusServer(); nexusUrl = await listen(nexus);
-});
-after(async () => { await Promise.all([nexus, anthropic, openai].map((s) => new Promise((r) => s.close(r)))); });
-beforeEach(() => { seen = { anthropic: [], openai: [] }; mode = { anthropic: 'fail', openai: 'ok' }; });
+  process.env.NEXUS_ANTHROPIC_BASE_URL = await listen(failingAnthropic);
+  process.env.NEXUS_ANTHROPIC_API_KEY = 'fake-anthropic-key';
+  process.env.NEXUS_MODEL_ANTHROPIC = 'claude-primary-model';
 
-const chat = (extra: Record<string, unknown>, tag: string) => fetch(`${nexusUrl}/api/chat`, {
-  method: 'POST', headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ provider: 'anthropic', max_tokens: 50, messages: [{ role: 'user', content: `F04 ${tag} ${Math.random()}` }], ...extra }),
-});
-const lastTask = () => getRepos().tasks.recent(1)[0]!;
+  workingOpenAI = createServer(async (req, res) => {
+    let raw = '';
+    for await (const c of req) raw += c;
+    try { openaiSeenModels.push(JSON.parse(raw).model); } catch { openaiSeenModels.push('<unparsable>'); }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ choices: [{ message: { content: 'answered by the FALLBACK provider' }, finish_reason: 'stop' }], usage: { prompt_tokens: 5, completion_tokens: 4 } }));
+  });
+  process.env.NEXUS_OPENAI_BASE_URL = await listen(workingOpenAI);
+  process.env.NEXUS_OPENAI_API_KEY = 'fake-openai-key';
+  process.env.NEXUS_MODEL_OPENAI = 'gpt-fallback-model';
 
-test('F-04 B: the fallback provider receives ITS OWN configured model, never the primary\'s (client model applies to the requested provider only)', async () => {
-  const res = await chat({ model: CLIENT_EXPLICIT }, 'B');
+  nexus = createNexusServer();
+  nexusUrl = await listen(nexus);
+});
+
+after(async () => {
+  await Promise.all([nexus, failingAnthropic, workingOpenAI].map((s) => new Promise((r) => s.close(r))));
+});
+
+async function chat(extra: Record<string, unknown> = {}, headers: Record<string, string> = {}) {
+  const res = await fetch(`${nexusUrl}/api/chat`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...headers },
+    body: JSON.stringify({ provider: 'anthropic', max_tokens: 50, messages: [{ role: 'user', content: 'hello ' + Math.random() }], ...extra }),
+  });
+  return res;
+}
+
+function newestTask() {
+  const t = getRepos().tasks.recent(1)[0];
+  assert.ok(t, 'a task row must exist');
+  return t;
+}
+
+test('F-04: after fallback the task row records the SERVING provider and its own model, not the requested ones', async () => {
+  primaryAlsoWorks = false;
+  const res = await chat();
   assert.equal(res.status, 200);
-  assert.deepEqual(seen.anthropic, [CLIENT_EXPLICIT], 'primary gets the explicit client model');
-  assert.deepEqual(seen.openai, [OPENAI_OWN], 'fallback gets openai\'s own model, not the claude/client string');
-});
-
-test('F-04 A (non-stream): after a fallback the task row names the provider/model that actually SERVED', async () => {
-  const res = await chat({ model: CLIENT_EXPLICIT }, 'A1');
-  assert.equal(res.status, 200);
-  const t = lastTask();
+  const t = newestTask();
   assert.equal(t.status, 'done');
-  assert.equal(t.provider, 'openai');
-  assert.equal(t.model, OPENAI_OWN);
+  assert.equal(t.provider, 'openai', 'task.provider must be the provider that actually answered');
+  assert.equal(t.model, 'gpt-fallback-model', 'task.model must be the model the serving provider actually used');
 });
 
-test('F-04 A (stream): same for /api/chat with stream:true', async () => {
-  const res = await chat({ stream: true, model: CLIENT_EXPLICIT }, 'A2');
+test('F-04 (root of the model half): the fallback provider is sent ITS OWN default model, never the primary\'s model string', async () => {
+  primaryAlsoWorks = false;
+  openaiSeenModels.length = 0;
+  await chat();
+  assert.deepEqual(openaiSeenModels, ['gpt-fallback-model']);
+});
+
+test('F-04: an explicit client model applies to the requested provider only — the fallback still gets its own model, and the row says so', async () => {
+  primaryAlsoWorks = false;
+  openaiSeenModels.length = 0;
+  await chat({ model: 'claude-explicit-choice' });
+  assert.deepEqual(openaiSeenModels, ['gpt-fallback-model']);
+  const t = newestTask();
+  assert.equal(t.provider, 'openai');
+  assert.equal(t.model, 'gpt-fallback-model');
+});
+
+test('F-04 scope guard: when the primary serves, the row keeps the primary provider and the explicit model (no regression)', async () => {
+  primaryAlsoWorks = true;
+  anthropicHits = 0;
+  const res = await chat({ model: 'claude-explicit-choice' });
   assert.equal(res.status, 200);
-  await res.text();
-  await new Promise((r) => setTimeout(r, 100));
-  assert.deepEqual(seen.openai, [OPENAI_OWN]);
-  const t = lastTask();
+  assert.ok(anthropicHits >= 1);
+  const t = newestTask();
   assert.equal(t.status, 'done');
-  assert.equal(t.provider, 'openai');
-  assert.equal(t.model, OPENAI_OWN);
-});
-
-test('F-04 A (v2 unified fast path): same for POST /v2/tasks', async () => {
-  const res = await fetch(`${nexusUrl}/v2/tasks`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ input: `hi ${Math.random()}`, provider: 'anthropic' }) });
-  assert.equal(res.status, 200);
-  await res.text();
-  const t = lastTask();
-  assert.equal(t.status, 'done');
-  assert.equal(t.provider, 'openai');
-  assert.equal(t.model, OPENAI_OWN);
-  assert.deepEqual(seen.openai, [OPENAI_OWN]);
-});
-
-test('F-04 scope guard: when nothing is served (all providers fail) the failed task keeps the REQUESTED provider', async () => {
-  mode.openai = 'fail';
-  const res = await chat({ model: CLIENT_EXPLICIT }, 'fail');
-  assert.notEqual(res.status, 200);
-  const t = lastTask();
-  assert.equal(t.status, 'failed');
   assert.equal(t.provider, 'anthropic');
+  assert.equal(t.model, 'claude-explicit-choice');
 });
 
-test('F-04 scope guard: no fallback needed => row = primary + the model actually sent (explicit client model)', async () => {
-  mode.anthropic = 'ok';
-  const res = await chat({ model: CLIENT_EXPLICIT }, 'primary-ok');
-  assert.equal(res.status, 200);
-  assert.deepEqual(seen.openai, [], 'fallback must not be called');
-  const t = lastTask();
-  assert.equal(t.provider, 'anthropic');
-  assert.equal(t.model, CLIENT_EXPLICIT);
+test('F-04 scope guard: when every provider fails the row stays failed and keeps the requested provider (nothing served)', async () => {
+  primaryAlsoWorks = false;
+  const saved = process.env.NEXUS_OPENAI_API_KEY;
+  delete process.env.NEXUS_OPENAI_API_KEY; // no fallback configured any more
+  try {
+    const res = await chat();
+    assert.notEqual(res.status, 200);
+    const t = newestTask();
+    assert.equal(t.status, 'failed');
+    assert.equal(t.provider, 'anthropic', 'nothing served the request, so the requested provider is the only truthful value');
+  } finally {
+    process.env.NEXUS_OPENAI_API_KEY = saved;
+  }
 });
 
-test('F-04: without an explicit client model each provider is called with its own registry model', async () => {
-  const res = await chat({}, 'no-explicit');
+test('F-04: streaming path records the serving provider too', async () => {
+  primaryAlsoWorks = false;
+  const res = await chat({ stream: true });
   assert.equal(res.status, 200);
-  assert.deepEqual(seen.anthropic, [ANTHROPIC_OWN]);
-  assert.deepEqual(seen.openai, [OPENAI_OWN]);
-  assert.equal(lastTask().model, OPENAI_OWN);
+  await res.text(); // drain SSE to completion
+  const t = newestTask();
+  assert.equal(t.status, 'done');
+  assert.equal(t.provider, 'openai');
+  assert.equal(t.model, 'gpt-fallback-model');
+});
+
+test('F-04: the v2 unified fast path (POST /v2/tasks, LOW tier) records the serving provider too', async () => {
+  primaryAlsoWorks = false;
+  const res = await fetch(`${nexusUrl}/v2/tasks`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ provider: 'anthropic', input: 'hi there ' + Math.random() }),
+  });
+  assert.equal(res.status, 200);
+  const sse = await res.text();
+  assert.match(sse, /"tier":"LOW"/, 'precondition: this input must take the single-completion fast path');
+  const t = newestTask();
+  assert.equal(t.kind, 'chat');
+  assert.equal(t.status, 'done');
+  assert.equal(t.provider, 'openai');
+  assert.equal(t.model, 'gpt-fallback-model');
 });

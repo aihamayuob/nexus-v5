@@ -88,8 +88,7 @@ export async function runChatCompletion(
   let messages = [...req.messages];
   let finalResponse: ChatResponse | null = null;
   let providerUsed: ProviderId = routed.provider;
-  let modelServed = model; // F-04: the model string actually SENT to the provider that served (differs from `model` after a fallback)
-  const modelSentTo = new Map<ProviderId, string>();
+  let modelServed: string = model; // the model string actually sent to providerUsed (F-04: differs from `model` after a fallback)
 
   for (let iteration = 0; iteration < (req.maxToolIterations ?? MAX_TOOL_LOOP_ITERATIONS); iteration++) {
     let lastAttemptUsage: { inputTokens: number; outputTokens: number } | null = null;
@@ -97,11 +96,9 @@ export async function runChatCompletion(
       label: p,
       run: async () => {
         const adapter = getProviderAdapter(p);
-        // Fallback providers use THEIR OWN registry model, never the primary's model string — different vendors don't share model namespaces.
-        // (F-04, 2026-11-16: this used to read `providerModel || model`, where providerModel was undefined for a fallback, so the PRIMARY's model
-        // string was silently re-sent to the fallback provider, contradicting this very comment.)
+        // Fallback providers use THEIR OWN registry default, never the primary's model string — different vendors don't share model namespaces.
+        // (F-04: this used to read `providerModel || model`, which silently re-sent the primary's model to the fallback.)
         const attemptModel = p === routed.provider ? model : ProviderRegistry.resolve(p).resolvedModel;
-        modelSentTo.set(p, attemptModel);
         const runReq: ChatRequest = {
           model: attemptModel,
           system: req.system,
@@ -133,7 +130,7 @@ export async function runChatCompletion(
         getRepos().providerCallLog.record({
           taskId: req.taskId ?? null,
           provider: result.label,
-          model: result.label === providerUsed ? (modelSentTo.get(result.label) ?? model) : null,
+          model: result.label === providerUsed ? modelServed : null,
           route: req.route ?? 'chat',
           success: result.success,
           latencyMs: result.latencyMs,

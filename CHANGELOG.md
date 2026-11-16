@@ -1,5 +1,33 @@
 # CHANGELOG.md
 
+## [operational build R3] — 2026-11-15
+### Fixed
+- F-03: `resumeInterruptedMissions()` marks a `PLANNING` mission with no persisted plan `FAILED` (with reason) instead of leaving it forever active; RUNNING/PAUSED untouched.
+- F-04: `tasks.provider/model` now record the provider/model that actually served (`TaskRepo.recordServed`, called by both legacy chat handlers and the v2 fast path); `chatService` sends a fallback provider ITS OWN model (previously the primary's model string) and reports `modelUsed` accordingly.
+### Changed
+- `test/missionRunner.test.ts`: the test pinning the F-03 behaviour replaced by two tests (documented in the closure doc).
+- `e2e/operational-scenarios.mjs`: S6(b) asserts F-03 (39 checks).
+- `e2e/phase2-core-seed-flows.mjs`: intermittent `ciphertext-hides-plaintext` check made deterministic and stronger (original preserved; needs owner ratification).
+- `frontend/package.json` / lock: vitest and @vitest/coverage-v8 `^4.1.12`; transitive vite/undici/source-map-js refreshed — `npm audit` 6 → 0 (dev tooling).
+### Added
+- `test/taskServingProvider.test.ts` (7), `docs/F03-F04-CLOSURE-2026-11-15.md`.
+### Verified (simulated models)
+- `verify-all.sh` exit 0: backend 653/653, Vitest 186/186, 17 E2E, scenarios 39/39, UI demo 7/7, real-provider harness PASS 23/FAIL 0/BLOCKED 10, MCP interop 10/10.
+### Corrected
+- Embedded-image count in IP docs: 2, not 6.
+
+## [operational build R2] — 2026-11-15
+### Added
+- `e2e/real-provider-validation.mjs` (real-provider harness; BLOCKED reported explicitly when no key/runtime/route), `e2e/mcp-third-party-interop.mjs` (official MCP SDK client ↔ NEXUS `/mcp`).
+- `src/providers/timeoutFetch.ts` + `test/providerTimeout.test.ts` (7 tests).
+- `ADR/007-protocol-completion-criteria.md` (PROPOSED), `docs/REAL-PROVIDER-VALIDATION-2026-11-15.md`, `docs/BUYER-EVIDENCE-AND-IP-FILE-2026-11-15.md`.
+### Changed
+- `src/providers/index.ts`: adapters are created with `withProviderTimeout(fetch, cfg.timeoutMs)` — the documented per-provider timeout (time-to-headers + stream idle gap) is now enforced (D-PT-1). Behaviour change: see validation doc §5.
+- `scripts/verify-all.sh`: runs the real-provider harness; runs MCP interop when `MCP_SDK_DIR` is set; those two scripts are excluded from the generic E2E glob.
+- `ROADMAP.md`: CURRENT ALIGNMENT table on top; the 2026-09-16 text is kept below, marked historical.
+### Verified (simulated models unless stated) 
+- backend 645/645, Vitest 186/186, 17 E2E, scenarios 38/38, UI demo 7/7; harness PASS 23 / FAIL 0 / BLOCKED 10; MCP interop 10/10 (real third-party client).
+
 ## [v5.0-polish / Phase 2 core slices 9–11] — 2026-10-15/16
 ### Committed / documented (no new production code in this entry)
 - `e17c76d`: core slices 9 + 10 (CP-17/CP-18/ADR-005) committed locally as found in the CP-19 handoff snapshot; `agentOrder` is owned by `frontend/modules/state.mjs` via a global accessor (VERIFIED locally, Chromium 141 only; release readiness BLOCKED on `sw.js` at that point).

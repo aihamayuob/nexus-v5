@@ -26,3 +26,14 @@ Additive to `continuity/mandate-2026-11-13/02-DEPENDENCIES-LICENSES-IP-REPORT.md
 | F-05 | CDN w/o SRI; CSP `unsafe-inline` + broad `connect-src` | **OPEN** |
 | F-06 | No TLS; XFF trust | **OPEN** (LAN-only deployment documented) |
 | F-07 | Secrets | the scenarios/launcher use generated or test-only keys; no real secret was used, stored or committed; `.env.example` contains placeholders only |
+
+## Addendum 2026-11-15 (additive)
+- Lockfile license counts re-measured, unchanged: backend 52 dev (MIT 31, Apache-2.0 21); frontend 126 dev (MIT 95, MPL-2.0 12, BSD-3 5, Apache-2.0 4, ISC 4, MIT-0 2, BSD-2 2, BlueOak-1.0.0 1, CC0 1). `npm audit`: backend 0; frontend 6 (dev only).
+- No dependency was added to any manifest. `@modelcontextprotocol/sdk` 1.32.2 (MIT) was installed in a scratch directory only, for the interop test.
+- **D-PT-1** (provider timeout not enforced → unbounded hang on a silent provider; availability/DoS-class reliability defect): **FIXED + VERIFIED** (see `docs/REAL-PROVIDER-VALIDATION-2026-11-15.md` §5). F-03…F-06 and all IP items above: unchanged, still open.
+- Secrets: the harness reads real keys only from the environment, never prints them, asserts they do not appear in responses or backend logs; no real credential was used in this round (only a deliberately invalid key was sent to the real Anthropic endpoint).
+
+## Addendum 2026-11-15 R3 (additive; earlier lines above remain as written)
+- **F-03 FIXED + VERIFIED; F-04 FIXED + VERIFIED** (plus a related defect found on the way: the fallback provider was sent the primary's model name) — `docs/F03-F04-CLOSURE-2026-11-15.md`. F-05 and F-06 remain open (owner decisions).
+- Frontend dev-tooling vulnerabilities (6) **closed**: `npm audit` frontend 0, backend 0 (details and the npm-10 crash workaround in the closure doc §5). Frontend lock now 133 packages, all dev (MIT 101, MPL-2.0 12, …, 0BSD 1). CycloneDX SBOM of 2026-11-13 is stale for the frontend.
+- **Correction**: the "6 base64-embedded images" line above is an overcount. Only 2 assets are embedded (SVG favicon, PNG 192×192 icon); the other 4 matches are code prefixes. Authorship of both remains UNVERIFIED (owner decision); see closure doc §6.

@@ -83,7 +83,7 @@ export class TaskRepo {
       .run(status, now, finishedAt, errorMessage ?? null, id);
   }
 
-  /** F-04: records which provider/model actually SERVED the task (claimTask only knows the REQUESTED one). Call after a successful completion; failed tasks keep the requested values. No schema change. */
+  /** F-04: the task row is created (claimTask) with the REQUESTED provider/model, before routing. After a fallback the provider that actually answered differs, so the serving pair is recorded here once a completion succeeds. */
   recordServed(id: string, provider: string, model: string) {
     this.db.prepare('UPDATE tasks SET provider = ?, model = ?, updated_at = ? WHERE id = ?').run(provider, model, Date.now(), id);
   }
