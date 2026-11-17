@@ -30,7 +30,7 @@ for label, lock in (('frontend', 'frontend/package-lock.json'), ('backend', 'src
     summ.append({'workspace': label, 'unique_components': len(seen), 'licenses': lic})
 # vendored browser libs (runtime, shipped to the browser)
 VEND = {'qrcode.min.js': ('qrcodejs', '1.0.0', 'MIT', 'pkg:npm/qrcodejs@1.0.0'), 'jsQR.js': ('jsQR', '1.4.0', 'Apache-2.0', 'pkg:npm/jsqr@1.4.0'),
-        'pdf.min.js': ('pdf.js', '3.11.174', 'Apache-2.0', 'pkg:npm/pdfjs-dist@3.11.174'), 'pdf.worker.min.js': ('pdf.js (worker)', '3.11.174', 'Apache-2.0', 'pkg:npm/pdfjs-dist@3.11.174')}
+        'pdf.min.mjs': ('pdf.js', '4.10.38', 'Apache-2.0', 'pkg:npm/pdfjs-dist@4.10.38'), 'pdf.worker.min.mjs': ('pdf.js (worker)', '4.10.38', 'Apache-2.0', 'pkg:npm/pdfjs-dist@4.10.38')}
 for line in rd('frontend/vendor/VENDOR-SHA256.txt').splitlines():
     m = re.match(r'^([0-9a-f]{64})  (\S+)$', line)
     if not m: continue

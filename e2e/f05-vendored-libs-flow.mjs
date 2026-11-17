@@ -52,13 +52,13 @@ try {
     const o = {};
     await loadScriptOnce(LIB_URLS.qrcode); o.qr = typeof QRCode;
     await loadScriptOnce(LIB_URLS.jsQR); o.jsqr = typeof jsQR;
-    await loadScriptOnce(LIB_URLS.pdfjs); o.pdfjs = typeof pdfjsLib; o.pdfVersion = pdfjsLib.version;
+    const m = await loadPdfjs(); o.pdfjs = typeof m.getDocument; o.pdfVersion = m.version;
     return o;
   });
-  log('libs-load-from-vendor', libs.qr === 'function' && libs.jsqr === 'function' && libs.pdfjs === 'object' && libs.pdfVersion === '3.11.174', JSON.stringify(libs));
+  log('libs-load-from-vendor', libs.qr === 'function' && libs.jsqr === 'function' && libs.pdfjs === 'function' && libs.pdfVersion === '4.10.38', JSON.stringify(libs));
 
   // spy on getDocument options to prove the app passes isEvalSupported:false on the real call path
-  await page.evaluate(() => { const real = window.pdfjsLib; window.__gdOpts = []; window.pdfjsLib = new Proxy(real, { get: (t, k) => k === 'getDocument' ? (o) => { window.__gdOpts.push({ isEvalSupported: o.isEvalSupported, hasData: !!o.data }); return t.getDocument(o); } : Reflect.get(t, k) }); }); // getDocument is a read-only getter export, so the global is proxied instead
+  await page.evaluate(() => { const realLoad = window.loadPdfjs; window.__gdOpts = []; window.loadPdfjs = async () => { const real = await realLoad(); return new Proxy(real, { get: (t, k) => k === 'getDocument' ? (o) => { window.__gdOpts.push({ isEvalSupported: o.isEvalSupported, hasData: !!o.data }); return t.getDocument(o); } : Reflect.get(t, k) }); }; }); // pdf.js is an ES module namespace (read-only), so the loader is wrapped instead
   const text = await page.evaluate(async (bytes) => extractPdfText(new Uint8Array(bytes).buffer), makePdf('Hello NEXUS PDF'));
   log('pdf-text-extracted-via-same-origin-worker', /Hello\s+NEXUS\s+PDF/.test(text), JSON.stringify(text.trim()));
   const gd = await page.evaluate(() => window.__gdOpts);
@@ -69,7 +69,7 @@ try {
 
   const ext = requests.filter((u) => !u.startsWith(`http://127.0.0.1:${PORT}/`) && !u.startsWith('data:') && !u.startsWith('blob:'));
   log('no-third-party-requests', ext.every((u) => !/cdnjs/.test(u)) , `external=${ext.length ? ext.slice(0, 3).join(',') : '-'}`);
-  log('vendor-files-requested-same-origin', ['qrcode.min.js', 'jsQR.js', 'pdf.min.js', 'pdf.worker.min.js'].every((f) => requests.some((u) => u === `http://127.0.0.1:${PORT}/vendor/${f}`)));
+  log('vendor-files-requested-same-origin', ['qrcode.min.js', 'jsQR.js', 'pdf.min.mjs', 'pdf.worker.min.mjs'].every((f) => requests.some((u) => u === `http://127.0.0.1:${PORT}/vendor/${f}`)));
   const viol = await page.evaluate(() => window.__csp);
   log('zero-csp-violations', viol.length === 0, viol.join(' | '));
   log('no-page-errors', pageErrors.length === 0, pageErrors.join(' | '));

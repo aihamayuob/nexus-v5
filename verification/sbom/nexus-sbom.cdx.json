@@ -1,10 +1,10 @@
 {
  "bomFormat": "CycloneDX",
  "specVersion": "1.6",
- "serialNumber": "urn:uuid:63c96780-2da3-4f74-88a5-ff5881e0ad2c",
+ "serialNumber": "urn:uuid:b857478f-3d1e-4d22-b2bd-d5048e1c762d",
  "version": 1,
  "metadata": {
-  "timestamp": "2026-11-16T11:33:01Z",
+  "timestamp": "2026-11-17T01:17:40Z",
   "component": {
    "type": "application",
    "bom-ref": "nexus-root",
@@ -6560,12 +6560,12 @@
   },
   {
    "type": "library",
-   "bom-ref": "vendor:pdf.min.js",
+   "bom-ref": "vendor:pdf.min.mjs",
    "name": "pdf.js",
-   "version": "3.11.174",
+   "version": "4.10.38",
    "scope": "required",
-   "purl": "pkg:npm/pdfjs-dist@3.11.174",
-   "description": "frontend/vendor/pdf.min.js (same-origin, pinned; F-05)",
+   "purl": "pkg:npm/pdfjs-dist@4.10.38",
+   "description": "frontend/vendor/pdf.min.mjs (same-origin, pinned; F-05)",
    "licenses": [
     {
      "license": {
@@ -6576,7 +6576,7 @@
    "hashes": [
     {
      "alg": "SHA-256",
-     "content": "5b5799e6f8c680663207ac5b42ee14eed2a406fa7af48f50c154f0c0b1566946"
+     "content": "27fc2a057a00f92a4334ad06e17dbd7259912954e9fb7f76400bcca5fd190a9c"
     }
    ],
    "properties": [
@@ -6592,12 +6592,12 @@
   },
   {
    "type": "library",
-   "bom-ref": "vendor:pdf.worker.min.js",
+   "bom-ref": "vendor:pdf.worker.min.mjs",
    "name": "pdf.js (worker)",
-   "version": "3.11.174",
+   "version": "4.10.38",
    "scope": "required",
-   "purl": "pkg:npm/pdfjs-dist@3.11.174",
-   "description": "frontend/vendor/pdf.worker.min.js (same-origin, pinned; F-05)",
+   "purl": "pkg:npm/pdfjs-dist@4.10.38",
+   "description": "frontend/vendor/pdf.worker.min.mjs (same-origin, pinned; F-05)",
    "licenses": [
     {
      "license": {
@@ -6608,7 +6608,7 @@
    "hashes": [
     {
      "alg": "SHA-256",
-     "content": "feabdf309770ed24bba31a5467836cdc8cf639c705af27d52b585b041bb8527b"
+     "content": "1baa1844c89c80a5b2797c916e75ab29254be46d8e9cb53cb6364d7aad84be36"
     }
    ],
    "properties": [

@@ -2765,10 +2765,10 @@ function loadScriptOnce(url){
   return promise;
 }
 const LIB_URLS = {
-  // F-05 (2026-11-16): same-origin, pinned (vendor/VENDOR-SHA256.txt): qrcodejs 1.0.0, jsQR 1.4.0, pdf.js 3.11.174.
+  // F-05 (2026-11-16): same-origin, pinned (vendor/VENDOR-SHA256.txt): qrcodejs 1.0.0, jsQR 1.4.0, pdf.js 4.10.38 (ES module).
   qrcode: './vendor/qrcode.min.js',
   jsQR: './vendor/jsQR.js',
-  pdfjs: './vendor/pdf.min.js',
+  pdfjs: './vendor/pdf.min.mjs',
 };
 
 /* ========================================================================
@@ -2780,13 +2780,20 @@ const LIB_URLS = {
    ======================================================================== */
 /* MOVED (Phase 2 /nexus-modularize, boundary "utilities"): chunkText() now lives in modules/utilities.mjs. See main.js. */
 
+let _pdfjsModulePromise = null;
+function loadPdfjs(){
+  // pdf.js >= 4 ships only as ES modules: import() the pinned same-origin build (CSP script-src 'self' covers it). A failed import is not cached.
+  if(!_pdfjsModulePromise) _pdfjsModulePromise = import(LIB_URLS.pdfjs).catch(e => { _pdfjsModulePromise = null; throw e; });
+  return _pdfjsModulePromise;
+}
+
 async function extractPdfText(arrayBuffer){
-  try{ await loadScriptOnce(LIB_URLS.pdfjs); }
+  let pdfjs;
+  try{ pdfjs = await loadPdfjs(); }
   catch(e){ throw new Error('تعذر تحميل مكتبة قراءة PDF: ' + e.message); }
-  if(typeof pdfjsLib === 'undefined') throw new Error('مكتبة قراءة PDF لم تُحمَّل — تحقق من أن الخادم يقدّم المجلد vendor وحاول من جديد.');
-  pdfjsLib.GlobalWorkerOptions.workerSrc = './vendor/pdf.worker.min.js';
-  // isEvalSupported:false — GHSA-wgrm-67xf-hhpq / CVE-2024-4367 (pdfjs-dist < 4.2.67): never compile font programs via eval/new Function for a user-supplied PDF.
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer, isEvalSupported: false }).promise;
+  pdfjs.GlobalWorkerOptions.workerSrc = './vendor/pdf.worker.min.mjs';
+  // pdf.js 4.10.38 >= 4.2.67 (GHSA-wgrm-67xf-hhpq / CVE-2024-4367 fixed); isEvalSupported:false kept as defence in depth: never compile font programs via eval/new Function for a user-supplied PDF.
+  const pdf = await pdfjs.getDocument({ data: arrayBuffer, isEvalSupported: false }).promise;
   let text = '';
   for(let i=1; i<=pdf.numPages; i++){
     const page = await pdf.getPage(i);
