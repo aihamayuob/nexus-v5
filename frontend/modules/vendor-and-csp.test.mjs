@@ -7,14 +7,16 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const FRONT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const html = readFileSync(path.join(FRONT, 'neural_nexus_ai_agents-4-3-5-3.html'), 'utf8');
-const policy = (html.match(/http-equiv="Content-Security-Policy"\s+content="([^"]*)"/) || [])[1] || '';
+const pageHtml = readFileSync(path.join(FRONT, 'neural_nexus_ai_agents-4-3-5-3.html'), 'utf8');
+// 2026-11-17: the former inline <script> bodies live in app.js / ui-glow.js; code-level assertions below look at page + those files together (same text as before).
+const html = pageHtml + '\n' + readFileSync(path.join(FRONT, 'app.js'), 'utf8') + '\n' + readFileSync(path.join(FRONT, 'ui-glow.js'), 'utf8');
+const policy = (pageHtml.match(/http-equiv="Content-Security-Policy"\s+content="([^"]*)"/) || [])[1] || '';
 const dir = (n) => ((policy.split(';').map((s) => s.trim()).find((s) => s.startsWith(n + ' ')) || '').slice(n.length + 1).split(/\s+/).filter(Boolean));
 const sha = (f) => createHash('sha256').update(readFileSync(f)).digest('hex');
 
 describe('F-05: no third-party script origin', () => {
   it('CSP script-src and worker-src do not name any external origin', () => {
-    expect(dir('script-src').sort()).toEqual(["'self'", "'unsafe-inline'"]);
+    expect(dir('script-src').sort()).toEqual(["'self'"]); // was self + unsafe-inline until 2026-11-17 (see the inline-script describe below)
     expect(dir('worker-src').sort()).toEqual(["'self'", 'blob:']);
     expect(policy).not.toMatch(/cdnjs/);
   });
@@ -24,7 +26,7 @@ describe('F-05: no third-party script origin', () => {
     expect(libUrls.length).toBeGreaterThan(0);
     for (const m of libUrls.matchAll(/'([^']+)'/g)) expect(m[1]).toMatch(/^\.\/vendor\/[\w.-]+\.m?js$/);
     expect(html).toMatch(/workerSrc\s*=\s*'\.\/vendor\/pdf\.worker\.min\.mjs'/);
-    expect(html).not.toMatch(/<script[^>]+src=["']https?:/i);
+    expect(pageHtml).not.toMatch(/<script[^>]+src=["']https?:/i);
   });
 });
 
@@ -69,5 +71,29 @@ describe('F-05: vendored libraries are pinned', () => {
   });
   it('licence texts for the three libraries are shipped next to them', () => {
     for (const f of ['LICENSE-pdfjs.txt', 'LICENSE-jsqr.txt', 'LICENSE-qrcodejs.txt']) expect(existsSync(path.join(FRONT, 'vendor', f)), f).toBe(true);
+  });
+});
+
+// 2026-11-17: inline <script> ELEMENTS are externalised; script-src no longer needs 'unsafe-inline'. Inline event-handler ATTRIBUTES (onclick=…, ~190 static plus
+// template-generated ones) are still used, so they are allowed ONLY through script-src-attr (CSP3) — a narrower grant than the old blanket script-src 'unsafe-inline'.
+// Residual risk (documented, not hidden): injected attribute handlers (e.g. <img onerror>) still execute; converting handlers to listeners is a separate slice.
+describe('CSP: no inline <script> element', () => {
+  it('script-src is exactly self; handler attributes are granted only via script-src-attr', () => {
+    expect(dir('script-src')).toEqual(["'self'"]);
+    expect(dir('script-src-attr')).toEqual(["'unsafe-inline'"]);
+    expect(dir('script-src-elem')).toEqual([]);
+  });
+  it('every <script> element in the page has a src (no inline script body)', () => {
+    const scripts = [...pageHtml.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
+    expect(scripts.length).toBeGreaterThan(0);
+    for (const [, attrs, body] of scripts) { expect(attrs, 'script tag attrs').toMatch(/\bsrc=/); expect(body.trim(), 'inline body').toBe(''); }
+  });
+  it('the externalised classic scripts exist next to the page and are in the service-worker shell', () => {
+    const sw = readFileSync(path.join(FRONT, 'sw.js'), 'utf8');
+    for (const f of ['app.js', 'ui-glow.js']) {
+      expect(existsSync(path.join(FRONT, f)), f).toBe(true);
+      expect(pageHtml, f).toMatch(new RegExp(`<script[^>]+src=["']\\./?${f.replace('.', '\\.')}["']`));
+      expect(sw, f).toContain(`'./${f}'`);
+    }
   });
 });

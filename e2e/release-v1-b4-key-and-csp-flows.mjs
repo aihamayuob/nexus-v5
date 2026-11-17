@@ -189,8 +189,9 @@ try {
   ps('F6b policy: default-src self; object-src none; base-uri self; form-action self; frame-src none',
     has('default-src', "'self'") && has('object-src', "'none'") && has('base-uri', "'self'") && has('form-action', "'self'") && has('frame-src', "'none'"), policy ? null : 'no policy');
   // 2026-11-16 (F-05, owner-authorized contract change): the cdnjs origin was REMOVED — libs are same-origin under ./vendor/ (pinned). Previously: self + unsafe-inline + cdnjs.
-  ps('F6c policy: script-src is exactly self + unsafe-inline (no third-party origin, no wildcard, no http:, no data:)',
-    JSON.stringify(dir('script-src').sort()) === JSON.stringify(["'self'", "'unsafe-inline'"].sort()), dir('script-src').join(' '));
+  // 2026-11-17 (owner-authorized contract change): inline <script> elements were externalised; script-src is now self only and handler attributes are granted via script-src-attr.
+  ps('F6c policy: script-src is exactly self (no unsafe-inline, no third-party origin, no wildcard, no http:, no data:); handlers only via script-src-attr',
+    JSON.stringify(dir('script-src').sort()) === JSON.stringify(["'self'"]) && JSON.stringify(dir('script-src-attr')) === JSON.stringify(["'unsafe-inline'"]), `script-src=${dir('script-src').join(' ')} script-src-attr=${dir('script-src-attr').join(' ')}`);
   ps('F6d policy: no "unsafe-eval", img/manifest/worker/connect directives present', !/unsafe-eval/.test(policy) && dir('img-src').length > 0 && has('manifest-src', 'data:') && dir('worker-src').length > 0 && dir('connect-src').length > 0);
 
   // exercise the app a bit more, then count violations (F7)
@@ -217,6 +218,9 @@ try {
   ps('F8b foreign <object> is blocked (object-src violation observed)', dirs.has('object-src'), [...dirs].join(','));
   ps('F8c <iframe> is blocked (frame-src violation observed)', dirs.has('frame-src'), [...dirs].join(','));
   ps('F8d <base href> to a foreign origin is blocked (base-uri violation observed)', dirs.has('base-uri'), [...dirs].join(','));
+  // F8e (2026-11-17): an INLINE <script> element injected at runtime is now refused (script-src has no 'unsafe-inline'); it must not execute.
+  const inl = await page.evaluate(async () => { window.__csp.length = 0; window.__inlineRan = false; const s = document.createElement('script'); s.textContent = 'window.__inlineRan = true'; document.head.appendChild(s); await new Promise((r) => setTimeout(r, 300)); return { ran: window.__inlineRan, viol: window.__csp.map((v) => v.d) }; });
+  ps('F8e injected inline <script> element does NOT execute and raises a script-src violation', inl.ran === false && inl.viol.some((d) => /^script-src/.test(d)), JSON.stringify(inl));
   await ctx.close();
 } finally {
   await browser.close();

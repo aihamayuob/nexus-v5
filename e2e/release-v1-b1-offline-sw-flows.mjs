@@ -38,7 +38,8 @@ const ps = (n, ok, d) => rec('PS', n, ok, d);
 /* ---- independent resolver: which same-origin JS files does the real boot need? (parses HTML + static imports) ---- */
 async function expectedBootJs() {
   const html = await readFile(path.join(FRONTEND_DIR, HTML_FILE), 'utf8');
-  const queue = [...html.matchAll(/<script[^>]*type=["']module["'][^>]*src=["']([^"']+)["']/g)].map((m) => path.posix.normalize(m[1]));
+  // module scripts (+ their static import graph) AND, since 2026-11-17, the externalised classic same-origin scripts (app.js, ui-glow.js)
+  const queue = [...html.matchAll(/<script[^>]*\bsrc=["'](?!https?:)([^"']+)["'][^>]*>/g)].map((m) => path.posix.normalize(m[1]));
   const seen = new Set();
   while (queue.length) {
     const f = queue.shift();
@@ -200,7 +201,7 @@ try {
   }
 
   // ===================== VALID =====================
-  valid('V2-resolver-yields-6-js-files-incl-state-mjs', expected.length === 6 && expected.includes('/modules/state.mjs') && expected.includes('/main.js'), expected.join(','));
+  valid('V2-resolver-yields-8-js-files-incl-state-mjs-app-js', expected.length === 8 && expected.includes('/app.js') && expected.includes('/modules/state.mjs') && expected.includes('/main.js'), expected.join(','));
   valid('V2b-resolver-equals-observed-online-js-requests', JSON.stringify(expected) === JSON.stringify(A.onlineJs), 'observed=' + A.onlineJs.join(','));
   valid('V3-offline-is-real-server-closed-fetch-fails', A.offlineReallyOffline && A2.offlineReallyOffline && C.offlineReallyOffline);
   valid('V4a-control-transform-applied-sw-without-state-mjs', swText === null ? true : transformApplied, swText === null ? 'no sw.js in tree (PRE)' : `applied=${transformApplied}`);

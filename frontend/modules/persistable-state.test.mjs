@@ -341,7 +341,8 @@ const REAL_KEYS = [
   'topicMonitors', 'briefingLastSeenAt',
 ];
 function loadRealRegistry() {
-  const html = readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '..', 'neural_nexus_ai_agents-4-3-5-3.html'), 'utf8');
+  // 2026-11-17: the monolith's inline <script> body now lives in app.js (CSP slice) — same text, new file.
+  const html = readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '..', 'app.js'), 'utf8');
   const m = html.match(/const PERSISTABLE_STATE = \{[\s\S]*?\n\};/);
   if (!m) throw new Error('real PERSISTABLE_STATE block not found in the monolith');
   // The registry closes over 16 variables; declare them here so the REAL

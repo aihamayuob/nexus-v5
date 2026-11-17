@@ -6,7 +6,7 @@
    below (push, background sync, other caching rules) is NOT reproduced.
 
    What it does
-   - Precaches the 6 same-origin JS files the boot needs (main.js + 5 ES modules) atomically: if one is missing
+   - Precaches the 8 same-origin JS files the boot needs (main.js + 5 ES modules + the 2 classic scripts app.js / ui-glow.js) atomically: if one is missing
      the install FAILS (loud), it never silently installs a broken shell.
    - Best-effort precaches the document ('./' and the known HTML name). A deployment under another file name is
      cached at its first successful navigation.
@@ -18,13 +18,15 @@
    Cache versioning: bump CACHE_VERSION when the SHELL list changes. `activate` removes older `nexus-shell-*`
    caches (and only those). Not precached (disclosed): the lazily loaded same-origin ./vendor/ libs (QR, PDF.js) — they work offline only if cached by the browser HTTP cache; F-05 (2026-11-16) removed the cdnjs origin.
    ========================================================================== */
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2'; // bumped 2026-11-17: SHELL gained app.js + ui-glow.js (externalised inline scripts)
 const CACHE_NAME = 'nexus-shell-' + CACHE_VERSION;
 const HTML_NAME = 'neural_nexus_ai_agents-4-3-5-3.html';
 
 // Required boot files (ES module graph rooted at main.js). Keep one entry per line.
 const SHELL = [
   './main.js',
+  './app.js',
+  './ui-glow.js',
   './modules/security.mjs',
   './modules/storage.mjs',
   './modules/utilities.mjs',
