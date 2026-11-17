@@ -24,3 +24,19 @@ Checked against `modelcontextprotocol.io/specification/versioning`: current revi
 
 ## Not decided here
 Whether to ship M1 at all before a first buyer demo; transport choice (Streamable HTTP only vs stdio); A2A scope; connector SDK shape.
+
+---
+
+## Implementation record — M1 (2026-11-17) — status: PARTIAL (see limits)
+
+Implemented under R4 owner authorization (autonomous engineering). Code: `src-baseline/nexus-backend/src/mcp/mcpClient.ts`, `ssrfGuard.safeRequest`, migration `018_mcp_tool_pins.sql`, `tools/bootstrap.registerExternalReadOnlyTool`, routes `GET /v2/mcp/client` and `POST /v2/mcp/client/:name/enabled`. Tests: `test/mcpClient.test.ts` (19, written RED first; the module-missing RED and the exposure-gap RED were both observed failing for the missing behavior), `e2e/mcp-client-third-party.mjs` (official `@modelcontextprotocol/sdk` 1.32.2 **server**, JSON and SSE framing, stateless transport: 11/11). Full backend suite 723/723, typecheck clean.
+
+Acceptance mapping (ADR-007 A-M1.x): A-M1.1 real third-party server — VERIFIED for the SDK server above only (one vendor SDK, one version; no other server implementation tested). A-M1.2 failure modes (down/slow/malformed/oversize/too-many-tools) — VERIFIED against a local fake. A-M1.3 privacy canary — VERIFIED (0 requests on restricted task / local-provider caller; control reaches the meter); limit: task restriction marks live in process memory (same limit as GAP-1B). A-M1.4 effectful/unclassified refusal — VERIFIED (annotations from an untrusted server are only a *second* gate after the operator allow-list). A-M1.5 mutation checks — 13/14 mutants killed; the survivor (`!cfg.enabled` alone in `callTool`) is an equivalent mutant (disable also clears `connected`, which has its own killed guard).
+
+Deviations/decisions needing owner confirmation:
+1. Tool naming is `mcp__<server>__<tool>` (server names `[a-z][a-z0-9-]{0,31}`), chosen so a remote cannot shadow a built-in. Confirm or specify another scheme.
+2. Default limits 30 s / 1 MiB / 64 tools per server (env `NEXUS_MCP_TIMEOUT_MS`, `NEXUS_MCP_MAX_BYTES`, `NEXUS_MCP_MAX_TOOLS`). Unconfirmed defaults.
+3. Imported tools are never re-exposed through NEXUS's own `/mcp` server (hard exclusion of the `mcp__` prefix) — a deliberate confused-deputy rule beyond the ADR text.
+4. Registration goes through one narrow wrapper in `tools/bootstrap.ts` (name pattern + `read_only` + no `effect`), so the G8-10 / G81-7 source guards were NOT weakened.
+
+Known limits (not claimed): stdio transport, resources/prompts/sampling/roots, OAuth, and the stateless 2026-07-28 request style are NOT implemented; the client speaks the initialize handshake (UNVERIFIED against servers that dropped it). The tool `input_schema` is flattened to the project's lite schema (nested/array item schemas are not forwarded to model providers). The untrusted-data label on results is model guidance, not enforcement. No real-world remote server (public internet, TLS, auth token flow) was exercised: only loopback fakes and the SDK server on 127.0.0.1 — real bearer/TLS operation is UNVERIFIED.

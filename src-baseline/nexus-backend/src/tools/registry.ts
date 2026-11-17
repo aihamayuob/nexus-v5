@@ -4,10 +4,16 @@ import type { EffectClassification, ToolEffectSpec } from './effectTypes.js';
 /** Minimum length of a classification `reason` / `compensatingControls` — a speed bump against placeholders ("x", "ok"), NOT a quality check. */
 const MIN_ATTESTATION_CHARS = 10;
 
+/** Per-call context a tool MAY use (pipeline passes it; existing tools ignore it). `caller` is the provider id (or 'mcp') that triggered the call; `taskId` the owning task. */
+export interface ToolExecuteMeta {
+  taskId?: string | null;
+  caller?: string;
+}
+
 export interface RegisteredTool {
   def: ToolDef;
   /** Absent for server-native tools the provider itself executes (e.g. Anthropic's web_search_20250305) — those never reach our pipeline at all. Also absent for VEL tools (`effect` set): their only execution path is effect.dispatch() behind the VEL gate. */
-  execute?: (input: Record<string, unknown>) => Promise<string>;
+  execute?: (input: Record<string, unknown>, meta?: ToolExecuteMeta) => Promise<string>;
   timeoutMs: number;
   /** VEL opt-in: a tool with an external effect declares it here instead of `execute` (see tools/effectTypes.ts and tools/verifiedExecution.ts). */
   effect?: ToolEffectSpec;
@@ -51,6 +57,11 @@ class ToolRegistryImpl {
   /** Names of registered tools classified `legacy_exempt` (can cause external effects, not VEL-gated). Reviewable list; pinned by test/toolEffectClassification.test.ts. */
   listLegacyExemptions(): string[] {
     return [...this.tools.values()].filter((t) => t.effectClass?.kind === 'legacy_exempt').map((t) => t.def.name);
+  }
+
+  /** Removes a tool (used by the MCP client's kill-switch / reconnect). Returns whether it existed. */
+  unregister(name: string): boolean {
+    return this.tools.delete(name);
   }
 
   get(name: string): RegisteredTool | undefined {

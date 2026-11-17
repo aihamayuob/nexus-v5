@@ -1,4 +1,4 @@
-import { getToolRegistry } from './registry.js';
+import { getToolRegistry, type RegisteredTool } from './registry.js';
 import { logger } from '../core/logger.js';
 import { webFetchTool } from './builtin/webFetchTool.js';
 import { calculateTool } from './builtin/calculateTool.js';
@@ -29,4 +29,16 @@ export function bootstrapTools(): void {
   // when in reality Anthropic's own infrastructure runs it before we ever
   // see a tool_use block for it).
   bootstrapped = true;
+}
+
+/**
+ * M1 (MCP client): the ONE additional, deliberately narrow registration path. tools/bootstrap.ts stays the only file in src/ that calls registry.register()
+ * (test/toolEffectClassification G8-10 and test/codeExecutionNotRegistered G81-7 pin that), so a tool imported from a remote MCP server enters the registry
+ * HERE and only if it is (a) namespaced `mcp__<server>__<tool>` (cannot shadow a built-in), (b) a plain execute() tool — never a VEL `effect` tool — and
+ * (c) classified read_only. Anything else throws, so a bug in the MCP client cannot register an effectful or built-in-named tool.
+ */
+export function registerExternalReadOnlyTool(tool: RegisteredTool): void {
+  if (!/^mcp__[a-z][a-z0-9-]{0,31}__[A-Za-z0-9_-]{1,64}$/.test(tool.def.name)) throw new Error(`[M1] اسم أداة خارجية غير صالح: ${tool.def.name}`);
+  if (tool.effect || !tool.execute || tool.effectClass?.kind !== 'read_only') throw new Error(`[M1] الأداة الخارجية "${tool.def.name}" يجب أن تكون read_only بلا effect.`);
+  getToolRegistry().register(tool);
 }

@@ -16,33 +16,35 @@ const ALLOWED_SCHEMES = new Set(['http:', 'https:']);
  * Alibaba links land in the same /16), unique-local/link-local IPv6,
  * multicast, and the "this network" 0.0.0.0/8 block.
  */
-function isBlockedIp(ip: string): boolean {
+function isBlockedIp(ip: string, allowPrivate = false): boolean {
   const version = isIP(ip);
   if (version === 4) {
     const parts = ip.split('.').map(Number);
     const [a, b] = parts as [number, number, number, number];
     if (a === 0) return true; // 0.0.0.0/8
-    if (a === 10) return true; // 10.0.0.0/8
-    if (a === 127) return true; // loopback
-    if (a === 169 && b === 254) return true; // link-local incl. cloud metadata
-    if (a === 172 && b >= 16 && b <= 31) return true; // 172.16.0.0/12
-    if (a === 192 && b === 168) return true; // 192.168.0.0/16
+    if (a === 169 && b === 254) return true; // link-local incl. cloud metadata — NEVER allowed, even with allowPrivate
+    if (!allowPrivate) {
+      if (a === 10) return true; // 10.0.0.0/8
+      if (a === 127) return true; // loopback
+      if (a === 172 && b >= 16 && b <= 31) return true; // 172.16.0.0/12
+      if (a === 192 && b === 168) return true; // 192.168.0.0/16
+    }
     if (a === 100 && b >= 64 && b <= 127) return true; // 100.64.0.0/10 (carrier-grade NAT, also used by some cloud metadata proxies)
     if (a >= 224) return true; // multicast (224-239) + reserved (240-255)
     return false;
   }
   if (version === 6) {
     const lower = ip.toLowerCase();
-    if (lower === '::1') return true; // loopback
+    if (lower === '::1') return !allowPrivate; // loopback
     if (lower === '::') return true;
     if (lower.startsWith('fe80:') || lower.startsWith('fe8') || lower.startsWith('fe9') || lower.startsWith('fea') || lower.startsWith('feb'))
       return true; // link-local fe80::/10
-    if (lower.startsWith('fc') || lower.startsWith('fd')) return true; // unique local fc00::/7
+    if (lower.startsWith('fc') || lower.startsWith('fd')) return !allowPrivate; // unique local fc00::/7
     if (lower.startsWith('ff')) return true; // multicast
     if (lower.startsWith('::ffff:')) {
       // IPv4-mapped IPv6 — validate the embedded v4 address too
       const v4 = lower.slice('::ffff:'.length);
-      if (isIP(v4) === 4) return isBlockedIp(v4);
+      if (isIP(v4) === 4) return isBlockedIp(v4, allowPrivate);
     }
     return false;
   }
@@ -63,7 +65,7 @@ export interface SafeFetchOptions {
 }
 
 /** Resolves hostname -> a validated public IP, or throws Errors.ssrfBlocked(). Exported for unit testing the pure validation logic without a real socket. */
-export async function resolveAndValidate(hostname: string): Promise<{ address: string; family: number }> {
+export async function resolveAndValidate(hostname: string, opts: { allowPrivate?: boolean } = {}): Promise<{ address: string; family: number }> {
   // A bare IP literal in the URL still goes through isBlockedIp — dns.lookup
   // on a literal just echoes it back, so this path is uniform either way.
   let resolved: { address: string; family: number };
@@ -72,7 +74,7 @@ export async function resolveAndValidate(hostname: string): Promise<{ address: s
   } catch {
     throw Errors.ssrfBlocked('تعذّر تحليل عنوان النطاق.');
   }
-  if (isBlockedIp(resolved.address)) {
+  if (isBlockedIp(resolved.address, opts.allowPrivate === true)) {
     // Production Hardening: this MUST go through auditSecurityEvent()
     // (which itself calls logger.security() internally AND persists to
     // the durable security_audit_log table) rather than calling
@@ -190,4 +192,95 @@ function safeParseUrl(raw: string): URL {
   } catch {
     throw Errors.validation('رابط غير صالح.');
   }
+}
+
+export interface SafeRequestOptions {
+  method?: 'GET' | 'POST' | 'DELETE';
+  headers?: Record<string, string>;
+  body?: string;
+  timeoutMs?: number;
+  maxBodyBytes?: number;
+  /** Operator-explicit opt-in for loopback/RFC1918/ULA targets (e.g. a local MCP server). Link-local/cloud-metadata, 0.0.0.0/8, CGNAT and multicast stay blocked regardless. */
+  allowPrivate?: boolean;
+}
+
+export interface SafeRequestResult {
+  status: number;
+  /** Lower-cased header names; multi-value headers are joined with ", ". */
+  headers: Record<string, string>;
+  bodyText: string;
+}
+
+/**
+ * Like safeFetch (same DNS-pinned connect, same scheme/credential checks, same body cap) but for a single JSON-RPC style request: any method/body, an
+ * OVERALL deadline (not just socket idle), and NO redirect following — a 3xx is refused outright (a malicious/compromised remote must not be able to bounce
+ * an authenticated request, or the bearer header, to another host). Used by the MCP client; safeFetch (web_fetch) is unchanged.
+ */
+export async function safeRequest(rawUrl: string, opts: SafeRequestOptions = {}): Promise<SafeRequestResult> {
+  const timeoutMs = opts.timeoutMs ?? 10_000;
+  const maxBodyBytes = opts.maxBodyBytes ?? 1_000_000;
+  const url = safeParseUrl(rawUrl);
+  if (!ALLOWED_SCHEMES.has(url.protocol)) throw Errors.ssrfBlocked('بروتوكول الرابط غير مسموح — http/https فقط.');
+  if (url.username || url.password) throw Errors.ssrfBlocked('روابط تحتوي بيانات اعتماد مضمّنة غير مسموحة.');
+  const { address, family } = await resolveAndValidate(url.hostname, { allowPrivate: opts.allowPrivate });
+
+  return new Promise<SafeRequestResult>((resolve, reject) => {
+    const isHttps = url.protocol === 'https:';
+    const reqFn = isHttps ? httpsRequest : httpRequest;
+    const pinnedLookup: LookupFunction = (_hostname, _options, callback) => {
+      callback(null, address, family as 4 | 6);
+    };
+    let settled = false;
+    const done = (fn: () => void) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(deadline);
+      fn();
+    };
+    const req = reqFn(
+      {
+        protocol: url.protocol,
+        hostname: url.hostname,
+        port: url.port || (isHttps ? 443 : 80),
+        path: url.pathname + url.search,
+        method: opts.method ?? 'GET',
+        headers: { 'User-Agent': 'NexusBackend/2.0 (+mcp client)', ...opts.headers, ...(opts.body !== undefined ? { 'Content-Length': String(Buffer.byteLength(opts.body)) } : {}) },
+        lookup: pinnedLookup,
+      } as RequestOptions,
+      (res: IncomingMessage) => {
+        const status = res.statusCode ?? 0;
+        if (status >= 300 && status < 400) {
+          res.resume();
+          auditSecurityEvent('warn', 'SSRF blocked: redirect refused (request not followed)', { hostname: url.hostname, status });
+          done(() => reject(Errors.ssrfBlocked('إعادة توجيه (redirect) مرفوضة — لا تُتّبع إعادة التوجيه.')));
+          req.destroy();
+          return;
+        }
+        const chunks: Buffer[] = [];
+        let total = 0;
+        res.on('data', (chunk: Buffer) => {
+          total += chunk.length;
+          if (total > maxBodyBytes) {
+            req.destroy();
+            done(() => reject(Errors.payloadTooLarge('محتوى الاستجابة أكبر من المسموح.')));
+            return;
+          }
+          chunks.push(chunk);
+        });
+        res.on('end', () => {
+          const headers: Record<string, string> = {};
+          for (const [k, v] of Object.entries(res.headers)) if (v !== undefined) headers[k.toLowerCase()] = Array.isArray(v) ? v.join(', ') : String(v);
+          done(() => resolve({ status, headers, bodyText: Buffer.concat(chunks).toString('utf-8') }));
+        });
+        res.on('error', (e) => done(() => reject(Errors.provider(`فشل الاتصال: ${e.message}`, true))));
+      }
+    );
+    const deadline = setTimeout(() => {
+      req.destroy();
+      done(() => reject(Errors.timeout('انتهت مهلة الطلب (مهلة).')));
+    }, timeoutMs);
+    req.on('error', (e) => done(() => reject(Errors.provider(`فشل الاتصال: ${e.message}`, true))));
+    if (opts.body !== undefined) req.write(opts.body);
+    req.end();
+  });
 }

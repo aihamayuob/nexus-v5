@@ -128,6 +128,19 @@ export const ServerConfig = {
   /** VEL allow-rules as a JSON array (see tools/effectPolicy.ts). Empty/invalid = NO rules = every effectful action is denied (default-deny). */
   velPolicyJson: process.env.NEXUS_VEL_POLICY_JSON?.trim() || '',
 
+  /**
+   * NEXUS MCP CLIENT (M1, ADR-007/007a). OPT-IN: no remote MCP server is contacted unless the operator lists it in NEXUS_MCP_SERVERS (a JSON array; see mcp/mcpClient.ts
+   * parseMcpServers — credentials are referenced by ENV VAR NAME only, never inline). NEXUS_MCP_CLIENT_ENABLED=false is a global kill-switch (nothing connects, nothing registers).
+   * Limits are defaults pending owner confirmation (ADR-007a): 30 s per request, 1 MiB per response, 64 tools per server.
+   */
+  mcpClientEnabled: bool('NEXUS_MCP_CLIENT_ENABLED', true),
+  mcpServersJson: process.env.NEXUS_MCP_SERVERS?.trim() || '',
+  mcpTimeoutMs: num('NEXUS_MCP_TIMEOUT_MS', 30_000),
+  mcpMaxBytes: num('NEXUS_MCP_MAX_BYTES', 1_048_576),
+  mcpMaxTools: num('NEXUS_MCP_MAX_TOOLS', 64),
+  /** Comma-separated "server.tool" entries the operator explicitly accepts a CHANGED definition for (re-pin). Remove after one boot. */
+  mcpRepin: list('NEXUS_MCP_REPIN'),
+
   /** SQLite file path. ':memory:' is valid (used by the test suite). */
   dbPath: process.env.NEXUS_DB_PATH?.trim() || './data/nexus.db',
 

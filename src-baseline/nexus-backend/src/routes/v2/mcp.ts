@@ -3,7 +3,8 @@ import { readJsonBody } from '../../gateway/middleware/bodyLimit.js';
 import { getToolRegistry, type RegisteredTool } from '../../tools/registry.js';
 import { executeToolCall } from '../../tools/pipeline.js';
 import { auditSecurityEvent } from '../../security/audit.js';
-import { normalizeError } from '../../core/errors.js';
+import { Errors, normalizeError } from '../../core/errors.js';
+import { getMcpClient } from '../../mcp/mcpClient.js';
 
 /**
  * NEXUS MCP server — minimal, READ-ONLY Model Context Protocol endpoint (JSON-RPC 2.0 over HTTP POST /mcp). Owner-authorized 2026-11-14.
@@ -23,12 +24,30 @@ const err = (id: unknown, code: number, message: string) => ({ jsonrpc: '2.0', i
 
 function exposed(t: RegisteredTool | undefined): t is RegisteredTool {
   if (!t || !t.execute || t.effect) return false;
+  if (t.def.name.startsWith('mcp__')) return false; // M1: tools imported FROM a remote MCP server are never proxied back out (confused-deputy / transitive exposure)
   const kind = t.effectClass?.kind;
   if (kind === 'pure') return true;
   return kind === 'read_only' && process.env.NEXUS_MCP_EXPOSE_READ_ONLY === '1';
 }
 
 export function registerMcpRoutes(router: Router) {
+  // M1 (MCP CLIENT) operator surface: status (no secrets) and a live kill-switch per remote server. Gateway-authenticated like every non-health route.
+  router.get('/v2/mcp/client', async (ctx: RouteContext) => {
+    ctx.res.writeHead(200, { 'Content-Type': 'application/json' });
+    ctx.res.end(JSON.stringify({ configured: !!getMcpClient(), servers: getMcpClient()?.status() ?? [] }));
+  });
+  router.post('/v2/mcp/client/:name/enabled', async (ctx: RouteContext) => {
+    const mgr = getMcpClient();
+    const name = ctx.params.name!;
+    if (!mgr || !mgr.status().some((s) => s.name === name)) throw Errors.notFound('خادم MCP غير معروف.');
+    const body = await readJsonBody<{ enabled?: unknown }>(ctx.req);
+    if (typeof body.enabled !== 'boolean') throw Errors.validation('الحقل "enabled" مطلوب (true/false).');
+    await mgr.setEnabled(name, body.enabled);
+    auditSecurityEvent('info', 'MCP server enabled flag changed via API', { server: name, enabled: body.enabled, client: ctx.gw.clientKey });
+    ctx.res.writeHead(200, { 'Content-Type': 'application/json' });
+    ctx.res.end(JSON.stringify({ server: mgr.status().find((s) => s.name === name) }));
+  });
+
   router.post('/mcp', async (ctx: RouteContext) => {
     const send = (status: number, body?: unknown): void => {
       if (body === undefined) {

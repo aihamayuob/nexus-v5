@@ -76,7 +76,7 @@ export async function executeToolCall(req: ToolCallRequest, providerId: ToolCall
     if (errors.length) throw Errors.toolValidation(errors.join(' '), { errors });
 
     // 5. Execution + 6. Timeout
-    const raw = await withTimeout(registered.execute(req.input), registered.timeoutMs, req.name);
+    const raw = await withTimeout(registered.execute(req.input, { taskId: opts.taskId ?? null, caller: providerId }), registered.timeoutMs, req.name);
 
     // 7. Sanitization
     const clean = sanitize(raw);

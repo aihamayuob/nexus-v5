@@ -27,6 +27,7 @@ import { AgentGenomeRepo } from './repositories/agentGenomeRepo.js';
 import { KnowledgeFreshnessRepo } from './repositories/knowledgeFreshnessRepo.js';
 import { FineTuningJobRepo } from './repositories/fineTuningJobRepo.js';
 import { ExecutionReceiptRepo } from './repositories/executionReceiptRepo.js';
+import { McpToolPinRepo } from './repositories/mcpToolPinRepo.js';
 
 export interface Repos {
   tasks: TaskRepo;
@@ -56,6 +57,7 @@ export interface Repos {
   knowledgeFreshness: KnowledgeFreshnessRepo;
   fineTuningJobs: FineTuningJobRepo;
   executionReceipts: ExecutionReceiptRepo;
+  mcpToolPins: McpToolPinRepo;
 }
 
 export function buildRepos(db: DatabaseSync): Repos {
@@ -87,6 +89,7 @@ export function buildRepos(db: DatabaseSync): Repos {
     knowledgeFreshness: new KnowledgeFreshnessRepo(db),
     fineTuningJobs: new FineTuningJobRepo(db),
     executionReceipts: new ExecutionReceiptRepo(db),
+    mcpToolPins: new McpToolPinRepo(db),
   };
 }
 
