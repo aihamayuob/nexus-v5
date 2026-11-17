@@ -1,0 +1,32 @@
+# NEXUS — TLS-terminating reverse proxy (nginx). Template: replace the @PLACEHOLDERS@ (the E2E e2e/tls-reverse-proxy-flow.mjs does exactly this).
+# Topology: browser --HTTPS--> nginx (this file) --HTTP on 127.0.0.1--> launcher static UI (@UI_PORT@) and NEXUS backend (@API_PORT@).
+# The backend stays bound to 127.0.0.1 and is never exposed directly. Start the backend with:  NEXUS_TRUST_PROXY=127.0.0.1   (see docs/DEPLOYMENT-TLS.md)
+worker_processes 1;
+pid @RUN_DIR@/nginx.pid;
+error_log @RUN_DIR@/error.log warn;
+events { worker_connections 256; }
+http {
+  access_log @RUN_DIR@/access.log;
+  client_body_temp_path @RUN_DIR@/tmp/body; proxy_temp_path @RUN_DIR@/tmp/proxy; fastcgi_temp_path @RUN_DIR@/tmp/fcgi; uwsgi_temp_path @RUN_DIR@/tmp/uwsgi; scgi_temp_path @RUN_DIR@/tmp/scgi;
+  server_tokens off;
+  # Redirect plain HTTP to HTTPS (optional; remove if you do not open :80).
+  # server { listen @LISTEN_IP@:80; return 301 https://$host$request_uri; }
+  server {
+    listen @LISTEN_IP@:@TLS_PORT@ ssl;
+    ssl_certificate     @CERT@;
+    ssl_certificate_key @KEY@;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+    client_max_body_size 25m;            # file-upload RAG; keep >= the backend body limit
+    # Security: the client's own X-Forwarded-For is DISCARDED and replaced by the real peer address ($remote_addr), never appended to.
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header Host $host;
+    proxy_http_version 1.1;
+    proxy_read_timeout 300s;             # long model replies / SSE
+    proxy_buffering off;                 # server-sent events (streaming chat) must not be buffered
+    location ~ ^/(api|v2|mcp|health)(/|$) { proxy_pass http://127.0.0.1:@API_PORT@; }
+    @TEST_LOCATIONS@
+    location / { proxy_pass http://127.0.0.1:@UI_PORT@; }
+  }
+}
