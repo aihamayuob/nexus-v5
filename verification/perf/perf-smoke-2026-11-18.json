@@ -1,0 +1,69 @@
+{
+  "note": "INDICATIVE ONLY — single run, loopback, no TLS, no model calls; not a capacity or SLA claim",
+  "env": {
+    "node": "v22.23.4",
+    "cpus": 2,
+    "cpuModel": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "memGB": 7.8
+  },
+  "results": [
+    {
+      "name": "GET /v2/health",
+      "mode": "sequential",
+      "n": 2000,
+      "p50_ms": 0.45,
+      "p95_ms": 0.8,
+      "p99_ms": 2.67,
+      "max_ms": 6.45,
+      "req_per_s": 2011
+    },
+    {
+      "name": "GET /v2/warden/status (authenticated, DB reads)",
+      "mode": "sequential",
+      "n": 1000,
+      "p50_ms": 0.66,
+      "p95_ms": 0.89,
+      "p99_ms": 2.44,
+      "max_ms": 6.7,
+      "req_per_s": 1396
+    },
+    {
+      "name": "GET /v2/warden/status (no credentials → 401)",
+      "mode": "sequential",
+      "n": 1000,
+      "p50_ms": 0.58,
+      "p95_ms": 1,
+      "p99_ms": 2.98,
+      "max_ms": 11.83,
+      "req_per_s": 1467
+    },
+    {
+      "name": "GET /v2/health",
+      "mode": "concurrent x50",
+      "n": 3000,
+      "p50_ms": 4.88,
+      "p95_ms": 13.49,
+      "p99_ms": 18.59,
+      "max_ms": 21.68,
+      "req_per_s": 8008
+    },
+    {
+      "name": "GET /v2/warden/status (authenticated)",
+      "mode": "concurrent x25",
+      "n": 2000,
+      "p50_ms": 3.4,
+      "p95_ms": 13.68,
+      "p99_ms": 21.44,
+      "max_ms": 31.86,
+      "req_per_s": 5009
+    }
+  ],
+  "rateLimiterUnderBurst": {
+    "requests": 300,
+    "statusCounts": {
+      "401": 20,
+      "429": 280
+    },
+    "note": "default NEXUS_RATE_LIMIT_PER_MINUTE=60 / BURST=20; failed authentication is throttled per client IP (401 first, then 429)"
+  }
+}

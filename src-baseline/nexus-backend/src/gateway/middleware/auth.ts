@@ -4,6 +4,7 @@ import { ServerConfig } from '../../config/env.js';
 import { Errors } from '../../core/errors.js';
 import type { GatewayContext } from '../../capability/permissionModel.js';
 import { auditSecurityEvent } from '../../security/audit.js';
+import { checkRateLimit } from './rateLimit.js';
 import { parseTrustedPeers, resolveClientIp, type TrustedPeers } from './clientIp.js';
 
 function safeCompare(a: string, b: string): boolean {
@@ -58,6 +59,11 @@ export function clientIp(req: IncomingMessage): string {
  * this deployment ever needs genuinely separate, mutually-untrusted
  * identities sharing one instance.
  */
+/** Failed authentication draws from a per-client-IP bucket (`authfail:<ip>`, same token-bucket + limits as everything else); once it is empty the caller gets 429 instead of 401 — key guessing is no longer unlimited. Valid keys use their own bucket, so an attacker on a shared IP cannot starve a legitimate key. */
+function throttleAuthFailure(ip: string): void {
+  checkRateLimit(`authfail:${ip}`);
+}
+
 export function authenticate(req: IncomingMessage): GatewayContext {
   const ip = clientIp(req);
   if (ServerConfig.gatewayKeys.length === 0) {
@@ -66,11 +72,13 @@ export function authenticate(req: IncomingMessage): GatewayContext {
   const token = extractBearer(req);
   if (!token) {
     auditSecurityEvent('warn', 'Auth failed: missing Bearer token', { ip, path: req.url });
+    throttleAuthFailure(ip);
     throw Errors.auth();
   }
   const matched = ServerConfig.gatewayKeys.some((k) => safeCompare(k, token));
   if (!matched) {
     auditSecurityEvent('warn', 'Auth failed: invalid gateway key', { ip, path: req.url });
+    throttleAuthFailure(ip);
     throw Errors.auth();
   }
   return { authenticated: true, clientKey: keyIdentity(token), ownerKey: createHash('sha256').update(token).digest('hex'), projectId: null, userId: null };
