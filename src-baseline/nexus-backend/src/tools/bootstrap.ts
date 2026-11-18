@@ -42,3 +42,18 @@ export function registerExternalReadOnlyTool(tool: RegisteredTool): void {
   if (tool.effect || !tool.execute || tool.effectClass?.kind !== 'read_only') throw new Error(`[M1] الأداة الخارجية "${tool.def.name}" يجب أن تكون read_only بلا effect.`);
   getToolRegistry().register(tool);
 }
+
+/**
+ * C1 (Connector SDK): the second narrow registration path, used only by connectors/connectorSdk.ts AFTER manifest validation. It re-checks the invariants that matter
+ * so that a bug in the SDK cannot register a tool that shadows an existing one or bypasses the effect declaration: a snake_case name that is not taken and not in the
+ * `mcp__` namespace, and EITHER a pure/read_only execute() tool OR a VEL `effect` tool (never both, never legacy_exempt).
+ */
+export function registerConnectorTool(tool: RegisteredTool): void {
+  const name = tool.def.name;
+  if (!/^[a-z][a-z0-9_]{2,40}$/.test(name) || name.startsWith('mcp__')) throw new Error(`[C1] اسم موصل غير صالح: ${name}`);
+  if (getToolRegistry().get(name)) throw new Error(`[C1] الاسم "${name}" مسجّل مسبقاً (already registered).`);
+  const viaVel = !!tool.effect && !tool.execute && !tool.effectClass;
+  const viaExecute = !tool.effect && !!tool.execute && (tool.effectClass?.kind === 'pure' || tool.effectClass?.kind === 'read_only');
+  if (!viaVel && !viaExecute) throw new Error(`[C1] الموصل "${name}" يجب أن يكون (pure|read_only مع execute) أو (effect عبر VEL) فقط.`);
+  getToolRegistry().register(tool);
+}

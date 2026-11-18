@@ -10,6 +10,7 @@ import { ServerConfig } from './config/env.js';
 import { startRetentionSweeper, runRetentionSweep } from './observability/retention.js';
 import { startSchedulerLoop } from './scheduler/schedulerRunner.js';
 import { logger } from './core/logger.js';
+import { registerFirstPartyConnectors } from './connectors/registry.js';
 import { startMcpClient } from './mcp/mcpClient.js';
 import { enforceDeployment } from './config/deploymentGuard.js';
 
@@ -20,6 +21,7 @@ async function main() {
   const bootTime = Date.now();
   getDb(); // runs migrations
   bootstrapTools();
+  registerFirstPartyConnectors(); // C1: throws (process does not start) on an invalid connector; the default list is empty
   // M1: opt-in MCP client (NEXUS_MCP_SERVERS). Never throws: a failing remote must not block startup. Runs before listen so imported tools exist from the first request.
   await startMcpClient(
     { enabled: ServerConfig.mcpClientEnabled, serversJson: ServerConfig.mcpServersJson, timeoutMs: ServerConfig.mcpTimeoutMs, maxBytes: ServerConfig.mcpMaxBytes, maxTools: ServerConfig.mcpMaxTools, repin: ServerConfig.mcpRepin },
