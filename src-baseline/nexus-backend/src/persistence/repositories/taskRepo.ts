@@ -88,6 +88,15 @@ export class TaskRepo {
     this.db.prepare('UPDATE tasks SET provider = ?, model = ?, updated_at = ? WHERE id = ?').run(provider, model, Date.now(), id);
   }
 
+  /** Boot sweep: `chat` tasks still pending/running belong to a process that no longer exists (single-process SQLite). Marks them failed and returns the ids. `runtime_plan` is excluded on purpose — it has durable resume. */
+  failInterruptedChat(message: string): string[] {
+    const ids = (this.db.prepare("SELECT id FROM tasks WHERE kind = 'chat' AND status IN ('pending','running')").all() as Array<{ id: string }>).map((r) => r.id);
+    const now = Date.now();
+    const upd = this.db.prepare("UPDATE tasks SET status = 'failed', updated_at = ?, finished_at = COALESCE(finished_at, ?), error_message = ? WHERE id = ? AND kind = 'chat' AND status IN ('pending','running')");
+    for (const id of ids) upd.run(now, now, message, id);
+    return ids;
+  }
+
   recent(limit = 50): TaskRecord[] {
     const rows = this.db.prepare('SELECT * FROM tasks ORDER BY created_at DESC, rowid DESC LIMIT ?').all(limit) as Record<string, unknown>[];
     return rows.map(rowToRecord);

@@ -24,6 +24,7 @@ import { registerDreamingRoutes } from '../routes/v2/dreaming.js';
 import { registerIotRoutes } from '../routes/v2/iot.js';
 import { registerResearchRoutes } from '../routes/v2/research.js';
 import { registerMcpRoutes } from '../routes/v2/mcp.js';
+import { registerA2aRoutes } from '../routes/v2/a2a.js';
 import { registerExecutionReceiptRoutes } from '../routes/v2/executionReceipts.js';
 import { ServerConfig } from '../config/env.js';
 import { logger } from '../core/logger.js';
@@ -56,6 +57,7 @@ export function buildRouter(): Router {
   registerResearchRoutes(router);
   registerExecutionReceiptRoutes(router);
   registerMcpRoutes(router);
+  registerA2aRoutes(router);
   return router;
 }
 

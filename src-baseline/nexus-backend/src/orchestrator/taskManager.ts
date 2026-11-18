@@ -274,6 +274,17 @@ export async function resumeInterruptedPlans(): Promise<void> {
   }
 }
 
+/**
+ * Boot sweep for `chat`-kind tasks (the fast path behind /v2/tasks, /api/chat and A2A SendMessage). They have no checkpoint, so they cannot be resumed;
+ * after a crash they used to stay 'running' forever and any poller waited indefinitely. They become terminal `failed` with an explicit reason.
+ * Must run BEFORE the server accepts requests (nothing can legitimately be running then). Returns how many were failed. Idempotent.
+ */
+export function failInterruptedChatTasks(): number {
+  const ids = getRepos().tasks.failInterruptedChat('انقطعت المهمة بسبب إعادة تشغيل الخادم قبل اكتمالها (interrupted by server restart)');
+  for (const taskId of ids) logger.warn('Chat task interrupted by restart — marked failed', { taskId });
+  return ids.length;
+}
+
 export function taskManagerStatus() {
   return { runningCount: running.size, maxConcurrency: ServerConfig.maxConcurrency };
 }

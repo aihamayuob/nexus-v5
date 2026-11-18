@@ -28,6 +28,7 @@ import { KnowledgeFreshnessRepo } from './repositories/knowledgeFreshnessRepo.js
 import { FineTuningJobRepo } from './repositories/fineTuningJobRepo.js';
 import { ExecutionReceiptRepo } from './repositories/executionReceiptRepo.js';
 import { McpToolPinRepo } from './repositories/mcpToolPinRepo.js';
+import { A2aTaskRepo } from './repositories/a2aTaskRepo.js';
 
 export interface Repos {
   tasks: TaskRepo;
@@ -58,6 +59,7 @@ export interface Repos {
   fineTuningJobs: FineTuningJobRepo;
   executionReceipts: ExecutionReceiptRepo;
   mcpToolPins: McpToolPinRepo;
+  a2aTasks: A2aTaskRepo;
 }
 
 export function buildRepos(db: DatabaseSync): Repos {
@@ -90,6 +92,7 @@ export function buildRepos(db: DatabaseSync): Repos {
     fineTuningJobs: new FineTuningJobRepo(db),
     executionReceipts: new ExecutionReceiptRepo(db),
     mcpToolPins: new McpToolPinRepo(db),
+    a2aTasks: new A2aTaskRepo(db),
   };
 }
 

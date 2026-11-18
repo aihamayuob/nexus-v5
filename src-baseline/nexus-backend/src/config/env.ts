@@ -141,6 +141,17 @@ export const ServerConfig = {
   /** Comma-separated "server.tool" entries the operator explicitly accepts a CHANGED definition for (re-pin). Remove after one boot. */
   mcpRepin: list('NEXUS_MCP_REPIN'),
 
+  /**
+   * NEXUS A2A SERVER (A1, ADR-007 §2). OPT-IN: the endpoint and Agent Card exist only when NEXUS_A2A_PROVIDER names the provider that executes delegated tasks
+   * (a peer can NOT choose the provider/model). Tasks use the same engine, budget and egress guards as /v2/tasks; a peer authenticates with a normal gateway key.
+   * NEXUS_A2A_PUBLIC_URL = the externally reachable base URL advertised in the card (default: derived from the request Host header).
+   */
+  a2aProvider: process.env.NEXUS_A2A_PROVIDER?.trim() || '',
+  a2aPublicUrl: process.env.NEXUS_A2A_PUBLIC_URL?.trim() || '',
+  /** How long a blocking SendMessage waits for a terminal/interrupted state before returning the current (non-terminal) Task. */
+  a2aWaitMs: num('NEXUS_A2A_WAIT_MS', 120_000),
+  a2aMaxInputChars: num('NEXUS_A2A_MAX_INPUT_CHARS', 20_000),
+
   /** SQLite file path. ':memory:' is valid (used by the test suite). */
   dbPath: process.env.NEXUS_DB_PATH?.trim() || './data/nexus.db',
 

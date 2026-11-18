@@ -1,6 +1,6 @@
 import { getDb } from './persistence/db.js';
 import { bootstrapTools } from './tools/bootstrap.js';
-import { resumeInterruptedPlans } from './orchestrator/taskManager.js';
+import { resumeInterruptedPlans, failInterruptedChatTasks } from './orchestrator/taskManager.js';
 import { resumeInterruptedMissions } from './orchestrator/missionRunner.js';
 import { resumeInterruptedCouncilSessions } from './council/councilRunner.js';
 import { recoverInFlightReceipts } from './tools/verifiedExecution.js';
@@ -27,6 +27,7 @@ async function main() {
     { enabled: ServerConfig.mcpClientEnabled, serversJson: ServerConfig.mcpServersJson, timeoutMs: ServerConfig.mcpTimeoutMs, maxBytes: ServerConfig.mcpMaxBytes, maxTools: ServerConfig.mcpMaxTools, repin: ServerConfig.mcpRepin },
     logger
   ).catch((e) => logger.error('MCP client start failed', { message: (e as Error).message }));
+  failInterruptedChatTasks(); // before listen: chat tasks left running by a crash have no owner and no checkpoint → terminal failed (never 'running' forever)
   const server = startServer();
 
   // Real durable-execution resume — not just detecting that something was
