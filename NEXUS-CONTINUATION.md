@@ -177,3 +177,22 @@ Evidence Integrity أُغلق في CP-16 (VERIFIED ضمن حدوده) — لا �
 **Exact stopping point**: after the final verify-all and documentation, before Phase 3 code (M1) and Phase 4 real-provider/device/TLS work.
 
 **Next authorized action**: only what the owner approves. Recommended order: (a) supply the R3 tree for a 3-way merge; (b) approve/adjust ADR-007 and start M1.0 acceptance tests; (c) provide env keys + spend cap and run `e2e/real-provider-validation.mjs`; (d) approve push of `work/r4-continue` to a review branch.
+
+---
+
+## CONTINUATION ADDENDUM 25 — 2026-11-18 (R4 final; appended, nothing above was altered)
+
+**Work performed** (local branch `merge/r3-into-r4`; nothing pushed): R3 source imported and merged; pdf.js 4.10.38; CSP without inline `<script>`; F06-b TLS via documented nginx reverse proxy with real nginx+Chromium E2E; **M1** MCP client; **C1** Connector SDK; **A1** A2A v1.0 server; fixes found along the way — chat tasks interrupted by a crash stayed `running` forever (boot sweep → `failed`), failed gateway auth was never rate-limited (per-IP bucket), backend `typescript` devDependency `*` → `7.0.2`; SBOM regenerated; perf smoke + coverage measured; `verify-all.sh` now runs the M1/A1 third-party interop E2Es when `MCP_SDK_DIR`/`A2A_SDK_DIR` are set. See `NEXUS-CURRENT-STATE.md` (UNIFIED STATE 2026-11-18), `docs/OPERATIONAL-BUILD.md` §9, `docs/A2A-SERVER.md`, `docs/CONNECTOR-SDK.md`, ADR-007a implementation records.
+
+**Evidence**: full `scripts/verify-all.sh` on the final code HEAD — all steps exit 0; backend 754/754, Vitest 198/198, TLS 12/12, MCP-client interop 11/11 (official `@modelcontextprotocol/sdk` 1.32.2 server), A2A interop 9/9 (official `@a2a-js/sdk` 1.3.0 client + SIGKILL/restart), scenarios 39/39, UI demo 7/7, real-provider harness PASS 23 / BLOCKED 10. Backend coverage lines 94.1 % / branches 87.0 % / functions 95.3 %. Each new behaviour was written RED first (missing-module/missing-export or observed wrong behaviour) and mutation-checked; surviving mutants are documented in the ADR records as equivalent.
+
+**Statuses**: see the UNIFIED STATE block (VERIFIED / PARTIAL / PENDING / BLOCKED / UNVERIFIED lists). M1, C1, A1 = PARTIAL. Real providers = BLOCKED.
+
+**Blockers / risks**: (1) provider keys and a spend cap are required for real-provider validation; (2) pushing/merging the branch needs owner approval and a target; (3) ADR-007/007a deviations need owner confirmation; (4) `script-src-attr 'unsafe-inline'` remains; (5) A2A has no per-peer privacy mode — it runs on one operator-configured provider; (6) only Chromium was available (Firefox/Safari/real devices UNVERIFIED); (7) no `LICENSE`/`NOTICE`, image provenance unverified.
+
+**Owner decisions in force**: the R4 Full Owner Authorization (autonomous slice-by-slice engineering; push/merge/release/deploy and any paid usage still require explicit approval; no secrets in logs; no licence attestation; no deletions or history rewrites).
+
+**Exact stopping point**: after the final verify-all on the final tree, the continuity documents and the owner deliverable bundle; before any push, real-provider run, or new feature slice.
+
+**Next authorized action**: only what the owner approves. Recommended order: (a) review the deviation list in ADR-007a and the two core behaviour changes; (b) approve a push of `merge/r3-into-r4` to a review branch; (c) supply env keys + spend cap and run `e2e/real-provider-validation.mjs`; (d) decide licence/NOTICE and image provenance; (e) optionally authorize removal of inline handlers (CSP) and an A2A streaming/privacy-mode slice.
+
