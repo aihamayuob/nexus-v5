@@ -196,3 +196,8 @@ Evidence Integrity أُغلق في CP-16 (VERIFIED ضمن حدوده) — لا �
 
 **Next authorized action**: only what the owner approves. Recommended order: (a) review the deviation list in ADR-007a and the two core behaviour changes; (b) approve a push of `merge/r3-into-r4` to a review branch; (c) supply env keys + spend cap and run `e2e/real-provider-validation.mjs`; (d) decide licence/NOTICE and image provenance; (e) optionally authorize removal of inline handlers (CSP) and an A2A streaming/privacy-mode slice.
 
+
+
+---
+## Dated addition 2026-11-20 (append-only)
+Addendum 29 (`continuity/NEXUS-CONTINUATION-ADDENDUM-29-2026-11-20.md`): R4 baseline reproduced on isolated branch `work/r4-backend-html`; standalone HTML client added (E2E 55/55, simulated providers); backend source unchanged; no push/merge/tag/deploy. Next authorised action: none — wait for owner. Earlier text above is unmodified.
