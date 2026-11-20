@@ -1,0 +1,71 @@
+=== 1. SHA-256 file check ===
+nexus-r4-full.bundle: OK
+rc=0
+=== 2. bundle header (refs, prerequisites) ===
+# v2 git bundle
+e08f70b3b89527fa5f9d3ebce45728dae1c39ed3 refs/heads/baseline-fba63d5
+04d31e9e4099c9c19d8ee1843b43e6959adc9160 refs/heads/import/r3-2026-11-15
+52b12c14dc9e5b09dfe6bc7a90465b74b9590505 refs/heads/merge/r3-into-r4
+64469d7a684993b536713c53eecd3b42c3844aa7 refs/heads/work/r4-continue
+52b12c14dc9e5b09dfe6bc7a90465b74b9590505 HEAD
+PACK
+U_uu/
+prerequisite lines (lines starting with '-'): 0
+=== 3. git bundle verify in empty repo ===
+52b12c14dc9e5b09dfe6bc7a90465b74b9590505 HEAD
+The bundle records a complete history.
+The bundle uses this hash algorithm: sha1
+=== 4. clone into clean folder ===
+--- branches:
+* merge/r3-into-r4
+  remotes/origin/HEAD -> origin/merge/r3-into-r4
+  remotes/origin/baseline-fba63d5
+  remotes/origin/import/r3-2026-11-15
+  remotes/origin/merge/r3-into-r4
+  remotes/origin/work/r4-continue
+--- ref heads:
+52b12c14dc9e5b09dfe6bc7a90465b74b9590505 refs/remotes/origin/HEAD
+e08f70b3b89527fa5f9d3ebce45728dae1c39ed3 refs/remotes/origin/baseline-fba63d5
+04d31e9e4099c9c19d8ee1843b43e6959adc9160 refs/remotes/origin/import/r3-2026-11-15
+52b12c14dc9e5b09dfe6bc7a90465b74b9590505 refs/remotes/origin/merge/r3-into-r4
+64469d7a684993b536713c53eecd3b42c3844aa7 refs/remotes/origin/work/r4-continue
+--- HEAD: 52b12c14dc9e5b09dfe6bc7a90465b74b9590505
+--- commit count (all refs): 21
+--- git fsck --full:
+fsck rc=0
+--- worktree files: 960; porcelain lines: 0
+--- log merge/r3-into-r4:
+52b12c1 2026-11-18 Docs: UNIFIED STATE 2026-11-18, continuation addendum 25, OPERATIONAL-BUILD §9, A2A-SERVER operator doc
+6e90a85 2026-11-18 Hardening + evidence: throttle failed gateway auth per IP, pin typescript 7.0.2, SBOM refresh, perf smoke, verify-all wires M1/A1 i
+7067f4d 2026-11-18 A1: A2A v1.0 server (JSON-RPC) + chat-task boot recovery
+f846b92 2026-11-18 feat(connectors): C1 Connector SDK (validated manifest, VEL-enforced effects, secrets by name, conformance kit, reference connector
+ab197e4 2026-11-17 feat(mcp): M1 MCP client (allow-list, pinning, SSRF-safe, privacy-gated, kill-switch) + SDK interop E2E
+6798e87 2026-11-17 F06-b: documented nginx TLS reverse proxy (template + DEPLOYMENT-TLS.md) and real nginx+Chromium E2E (12/12, skips when nginx absen
+4d2b9cc 2026-11-17 CSP: externalise inline <script> bodies (app.js, ui-glow.js); script-src 'self' + script-src-attr 'unsafe-inline' for handlers only
+12da5a2 2026-11-17 pdf.js 3.11.174 -> 4.10.38 (>= 4.2.67, CVE-2024-4367 fixed): ES module via import(), pinned SHA-256, SBOM regenerated (schema-valid
+d9c59b0 2026-11-16 Merge R3 (owner-supplied source) into R4: R3's F-03/F-04 + provider timeouts + docs/real-provider scripts; keep F06-a/F-05/D-2/D-10
+04d31e9 2026-11-16 Import: R3 source tree (NEXUS-Operational-Test-Build-R3-2026-11-15.zip source/), as supplied by owner in live repo
+64469d7 2026-11-16 Docs: UNIFIED STATE 2026-11-16, continuation addendum 24, OPERATIONAL-BUILD known-issues updates, ADR-007 (PROPOSED)
+8275d2a 2026-11-16 Fix TS18048 in adopted fallbackModelMatrix test (assert task row exists); found by verify-all typecheck step
+8f0bb29 2026-11-16 Frontend dev deps: vitest/coverage ^4.1.12 + audit fix lock (npm audit 0/0); SBOM generator + CycloneDX 1.6 SBOM validated against 
+e895695 2026-11-16 F-04: fallback uses the fallback provider's own model; task row records served provider/model (recordServed, 3 call sites); +7 test
+a9f76c3 2026-11-16 F-03: PLANNING orphan mission with no plan checkpoint -> FAILED on resume (idempotent); replaces defect-pinning test with 2 tests; 
+b9a4a30 2026-11-16 F-05 (option B): vendor qrcodejs/jsQR/pdf.js locally with pinned SHA-256, remove cdnjs from CSP, pdf.js isEvalSupported:false; +6 v
+4e38448 2026-11-16 D-9: verify-all restores baseline/evidence from a snapshot (no git dependency) + drift report + test
+c2cf2d2 2026-11-16 D-2: seed-flows plainHidden predicate on decoded bytes (R3 change) + 32-byte sentinel; predicate measurement script
+79b9695 2026-11-16 D-10: encodeURIComponent for Gemini model name in URL path (chat/stream/embed); +3 tests
+2144f40 2026-11-16 F06-a: X-Forwarded-For trusted only from peers in NEXUS_TRUST_PROXY (default off); +12 tests; loopback-proxy env for 2 XFF-simulati
+e08f70b 2026-11-16 Baseline: source snapshot from NEXUS-Operational-Test-Build.zip (upstream fba63d5, 2026-11-14)
+--- merge commit d9c59b0 parents: 64469d7a684993b536713c53eecd3b42c3844aa7 04d31e9e4099c9c19d8ee1843b43e6959adc9160
+--- files per branch:
+baseline-fba63d5: 892
+import/r3-2026-11-15: 901
+work/r4-continue: 922
+merge/r3-into-r4: 960
+--- fetch every branch into a second empty repo:
+    baseline-fba63d5
+    import/r3-2026-11-15
+    merge/r3-into-r4
+    work/r4-continue
+52b12c1 Docs: UNIFIED STATE 2026-11-18, continuation addendum 25, OPERATIONAL-BUILD §9, A2A-SERVER operator doc
+=== done ===
