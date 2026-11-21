@@ -226,3 +226,7 @@ Addendum 34 (`continuity/NEXUS-CONTINUATION-ADDENDUM-34-2026-11-21.md`): `work/r
 ---
 ## Dated addition 2026-11-21 (f) (append-only)
 Addendum 35 (`continuity/NEXUS-CONTINUATION-ADDENDUM-35-2026-11-21.md`): owner chose option A (no merge). Native opt-in TLS added to the backend (tests 761/761, mutation-checked). Hosting account and provider keys BLOCKED — need the account holder; "Internet-ready" NOT claimed (PARTIAL). Next authorised action: owner supplies host/cert/keys (Addendum 35 §5).
+
+---
+## Dated addition 2026-11-21 (g) (append-only)
+Addendum 36 (`continuity/NEXUS-CONTINUATION-ADDENDUM-36-2026-11-21.md`): VPS one-command deployment kit prepared (`deploy/vps/`), PARTIAL (not run on a real server). Hosting account/billing/ToS/2FA/domain/provider keys are the owner's own acts — BLOCKED on the owner; no SSH route from the assistant. Next authorised action: owner runs the kit and pastes back non-secret output.

@@ -26,3 +26,6 @@
 4. **مفاتيح المزودين:** أنشئها من لوحات المزودين (Anthropic/OpenAI/…)، **وفعّل حدّ إنفاق شهريًا داخل لوحة المزود نفسه** (حماية مستقلة عنا)، ثم `NEXUS_*_API_KEY` في env مع `NEXUS_DAILY_BUDGET_USD=<سقف>`.
 5. التشغيل: `NEXUS_HOST=0.0.0.0 NEXUS_TLS_CERT_FILE=… NEXUS_TLS_KEY_FILE=… NEXUS_GATEWAY_KEYS=… NEXUS_CORS_ORIGINS=https://<نطاقك> npm start` ثم `node e2e/real-provider-validation.mjs` من جهاز يملك المفاتيح.
 **قبل فتح الخدمة للعامة:** شريحة تقوية معتمدة (مصادقة لكل مستخدم، حدود معدّل على الحافة، مراقبة) — لا أبدؤها دون موافقتك لأنها تغيّر نموذج الأمان.
+
+## 4) حزمة VPS (إضافة 2026-11-21 مساءً)
+`deploy/vps/setup.sh` + `deploy/vps/README-AR.md`: نشر بأمر واحد على Ubuntu (nginx + Let's Encrypt + systemd + ufw). الحالة PARTIAL: صياغة/مدخلات/وحدة systemd فقط؛ **التنفيذ على خادم حقيقي UNVERIFIED**. إنشاء الحساب والفوترة والنطاق والمفاتيح بيد المالك.
