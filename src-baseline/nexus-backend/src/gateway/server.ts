@@ -1,4 +1,6 @@
-import { createServer, type Server } from 'node:http';
+import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
+import { createServer as createTlsServer } from 'node:https';
+import { loadTlsMaterial } from './tls.js';
 import { Router } from './router.js';
 import { registerChatRoutes } from '../routes/legacy/chat.js';
 import { registerRuntimeRoutes } from '../routes/legacy/runtime.js';
@@ -63,9 +65,12 @@ export function buildRouter(): Router {
 
 export function createNexusServer(): Server {
   const router = buildRouter();
-  const server = createServer((req, res) => {
+  const handler = (req: IncomingMessage, res: ServerResponse): void => {
     void router.handle(req, res);
-  });
+  };
+  const tls = loadTlsMaterial(ServerConfig.tlsCertFile, ServerConfig.tlsKeyFile);
+  // https.Server exposes the same listen/close/address/on surface the callers use; typed as http.Server to keep the public signature unchanged.
+  const server: Server = tls ? (createTlsServer({ ...tls, minVersion: 'TLSv1.2' }, handler) as unknown as Server) : createServer(handler);
 
   const pruneInterval = setInterval(() => pruneStaleRateLimitBuckets(), 5 * 60_000);
   server.on('close', () => clearInterval(pruneInterval));
@@ -75,7 +80,7 @@ export function createNexusServer(): Server {
 export function startServer(): Server {
   const server = createNexusServer();
   server.listen(ServerConfig.port, ServerConfig.host, () => {
-    logger.info('Nexus backend listening', { host: ServerConfig.host, port: ServerConfig.port, env: ServerConfig.nodeEnv });
+    logger.info('Nexus backend listening', { host: ServerConfig.host, port: ServerConfig.port, env: ServerConfig.nodeEnv, tls: !!(ServerConfig.tlsCertFile && ServerConfig.tlsKeyFile) });
   });
   return server;
 }

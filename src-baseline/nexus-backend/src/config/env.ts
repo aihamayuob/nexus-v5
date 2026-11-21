@@ -35,6 +35,13 @@ export const ServerConfig = {
   host: process.env.NEXUS_HOST?.trim() || '127.0.0.1',
 
   /**
+   * Optional native TLS (PEM files). Both empty (default) => plain HTTP exactly as before. Set both to serve HTTPS (TLS >= 1.2) directly;
+   * setting only one, or pointing at an unreadable file, aborts startup (see gateway/tls.ts). Certificate issuance/renewal is the operator's job.
+   */
+  tlsCertFile: process.env.NEXUS_TLS_CERT_FILE?.trim() || '',
+  tlsKeyFile: process.env.NEXUS_TLS_KEY_FILE?.trim() || '',
+
+  /**
    * Gateway (bearer) keys accepted on protected routes. Mirrors the
    * frontend's syncAuthHeaders()/getGatewayKey() Bearer-token pattern
    * exactly. If this list is EMPTY, the gateway runs in trusted/no-auth

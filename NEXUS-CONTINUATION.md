@@ -222,3 +222,7 @@ Addendum 33 (`continuity/NEXUS-CONTINUATION-ADDENDUM-33-2026-11-21.md`): phone-o
 ---
 ## Dated addition 2026-11-21 (e) (append-only)
 Addendum 34 (`continuity/NEXUS-CONTINUATION-ADDENDUM-34-2026-11-21.md`): `work/r4-backend-html` pushed to `review/r4-backend-html` on aihamayuob/nexus-v5 (VERIFIED via ls-remote). Merge to `main` PENDING owner choice (unrelated history; 6 conflicting files incl. historical docs). No deploy, no spend. Next authorised action: owner picks merge option A–D.
+
+---
+## Dated addition 2026-11-21 (f) (append-only)
+Addendum 35 (`continuity/NEXUS-CONTINUATION-ADDENDUM-35-2026-11-21.md`): owner chose option A (no merge). Native opt-in TLS added to the backend (tests 761/761, mutation-checked). Hosting account and provider keys BLOCKED — need the account holder; "Internet-ready" NOT claimed (PARTIAL). Next authorised action: owner supplies host/cert/keys (Addendum 35 §5).
