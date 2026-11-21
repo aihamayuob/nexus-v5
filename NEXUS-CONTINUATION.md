@@ -206,3 +206,7 @@ Addendum 29 (`continuity/NEXUS-CONTINUATION-ADDENDUM-29-2026-11-20.md`): R4 base
 ---
 ## Dated addition 2026-11-21 (append-only)
 Addendum 30 (`continuity/NEXUS-CONTINUATION-ADDENDUM-30-2026-11-21.md`): standalone page action buttons / open-by-id / approvals / claims proven against the real backend (51/51, simulated providers); owner review-notes tool added; one page defect fixed; backend unchanged; nothing pushed. Next authorised action: none — wait for owner. Earlier text unmodified.
+
+---
+## Dated addition 2026-11-21 (b) (append-only)
+Addendum 31 (`continuity/NEXUS-CONTINUATION-ADDENDUM-31-2026-11-21.md`): old uploaded UI vs latest frontend probed against the latest backend (15/17, simulated); old-file defects (phone overflow, key in localStorage) already fixed in latest. Nothing pushed. Next authorised action: none.
