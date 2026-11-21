@@ -214,3 +214,7 @@ Addendum 31 (`continuity/NEXUS-CONTINUATION-ADDENDUM-31-2026-11-21.md`): old upl
 ---
 ## Dated addition 2026-11-21 (c) (append-only)
 Addendum 32 (`continuity/NEXUS-CONTINUATION-ADDENDUM-32-2026-11-21.md`): single-file build of the latest frontend (`scripts/build-single-file.mjs`, E2E 22/22, simulated). Nothing pushed. Next authorised action: none.
+
+---
+## Dated addition 2026-11-21 (d) (append-only)
+Addendum 33 (`continuity/NEXUS-CONTINUATION-ADDENDUM-33-2026-11-21.md`): phone-on-same-network HTTPS front (`scripts/nexus-lan-https.mjs`, E2E 35/35, simulated). Owner authorised push/merge/public deploy/provider spend at 11:26 — all four BLOCKED by access (GitHub app not installed, no hosting creds, no keys; remote main has unrelated history). Nothing pushed. Next authorised action: owner input needed (see Addendum 33 §5).
