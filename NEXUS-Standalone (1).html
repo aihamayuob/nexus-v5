@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-TfFOC0X+laPWOMV+0jV5qHer0Z995Oae0JQlWTeTV7c='; style-src 'sha256-DWtQ+6Unpa9ryX3CsdP7m4FUN2sw/V5sLr04rGwfUoQ='; connect-src http: https:; img-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>NEXUS Standalone</title>
+<style>
+:root{--bg:#f6f7f9;--panel:#fff;--ink:#16191d;--muted:#5a626c;--line:#d5d9df;--accent:#0b5cad;--accent-ink:#fff;--ok:#0a6b3a;--okbg:#dff3e8;--warn:#8a5300;--warnbg:#fdeccc;--bad:#a4161a;--badbg:#fbdede;--info:#134a8c;--infobg:#dce9f9;--demo:#7a2e00;--demobg:#ffd9b3;--focus:#b36200}
+@media (prefers-color-scheme:dark){:root{--bg:#101316;--panel:#191d22;--ink:#e8ebef;--muted:#a3abb5;--line:#343b44;--accent:#6fb1ff;--accent-ink:#06121f;--ok:#7be0a6;--okbg:#12311f;--warn:#ffcf70;--warnbg:#3a2a08;--bad:#ff9c9f;--badbg:#3d1416;--info:#9cc7ff;--infobg:#112a47;--demo:#ffc999;--demobg:#4a2400;--focus:#ffb347}}
+*{box-sizing:border-box}
+html{font-size:16px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,"Noto Naskh Arabic","Noto Sans Arabic",sans-serif;line-height:1.55}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+header.top{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;justify-content:space-between;padding:.75rem 1rem;background:var(--panel);border-block-end:1px solid var(--line)}
+.brand{font-weight:700;font-size:1.15rem;letter-spacing:.02em}
+.brand small{font-weight:400;color:var(--muted);margin-inline-start:.5rem}
+#banner{padding:.5rem 1rem;font-weight:600;text-align:center}
+#banner.demo{background:var(--demobg);color:var(--demo);border-block:2px dashed var(--demo)}
+#banner.live{background:var(--okbg);color:var(--ok)}
+#banner.idle{background:var(--infobg);color:var(--info)}
+#banner.file{background:var(--warnbg);color:var(--warn)}
+nav.tabs{display:flex;gap:.25rem;overflow-x:auto;padding:.5rem 1rem 0;background:var(--panel);border-block-end:1px solid var(--line)}
+nav.tabs button{flex:0 0 auto;border:1px solid transparent;border-block-end:0;background:transparent;color:var(--muted);padding:.55rem .9rem;border-radius:.5rem .5rem 0 0;font:inherit;cursor:pointer;min-height:44px}
+nav.tabs button[aria-current="page"]{background:var(--bg);color:var(--ink);border-color:var(--line);font-weight:700}
+nav.tabs button:disabled{opacity:.5;cursor:not-allowed}
+main{max-width:1100px;margin:0 auto;padding:1rem}
+section.panel{background:var(--panel);border:1px solid var(--line);border-radius:.6rem;padding:1rem;margin-block-end:1rem}
+section.panel[hidden]{display:none}
+h1,h2,h3{margin:.1rem 0 .6rem;line-height:1.3}
+h2{font-size:1.15rem}h3{font-size:1rem}
+label{display:block;font-weight:600;margin-block:.6rem .25rem}
+input[type=text],input[type=url],input[type=password],input[type=number],select,textarea{width:100%;padding:.55rem .65rem;border:1px solid var(--line);border-radius:.4rem;background:var(--bg);color:var(--ink);font:inherit;min-height:44px}
+textarea{min-height:7rem;resize:vertical}
+.row{display:flex;flex-wrap:wrap;gap:.75rem}
+.row>*{flex:1 1 14rem}
+.check{display:flex;gap:.5rem;align-items:center;font-weight:400;margin:.3rem 0}
+.check{min-height:44px}.check input{width:1.3rem;height:1.3rem;min-height:0}
+button.btn{font:inherit;min-height:44px;padding:.5rem 1rem;border-radius:.4rem;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer;font-weight:600}
+button.btn.secondary{background:transparent;color:var(--accent)}
+button.btn.danger{background:var(--bad);border-color:var(--bad);color:var(--panel)}
+button.btn:disabled{opacity:.5;cursor:not-allowed}
+.actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-block-start:.75rem}
+.hint{color:var(--muted);font-size:.9rem}
+.msg{padding:.6rem .8rem;border-radius:.4rem;margin-block:.6rem;border:1px solid var(--line);overflow-wrap:anywhere}
+.msg.ok{background:var(--okbg);color:var(--ok)}.msg.bad{background:var(--badbg);color:var(--bad)}.msg.warn{background:var(--warnbg);color:var(--warn)}.msg.info{background:var(--infobg);color:var(--info)}
+.chip{display:inline-block;padding:.1rem .55rem;border-radius:999px;font-size:.82rem;font-weight:700;border:1px solid currentColor;white-space:nowrap}
+.chip.ok{color:var(--ok);background:var(--okbg)}.chip.bad{color:var(--bad);background:var(--badbg)}.chip.warn{color:var(--warn);background:var(--warnbg)}.chip.info{color:var(--info);background:var(--infobg)}.chip.neutral{color:var(--muted)}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{padding:.4rem .55rem;border-block-end:1px solid var(--line);text-align:start;vertical-align:top;overflow-wrap:anywhere}
+th{color:var(--muted);font-weight:600}
+pre{background:var(--bg);border:1px solid var(--line);border-radius:.4rem;padding:.6rem;overflow:auto;max-height:22rem;white-space:pre-wrap;overflow-wrap:anywhere;direction:ltr;text-align:left;margin:.4rem 0}
+dl.kv{display:grid;grid-template-columns:max-content 1fr;gap:.25rem .9rem;margin:.4rem 0}
+dl.kv dt{color:var(--muted)}dl.kv dd{margin:0;overflow-wrap:anywhere}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));gap:1rem}
+.stepper{display:flex;flex-wrap:wrap;gap:.4rem;margin:.5rem 0;padding:0;list-style:none}
+.stepper li{padding:.25rem .7rem;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:.85rem}
+.stepper li.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+.stepper li.done{color:var(--ok);border-color:var(--ok)}
+ul.plain{list-style:none;margin:0;padding:0}
+ul.plain li{padding:.35rem 0;border-block-end:1px solid var(--line);overflow-wrap:anywhere}
+.mono{font-family:ui-monospace,Consolas,monospace;direction:ltr;unicode-bidi:isolate}
+button.link{background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit;padding:.25rem;min-height:44px;text-align:start}
+.row.hdr{flex:0 1 auto;gap:.5rem}.row.hdr>*{flex:0 1 auto}fieldset.crit{border:1px solid var(--line);border-radius:.4rem;margin-block-start:.75rem}.grid2.gap{margin-block-start:1rem}#openBtn{flex:0 0 auto}
+.fab{position:fixed;inset-block-end:1rem;inset-inline-end:1rem;z-index:50;min-height:48px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+#noteSheet{position:fixed;inset-inline:0;inset-block-end:0;z-index:60;max-height:85vh;overflow:auto;background:var(--panel);border-block-start:3px solid var(--accent);padding:1rem;box-shadow:0 -4px 16px rgba(0,0,0,.35)}
+#noteSheet[hidden],#pickHint[hidden]{display:none}
+#pickHint{position:fixed;inset-inline:0;inset-block-start:0;z-index:70;background:var(--warnbg);color:var(--warn);padding:.6rem 1rem;display:flex;gap:.75rem;align-items:center;justify-content:space-between;border-block-end:2px solid var(--warn);font-weight:600}
+body.picking *{cursor:crosshair!important}
+.nx-hover{outline:3px dashed var(--accent)!important;outline-offset:2px}
+.note{border:1px solid var(--line);border-radius:.5rem;padding:.6rem .75rem;margin-block:.5rem}
+.note .meta{color:var(--muted);font-size:.85rem;overflow-wrap:anywhere}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:600px){main{padding:.6rem}section.panel{padding:.75rem}.brand small{display:none}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">NEXUS <small data-i18n="brand.sub"></small></div>
+  <div class="row hdr">
+    <button class="btn secondary" id="langBtn" type="button" aria-label="Language / اللغة"></button>
+  </div>
+</header>
+<div id="banner" class="idle" role="status" aria-live="polite"></div>
+<nav class="tabs" aria-label="Sections" id="tabs">
+  <button type="button" data-tab="connect" data-i18n="tab.connect"></button>
+  <button type="button" data-tab="caps" data-i18n="tab.caps"></button>
+  <button type="button" data-tab="route" data-i18n="tab.route"></button>
+  <button type="button" data-tab="missions" data-i18n="tab.missions"></button>
+  <button type="button" data-tab="evidence" data-i18n="tab.evidence"></button>
+  <button type="button" data-tab="notes" data-i18n="tab.notes"></button>
+</nav>
+<main>
+<noscript><div class="msg bad">JavaScript is required / يلزم تفعيل جافا سكربت.</div></noscript>
+
+<section class="panel" id="p-connect">
+  <h2 data-i18n="connect.title"></h2>
+  <div id="fileWarn" class="msg warn" hidden data-i18n="connect.filewarn"></div>
+  <form id="connectForm" autocomplete="off" novalidate>
+    <label for="baseUrl" data-i18n="connect.url"></label>
+    <input id="baseUrl" type="url" inputmode="url" spellcheck="false" autocomplete="off" placeholder="http://127.0.0.1:8787">
+    <label for="token" data-i18n="connect.token"></label>
+    <input id="token" type="password" spellcheck="false" autocomplete="off" data-i18n-ph="connect.tokenph">
+    <p class="hint" data-i18n="connect.tokenhint"></p>
+    <div class="actions">
+      <button class="btn" type="submit" id="connectBtn" data-i18n="connect.btn"></button>
+      <button class="btn secondary" type="button" id="disconnectBtn" data-i18n="connect.disconnect"></button>
+      <button class="btn secondary" type="button" id="demoBtn" data-i18n="connect.demo"></button>
+    </div>
+  </form>
+  <div id="connectMsg" aria-live="polite"></div>
+  <div id="connectInfo"></div>
+</section>
+
+<section class="panel" id="p-caps" hidden>
+  <h2 data-i18n="caps.title"></h2>
+  <div class="actions"><button class="btn secondary" type="button" id="capsRefresh" data-i18n="caps.refresh"></button><button class="btn secondary" type="button" id="capsProbe" data-i18n="caps.probe"></button></div>
+  <div id="capsOut" aria-live="polite"></div>
+</section>
+
+<section class="panel" id="p-route" hidden>
+  <h2 data-i18n="route.title"></h2>
+  <div class="msg info" data-i18n="route.note"></div>
+  <form id="routeForm">
+    <div class="row">
+      <div><label for="routeMode" data-i18n="route.mode"></label><select id="routeMode"></select></div>
+      <div><label for="routeProvider" data-i18n="route.provider"></label><select id="routeProvider"></select></div>
+    </div>
+    <label class="check"><input type="checkbox" id="rTools"> <span data-i18n="route.tools"></span></label>
+    <label class="check"><input type="checkbox" id="rImages"> <span data-i18n="route.images"></span></label>
+    <label class="check"><input type="checkbox" id="rWeb"> <span data-i18n="route.web"></span></label>
+    <div class="actions"><button class="btn" type="submit" data-i18n="route.btn"></button></div>
+  </form>
+  <div id="routeOut" aria-live="polite"></div>
+</section>
+
+<section class="panel" id="p-missions" hidden>
+  <h2 data-i18n="m.title"></h2>
+  <form id="missionForm" novalidate>
+    <label for="objective" data-i18n="m.objective"></label>
+    <textarea id="objective" maxlength="8000" data-i18n-ph="m.objph"></textarea>
+    <fieldset class="crit">
+      <legend data-i18n="m.criteria"></legend>
+      <label class="check"><input type="checkbox" id="cAll" checked> <span data-i18n="m.c.all"></span></label>
+      <label class="check"><input type="checkbox" id="cVer"> <span data-i18n="m.c.ver"></span></label>
+      <label class="check"><input type="checkbox" id="cVerOk"> <span data-i18n="m.c.verok"></span></label>
+      <label class="check"><input type="checkbox" id="cAppr"> <span data-i18n="m.c.appr"></span></label>
+      <div class="row">
+        <div><label for="cRatio" data-i18n="m.c.ratio"></label><input id="cRatio" type="number" min="0" max="1" step="0.05" inputmode="decimal"></div>
+        <div><label for="cReplans" data-i18n="m.c.replans"></label><input id="cReplans" type="number" min="0" max="10" step="1" inputmode="numeric"></div>
+      </div>
+    </fieldset>
+    <div class="actions"><button class="btn" type="submit" id="missionBtn" data-i18n="m.submit"></button></div>
+  </form>
+  <div id="missionMsg" aria-live="polite"></div>
+  <div class="grid2 gap">
+    <div>
+      <h3 data-i18n="m.session"></h3>
+      <ul class="plain" id="missionList"></ul>
+      <label for="openId" data-i18n="m.openid"></label>
+      <div class="row"><input id="openId" type="text" class="mono" spellcheck="false" autocomplete="off"><button class="btn secondary" type="button" id="openBtn" data-i18n="m.open"></button></div>
+    </div>
+    <div id="mdetail" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="panel" id="p-evidence" hidden>
+  <h2 data-i18n="e.title"></h2>
+  <div class="actions"><button class="btn secondary" type="button" id="evRefresh" data-i18n="caps.refresh"></button></div>
+  <h3 data-i18n="e.approvals"></h3><div id="evApprovals"></div>
+  <h3 data-i18n="e.receipts"></h3>
+  <label class="check"><input type="checkbox" id="evUnres"> <span data-i18n="e.unresolved"></span></label>
+  <div id="evReceipts"></div>
+  <h3 data-i18n="e.claims"></h3><div id="evClaims"></div>
+</section>
+<section class="panel" id="p-notes" hidden>
+  <h2 data-i18n="note.title"></h2>
+  <p class="hint" data-i18n="note.intro"></p>
+  <div class="msg warn" data-i18n="note.warn"></div>
+  <div class="actions">
+    <button class="btn" type="button" id="noteAddBtn" data-i18n="note.addgeneral"></button>
+    <button class="btn secondary" type="button" id="notePickBtn" data-i18n="note.pick"></button>
+    <button class="btn secondary" type="button" id="noteCopyBtn" data-i18n="note.copy"></button>
+    <button class="btn secondary" type="button" id="noteMdBtn" data-i18n="note.dlmd"></button>
+    <button class="btn secondary" type="button" id="noteJsonBtn" data-i18n="note.dljson"></button>
+    <button class="btn danger" type="button" id="noteClearBtn" data-i18n="note.clear"></button>
+  </div>
+  <div id="noteMsg" aria-live="polite"></div>
+  <div id="noteList"></div>
+</section>
+</main>
+<button class="btn fab" type="button" id="noteFab"></button>
+<div id="pickHint" role="status" hidden><span data-i18n="note.pickhint"></span><button class="btn secondary" type="button" id="pickCancel" data-i18n="note.cancel"></button></div>
+<section id="noteSheet" role="dialog" aria-modal="false" aria-labelledby="nsTitle" hidden>
+  <h2 id="nsTitle" data-i18n="note.new"></h2>
+  <form id="noteForm" novalidate>
+    <dl class="kv"><dt data-i18n="note.target"></dt><dd id="nsTarget" class="mono"></dd></dl>
+    <div class="row">
+      <div><label for="nsCat" data-i18n="note.category"></label><select id="nsCat"></select></div>
+      <div><label for="nsSev" data-i18n="note.severity"></label><select id="nsSev"></select></div>
+    </div>
+    <label for="nsText" data-i18n="note.text"></label>
+    <textarea id="nsText" maxlength="2000"></textarea>
+    <div id="nsErr" aria-live="polite"></div>
+    <div class="actions">
+      <button class="btn" type="submit" data-i18n="note.save"></button>
+      <button class="btn secondary" type="button" id="nsPick" data-i18n="note.pick"></button>
+      <button class="btn secondary" type="button" id="nsCancel" data-i18n="note.cancel"></button>
+    </div>
+  </form>
+</section>
+
+<script>
+(function(){
+'use strict';
+/* ===== i18n ===== */
+var I18N={
+ar:{'brand.sub':'واجهة مستقلة','tab.connect':'الاتصال','tab.caps':'القدرات والصحة','tab.route':'التوجيه','tab.missions':'المهام (Missions)','tab.evidence':'الأدلة والحوكمة','lang.switch':'English',
+'banner.idle':'غير متصل — اختر «اتصال» أو افتح وضع DEMO المحاكى.','banner.live':'متصل بالباكند الحقيقي: ','banner.demo':'DEMO / SIMULATED — بيانات محاكاة داخل الصفحة وليست نتائج حقيقية ولا اتصالًا بباكند.',
+'connect.title':'الاتصال بالباكند','connect.url':'عنوان API','connect.token':'مفتاح البوابة (Bearer)','connect.tokenph':'يبقى في ذاكرة الصفحة فقط','connect.tokenhint':'لا يُحفظ المفتاح في المتصفح ويُمسح عند الإغلاق أو عند قطع الاتصال. اتركه فارغًا فقط إذا كان الباكند يعمل على 127.0.0.1 بلا مفاتيح.',
+'connect.btn':'اتصال','connect.disconnect':'قطع الاتصال','connect.demo':'فتح وضع DEMO (محاكاة)',
+'connect.filewarn':'تم فتح الصفحة من file:// — المتصفح سيمنع الاتصال بالباكند (الأصل null غير مسموح في CORS ولا نخفف الأمان لأجل ذلك). شغّل: node scripts/nexus-standalone.mjs ثم افتح العنوان الذي يطبعه. وضع DEMO يعمل هنا دون باكند.',
+'connect.checking':'جارٍ فحص الاتصال…','connect.ok':'تم الاتصال والتحقق من المفتاح.','connect.insecure':'تحذير: اتصال HTTP غير مشفّر بعنوان غير محلي — المفتاح يُرسل بنص صريح. استخدم HTTPS/وكيلًا عكسيًا (docs/DEPLOYMENT-TLS.md).','connect.badurl':'عنوان غير صالح: يجب أن يبدأ بـ http:// أو https://','connect.health':'صحة الباكند','connect.demoon':'تم تفعيل وضع DEMO المحاكى.',
+'err.network':'تعذّر الوصول إلى الباكند. تحقق من العنوان وتشغيل الباكند ومن أن أصل هذه الصفحة مسموح في NEXUS_CORS_ORIGINS.','err.file':'تعذّر الاتصال: الصفحة مفتوحة من file:// والمتصفح يمنع ذلك. استخدم scripts/nexus-standalone.mjs.','err.timeout':'انتهت المهلة دون رد.','err.auth':'مفتاح الدخول غير صالح أو مفقود (401).','err.rate':'تجاوز حد الطلبات (429) — حاول لاحقًا.','err.validation':'طلب غير صالح (400).','err.notfound':'غير موجود (404).','err.server':'خطأ من الخادم (5xx).','err.http':'استجابة غير متوقعة.','err.notconnected':'غير متصل. اتصل أولًا (أو افتح DEMO).','err.parse':'استجابة ليست JSON صالحًا.',
+'caps.title':'القدرات والخدمات التي يعلنها الباكند','caps.refresh':'تحديث','caps.probe':'فحص حي للمزودين','caps.health':'الصحة','caps.models':'المزودون والنماذج','caps.phealth':'صحة المزودين','caps.warden':'Warden / الميزانية','caps.mcp':'عميل MCP','caps.a2a':'خادم A2A','caps.approvals':'موافقات معلّقة',
+'st.available':'متاح','st.notenabled':'غير مفعّل','st.error':'خطأ','st.unauth':'غير مصرّح','st.configured':'مهيّأ','st.notconfigured':'غير مهيّأ','st.local':'محلي','st.cloud':'سحابي','st.none':'لا شيء',
+'route.title':'معاينة التوجيه','route.note':'معاينة فقط (POST /v2/route): تُظهر ما سيختاره الموجّه الآن. إنشاء Mission لا يقبل نمط تشغيل — الخادم يقرر المزود. لا يوجد في الـAPI نمطا CLOUD أو HYBRID.','route.mode':'نمط التوجيه','route.provider':'المزود (لـUSER_SELECTED فقط)','route.tools':'يحتاج أدوات','route.images':'يحتاج صورًا','route.web':'يحتاج بحث ويب','route.btn':'معاينة','route.result':'نتيجة التوجيه','route.fallbacks':'البدائل','route.cloudblocked':'منع السحابة كبديل','route.yes':'نعم','route.no':'لا','route.model':'النموذج',
+'m.title':'المهام (Missions)','m.objective':'الهدف','m.objph':'صف الهدف الذي تريد من NEXUS تنفيذه','m.criteria':'معايير الاكتمال','m.c.all':'يجب أن تنجح كل المهام الفرعية','m.c.ver':'شغّل التحقق المستقل','m.c.verok':'اشترط نجاح التحقق للاكتمال','m.c.appr':'اطلب موافقة بشرية عند وجود مشاكل','m.c.ratio':'أدنى نسبة نجاح (0–1)','m.c.replans':'أقصى إعادات تخطيط','m.submit':'إرسال Mission','m.session':'مهام هذه الجلسة','m.openid':'فتح بمعرّف','m.open':'فتح',
+'m.err.empty':'الهدف مطلوب.','m.err.ratio':'النسبة يجب أن تكون بين 0 و1.','m.err.replans':'إعادات التخطيط عدد صحيح بين 0 و10.','m.err.id':'معرّف غير صالح.','m.accepted':'قُبلت المهمة (202).','m.none':'لا مهام بعد.',
+'m.state':'الحالة','m.task':'حالة المهمة الأساسية','m.retry':'المحاولات','m.replan':'إعادات التخطيط','m.created':'أُنشئت','m.started':'بدأت','m.completed':'اكتملت','m.failures':'الإخفاقات','m.transitions':'سجل الانتقالات','m.events':'سجل التنفيذ (SSE)','m.noevents':'لا أحداث (قد لا يكون البث متاحًا).','m.result':'النتيجة النهائية','m.noresult':'لا نتيجة بعد.','m.cancel':'إلغاء','m.pause':'إيقاف مؤقت','m.resume':'استئناف','m.approve':'موافقة','m.reject':'رفض','m.awaiting':'بانتظار قرار بشري.','m.lost':'انقطع الاتصال أثناء المتابعة — إعادة المحاولة…','m.actionok':'تم إرسال الإجراء.','m.stage':'المرحلة',
+'e.title':'الأدلة والحوكمة','e.approvals':'موافقات معلّقة','e.receipts':'إيصالات التنفيذ (VEL)','e.claims':'تقييمات الادعاءات','e.unresolved':'غير المحسومة فقط','e.verif':'التحقق','e.evidence':'الأدلة المرتبطة بالمهمة','e.none':'لا شيء.','e.needshuman':'يحتاج إنسانًا','e.note':'نجاح تنفيذ الكود لا يعني صحة الادعاء — الحالة المعروضة هي حالة الدليل كما أعلنها الباكند.','e.tool':'الأداة','e.status':'الحالة','e.conf':'الثقة','e.verdict':'الحكم','e.claim':'الادعاء','e.rationale':'السبب',
+'tab.notes':'ملاحظاتي','note.fab':'ملاحظة','note.title':'ملاحظات المراجعة على الواجهة','note.intro':'اضغط «اختيار عنصر» ثم المس/انقر أي زر أو حقل أو نص لتسجيل ملاحظة عنه (أو اضغط Alt مع النقر). تُحفظ الملاحظات في هذا المتصفح فقط ويمكنك تصديرها.','note.warn':'لا تكتب مفاتيح أو أسرارًا في الملاحظات. لا يُحفظ مفتاح البوابة ولا محتوى حقل المفتاح.','note.addgeneral':'ملاحظة عامة','note.pick':'اختيار عنصر','note.pickhint':'وضع الاختيار: انقر العنصر الذي تريد التعليق عليه.','note.copy':'نسخ (Markdown)','note.dlmd':'تنزيل .md','note.dljson':'تنزيل .json','note.clear':'مسح الكل','note.new':'ملاحظة جديدة','note.target':'العنصر','note.general':'(ملاحظة عامة)','note.category':'النوع','note.severity':'الأهمية','note.text':'ملاحظتك','note.save':'حفظ','note.cancel':'إلغاء','note.saved':'تم حفظ الملاحظة.','note.empty':'اكتب نص الملاحظة.','note.none':'لا ملاحظات بعد.','note.delete':'حذف','note.copied':'تم النسخ.','note.copyfail':'تعذّر النسخ — استخدم التنزيل.','note.confirmclear':'حذف كل الملاحظات؟','note.n':'ملاحظة','note.cat.layout':'التنسيق / التخطيط','note.cat.button':'الأزرار والتفاعل','note.cat.text':'النصوص / الترجمة','note.cat.rtl':'RTL / اتجاه','note.cat.color':'الألوان / التباين','note.cat.bug':'خلل','note.cat.idea':'فكرة / طلب ميزة','note.cat.other':'أخرى','note.sev.low':'منخفضة','note.sev.med':'متوسطة','note.sev.high':'عالية',
+'sim':'[محاكاة] '},
+en:{'brand.sub':'Standalone console','tab.connect':'Connect','tab.caps':'Capabilities & health','tab.route':'Routing','tab.missions':'Missions','tab.evidence':'Evidence & governance','lang.switch':'العربية',
+'banner.idle':'Not connected — choose Connect, or open the SIMULATED demo mode.','banner.live':'Connected to the real backend: ','banner.demo':'DEMO / SIMULATED — in-page simulated data. These are NOT real results and there is no backend connection.',
+'connect.title':'Connect to the backend','connect.url':'API address','connect.token':'Gateway key (Bearer)','connect.tokenph':'kept in page memory only','connect.tokenhint':'The key is never stored in the browser and is wiped on close or disconnect. Leave it empty only if the backend runs on 127.0.0.1 without keys.',
+'connect.btn':'Connect','connect.disconnect':'Disconnect','connect.demo':'Open DEMO (simulated)',
+'connect.filewarn':'This page was opened from file:// — the browser will block backend calls (origin "null" is not allowed by CORS and we do not weaken the backend for it). Run: node scripts/nexus-standalone.mjs and open the URL it prints. DEMO mode works here without a backend.',
+'connect.checking':'Checking connection…','connect.ok':'Connected and key verified.','connect.insecure':'Warning: unencrypted HTTP to a non-local address — the key is sent in clear text. Use HTTPS / a reverse proxy (docs/DEPLOYMENT-TLS.md).','connect.badurl':'Invalid address: it must start with http:// or https://','connect.health':'Backend health','connect.demoon':'SIMULATED demo mode enabled.',
+'err.network':'Cannot reach the backend. Check the address, that the backend is running, and that this page\'s origin is listed in NEXUS_CORS_ORIGINS.','err.file':'Cannot connect: the page is opened from file:// and the browser blocks it. Use scripts/nexus-standalone.mjs.','err.timeout':'Timed out with no response.','err.auth':'Gateway key invalid or missing (401).','err.rate':'Rate limit exceeded (429) — try later.','err.validation':'Invalid request (400).','err.notfound':'Not found (404).','err.server':'Server error (5xx).','err.http':'Unexpected response.','err.notconnected':'Not connected. Connect first (or open DEMO).','err.parse':'Response is not valid JSON.',
+'caps.title':'Capabilities and services the backend advertises','caps.refresh':'Refresh','caps.probe':'Live provider probe','caps.health':'Health','caps.models':'Providers & models','caps.phealth':'Provider health','caps.warden':'Warden / budget','caps.mcp':'MCP client','caps.a2a':'A2A server','caps.approvals':'Pending approvals',
+'st.available':'Available','st.notenabled':'Not enabled','st.error':'Error','st.unauth':'Unauthorized','st.configured':'Configured','st.notconfigured':'Not configured','st.local':'local','st.cloud':'cloud','st.none':'none',
+'route.title':'Routing preview','route.note':'Preview only (POST /v2/route): shows what the router would pick right now. Creating a mission does not accept a mode — the server decides the provider. The API has no CLOUD or HYBRID mode.','route.mode':'Routing mode','route.provider':'Provider (USER_SELECTED only)','route.tools':'Needs tools','route.images':'Needs images','route.web':'Needs web search','route.btn':'Preview','route.result':'Routing result','route.fallbacks':'Fallbacks','route.cloudblocked':'Cloud fallback blocked','route.yes':'yes','route.no':'no','route.model':'Model',
+'m.title':'Missions','m.objective':'Objective','m.objph':'Describe the objective you want NEXUS to carry out','m.criteria':'Completion criteria','m.c.all':'Every sub-task must succeed','m.c.ver':'Run independent verification','m.c.verok':'Require verification OK to complete','m.c.appr':'Ask for human approval on issues','m.c.ratio':'Minimum success ratio (0–1)','m.c.replans':'Max replans','m.submit':'Submit mission','m.session':'Missions in this session','m.openid':'Open by ID','m.open':'Open',
+'m.err.empty':'Objective is required.','m.err.ratio':'Ratio must be between 0 and 1.','m.err.replans':'Replans must be an integer 0–10.','m.err.id':'Invalid ID.','m.accepted':'Mission accepted (202).','m.none':'No missions yet.',
+'m.state':'State','m.task':'Underlying task status','m.retry':'Retries','m.replan':'Replans','m.created':'Created','m.started':'Started','m.completed':'Completed','m.failures':'Failures','m.transitions':'Transition history','m.events':'Execution log (SSE)','m.noevents':'No events (the stream may be unavailable).','m.result':'Final result','m.noresult':'No result yet.','m.cancel':'Cancel','m.pause':'Pause','m.resume':'Resume','m.approve':'Approve','m.reject':'Reject','m.awaiting':'Waiting for a human decision.','m.lost':'Connection lost while following — retrying…','m.actionok':'Action sent.','m.stage':'Stage',
+'e.title':'Evidence & governance','e.approvals':'Pending approvals','e.receipts':'Execution receipts (VEL)','e.claims':'Claim evaluations','e.unresolved':'Unresolved only','e.verif':'Verification','e.evidence':'Evidence linked to this mission','e.none':'Nothing.','e.needshuman':'needs a human','e.note':'Code that ran is not proof that a claim is true — the status shown is the evidence state as declared by the backend.','e.tool':'Tool','e.status':'Status','e.conf':'Confidence','e.verdict':'Verdict','e.claim':'Claim','e.rationale':'Rationale',
+'tab.notes':'My notes','note.fab':'Note','note.title':'UI review notes','note.intro':'Press "Pick element" then tap/click any button, field or text to leave a note about it (or hold Alt and click). Notes are stored in this browser only and can be exported.','note.warn':'Do not write keys or secrets in notes. The gateway key and the key field content are never captured.','note.addgeneral':'General note','note.pick':'Pick element','note.pickhint':'Pick mode: click the element you want to comment on.','note.copy':'Copy (Markdown)','note.dlmd':'Download .md','note.dljson':'Download .json','note.clear':'Clear all','note.new':'New note','note.target':'Element','note.general':'(general note)','note.category':'Type','note.severity':'Importance','note.text':'Your note','note.save':'Save','note.cancel':'Cancel','note.saved':'Note saved.','note.empty':'Write the note text.','note.none':'No notes yet.','note.delete':'Delete','note.copied':'Copied.','note.copyfail':'Copy failed — use download.','note.confirmclear':'Delete all notes?','note.n':'notes','note.cat.layout':'Layout / styling','note.cat.button':'Buttons & interaction','note.cat.text':'Text / translation','note.cat.rtl':'RTL / direction','note.cat.color':'Colors / contrast','note.cat.bug':'Bug','note.cat.idea':'Idea / feature request','note.cat.other':'Other','note.sev.low':'Low','note.sev.med':'Medium','note.sev.high':'High',
+'sim':'[SIMULATED] '}
+};
+var MODES=['BEST','CHEAPEST','FASTEST','LOCAL_ONLY','PRIVATE','USER_SELECTED'];
+var EVSTATES=['VERIFIED','SUPPORTED','UNCERTAIN','CONFLICTING','UNVERIFIED'];
+var TERMINAL=['COMPLETED','FAILED','CANCELLED'];
+
+/* ===== state (token lives ONLY here) ===== */
+var S={lang:'ar',mode:'idle',base:'',token:'',tab:'connect',missions:[],current:null,poll:null,stream:null,models:[]};
+function $(id){return document.getElementById(id);}
+function t(k){var d=I18N[S.lang]||I18N.ar;return d[k]!==undefined?d[k]:(I18N.en[k]!==undefined?I18N.en[k]:k);}
+function clip(s,n){s=String(s==null?'':s);return s.length>n?s.slice(0,n)+'…':s;}
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function ssGet(k){try{return sessionStorage.getItem(k);}catch(e){return null;}}
+function ssSet(k,v){try{sessionStorage.setItem(k,v);}catch(e){}}
+
+/* ===== safe DOM builder: data is always inserted as text ===== */
+function h(tag,props){
+  var e=document.createElement(tag);
+  if(props){Object.keys(props).forEach(function(k){var v=props[k];
+    if(k==='class')e.className=v;
+    else if(k==='on'){Object.keys(v).forEach(function(ev){e.addEventListener(ev,v[ev]);});}
+    else if(v!==false&&v!=null)e.setAttribute(k,String(v));});}
+  for(var i=2;i<arguments.length;i++)add(e,arguments[i]);
+  return e;
+}
+function add(e,c){
+  if(c==null||c===false)return;
+  if(Array.isArray(c)){c.forEach(function(x){add(e,x);});return;}
+  e.appendChild(c&&c.nodeType?c:document.createTextNode(String(c)));
+}
+function clear(e){while(e.firstChild)e.removeChild(e.firstChild);}
+function chip(text,kind){return h('span',{class:'chip '+(kind||'neutral')},text);}
+function msg(kind,text){return h('div',{class:'msg '+kind,role:kind==='bad'?'alert':'status'},text);}
+function show(id,node){var e=$(id);clear(e);if(node)add(e,node);}
+function evChip(v){
+  if(v==null)return chip('—','neutral');
+  var s=String(v).toUpperCase();
+  var k={VERIFIED:'ok',SUPPORTED:'info',UNCERTAIN:'warn',CONFLICTING:'bad',UNVERIFIED:'neutral'}[s];
+  return chip(String(v),k||'neutral');
+}
+function stateChip(s){
+  var k={COMPLETED:'ok',FAILED:'bad',CANCELLED:'neutral',RUNNING:'info',PLANNING:'info',REPLANNING:'warn',AWAITING_APPROVAL:'warn',PAUSED:'warn'}[s];
+  return chip(String(s),k||'neutral');
+}
+function fmtTime(ms){if(!ms)return '—';try{return new Date(Number(ms)).toLocaleString(S.lang==='ar'?'ar':'en');}catch(e){return String(ms);}}
+function kv(obj){
+  var dl=h('dl',{class:'kv'});
+  Object.keys(obj||{}).forEach(function(k){
+    var v=obj[k];dl.appendChild(h('dt',null,k));
+    var dd=h('dd');
+    if(v!==null&&typeof v==='object'){dd.appendChild(h('pre',null,clip(safeJson(v),4000)));}
+    else if(k.toLowerCase().indexOf('verdict')>=0||k.toLowerCase()==='verification'){dd.appendChild(evChip(v));}
+    else dd.textContent=clip(v,2000);
+    dl.appendChild(dd);
+  });
+  return dl;
+}
+function safeJson(v){try{return JSON.stringify(v,null,2);}catch(e){return '[unserialisable]';}}
+
+/* ===== API layer ===== */
+async function api(method,path,body,opts){
+  opts=opts||{};
+  if(S.mode==='demo')return demoApi(method,path,body);
+  if(S.mode!=='live'&&!opts.force)return {ok:false,status:0,err:{kind:'notconnected',message:t('err.notconnected')}};
+  var base=opts.base||S.base;
+  var ctl=new AbortController();
+  var to=setTimeout(function(){ctl.abort();},opts.timeout||20000);
+  var headers={};
+  if(body!==undefined)headers['Content-Type']='application/json';
+  if(S.token&&!opts.noAuth)headers['Authorization']='Bearer '+S.token;
+  var res;
+  try{
+    res=await fetch(base+path,{method:method,headers:headers,body:body===undefined?undefined:JSON.stringify(body),signal:ctl.signal,credentials:'omit',cache:'no-store',redirect:'error',referrerPolicy:'no-referrer'});
+  }catch(e){
+    clearTimeout(to);
+    if(e&&e.name==='AbortError')return {ok:false,status:0,err:{kind:'timeout',message:t('err.timeout')}};
+    return {ok:false,status:0,err:{kind:'network',message:location.protocol==='file:'?t('err.file'):t('err.network')}};
+  }
+  clearTimeout(to);
+  var text='';try{text=await res.text();}catch(e){}
+  var data=null,parseFail=false;
+  if(text){try{data=JSON.parse(text);}catch(e){parseFail=true;}}
+  if(res.ok){
+    if(parseFail)return {ok:false,status:res.status,err:{kind:'parse',message:t('err.parse')}};
+    return {ok:true,status:res.status,data:data};
+  }
+  var kind=res.status===401?'auth':res.status===429?'rate':res.status===400?'validation':res.status===404?'notfound':res.status>=500?'server':'http';
+  var e2=data&&data.error&&typeof data.error==='object'?data.error:{};
+  return {ok:false,status:res.status,err:{kind:kind,message:t('err.'+kind)+(e2.message?' — '+clip(e2.message,300):''),code:typeof e2.code==='string'?clip(e2.code,60):undefined}};
+}
+function errNode(r){return msg('bad',[r.err.message,r.err.code?' ['+r.err.code+']':'']);}
+
+/* ===== banner / tabs / i18n apply ===== */
+function applyI18n(){
+  document.documentElement.lang=S.lang;document.documentElement.dir=S.lang==='ar'?'rtl':'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(function(e){e.textContent=t(e.getAttribute('data-i18n'));});
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(e){e.setAttribute('placeholder',t(e.getAttribute('data-i18n-ph')));});
+  $('langBtn').textContent=t('lang.switch');
+  fillModes();fillNoteSelects();updateBanner();renderMissionList();renderNotes();
+  if(S.current)refreshCurrent();
+}
+function updateBanner(){
+  var b=$('banner');
+  if(S.mode==='demo'){b.className='demo';b.textContent=t('banner.demo');}
+  else if(S.mode==='live'){b.className='live';b.textContent=t('banner.live')+S.base;}
+  else if(location.protocol==='file:'){b.className='file';b.textContent=t('banner.idle');}
+  else{b.className='idle';b.textContent=t('banner.idle');}
+  $('fileWarn').hidden=location.protocol!=='file:';
+  var on=S.mode!=='idle';
+  document.querySelectorAll('#tabs button').forEach(function(btn){
+    var tab=btn.getAttribute('data-tab');btn.disabled=tab!=='connect'&&tab!=='notes'&&!on;
+    if(tab===S.tab)btn.setAttribute('aria-current','page');else btn.removeAttribute('aria-current');
+  });
+  $('disconnectBtn').disabled=!on;
+}
+function showTab(tab){
+  S.tab=tab;
+  ['connect','caps','route','missions','evidence','notes'].forEach(function(n){$('p-'+n).hidden=n!==tab;});
+  updateBanner();
+  if(tab==='caps')loadCaps(false);
+  if(tab==='route')loadRouteOptions();
+  if(tab==='evidence')loadEvidence();
+  if(tab==='notes')renderNotes();
+}
+function fillModes(){
+  var sel=$('routeMode');var cur=sel.value;clear(sel);
+  MODES.forEach(function(m){sel.appendChild(h('option',{value:m},m));});
+  if(cur)sel.value=cur;
+}
+
+/* ===== connect ===== */
+function isLoopback(host){return host==='localhost'||host==='127.0.0.1'||host==='[::1]'||host==='::1';}
+async function doConnect(ev){
+  ev.preventDefault();
+  var raw=$('baseUrl').value.trim().replace(/\/+$/,'');
+  var u;try{u=new URL(raw);}catch(e){u=null;}
+  if(!u||(u.protocol!=='http:'&&u.protocol!=='https:')||u.username||u.password||u.search||u.hash){show('connectMsg',msg('bad',t('connect.badurl')));return;}
+  var base=u.origin+(u.pathname==='/'?'':u.pathname.replace(/\/+$/,''));
+  var tok=$('token').value;
+  show('connectMsg',msg('info',t('connect.checking')));show('connectInfo',null);
+  $('connectBtn').disabled=true;
+  var prevMode=S.mode;S.mode='idle';S.token=tok;
+  var hr=await api('GET','/v2/health',undefined,{force:true,base:base,noAuth:true});
+  if(!hr.ok){S.token='';S.mode=prevMode;$('connectBtn').disabled=false;show('connectMsg',errNode(hr));return;}
+  var mr=await api('GET','/v2/models',undefined,{force:true,base:base});
+  $('connectBtn').disabled=false;
+  if(!mr.ok){S.token='';S.mode=prevMode;show('connectMsg',errNode(mr));return;}
+  S.mode='live';S.base=base;lsSet('nexus.base',base);
+  $('token').value='';
+  S.models=(mr.data&&Array.isArray(mr.data.providers))?mr.data.providers:[];
+  var out=[msg('ok',t('connect.ok'))];
+  if(u.protocol==='http:'&&!isLoopback(u.hostname))out.push(msg('warn',t('connect.insecure')));
+  show('connectMsg',out);
+  show('connectInfo',[h('h3',null,t('connect.health')),kv({ok:hr.data.ok,version:hr.data.version,runningCount:hr.data.runningCount,maxConcurrency:hr.data.maxConcurrency})]);
+  updateBanner();
+}
+function doDisconnect(){
+  stopFollow();S.mode='idle';S.token='';S.current=null;S.models=[];
+  $('token').value='';show('connectMsg',null);show('connectInfo',null);show('mdetail',null);
+  showTab('connect');
+}
+function doDemo(){
+  stopFollow();S.mode='demo';S.token='';S.base='';S.models=[];
+  show('connectMsg',msg('warn',t('connect.demoon')));show('connectInfo',null);
+  updateBanner();
+}
+
+/* ===== capabilities ===== */
+function statusOf(r,notEnabledOn404){
+  if(r.ok)return chip(t('st.available'),'ok');
+  if(r.err.kind==='auth')return chip(t('st.unauth'),'bad');
+  if(r.err.kind==='notfound'&&notEnabledOn404)return chip(t('st.notenabled'),'neutral');
+  return chip(t('st.error'),'bad');
+}
+function capCard(title,chipNode,body){return h('div',{class:'panel'},h('h3',null,title,' ',chipNode),body);}
+async function loadCaps(probe){
+  if(S.mode==='idle'){show('capsOut',msg('warn',t('err.notconnected')));return;}
+  show('capsOut',msg('info',t('connect.checking')));
+  var rs=await Promise.all([
+    api('GET','/v2/health',undefined,{noAuth:true}),
+    api('GET','/v2/models'),
+    api('GET','/v2/providers/health'+(probe?'?probe=1':'')),
+    api('GET','/v2/warden/status'),
+    api('GET','/v2/mcp/client'),
+    api('GET','/.well-known/agent-card.json',undefined,{noAuth:true}),
+    api('GET','/v2/approvals')
+  ]);
+  var hr=rs[0],mr=rs[1],ph=rs[2],wr=rs[3],mc=rs[4],a2=rs[5],ap=rs[6];
+  var cards=[];
+  cards.push(capCard(t('caps.health'),statusOf(hr),hr.ok?kv({ok:hr.data.ok,version:hr.data.version,runningCount:hr.data.runningCount,maxConcurrency:hr.data.maxConcurrency}):errNode(hr)));
+  if(mr.ok){
+    S.models=mr.data.providers||[];
+    var rows=S.models.map(function(p){var c=p.capabilities||{};
+      return h('tr',null,h('td',null,String(p.label||p.id)),h('td',{class:'mono'},String(p.defaultModel||'—')),
+        h('td',null,chip(p.configured?t('st.configured'):t('st.notconfigured'),p.configured?'ok':'neutral')),
+        h('td',null,c.isLocal?t('st.local'):t('st.cloud')),
+        h('td',null,['tools','images','webSearch','streaming'].filter(function(k){return c[k];}).join(', ')||t('st.none')));});
+    cards.push(capCard(t('caps.models'),statusOf(mr),h('div',{class:'tablewrap'},h('table',null,h('tbody',null,rows)))));
+  }else cards.push(capCard(t('caps.models'),statusOf(mr),errNode(mr)));
+  if(ph.ok){
+    var prow=(ph.data.providers||[]).map(function(p){
+      var k={READY:'ok',DEGRADED:'warn',UNAVAILABLE:'bad',NOT_CONFIGURED:'neutral'}[p.state]||'neutral';
+      return h('tr',null,h('td',null,String(p.id)),h('td',null,chip(String(p.state),k)),h('td',null,p.live?'live':'config'),h('td',null,p.latencyMs!=null?p.latencyMs+' ms':'—'),h('td',null,clip(p.error||'',200)));});
+    cards.push(capCard(t('caps.phealth'),statusOf(ph),h('div',{class:'tablewrap'},h('table',null,h('tbody',null,prow)))));
+  }else cards.push(capCard(t('caps.phealth'),statusOf(ph),errNode(ph)));
+  cards.push(capCard(t('caps.warden'),statusOf(wr),wr.ok?kv({activeMissions:wr.data.activeMissions,pendingApprovals:wr.data.pendingApprovals,isolatedAgents:wr.data.isolatedAgents,activeCouncilSessions:wr.data.activeCouncilSessions,budget:wr.data.budget}):errNode(wr)));
+  var mcpOn=mc.ok&&mc.data&&mc.data.configured;
+  cards.push(capCard(t('caps.mcp'),mc.ok?chip(mcpOn?t('st.available'):t('st.notenabled'),mcpOn?'ok':'neutral'):statusOf(mc),mc.ok?kv({configured:mc.data.configured,servers:(mc.data.servers||[]).length}):errNode(mc)));
+  cards.push(capCard(t('caps.a2a'),statusOf(a2,true),a2.ok?kv({name:a2.data&&a2.data.name,version:a2.data&&a2.data.version,skills:Array.isArray(a2.data&&a2.data.skills)?a2.data.skills.length:undefined}):(a2.err.kind==='notfound'?h('p',{class:'hint'},t('st.notenabled')):errNode(a2))));
+  cards.push(capCard(t('caps.approvals'),statusOf(ap),ap.ok?h('p',null,String((ap.data.pending||[]).length)):errNode(ap)));
+  show('capsOut',h('div',{class:'grid2'},cards));
+}
+
+/* ===== routing preview ===== */
+async function loadRouteOptions(){
+  var sel=$('routeProvider');var cur=sel.value;clear(sel);
+  sel.appendChild(h('option',{value:''},'—'));
+  if(!S.models.length&&S.mode!=='idle'){var r=await api('GET','/v2/models');if(r.ok)S.models=r.data.providers||[];}
+  S.models.forEach(function(p){sel.appendChild(h('option',{value:String(p.id)},String(p.label||p.id)));});
+  if(cur)sel.value=cur;
+}
+async function doRoute(ev){
+  ev.preventDefault();
+  var mode=$('routeMode').value;var body={mode:mode};
+  if(mode==='USER_SELECTED'&&$('routeProvider').value)body.provider=$('routeProvider').value;
+  if($('rTools').checked)body.needsTools=true;if($('rImages').checked)body.needsImages=true;if($('rWeb').checked)body.needsWebSearch=true;
+  show('routeOut',msg('info',t('connect.checking')));
+  var r=await api('POST','/v2/route',body);
+  if(!r.ok){show('routeOut',errNode(r));return;}
+  var d=r.data||{};
+  show('routeOut',[h('h3',null,t('route.result')),kv({mode:d.mode,provider:d.provider,model:d.model,fallbacks:(d.fallbacks||[]).join(', ')||t('st.none'),cloudFallbackBlocked:d.cloudFallbackBlocked===true?t('route.yes'):t('route.no')})]);
+}
+
+/* ===== missions ===== */
+function loadMissionList(){try{var v=JSON.parse(ssGet('nexus.missions')||'[]');S.missions=Array.isArray(v)?v.filter(function(m){return m&&/^[A-Za-z0-9_\-]{6,80}$/.test(m.id);}).slice(0,30):[];}catch(e){S.missions=[];}}
+function saveMissionList(){ssSet('nexus.missions',JSON.stringify(S.missions.slice(0,30)));}
+function rememberMission(id,objective,state){
+  S.missions=S.missions.filter(function(m){return m.id!==id;});
+  S.missions.unshift({id:id,objective:clip(objective,120),state:state||'PLANNING'});saveMissionList();renderMissionList();
+}
+function renderMissionList(){
+  var ul=$('missionList');clear(ul);
+  if(!S.missions.length){ul.appendChild(h('li',{class:'hint'},t('m.none')));return;}
+  S.missions.forEach(function(m){
+    ul.appendChild(h('li',null,h('button',{class:'link mono',type:'button',on:{click:function(){openMission(m.id);}}},clip(m.id,40)),' ',stateChip(m.state),h('div',{class:'hint'},m.objective)));
+  });
+}
+function uuid(){try{return crypto.randomUUID();}catch(e){return 'k'+Date.now().toString(36)+Math.random().toString(36).slice(2,10);}}
+async function doMission(ev){
+  ev.preventDefault();
+  var obj=$('objective').value.trim();
+  if(!obj){show('missionMsg',msg('bad',t('m.err.empty')));return;}
+  var crit={requireAllTasksDone:$('cAll').checked};
+  if($('cVer').checked)crit.runVerification=true;
+  if($('cVerOk').checked)crit.requireVerificationOk=true;
+  if($('cAppr').checked)crit.requireApprovalOnIssues=true;
+  var ratio=$('cRatio').value.trim();
+  if(ratio!==''){var rv=Number(ratio);if(!(rv>=0&&rv<=1)){show('missionMsg',msg('bad',t('m.err.ratio')));return;}crit.minTaskSuccessRatio=rv;}
+  var body={objective:obj,completionCriteria:crit,idempotencyKey:uuid()};
+  var rp=$('cReplans').value.trim();
+  if(rp!==''){var pv=Number(rp);if(!(Number.isInteger(pv)&&pv>=0&&pv<=10)){show('missionMsg',msg('bad',t('m.err.replans')));return;}body.maxReplans=pv;}
+  $('missionBtn').disabled=true;
+  var r=await api('POST','/v2/missions',body);
+  $('missionBtn').disabled=false;
+  if(!r.ok){show('missionMsg',errNode(r));return;}
+  var id=r.data&&r.data.missionId;
+  if(typeof id!=='string'||!/^[A-Za-z0-9_\-]{6,80}$/.test(id)){show('missionMsg',msg('bad',t('err.parse')));return;}
+  show('missionMsg',msg('ok',t('m.accepted')+' '+id));
+  rememberMission(id,obj,'PLANNING');
+  openMission(id);
+}
+function stopFollow(){
+  if(S.poll){clearTimeout(S.poll.timer);S.poll.stopped=true;S.poll=null;}
+  if(S.stream){try{S.stream.ctl.abort();}catch(e){}S.stream=null;}
+}
+function openMission(id){
+  stopFollow();if(S.act&&S.act.id!==id)S.act=null;S.current={id:id,m:null,tr:[],events:[],evidence:null};
+  renderCurrent();
+  var p={id:id,timer:null,fails:0,stopped:false};S.poll=p;
+  tick(p);startStream(id);
+}
+function refreshCurrent(){if(S.current)renderCurrent();}
+async function tick(p){
+  if(p.stopped)return;
+  var rs=await Promise.all([api('GET','/v2/missions/'+encodeURIComponent(p.id)),api('GET','/v2/missions/'+encodeURIComponent(p.id)+'/transitions')]);
+  if(p.stopped||!S.current||S.current.id!==p.id)return;
+  var mr=rs[0],tr=rs[1];
+  if(!mr.ok){
+    p.fails++;S.current.err=mr;S.current.lost=mr.err.kind==='network'||mr.err.kind==='timeout';
+    renderCurrent();
+    if(mr.err.kind==='notfound'||mr.err.kind==='auth'||p.fails>20)return;
+    p.timer=setTimeout(function(){tick(p);},Math.min(30000,1000*Math.pow(2,Math.min(p.fails,5))));return;
+  }
+  p.fails=0;S.current.err=null;S.current.lost=false;S.current.m=mr.data;S.current.tr=tr.ok&&tr.data&&Array.isArray(tr.data.transitions)?tr.data.transitions:S.current.tr;
+  var ex=S.missions.find(function(x){return x.id===p.id;});if(ex&&ex.state!==mr.data.state){ex.state=mr.data.state;saveMissionList();renderMissionList();}
+  var st=mr.data.state;
+  if(TERMINAL.indexOf(st)>=0||st==='AWAITING_APPROVAL'||st==='PAUSED'){await loadMissionEvidence(p.id);}
+  renderCurrent();
+  if(TERMINAL.indexOf(st)>=0)return;
+  p.timer=setTimeout(function(){tick(p);},(st==='AWAITING_APPROVAL'||st==='PAUSED')?3000:1000);
+}
+async function loadMissionEvidence(id){
+  var rs=await Promise.all([api('GET','/v2/tasks/'+encodeURIComponent(id)),api('GET','/v2/execution-receipts?taskId='+encodeURIComponent(id)+'&limit=50'),api('GET','/v2/evaluation/claims?limit=50')]);
+  if(!S.current||S.current.id!==id)return;
+  S.current.evidence={task:rs[0].ok?rs[0].data:null,receipts:rs[1].ok?(rs[1].data.receipts||[]):null,receiptsErr:rs[1].ok?null:rs[1],
+    claims:rs[2].ok?(rs[2].data.evaluations||[]).filter(function(c){return c.subjectId===id;}):null};
+}
+function startStream(id){
+  if(S.mode!=='live')return;
+  var ctl=new AbortController();S.stream={ctl:ctl,id:id};
+  (async function(){
+    try{
+      var res=await fetch(S.base+'/v2/tasks/'+encodeURIComponent(id)+'/stream?afterId=0',{headers:S.token?{Authorization:'Bearer '+S.token}:{},signal:ctl.signal,credentials:'omit',cache:'no-store',referrerPolicy:'no-referrer'});
+      if(!res.ok||!res.body)return;
+      var rd=res.body.getReader(),dec=new TextDecoder(),buf='';
+      for(;;){
+        var x=await rd.read();if(x.done)break;
+        buf+=dec.decode(x.value,{stream:true});if(buf.length>1e6)buf=buf.slice(-5e5);
+        var parts=buf.split('\n\n');buf=parts.pop();
+        parts.forEach(function(fr){
+          var ev='message',data=[];
+          fr.split('\n').forEach(function(l){if(l.indexOf('event:')===0)ev=l.slice(6).trim();else if(l.indexOf('data:')===0)data.push(l.slice(5).trim());});
+          if(!data.length)return;
+          if(!S.current||S.current.id!==id)return;
+          S.current.events.push({ev:clip(ev,40),data:clip(data.join('\n'),400)});
+          if(S.current.events.length>200)S.current.events.shift();
+        });
+        renderEvents();
+      }
+    }catch(e){/* stream optional; polling is authoritative */}
+  })();
+}
+function renderEvents(){
+  var box=$('evtbox');if(!box||!S.current)return;
+  clear(box);
+  if(!S.current.events.length){box.appendChild(h('p',{class:'hint'},t('m.noevents')));return;}
+  box.appendChild(h('pre',null,S.current.events.slice(-60).map(function(e){return e.ev+': '+e.data;}).join('\n')));
+}
+function renderCurrent(){
+  var c=S.current,box=$('mdetail');clear(box);if(!c)return;
+  var m=c.m;
+  box.appendChild(h('h3',{id:'mstate'},t('m.state'),': ',m?stateChip(m.state):'…'));
+  box.appendChild(h('p',{class:'mono hint'},c.id));
+  if(c.lost)box.appendChild(msg('warn',t('m.lost')));
+  else if(c.err)box.appendChild(errNode(c.err));
+  if(!m)return;
+  box.appendChild(h('p',null,clip(m.objective,500)));
+  var order=['PLANNING','RUNNING','REPLANNING','AWAITING_APPROVAL','COMPLETED'];
+  var seen={};(c.tr||[]).forEach(function(x){seen[x.toState]=true;});
+  var steps=h('ul',{class:'stepper','aria-label':t('m.stage')});
+  var bad=m.state==='FAILED'||m.state==='CANCELLED'||m.state==='PAUSED';
+  order.forEach(function(s){
+    if((s==='REPLANNING'||s==='AWAITING_APPROVAL')&&!seen[s]&&m.state!==s)return;
+    steps.appendChild(h('li',{class:m.state===s?'on':(seen[s]?'done':'')},s));
+  });
+  if(bad)steps.appendChild(h('li',{class:'on'},m.state));
+  box.appendChild(steps);
+  box.appendChild(kv({taskStatus:m.taskStatus,retryCount:m.retryCount,replanCount:m.replanCount+' / '+m.maxReplans,createdAt:fmtTime(m.createdAt),startedAt:fmtTime(m.startedAt),completedAt:fmtTime(m.completedAt)}));
+  var acts=h('div',{class:'actions'});
+  var live=['PLANNING','RUNNING','REPLANNING'].indexOf(m.state)>=0;
+  if(live){acts.appendChild(actBtn(t('m.pause'),'secondary','pause'));acts.appendChild(actBtn(t('m.cancel'),'danger','cancel'));}
+  if(m.state==='PAUSED'){acts.appendChild(actBtn(t('m.resume'),'','resume'));acts.appendChild(actBtn(t('m.cancel'),'danger','cancel'));}
+  if(m.state==='AWAITING_APPROVAL'){box.appendChild(msg('warn',t('m.awaiting')));acts.appendChild(approveBtn(t('m.approve'),'approved',''));acts.appendChild(approveBtn(t('m.reject'),'rejected','danger'));}
+  if(acts.childNodes.length)box.appendChild(acts);
+  box.appendChild(h('div',{id:'actMsg','aria-live':'polite'}));
+  if(S.act&&S.act.id===S.current.id)show('actMsg',S.act.r.ok?msg('ok',t('m.actionok')):errNode(S.act.r));
+  if(m.failures&&m.failures.length){
+    box.appendChild(h('h3',null,t('m.failures')));
+    box.appendChild(h('ul',{class:'plain'},m.failures.slice(0,20).map(function(f){return h('li',null,h('b',null,clip(f.source,60)),': ',clip(f.message,400));})));
+  }
+  box.appendChild(h('h3',null,t('m.transitions')));
+  box.appendChild(h('ul',{class:'plain'},(c.tr||[]).map(function(x){return h('li',null,stateChip(x.toState),' ',h('span',{class:'hint'},fmtTime(x.createdAt)+(x.reason?' — '+clip(x.reason,200):'')));})));
+  box.appendChild(h('h3',null,t('m.events')));box.appendChild(h('div',{id:'evtbox'}));renderEvents();
+  box.appendChild(h('h3',null,t('m.result')));
+  if(m.result&&m.result.finalOutput!=null)box.appendChild(h('pre',null,clip(m.result.finalOutput,20000)));
+  else box.appendChild(h('p',{class:'hint'},t('m.noresult')));
+  if(c.evidence||m.result){
+    box.appendChild(h('h3',null,t('e.evidence')));box.appendChild(h('p',{class:'hint'},t('e.note')));
+    if(m.result&&m.result.verification!=null){box.appendChild(h('h3',null,t('e.verif')));box.appendChild(typeof m.result.verification==='object'?kv(m.result.verification):h('p',null,evChip(m.result.verification)));}
+    if(m.result&&m.result.evaluation!=null){box.appendChild(h('h3',null,'evaluation'));box.appendChild(typeof m.result.evaluation==='object'?kv(m.result.evaluation):h('p',null,clip(m.result.evaluation,1000)));}
+    if(c.evidence){
+      box.appendChild(h('h3',null,t('e.receipts')));
+      box.appendChild(c.evidence.receipts?receiptsTable(c.evidence.receipts):(c.evidence.receiptsErr?errNode(c.evidence.receiptsErr):h('p',{class:'hint'},t('e.none'))));
+      box.appendChild(h('h3',null,t('e.claims')));
+      box.appendChild(c.evidence.claims?claimsTable(c.evidence.claims):h('p',{class:'hint'},t('e.none')));
+    }
+  }
+}
+function actBtn(label,cls,action){
+  return h('button',{class:'btn '+cls,type:'button',on:{click:async function(){
+    var r=await api('POST','/v2/missions/'+encodeURIComponent(S.current.id)+'/'+action,{});
+    S.act={id:S.current.id,r:r};show('actMsg',r.ok?msg('ok',t('m.actionok')):errNode(r));
+    if(S.poll){clearTimeout(S.poll.timer);tick(S.poll);}else{openMission(S.current.id);}
+  }}},label);
+}
+function approveBtn(label,decision,cls){
+  return h('button',{class:'btn '+cls,type:'button',on:{click:async function(){
+    var r=await api('POST','/v2/approvals/'+encodeURIComponent(S.current.id)+'/decide',{decision:decision});
+    S.act={id:S.current.id,r:r};show('actMsg',r.ok?msg('ok',t('m.actionok')):errNode(r));
+    if(S.poll){clearTimeout(S.poll.timer);tick(S.poll);}else{openMission(S.current.id);}
+  }}},label);
+}
+function receiptsTable(list){
+  if(!list.length)return h('p',{class:'hint'},t('e.none'));
+  var rows=list.map(function(r){return h('tr',null,h('td',{class:'mono'},clip(r.id,14)),h('td',null,clip(r.toolName,60)),h('td',null,clip((r.connector||'')+'.'+(r.operation||''),80)),h('td',null,chip(String(r.status),r.status==='ACKED'||r.status==='RECONCILED_APPLIED'?'ok':(r.status==='FAILED'||r.status==='DENIED'?'bad':'warn'))),h('td',null,evChip(r.verification)),h('td',null,r.needsHuman?chip(t('e.needshuman'),'warn'):''));});
+  return h('div',{class:'tablewrap'},h('table',null,h('thead',null,h('tr',null,['ID',t('e.tool'),'op',t('e.status'),t('e.verif'),''].map(function(x){return h('th',null,x);}))),h('tbody',null,rows)));
+}
+function claimsTable(list){
+  if(!list.length)return h('p',{class:'hint'},t('e.none'));
+  var rows=list.map(function(c){return h('tr',null,h('td',null,evChip(c.verdict)),h('td',null,c.confidence!=null?String(c.confidence):'—'),h('td',null,clip(c.claim,300)),h('td',null,clip(c.rationale,300)));});
+  return h('div',{class:'tablewrap'},h('table',null,h('thead',null,h('tr',null,[t('e.verdict'),t('e.conf'),t('e.claim'),t('e.rationale')].map(function(x){return h('th',null,x);}))),h('tbody',null,rows)));
+}
+
+/* ===== evidence tab ===== */
+async function loadEvidence(){
+  if(S.mode==='idle')return;
+  var unres=$('evUnres').checked;
+  var rs=await Promise.all([api('GET','/v2/approvals'),api('GET','/v2/execution-receipts?limit=50'+(unres?'&unresolved=1':'')),api('GET','/v2/evaluation/claims?limit=20')]);
+  var ap=rs[0],rc=rs[1],cl=rs[2];
+  if(ap.ok){
+    var pend=ap.data.pending||[];
+    show('evApprovals',pend.length?h('ul',{class:'plain'},pend.map(function(a){var tid=String(a.taskId||a.task_id||a.id||'');
+      return h('li',null,h('span',{class:'mono'},clip(tid,60)),' ',h('div',{class:'actions'},
+        h('button',{class:'btn',type:'button',on:{click:function(){decide(tid,'approved');}}},t('m.approve')),
+        h('button',{class:'btn danger',type:'button',on:{click:function(){decide(tid,'rejected');}}},t('m.reject'))));})):h('p',{class:'hint'},t('e.none')));
+  }else show('evApprovals',errNode(ap));
+  show('evReceipts',rc.ok?receiptsTable(rc.data.receipts||[]):errNode(rc));
+  show('evClaims',cl.ok?claimsTable(cl.data.evaluations||[]):errNode(cl));
+}
+async function decide(taskId,decision){
+  var r=await api('POST','/v2/approvals/'+encodeURIComponent(taskId)+'/decide',{decision:decision});
+  show('evApprovals',r.ok?msg('ok',t('m.actionok')):errNode(r));
+  setTimeout(loadEvidence,600);
+}
+
+/* ===== DEMO engine: fully separate, every datum labelled SIMULATED ===== */
+var DEMO={missions:{}};
+function demoOk(d){return Promise.resolve({ok:true,status:200,data:d});}
+function demoErr(kind,status,m){return Promise.resolve({ok:false,status:status,err:{kind:kind,message:m||t('err.'+kind)}});}
+function demoState(m){
+  if(m.cancelled)return 'CANCELLED';
+  var el=Date.now()-m.created;
+  if(el<1500)return 'PLANNING';if(el<4000)return 'RUNNING';return 'COMPLETED';
+}
+function demoApi(method,path,body){
+  var u=path.split('?')[0],m;
+  if(u==='/v2/health')return demoOk({ok:true,version:2,runningCount:0,maxConcurrency:4,simulated:true});
+  if(u==='/v2/models')return demoOk({version:2,providers:[{id:'sim-cloud',label:t('sim')+'Cloud',defaultModel:'sim-model-1',capabilities:{isLocal:false,tools:true},configured:true},{id:'sim-local',label:t('sim')+'Local',defaultModel:'sim-local:1b',capabilities:{isLocal:true},configured:true}]});
+  if(u==='/v2/providers/health')return demoOk({version:2,providers:[{id:'sim-cloud',state:'READY',live:false,latencyMs:12,checkedAt:new Date().toISOString()},{id:'sim-local',state:'READY',live:false,latencyMs:3,checkedAt:new Date().toISOString()}]});
+  if(u==='/v2/warden/status')return demoOk({activeMissions:0,activeCouncilSessions:0,pendingApprovals:0,isolatedAgents:0,budget:{simulated:true}});
+  if(u==='/v2/mcp/client')return demoOk({configured:false,servers:[]});
+  if(u==='/.well-known/agent-card.json')return demoErr('notfound',404);
+  if(u==='/v2/approvals')return demoOk({pending:[]});
+  if(u==='/v2/execution-receipts')return demoOk({receipts:[]});
+  if(u==='/v2/evaluation/claims')return demoOk({evaluations:[]});
+  if(u==='/v2/route'&&method==='POST'){
+    if(!body||!body.mode)return demoErr('validation',400);
+    return demoOk({version:2,mode:body.mode,provider:body.mode==='LOCAL_ONLY'||body.mode==='PRIVATE'?'sim-local':'sim-cloud',model:body.mode==='LOCAL_ONLY'||body.mode==='PRIVATE'?'sim-local:1b':'sim-model-1',fallbacks:[],cloudFallbackBlocked:body.mode==='LOCAL_ONLY'||body.mode==='PRIVATE'});
+  }
+  if(u==='/v2/missions'&&method==='POST'){
+    if(!body||!body.objective)return demoErr('validation',400);
+    var id='demo_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);
+    DEMO.missions[id]={id:id,objective:body.objective,created:Date.now(),cancelled:false};
+    return Promise.resolve({ok:true,status:202,data:{missionId:id}});
+  }
+  if((m=/^\/v2\/missions\/([^/]+)$/.exec(u))&&method==='GET'){
+    var d=DEMO.missions[decodeURIComponent(m[1])];if(!d)return demoErr('notfound',404);
+    var st=demoState(d);
+    return demoOk({id:d.id,objective:d.objective,state:st,completionCriteria:{},failures:[],retryCount:0,replanCount:0,maxReplans:2,
+      result:st==='COMPLETED'?{finalOutput:t('sim')+'Demo output for: '+d.objective,verification:{verdict:'UNVERIFIED',note:t('sim')+'no real verification ran'},evaluation:null}:null,
+      createdAt:d.created,startedAt:d.created+500,completedAt:st==='COMPLETED'?d.created+4000:null,taskStatus:st==='COMPLETED'?'done':'running'});
+  }
+  if((m=/^\/v2\/missions\/([^/]+)\/transitions$/.exec(u))){
+    var d2=DEMO.missions[decodeURIComponent(m[1])];if(!d2)return demoErr('notfound',404);
+    var s2=demoState(d2),tr=[{toState:'PLANNING',createdAt:d2.created,reason:t('sim')+'accepted'}];
+    if(s2!=='PLANNING')tr.push({toState:'RUNNING',createdAt:d2.created+1500,reason:t('sim')+'plan ready'});
+    if(s2==='COMPLETED')tr.push({toState:'COMPLETED',createdAt:d2.created+4000,reason:t('sim')+'criteria met'});
+    if(s2==='CANCELLED')tr.push({toState:'CANCELLED',createdAt:Date.now(),reason:t('sim')+'cancelled'});
+    return demoOk({transitions:tr});
+  }
+  if((m=/^\/v2\/missions\/([^/]+)\/(cancel|pause|resume)$/.exec(u))&&method==='POST'){
+    var d3=DEMO.missions[decodeURIComponent(m[1])];if(!d3)return demoErr('notfound',404);
+    if(m[2]==='cancel')d3.cancelled=true;
+    return Promise.resolve({ok:true,status:202,data:{ok:true,simulated:true}});
+  }
+  if((m=/^\/v2\/tasks\/([^/]+)$/.exec(u))){var d4=DEMO.missions[decodeURIComponent(m[1])];if(!d4)return demoErr('notfound',404);return demoOk({task:{id:d4.id,status:demoState(d4)==='COMPLETED'?'done':'running',simulated:true},approval:null});}
+  return demoErr('notfound',404);
+}
+
+
+/* ===== review notes (owner feedback tool; local only) ===== */
+var NCATS=['layout','button','text','rtl','color','bug','idea','other'],NSEVS=['low','med','high'];
+var NOTES=[],PK={on:false,hover:null,draft:null},PENDING=null;
+function loadNotes(){try{var v=JSON.parse(lsGet('nexus.notes')||'[]');NOTES=Array.isArray(v)?v.filter(function(n){return n&&typeof n.text==='string'&&NCATS.indexOf(n.cat)>=0;}).slice(0,300):[];}catch(e){NOTES=[];}}
+function saveNotes(){lsSet('nexus.notes',JSON.stringify(NOTES.slice(0,300)));}
+function fillNoteSelects(){
+  var c=$('nsCat'),sv=$('nsSev'),cv=c.value,svv=sv.value;clear(c);clear(sv);
+  NCATS.forEach(function(k){c.appendChild(h('option',{value:k},t('note.cat.'+k)));});
+  NSEVS.forEach(function(k){sv.appendChild(h('option',{value:k},t('note.sev.'+k)));});
+  if(cv)c.value=cv;sv.value=svv||'med';
+  $('noteFab').textContent=t('note.fab')+' ('+NOTES.length+')';
+}
+function inNoteUi(el){return !!(el&&el.closest&&el.closest('#noteSheet,#noteFab,#pickHint'));}
+function pickable(el){if(!el||el.nodeType!==1||inNoteUi(el)||el===document.documentElement||el===document.body)return null;return el;}
+function selOf(el){
+  var parts=[],n=el;
+  for(var i=0;n&&n.nodeType===1&&n!==document.body&&i<4;i++){
+    var p=n.tagName.toLowerCase();
+    if(n.id){parts.unshift(p+'#'+n.id);break;}
+    var c=(n.getAttribute('class')||'').split(/\s+/).filter(function(x){return x&&x.indexOf('nx-')!==0;})[0];if(c)p+='.'+c;
+    var sib=n.parentNode?Array.prototype.filter.call(n.parentNode.children,function(x){return x.tagName===n.tagName;}):[];
+    if(sib.length>1)p+=':nth-of-type('+(sib.indexOf(n)+1)+')';
+    parts.unshift(p);n=n.parentNode;
+  }
+  return parts.join(' > ');
+}
+function describeEl(el){
+  var secret=el.tagName==='INPUT'&&el.type==='password';
+  var label=el.getAttribute('aria-label')||(secret?'':(el.tagName==='INPUT'||el.tagName==='TEXTAREA'||el.tagName==='SELECT'?(el.labels&&el.labels[0]?el.labels[0].innerText:el.getAttribute('placeholder')||''):el.innerText))||'';
+  if(secret&&el.labels&&el.labels[0])label=el.labels[0].innerText;
+  return {selector:clip(selOf(el),200),text:clip(String(label).replace(/\s+/g,' ').trim(),80)};
+}
+function noteCtx(){
+  return {tab:S.tab,mode:S.mode,lang:S.lang,dir:document.documentElement.dir,vw:window.innerWidth,vh:window.innerHeight,dpr:window.devicePixelRatio||1,
+    scheme:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light',ua:clip(navigator.userAgent,120)};
+}
+function setPick(on){
+  PK.on=on;$('pickHint').hidden=!on;document.body.classList.toggle('picking',on);
+  if(!on&&PK.hover){PK.hover.classList.remove('nx-hover');PK.hover=null;}
+}
+function openSheet(target,draft){
+  PENDING={target:target||null,ctx:noteCtx()};
+  $('nsTarget').textContent=target?(target.selector+(target.text?'  — “'+target.text+'”':'')):t('note.general');
+  $('nsText').value=draft?draft.text:'';if(draft){$('nsCat').value=draft.cat;$('nsSev').value=draft.sev;}show('nsErr',null);$('noteSheet').hidden=false;$('nsText').focus();
+}
+function closeSheet(){$('noteSheet').hidden=true;PENDING=null;}
+function saveNote(ev){
+  ev.preventDefault();
+  var tx=$('nsText').value.trim();
+  if(!tx){show('nsErr',msg('bad',t('note.empty')));return;}
+  NOTES.unshift({id:uuid(),at:new Date().toISOString(),cat:$('nsCat').value,sev:$('nsSev').value,text:clip(tx,2000),target:PENDING&&PENDING.target,ctx:PENDING&&PENDING.ctx});
+  NOTES=NOTES.slice(0,300);saveNotes();closeSheet();fillNoteSelects();renderNotes();
+  show('noteMsg',msg('ok',t('note.saved')));
+}
+function renderNotes(){
+  var box=$('noteList');if(!box)return;clear(box);
+  if(!NOTES.length){box.appendChild(h('p',{class:'hint'},t('note.none')));return;}
+  NOTES.forEach(function(n,i){
+    var c=n.ctx||{};
+    box.appendChild(h('div',{class:'note'},
+      h('div',null,chip(t('note.cat.'+n.cat),'info'),' ',chip(t('note.sev.'+(NSEVS.indexOf(n.sev)>=0?n.sev:'med')),n.sev==='high'?'bad':(n.sev==='low'?'neutral':'warn')),' ',h('span',{class:'hint'},'#'+(NOTES.length-i))),
+      h('p',null,n.text),
+      h('div',{class:'meta mono'},n.target?n.target.selector+(n.target.text?' — “'+n.target.text+'”':''):t('note.general')),
+      h('div',{class:'meta'},[c.tab,c.mode,c.lang,c.vw+'×'+c.vh,c.scheme].join(' · ')),
+      h('button',{class:'btn secondary',type:'button',on:{click:function(){NOTES=NOTES.filter(function(x){return x.id!==n.id;});saveNotes();fillNoteSelects();renderNotes();}}},t('note.delete'))));
+  });
+}
+function notesMd(){
+  var out=['# NEXUS Standalone — review notes','','Exported: '+new Date().toISOString()+' · Notes: '+NOTES.length,''];
+  NOTES.slice().reverse().forEach(function(n,i){
+    var c=n.ctx||{};
+    out.push('## '+(i+1)+'. ['+n.cat+'] ('+n.sev+')','- Target: '+(n.target?'`'+n.target.selector+'`'+(n.target.text?' — "'+n.target.text+'"':''):'general'),
+      '- Context: tab='+c.tab+', mode='+c.mode+', lang='+c.lang+', dir='+c.dir+', viewport='+c.vw+'x'+c.vh+', scheme='+c.scheme,'','> '+String(n.text).replace(/\n/g,'\n> '),'');
+  });
+  return out.join('\n');
+}
+function download(name,type,text){
+  var b=new Blob([text],{type:type}),u=URL.createObjectURL(b),a=document.createElement('a');
+  a.href=u;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(u);},1000);
+}
+async function copyNotes(){
+  try{await navigator.clipboard.writeText(notesMd());show('noteMsg',msg('ok',t('note.copied')));}
+  catch(e){show('noteMsg',msg('warn',t('note.copyfail')));}
+}
+function wireNotes(){
+  loadNotes();
+  $('noteFab').addEventListener('click',function(){if(!$('noteSheet').hidden){closeSheet();return;}openSheet(null);});
+  $('noteAddBtn').addEventListener('click',function(){openSheet(null);});
+  $('notePickBtn').addEventListener('click',function(){setPick(true);});
+  $('pickCancel').addEventListener('click',function(){PK.draft=null;setPick(false);});
+  $('nsCancel').addEventListener('click',closeSheet);
+  $('nsPick').addEventListener('click',function(){PK.draft={text:$('nsText').value,cat:$('nsCat').value,sev:$('nsSev').value};closeSheet();setPick(true);});
+  $('noteForm').addEventListener('submit',saveNote);
+  $('noteCopyBtn').addEventListener('click',copyNotes);
+  $('noteMdBtn').addEventListener('click',function(){download('nexus-ui-notes-'+new Date().toISOString().slice(0,10)+'.md','text/markdown',notesMd());});
+  $('noteJsonBtn').addEventListener('click',function(){download('nexus-ui-notes-'+new Date().toISOString().slice(0,10)+'.json','application/json',JSON.stringify({exportedAt:new Date().toISOString(),notes:NOTES},null,2));});
+  $('noteClearBtn').addEventListener('click',function(){if(NOTES.length&&window.confirm(t('note.confirmclear'))){NOTES=[];saveNotes();fillNoteSelects();renderNotes();}});
+  document.addEventListener('mouseover',function(e){
+    if(!PK.on)return;var el=pickable(e.target);
+    if(PK.hover&&PK.hover!==el)PK.hover.classList.remove('nx-hover');
+    PK.hover=el;if(el)el.classList.add('nx-hover');
+  },true);
+  document.addEventListener('click',function(e){
+    if(!(PK.on||e.altKey))return;
+    var el=pickable(e.target);if(!el)return;
+    e.preventDefault();e.stopPropagation();
+    var d=describeEl(el),dr=PK.draft;PK.draft=null;setPick(false);openSheet(d,dr);
+  },true);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(PK.on)setPick(false);else if(!$('noteSheet').hidden)closeSheet();}});
+}
+
+/* ===== wiring ===== */
+document.addEventListener('DOMContentLoaded',function(){
+  var l=lsGet('nexus.lang');S.lang=(l==='en'||l==='ar')?l:(((navigator.language||'ar').slice(0,2)==='en')?'en':'ar');
+  var b=lsGet('nexus.base');if(b&&/^https?:\/\//.test(b))$('baseUrl').value=b;
+  else if(location.protocol==='http:'||location.protocol==='https:')$('baseUrl').value='';
+  loadMissionList();wireNotes();
+  $('langBtn').addEventListener('click',function(){S.lang=S.lang==='ar'?'en':'ar';lsSet('nexus.lang',S.lang);applyI18n();});
+  $('connectForm').addEventListener('submit',doConnect);
+  $('disconnectBtn').addEventListener('click',doDisconnect);
+  $('demoBtn').addEventListener('click',doDemo);
+  $('capsRefresh').addEventListener('click',function(){loadCaps(false);});
+  $('capsProbe').addEventListener('click',function(){loadCaps(true);});
+  $('routeForm').addEventListener('submit',doRoute);
+  $('missionForm').addEventListener('submit',doMission);
+  $('openBtn').addEventListener('click',function(){var v=$('openId').value.trim();if(!/^[A-Za-z0-9_\-]{6,80}$/.test(v)){show('missionMsg',msg('bad',t('m.err.id')));return;}rememberMission(v,'','PLANNING');openMission(v);});
+  $('evRefresh').addEventListener('click',loadEvidence);
+  $('evUnres').addEventListener('change',loadEvidence);
+  document.querySelectorAll('#tabs button').forEach(function(btn){btn.addEventListener('click',function(){showTab(btn.getAttribute('data-tab'));});});
+  window.addEventListener('pagehide',function(){S.token='';});
+  applyI18n();showTab('connect');
+});
+})();
+</script>
+</body>
+</html>
