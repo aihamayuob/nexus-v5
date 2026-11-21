@@ -201,3 +201,8 @@ Evidence Integrity أُغلق في CP-16 (VERIFIED ضمن حدوده) — لا �
 ---
 ## Dated addition 2026-11-20 (append-only)
 Addendum 29 (`continuity/NEXUS-CONTINUATION-ADDENDUM-29-2026-11-20.md`): R4 baseline reproduced on isolated branch `work/r4-backend-html`; standalone HTML client added (E2E 55/55, simulated providers); backend source unchanged; no push/merge/tag/deploy. Next authorised action: none — wait for owner. Earlier text above is unmodified.
+
+
+---
+## Dated addition 2026-11-21 (append-only)
+Addendum 30 (`continuity/NEXUS-CONTINUATION-ADDENDUM-30-2026-11-21.md`): standalone page action buttons / open-by-id / approvals / claims proven against the real backend (51/51, simulated providers); owner review-notes tool added; one page defect fixed; backend unchanged; nothing pushed. Next authorised action: none — wait for owner. Earlier text unmodified.

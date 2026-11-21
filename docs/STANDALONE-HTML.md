@@ -26,3 +26,7 @@ Connect (URL + key, health, key verified against `/v2/models`) · capabilities &
 - A warning is shown for plain `http://` to a non-loopback host (key would travel in clear text).
 - Limits: a CSP `<meta>` cannot set `frame-ancestors`; the launcher adds `X-Frame-Options: DENY`. If you host the file elsewhere, add that header yourself. UNVERIFIED: behaviour in browsers other than Chromium; full WCAG 2.2 AA conformance (only touch-target size, accessible names, RTL/LTR, no-overflow checks were run).
 - Demo mode: separate code path (`demoApi`), persistent banner "DEMO / SIMULATED", every datum prefixed `[SIMULATED]`, verification `UNVERIFIED`, zero network requests (asserted).
+
+
+## 6. Review notes tool (added 2026-11-21)
+For UI/layout/button feedback: the floating **Note** button (any tab, even before connecting) or the **My notes** tab. "Pick element" (or Alt+click) selects a control without activating it and records its CSS-like selector, visible label, tab, mode, language, direction, viewport and colour scheme. Notes live only in this browser (`localStorage nexus.notes`, max 300); export as Markdown/JSON or copy. Field values (e.g. the key) are never captured. Do not write secrets in notes.

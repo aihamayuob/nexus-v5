@@ -7,3 +7,9 @@ Read order: Project `CLAUDE.md` → this file → `continuity/NEXUS-CONTINUATION
 - Statuses: see Addendum 29 §4. Backend source unchanged; "backend complete" NOT claimed.
 - Next authorised action: **none — STOP and wait for the owner.** Candidate slices (each needs explicit approval): D1–D3 code review; real-provider validation (keys + spend cap); TLS E2E; HTML action-button E2E; licence decision.
 - Forbidden without separate approval: push, merge, tag/release, deploy, licence/ownership changes, real keys/spend, breaking changes.
+
+## 0-ظ) Newest block 2026-11-21 — Addendum 30 (supersedes the candidate list of 0-ط only for "HTML action-button E2E", now done; earlier text unmodified)
+- Read `continuity/NEXUS-CONTINUATION-ADDENDUM-30-2026-11-21.md`. Same local branch `work/r4-backend-html`, 2 local commits, **not pushed**.
+- Evidence: actions E2E 51/51, flow E2E 55/55, CSP check OK (simulated providers, Chromium). Backend unchanged.
+- Next authorised action: **none — STOP.** Input expected from owner: exported UI notes (.md/.json) from the page's Notes tab.
+- Forbidden without separate approval: push, merge, tag/release, deploy, licence changes, real keys/spend, breaking changes.

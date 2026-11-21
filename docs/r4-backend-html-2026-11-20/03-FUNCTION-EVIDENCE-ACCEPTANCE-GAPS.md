@@ -53,3 +53,15 @@ Gateway, providers/routing/fallback, missions lifecycle, Warden/Governor/VEL, ev
 6. WCAG 2.2 AA audit, screen-reader test, non-Chromium browsers — not done.
 7. `scripts/verify-all.sh` integration of the new E2E and CSP `--check` — not wired (would touch existing scripts; left for an owner-approved slice).
 8. Backend source unchanged: any "backend completion" beyond audit needs a defined defect/objective + acceptance criteria.
+
+
+## 5. Dated addition 2026-11-21 — gap 3 closed (append-only; §1–§4 above are unmodified history)
+`e2e/standalone-html-actions.mjs` — **51/51 PASS** (real Chromium → page → built backend process; models SIMULATED by a controllable fake cloud). Page SHA-256 now `b16e01aba9d597a50734caf1a0d864a441e8eab2cca7270f312a61e2de1169b5`.
+- Pause → PAUSED → Resume → COMPLETED: **VERIFIED** (page and backend agree). Cancel → CANCELLED: **VERIFIED**. Buttons shown per state only (RUNNING: Pause/Cancel; PAUSED: Resume/Cancel; AWAITING_APPROVAL: Approve/Reject; terminal: none): **VERIFIED**.
+- `requireApprovalOnIssues` + verifier `issues_found` → AWAITING_APPROVAL; Approve (mission pane) → COMPLETED; Reject → FAILED; Approve from the Evidence tab → COMPLETED and removed from the pending list: **VERIFIED** (simulated verifier).
+- Open-by-id (malformed → client error; unknown → 404 message; real completed/cancelled → opens): **VERIFIED**.
+- Claims view with real stored records: evidence with a declared kind → SUPPORTED (simulated judge); evidence without a kind → backend says UNVERIFIED and the page shows it unchanged: **VERIFIED**.
+- Receipts view: honest empty state only. No built-in tool declares an external effect, so a real receipt cannot be produced naturally; a populated receipts table stays **UNVERIFIED** (would need a test-only tool or an owner-approved slice).
+- **Defect found and fixed in the page (not the backend):** the "action sent" confirmation was erased by the 1 s poll re-render. It now persists per mission (`S.act`). Regression covered by the Pause check (waits 2.5 s).
+- New owner review tool (Notes tab, floating button, pick-element incl. Alt+click, export .md/.json/clipboard, localStorage `nexus.notes`): tested in the same script (pick without activating the control, no field values captured, no secrets in exports, text-only rendering, persistence, ar/RTL, phone 375px): **VERIFIED for exercised paths**.
+- Still open: gaps 1, 2, 4, 5, 6, 7, 8 above unchanged. Gap 3 is closed except populated receipts (PARTIAL).

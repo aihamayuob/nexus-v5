@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-BT4aWZN6BWs7orcnqQUDkCZ8z2HXu2ho6wB0CvfDOVk='; style-src 'sha256-0T585ZzO/9rF5oRfkdoMsafNuTG3eFmPKM344Vt9BdE='; connect-src http: https:; img-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-TfFOC0X+laPWOMV+0jV5qHer0Z995Oae0JQlWTeTV7c='; style-src 'sha256-DWtQ+6Unpa9ryX3CsdP7m4FUN2sw/V5sLr04rGwfUoQ='; connect-src http: https:; img-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <title>NEXUS Standalone</title>
 <style>
@@ -64,6 +64,14 @@ ul.plain li{padding:.35rem 0;border-block-end:1px solid var(--line);overflow-wra
 .mono{font-family:ui-monospace,Consolas,monospace;direction:ltr;unicode-bidi:isolate}
 button.link{background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit;padding:.25rem;min-height:44px;text-align:start}
 .row.hdr{flex:0 1 auto;gap:.5rem}.row.hdr>*{flex:0 1 auto}fieldset.crit{border:1px solid var(--line);border-radius:.4rem;margin-block-start:.75rem}.grid2.gap{margin-block-start:1rem}#openBtn{flex:0 0 auto}
+.fab{position:fixed;inset-block-end:1rem;inset-inline-end:1rem;z-index:50;min-height:48px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+#noteSheet{position:fixed;inset-inline:0;inset-block-end:0;z-index:60;max-height:85vh;overflow:auto;background:var(--panel);border-block-start:3px solid var(--accent);padding:1rem;box-shadow:0 -4px 16px rgba(0,0,0,.35)}
+#noteSheet[hidden],#pickHint[hidden]{display:none}
+#pickHint{position:fixed;inset-inline:0;inset-block-start:0;z-index:70;background:var(--warnbg);color:var(--warn);padding:.6rem 1rem;display:flex;gap:.75rem;align-items:center;justify-content:space-between;border-block-end:2px solid var(--warn);font-weight:600}
+body.picking *{cursor:crosshair!important}
+.nx-hover{outline:3px dashed var(--accent)!important;outline-offset:2px}
+.note{border:1px solid var(--line);border-radius:.5rem;padding:.6rem .75rem;margin-block:.5rem}
+.note .meta{color:var(--muted);font-size:.85rem;overflow-wrap:anywhere}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media (max-width:600px){main{padding:.6rem}section.panel{padding:.75rem}.brand small{display:none}}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
@@ -83,6 +91,7 @@ button.link{background:none;border:0;color:var(--accent);text-decoration:underli
   <button type="button" data-tab="route" data-i18n="tab.route"></button>
   <button type="button" data-tab="missions" data-i18n="tab.missions"></button>
   <button type="button" data-tab="evidence" data-i18n="tab.evidence"></button>
+  <button type="button" data-tab="notes" data-i18n="tab.notes"></button>
 </nav>
 <main>
 <noscript><div class="msg bad">JavaScript is required / يلزم تفعيل جافا سكربت.</div></noscript>
@@ -167,7 +176,42 @@ button.link{background:none;border:0;color:var(--accent);text-decoration:underli
   <div id="evReceipts"></div>
   <h3 data-i18n="e.claims"></h3><div id="evClaims"></div>
 </section>
+<section class="panel" id="p-notes" hidden>
+  <h2 data-i18n="note.title"></h2>
+  <p class="hint" data-i18n="note.intro"></p>
+  <div class="msg warn" data-i18n="note.warn"></div>
+  <div class="actions">
+    <button class="btn" type="button" id="noteAddBtn" data-i18n="note.addgeneral"></button>
+    <button class="btn secondary" type="button" id="notePickBtn" data-i18n="note.pick"></button>
+    <button class="btn secondary" type="button" id="noteCopyBtn" data-i18n="note.copy"></button>
+    <button class="btn secondary" type="button" id="noteMdBtn" data-i18n="note.dlmd"></button>
+    <button class="btn secondary" type="button" id="noteJsonBtn" data-i18n="note.dljson"></button>
+    <button class="btn danger" type="button" id="noteClearBtn" data-i18n="note.clear"></button>
+  </div>
+  <div id="noteMsg" aria-live="polite"></div>
+  <div id="noteList"></div>
+</section>
 </main>
+<button class="btn fab" type="button" id="noteFab"></button>
+<div id="pickHint" role="status" hidden><span data-i18n="note.pickhint"></span><button class="btn secondary" type="button" id="pickCancel" data-i18n="note.cancel"></button></div>
+<section id="noteSheet" role="dialog" aria-modal="false" aria-labelledby="nsTitle" hidden>
+  <h2 id="nsTitle" data-i18n="note.new"></h2>
+  <form id="noteForm" novalidate>
+    <dl class="kv"><dt data-i18n="note.target"></dt><dd id="nsTarget" class="mono"></dd></dl>
+    <div class="row">
+      <div><label for="nsCat" data-i18n="note.category"></label><select id="nsCat"></select></div>
+      <div><label for="nsSev" data-i18n="note.severity"></label><select id="nsSev"></select></div>
+    </div>
+    <label for="nsText" data-i18n="note.text"></label>
+    <textarea id="nsText" maxlength="2000"></textarea>
+    <div id="nsErr" aria-live="polite"></div>
+    <div class="actions">
+      <button class="btn" type="submit" data-i18n="note.save"></button>
+      <button class="btn secondary" type="button" id="nsPick" data-i18n="note.pick"></button>
+      <button class="btn secondary" type="button" id="nsCancel" data-i18n="note.cancel"></button>
+    </div>
+  </form>
+</section>
 
 <script>
 (function(){
@@ -188,6 +232,7 @@ ar:{'brand.sub':'واجهة مستقلة','tab.connect':'الاتصال','tab.ca
 'm.err.empty':'الهدف مطلوب.','m.err.ratio':'النسبة يجب أن تكون بين 0 و1.','m.err.replans':'إعادات التخطيط عدد صحيح بين 0 و10.','m.err.id':'معرّف غير صالح.','m.accepted':'قُبلت المهمة (202).','m.none':'لا مهام بعد.',
 'm.state':'الحالة','m.task':'حالة المهمة الأساسية','m.retry':'المحاولات','m.replan':'إعادات التخطيط','m.created':'أُنشئت','m.started':'بدأت','m.completed':'اكتملت','m.failures':'الإخفاقات','m.transitions':'سجل الانتقالات','m.events':'سجل التنفيذ (SSE)','m.noevents':'لا أحداث (قد لا يكون البث متاحًا).','m.result':'النتيجة النهائية','m.noresult':'لا نتيجة بعد.','m.cancel':'إلغاء','m.pause':'إيقاف مؤقت','m.resume':'استئناف','m.approve':'موافقة','m.reject':'رفض','m.awaiting':'بانتظار قرار بشري.','m.lost':'انقطع الاتصال أثناء المتابعة — إعادة المحاولة…','m.actionok':'تم إرسال الإجراء.','m.stage':'المرحلة',
 'e.title':'الأدلة والحوكمة','e.approvals':'موافقات معلّقة','e.receipts':'إيصالات التنفيذ (VEL)','e.claims':'تقييمات الادعاءات','e.unresolved':'غير المحسومة فقط','e.verif':'التحقق','e.evidence':'الأدلة المرتبطة بالمهمة','e.none':'لا شيء.','e.needshuman':'يحتاج إنسانًا','e.note':'نجاح تنفيذ الكود لا يعني صحة الادعاء — الحالة المعروضة هي حالة الدليل كما أعلنها الباكند.','e.tool':'الأداة','e.status':'الحالة','e.conf':'الثقة','e.verdict':'الحكم','e.claim':'الادعاء','e.rationale':'السبب',
+'tab.notes':'ملاحظاتي','note.fab':'ملاحظة','note.title':'ملاحظات المراجعة على الواجهة','note.intro':'اضغط «اختيار عنصر» ثم المس/انقر أي زر أو حقل أو نص لتسجيل ملاحظة عنه (أو اضغط Alt مع النقر). تُحفظ الملاحظات في هذا المتصفح فقط ويمكنك تصديرها.','note.warn':'لا تكتب مفاتيح أو أسرارًا في الملاحظات. لا يُحفظ مفتاح البوابة ولا محتوى حقل المفتاح.','note.addgeneral':'ملاحظة عامة','note.pick':'اختيار عنصر','note.pickhint':'وضع الاختيار: انقر العنصر الذي تريد التعليق عليه.','note.copy':'نسخ (Markdown)','note.dlmd':'تنزيل .md','note.dljson':'تنزيل .json','note.clear':'مسح الكل','note.new':'ملاحظة جديدة','note.target':'العنصر','note.general':'(ملاحظة عامة)','note.category':'النوع','note.severity':'الأهمية','note.text':'ملاحظتك','note.save':'حفظ','note.cancel':'إلغاء','note.saved':'تم حفظ الملاحظة.','note.empty':'اكتب نص الملاحظة.','note.none':'لا ملاحظات بعد.','note.delete':'حذف','note.copied':'تم النسخ.','note.copyfail':'تعذّر النسخ — استخدم التنزيل.','note.confirmclear':'حذف كل الملاحظات؟','note.n':'ملاحظة','note.cat.layout':'التنسيق / التخطيط','note.cat.button':'الأزرار والتفاعل','note.cat.text':'النصوص / الترجمة','note.cat.rtl':'RTL / اتجاه','note.cat.color':'الألوان / التباين','note.cat.bug':'خلل','note.cat.idea':'فكرة / طلب ميزة','note.cat.other':'أخرى','note.sev.low':'منخفضة','note.sev.med':'متوسطة','note.sev.high':'عالية',
 'sim':'[محاكاة] '},
 en:{'brand.sub':'Standalone console','tab.connect':'Connect','tab.caps':'Capabilities & health','tab.route':'Routing','tab.missions':'Missions','tab.evidence':'Evidence & governance','lang.switch':'العربية',
 'banner.idle':'Not connected — choose Connect, or open the SIMULATED demo mode.','banner.live':'Connected to the real backend: ','banner.demo':'DEMO / SIMULATED — in-page simulated data. These are NOT real results and there is no backend connection.',
@@ -203,6 +248,7 @@ en:{'brand.sub':'Standalone console','tab.connect':'Connect','tab.caps':'Capabil
 'm.err.empty':'Objective is required.','m.err.ratio':'Ratio must be between 0 and 1.','m.err.replans':'Replans must be an integer 0–10.','m.err.id':'Invalid ID.','m.accepted':'Mission accepted (202).','m.none':'No missions yet.',
 'm.state':'State','m.task':'Underlying task status','m.retry':'Retries','m.replan':'Replans','m.created':'Created','m.started':'Started','m.completed':'Completed','m.failures':'Failures','m.transitions':'Transition history','m.events':'Execution log (SSE)','m.noevents':'No events (the stream may be unavailable).','m.result':'Final result','m.noresult':'No result yet.','m.cancel':'Cancel','m.pause':'Pause','m.resume':'Resume','m.approve':'Approve','m.reject':'Reject','m.awaiting':'Waiting for a human decision.','m.lost':'Connection lost while following — retrying…','m.actionok':'Action sent.','m.stage':'Stage',
 'e.title':'Evidence & governance','e.approvals':'Pending approvals','e.receipts':'Execution receipts (VEL)','e.claims':'Claim evaluations','e.unresolved':'Unresolved only','e.verif':'Verification','e.evidence':'Evidence linked to this mission','e.none':'Nothing.','e.needshuman':'needs a human','e.note':'Code that ran is not proof that a claim is true — the status shown is the evidence state as declared by the backend.','e.tool':'Tool','e.status':'Status','e.conf':'Confidence','e.verdict':'Verdict','e.claim':'Claim','e.rationale':'Rationale',
+'tab.notes':'My notes','note.fab':'Note','note.title':'UI review notes','note.intro':'Press "Pick element" then tap/click any button, field or text to leave a note about it (or hold Alt and click). Notes are stored in this browser only and can be exported.','note.warn':'Do not write keys or secrets in notes. The gateway key and the key field content are never captured.','note.addgeneral':'General note','note.pick':'Pick element','note.pickhint':'Pick mode: click the element you want to comment on.','note.copy':'Copy (Markdown)','note.dlmd':'Download .md','note.dljson':'Download .json','note.clear':'Clear all','note.new':'New note','note.target':'Element','note.general':'(general note)','note.category':'Type','note.severity':'Importance','note.text':'Your note','note.save':'Save','note.cancel':'Cancel','note.saved':'Note saved.','note.empty':'Write the note text.','note.none':'No notes yet.','note.delete':'Delete','note.copied':'Copied.','note.copyfail':'Copy failed — use download.','note.confirmclear':'Delete all notes?','note.n':'notes','note.cat.layout':'Layout / styling','note.cat.button':'Buttons & interaction','note.cat.text':'Text / translation','note.cat.rtl':'RTL / direction','note.cat.color':'Colors / contrast','note.cat.bug':'Bug','note.cat.idea':'Idea / feature request','note.cat.other':'Other','note.sev.low':'Low','note.sev.med':'Medium','note.sev.high':'High',
 'sim':'[SIMULATED] '}
 };
 var MODES=['BEST','CHEAPEST','FASTEST','LOCAL_ONLY','PRIVATE','USER_SELECTED'];
@@ -302,7 +348,7 @@ function applyI18n(){
   document.querySelectorAll('[data-i18n]').forEach(function(e){e.textContent=t(e.getAttribute('data-i18n'));});
   document.querySelectorAll('[data-i18n-ph]').forEach(function(e){e.setAttribute('placeholder',t(e.getAttribute('data-i18n-ph')));});
   $('langBtn').textContent=t('lang.switch');
-  fillModes();updateBanner();renderMissionList();
+  fillModes();fillNoteSelects();updateBanner();renderMissionList();renderNotes();
   if(S.current)refreshCurrent();
 }
 function updateBanner(){
@@ -314,18 +360,19 @@ function updateBanner(){
   $('fileWarn').hidden=location.protocol!=='file:';
   var on=S.mode!=='idle';
   document.querySelectorAll('#tabs button').forEach(function(btn){
-    var tab=btn.getAttribute('data-tab');btn.disabled=tab!=='connect'&&!on;
+    var tab=btn.getAttribute('data-tab');btn.disabled=tab!=='connect'&&tab!=='notes'&&!on;
     if(tab===S.tab)btn.setAttribute('aria-current','page');else btn.removeAttribute('aria-current');
   });
   $('disconnectBtn').disabled=!on;
 }
 function showTab(tab){
   S.tab=tab;
-  ['connect','caps','route','missions','evidence'].forEach(function(n){$('p-'+n).hidden=n!==tab;});
+  ['connect','caps','route','missions','evidence','notes'].forEach(function(n){$('p-'+n).hidden=n!==tab;});
   updateBanner();
   if(tab==='caps')loadCaps(false);
   if(tab==='route')loadRouteOptions();
   if(tab==='evidence')loadEvidence();
+  if(tab==='notes')renderNotes();
 }
 function fillModes(){
   var sel=$('routeMode');var cur=sel.value;clear(sel);
@@ -479,7 +526,7 @@ function stopFollow(){
   if(S.stream){try{S.stream.ctl.abort();}catch(e){}S.stream=null;}
 }
 function openMission(id){
-  stopFollow();S.current={id:id,m:null,tr:[],events:[],evidence:null};
+  stopFollow();if(S.act&&S.act.id!==id)S.act=null;S.current={id:id,m:null,tr:[],events:[],evidence:null};
   renderCurrent();
   var p={id:id,timer:null,fails:0,stopped:false};S.poll=p;
   tick(p);startStream(id);
@@ -568,6 +615,7 @@ function renderCurrent(){
   if(m.state==='AWAITING_APPROVAL'){box.appendChild(msg('warn',t('m.awaiting')));acts.appendChild(approveBtn(t('m.approve'),'approved',''));acts.appendChild(approveBtn(t('m.reject'),'rejected','danger'));}
   if(acts.childNodes.length)box.appendChild(acts);
   box.appendChild(h('div',{id:'actMsg','aria-live':'polite'}));
+  if(S.act&&S.act.id===S.current.id)show('actMsg',S.act.r.ok?msg('ok',t('m.actionok')):errNode(S.act.r));
   if(m.failures&&m.failures.length){
     box.appendChild(h('h3',null,t('m.failures')));
     box.appendChild(h('ul',{class:'plain'},m.failures.slice(0,20).map(function(f){return h('li',null,h('b',null,clip(f.source,60)),': ',clip(f.message,400));})));
@@ -593,14 +641,14 @@ function renderCurrent(){
 function actBtn(label,cls,action){
   return h('button',{class:'btn '+cls,type:'button',on:{click:async function(){
     var r=await api('POST','/v2/missions/'+encodeURIComponent(S.current.id)+'/'+action,{});
-    show('actMsg',r.ok?msg('ok',t('m.actionok')):errNode(r));
+    S.act={id:S.current.id,r:r};show('actMsg',r.ok?msg('ok',t('m.actionok')):errNode(r));
     if(S.poll){clearTimeout(S.poll.timer);tick(S.poll);}else{openMission(S.current.id);}
   }}},label);
 }
 function approveBtn(label,decision,cls){
   return h('button',{class:'btn '+cls,type:'button',on:{click:async function(){
     var r=await api('POST','/v2/approvals/'+encodeURIComponent(S.current.id)+'/decide',{decision:decision});
-    show('actMsg',r.ok?msg('ok',t('m.actionok')):errNode(r));
+    S.act={id:S.current.id,r:r};show('actMsg',r.ok?msg('ok',t('m.actionok')):errNode(r));
     if(S.poll){clearTimeout(S.poll.timer);tick(S.poll);}else{openMission(S.current.id);}
   }}},label);
 }
@@ -691,12 +739,124 @@ function demoApi(method,path,body){
   return demoErr('notfound',404);
 }
 
+
+/* ===== review notes (owner feedback tool; local only) ===== */
+var NCATS=['layout','button','text','rtl','color','bug','idea','other'],NSEVS=['low','med','high'];
+var NOTES=[],PK={on:false,hover:null,draft:null},PENDING=null;
+function loadNotes(){try{var v=JSON.parse(lsGet('nexus.notes')||'[]');NOTES=Array.isArray(v)?v.filter(function(n){return n&&typeof n.text==='string'&&NCATS.indexOf(n.cat)>=0;}).slice(0,300):[];}catch(e){NOTES=[];}}
+function saveNotes(){lsSet('nexus.notes',JSON.stringify(NOTES.slice(0,300)));}
+function fillNoteSelects(){
+  var c=$('nsCat'),sv=$('nsSev'),cv=c.value,svv=sv.value;clear(c);clear(sv);
+  NCATS.forEach(function(k){c.appendChild(h('option',{value:k},t('note.cat.'+k)));});
+  NSEVS.forEach(function(k){sv.appendChild(h('option',{value:k},t('note.sev.'+k)));});
+  if(cv)c.value=cv;sv.value=svv||'med';
+  $('noteFab').textContent=t('note.fab')+' ('+NOTES.length+')';
+}
+function inNoteUi(el){return !!(el&&el.closest&&el.closest('#noteSheet,#noteFab,#pickHint'));}
+function pickable(el){if(!el||el.nodeType!==1||inNoteUi(el)||el===document.documentElement||el===document.body)return null;return el;}
+function selOf(el){
+  var parts=[],n=el;
+  for(var i=0;n&&n.nodeType===1&&n!==document.body&&i<4;i++){
+    var p=n.tagName.toLowerCase();
+    if(n.id){parts.unshift(p+'#'+n.id);break;}
+    var c=(n.getAttribute('class')||'').split(/\s+/).filter(function(x){return x&&x.indexOf('nx-')!==0;})[0];if(c)p+='.'+c;
+    var sib=n.parentNode?Array.prototype.filter.call(n.parentNode.children,function(x){return x.tagName===n.tagName;}):[];
+    if(sib.length>1)p+=':nth-of-type('+(sib.indexOf(n)+1)+')';
+    parts.unshift(p);n=n.parentNode;
+  }
+  return parts.join(' > ');
+}
+function describeEl(el){
+  var secret=el.tagName==='INPUT'&&el.type==='password';
+  var label=el.getAttribute('aria-label')||(secret?'':(el.tagName==='INPUT'||el.tagName==='TEXTAREA'||el.tagName==='SELECT'?(el.labels&&el.labels[0]?el.labels[0].innerText:el.getAttribute('placeholder')||''):el.innerText))||'';
+  if(secret&&el.labels&&el.labels[0])label=el.labels[0].innerText;
+  return {selector:clip(selOf(el),200),text:clip(String(label).replace(/\s+/g,' ').trim(),80)};
+}
+function noteCtx(){
+  return {tab:S.tab,mode:S.mode,lang:S.lang,dir:document.documentElement.dir,vw:window.innerWidth,vh:window.innerHeight,dpr:window.devicePixelRatio||1,
+    scheme:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light',ua:clip(navigator.userAgent,120)};
+}
+function setPick(on){
+  PK.on=on;$('pickHint').hidden=!on;document.body.classList.toggle('picking',on);
+  if(!on&&PK.hover){PK.hover.classList.remove('nx-hover');PK.hover=null;}
+}
+function openSheet(target,draft){
+  PENDING={target:target||null,ctx:noteCtx()};
+  $('nsTarget').textContent=target?(target.selector+(target.text?'  — “'+target.text+'”':'')):t('note.general');
+  $('nsText').value=draft?draft.text:'';if(draft){$('nsCat').value=draft.cat;$('nsSev').value=draft.sev;}show('nsErr',null);$('noteSheet').hidden=false;$('nsText').focus();
+}
+function closeSheet(){$('noteSheet').hidden=true;PENDING=null;}
+function saveNote(ev){
+  ev.preventDefault();
+  var tx=$('nsText').value.trim();
+  if(!tx){show('nsErr',msg('bad',t('note.empty')));return;}
+  NOTES.unshift({id:uuid(),at:new Date().toISOString(),cat:$('nsCat').value,sev:$('nsSev').value,text:clip(tx,2000),target:PENDING&&PENDING.target,ctx:PENDING&&PENDING.ctx});
+  NOTES=NOTES.slice(0,300);saveNotes();closeSheet();fillNoteSelects();renderNotes();
+  show('noteMsg',msg('ok',t('note.saved')));
+}
+function renderNotes(){
+  var box=$('noteList');if(!box)return;clear(box);
+  if(!NOTES.length){box.appendChild(h('p',{class:'hint'},t('note.none')));return;}
+  NOTES.forEach(function(n,i){
+    var c=n.ctx||{};
+    box.appendChild(h('div',{class:'note'},
+      h('div',null,chip(t('note.cat.'+n.cat),'info'),' ',chip(t('note.sev.'+(NSEVS.indexOf(n.sev)>=0?n.sev:'med')),n.sev==='high'?'bad':(n.sev==='low'?'neutral':'warn')),' ',h('span',{class:'hint'},'#'+(NOTES.length-i))),
+      h('p',null,n.text),
+      h('div',{class:'meta mono'},n.target?n.target.selector+(n.target.text?' — “'+n.target.text+'”':''):t('note.general')),
+      h('div',{class:'meta'},[c.tab,c.mode,c.lang,c.vw+'×'+c.vh,c.scheme].join(' · ')),
+      h('button',{class:'btn secondary',type:'button',on:{click:function(){NOTES=NOTES.filter(function(x){return x.id!==n.id;});saveNotes();fillNoteSelects();renderNotes();}}},t('note.delete'))));
+  });
+}
+function notesMd(){
+  var out=['# NEXUS Standalone — review notes','','Exported: '+new Date().toISOString()+' · Notes: '+NOTES.length,''];
+  NOTES.slice().reverse().forEach(function(n,i){
+    var c=n.ctx||{};
+    out.push('## '+(i+1)+'. ['+n.cat+'] ('+n.sev+')','- Target: '+(n.target?'`'+n.target.selector+'`'+(n.target.text?' — "'+n.target.text+'"':''):'general'),
+      '- Context: tab='+c.tab+', mode='+c.mode+', lang='+c.lang+', dir='+c.dir+', viewport='+c.vw+'x'+c.vh+', scheme='+c.scheme,'','> '+String(n.text).replace(/\n/g,'\n> '),'');
+  });
+  return out.join('\n');
+}
+function download(name,type,text){
+  var b=new Blob([text],{type:type}),u=URL.createObjectURL(b),a=document.createElement('a');
+  a.href=u;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(u);},1000);
+}
+async function copyNotes(){
+  try{await navigator.clipboard.writeText(notesMd());show('noteMsg',msg('ok',t('note.copied')));}
+  catch(e){show('noteMsg',msg('warn',t('note.copyfail')));}
+}
+function wireNotes(){
+  loadNotes();
+  $('noteFab').addEventListener('click',function(){if(!$('noteSheet').hidden){closeSheet();return;}openSheet(null);});
+  $('noteAddBtn').addEventListener('click',function(){openSheet(null);});
+  $('notePickBtn').addEventListener('click',function(){setPick(true);});
+  $('pickCancel').addEventListener('click',function(){PK.draft=null;setPick(false);});
+  $('nsCancel').addEventListener('click',closeSheet);
+  $('nsPick').addEventListener('click',function(){PK.draft={text:$('nsText').value,cat:$('nsCat').value,sev:$('nsSev').value};closeSheet();setPick(true);});
+  $('noteForm').addEventListener('submit',saveNote);
+  $('noteCopyBtn').addEventListener('click',copyNotes);
+  $('noteMdBtn').addEventListener('click',function(){download('nexus-ui-notes-'+new Date().toISOString().slice(0,10)+'.md','text/markdown',notesMd());});
+  $('noteJsonBtn').addEventListener('click',function(){download('nexus-ui-notes-'+new Date().toISOString().slice(0,10)+'.json','application/json',JSON.stringify({exportedAt:new Date().toISOString(),notes:NOTES},null,2));});
+  $('noteClearBtn').addEventListener('click',function(){if(NOTES.length&&window.confirm(t('note.confirmclear'))){NOTES=[];saveNotes();fillNoteSelects();renderNotes();}});
+  document.addEventListener('mouseover',function(e){
+    if(!PK.on)return;var el=pickable(e.target);
+    if(PK.hover&&PK.hover!==el)PK.hover.classList.remove('nx-hover');
+    PK.hover=el;if(el)el.classList.add('nx-hover');
+  },true);
+  document.addEventListener('click',function(e){
+    if(!(PK.on||e.altKey))return;
+    var el=pickable(e.target);if(!el)return;
+    e.preventDefault();e.stopPropagation();
+    var d=describeEl(el),dr=PK.draft;PK.draft=null;setPick(false);openSheet(d,dr);
+  },true);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(PK.on)setPick(false);else if(!$('noteSheet').hidden)closeSheet();}});
+}
+
 /* ===== wiring ===== */
 document.addEventListener('DOMContentLoaded',function(){
   var l=lsGet('nexus.lang');S.lang=(l==='en'||l==='ar')?l:(((navigator.language||'ar').slice(0,2)==='en')?'en':'ar');
   var b=lsGet('nexus.base');if(b&&/^https?:\/\//.test(b))$('baseUrl').value=b;
   else if(location.protocol==='http:'||location.protocol==='https:')$('baseUrl').value='';
-  loadMissionList();
+  loadMissionList();wireNotes();
   $('langBtn').addEventListener('click',function(){S.lang=S.lang==='ar'?'en':'ar';lsSet('nexus.lang',S.lang);applyI18n();});
   $('connectForm').addEventListener('submit',doConnect);
   $('disconnectBtn').addEventListener('click',doDisconnect);
