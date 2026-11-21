@@ -13,3 +13,5 @@ Read order: Project `CLAUDE.md` → this file → `continuity/NEXUS-CONTINUATION
 - Evidence: actions E2E 51/51, flow E2E 55/55, CSP check OK (simulated providers, Chromium). Backend unchanged.
 - Next authorised action: **none — STOP.** Input expected from owner: exported UI notes (.md/.json) from the page's Notes tab.
 - Forbidden without separate approval: push, merge, tag/release, deploy, licence changes, real keys/spend, breaking changes.
+
+## 0-ع) 2026-11-21 (c) — Addendum 32: single-file build added (docs/SINGLE-FILE-BUILD.md); HEAD advances by 1 local commit; still not pushed. Next authorised action: none — STOP. Forbidden without approval: push, merge, tag, deploy, licence, real keys/spend.

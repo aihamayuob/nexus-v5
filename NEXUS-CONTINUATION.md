@@ -210,3 +210,7 @@ Addendum 30 (`continuity/NEXUS-CONTINUATION-ADDENDUM-30-2026-11-21.md`): standal
 ---
 ## Dated addition 2026-11-21 (b) (append-only)
 Addendum 31 (`continuity/NEXUS-CONTINUATION-ADDENDUM-31-2026-11-21.md`): old uploaded UI vs latest frontend probed against the latest backend (15/17, simulated); old-file defects (phone overflow, key in localStorage) already fixed in latest. Nothing pushed. Next authorised action: none.
+
+---
+## Dated addition 2026-11-21 (c) (append-only)
+Addendum 32 (`continuity/NEXUS-CONTINUATION-ADDENDUM-32-2026-11-21.md`): single-file build of the latest frontend (`scripts/build-single-file.mjs`, E2E 22/22, simulated). Nothing pushed. Next authorised action: none.
