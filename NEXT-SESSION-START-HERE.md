@@ -17,3 +17,5 @@ Read order: Project `CLAUDE.md` → this file → `continuity/NEXUS-CONTINUATION
 ## 0-ع) 2026-11-21 (c) — Addendum 32: single-file build added (docs/SINGLE-FILE-BUILD.md); HEAD advances by 1 local commit; still not pushed. Next authorised action: none — STOP. Forbidden without approval: push, merge, tag, deploy, licence, real keys/spend.
 
 ## 0-غ) 2026-11-21 (d) — Addendum 33: `scripts/nexus-lan-https.mjs` + `docs/LAN-HTTPS-PHONE.md` (E2E 35/35). Owner authorised push/merge/public deploy/spend, but each is BLOCKED by missing access (see Addendum 33 §4); nothing pushed. Next authorised action: wait for the owner's access/inputs listed in Addendum 33 §5. Forbidden without confirmation of a working target: merging unrelated histories, tagging, licence changes, public exposure without a hardening slice.
+
+## 0-ف) 2026-11-21 (e) — Addendum 34: review branch pushed (`review/r4-backend-html`, tip 9cddbb4f); merge to `main` PENDING owner option A–D (unrelated histories, 6 conflicts); public deploy/provider spend still BLOCKED. Next authorised action: execute the owner's merge choice only.

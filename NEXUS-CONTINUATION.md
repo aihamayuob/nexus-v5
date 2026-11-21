@@ -218,3 +218,7 @@ Addendum 32 (`continuity/NEXUS-CONTINUATION-ADDENDUM-32-2026-11-21.md`): single-
 ---
 ## Dated addition 2026-11-21 (d) (append-only)
 Addendum 33 (`continuity/NEXUS-CONTINUATION-ADDENDUM-33-2026-11-21.md`): phone-on-same-network HTTPS front (`scripts/nexus-lan-https.mjs`, E2E 35/35, simulated). Owner authorised push/merge/public deploy/provider spend at 11:26 — all four BLOCKED by access (GitHub app not installed, no hosting creds, no keys; remote main has unrelated history). Nothing pushed. Next authorised action: owner input needed (see Addendum 33 §5).
+
+---
+## Dated addition 2026-11-21 (e) (append-only)
+Addendum 34 (`continuity/NEXUS-CONTINUATION-ADDENDUM-34-2026-11-21.md`): `work/r4-backend-html` pushed to `review/r4-backend-html` on aihamayuob/nexus-v5 (VERIFIED via ls-remote). Merge to `main` PENDING owner choice (unrelated history; 6 conflicting files incl. historical docs). No deploy, no spend. Next authorised action: owner picks merge option A–D.
