@@ -23,3 +23,5 @@ Read order: Project `CLAUDE.md` → this file → `continuity/NEXUS-CONTINUATION
 ## 0-ق) 2026-11-21 (f) — Addendum 35: option A (no merge). Backend now has opt-in native TLS (`NEXUS_TLS_CERT_FILE/KEY_FILE`, 761/761). Hosting + provider keys BLOCKED (owner-only accounts); not Internet-ready (PARTIAL; see docs/PUBLIC-DEPLOYMENT-READINESS.md). Next authorised action: wait for host/cert/keys; hardening slice needs explicit approval.
 
 ## 0-ر) 2026-11-21 (g) — Addendum 36: `deploy/vps/` kit (PARTIAL; real run UNVERIFIED). Owner must create hosting account/VPS/domain/keys and run the one command; assistant cannot SSH. Next authorised action: diagnose from pasted non-secret output; nothing else.
+
+## 0-ز) 2026-11-22 (h) — Addenda 37–39: product direction "دليلي". `daleeli/daleeli.html` + `e2e/daleeli-flow.mjs` (27/27), commit `7c94e8c` on `review/r4-backend-html`. Content is placeholder/UNVERIFIED. Next authorised action: apply owner's corrections/edits to the entries; nothing else (no AI-agent wiring, no deploy, no merge to `main`) without owner approval.

@@ -230,3 +230,7 @@ Addendum 35 (`continuity/NEXUS-CONTINUATION-ADDENDUM-35-2026-11-21.md`): owner c
 ---
 ## Dated addition 2026-11-21 (g) (append-only)
 Addendum 36 (`continuity/NEXUS-CONTINUATION-ADDENDUM-36-2026-11-21.md`): VPS one-command deployment kit prepared (`deploy/vps/`), PARTIAL (not run on a real server). Hosting account/billing/ToS/2FA/domain/provider keys are the owner's own acts — BLOCKED on the owner; no SSH route from the assistant. Next authorised action: owner runs the kit and pastes back non-secret output.
+
+---
+## Dated addition 2026-11-22 (h) (append-only)
+Owner redirected the project toward a product ("دليلي", Arabic citizen-procedure guide) and asked Claude to lead; all content defaults, owner edits later. Built `daleeli/daleeli.html` (single static page, no backend, no dependencies, 10 default entries; only the passport entry filled from public sources, tagged "قيد المراجعة") + `e2e/daleeli-flow.mjs` (27/27 PASS, Chromium, 390px/320px, dark scheme). Commit `7c94e8c` pushed to `review/r4-backend-html`. Page also published as a private artifact (owner-only). Statuses: page PARTIAL (works; content unverified; not the AI agent yet; edits live in one browser's localStorage + manual JSON export); content UNVERIFIED; demand UNVERIFIED; WCAG/real phones/non-Chromium UNVERIFIED. Next authorised action: owner supplies real-world corrections (see Project doc `dalili-kb/passport-renewal-DRAFT-2026-11-22.md`) and/or edits the entries; then Claude updates `daleeli/` and stops. See Project Addenda 37–39.
