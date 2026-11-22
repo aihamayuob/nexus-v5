@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>دليلي — نموذج أولي</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#16202a;--mut:#56626e;--line:#d8dee5;--brand:#0f6b5c;--onbrand:#fff;
+--warn:#6b4500;--warnbg:#fff1c9;--ok:#0b5a25;--okbg:#d9f3e0;--rev:#0f3f7a;--revbg:#e0ecfb;--err:#a31616}
+@media (prefers-color-scheme:dark){:root{--bg:#10151a;--card:#182028;--ink:#e8edf2;--mut:#a3afbb;--line:#2b3744;--brand:#3cc2a8;--onbrand:#06241e;
+--warn:#ffd98a;--warnbg:#3a2f12;--ok:#86e8a3;--okbg:#12301d;--rev:#a6ccff;--revbg:#14284a;--err:#ff9a9a}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 system-ui,-apple-system,"Segoe UI",Tahoma,"Noto Naskh Arabic",sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:12px 14px 40px}
+header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0 10px}
+h1{font-size:1.35rem;margin:0}
+h2{font-size:1.15rem;margin:0 0 6px}
+h3{font-size:1rem;margin:16px 0 4px;color:var(--brand)}
+.banner{background:var(--warnbg);color:var(--warn);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.93rem;margin-bottom:12px}
+button,select,input,textarea{font:inherit;color:inherit}
+button{min-height:44px;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);cursor:pointer}
+button.primary{background:var(--brand);color:var(--onbrand);border-color:var(--brand);font-weight:600}
+button.danger{color:var(--err)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.search{width:100%;min-height:48px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);margin-bottom:12px}
+.list{display:grid;gap:8px}
+.item{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-height:56px}
+.item b{font-weight:600}
+.badge{display:inline-block;font-size:.78rem;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.b-default{background:var(--warnbg);color:var(--warn)}.b-review{background:var(--revbg);color:var(--rev)}.b-confirmed{background:var(--okbg);color:var(--ok)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.val{margin:0;overflow-wrap:anywhere}
+.muted{color:var(--mut)}
+ol,ul{margin:4px 0;padding-inline-start:22px}
+li{margin:3px 0;overflow-wrap:anywhere}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+label.f{display:block;margin:12px 0 4px;font-weight:600;font-size:.95rem}
+textarea,input[type=text],select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
+textarea{min-height:84px;resize:vertical}
+.msg{min-height:1.4em;color:var(--err);font-size:.92rem}
+.empty{padding:18px;text-align:center}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media print{header button,.row,.search,.banner{display:none!important}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>دليلي <span class="muted" style="font-size:.9rem;font-weight:400">— نموذج أولي</span></h1>
+  <button id="modeBtn" type="button" aria-pressed="false">وضع التعديل</button>
+</header>
+<div class="banner" role="note">نسخة تجريبية: ما يحمل وسم «افتراضي» أو «قيد المراجعة» غير مؤكد. لا تعتمد عليه في معاملة فعلية قبل التحقق من الجهة المختصة. هذه الصفحة تعرض معلومات منظّمة فقط، وليست الوكيل الذكي بعد.</div>
+<main id="app" aria-live="polite"></main>
+</div>
+<script>
+'use strict';
+const KEY = 'daleeli.v1';
+const NA = 'يُملأ لاحقًا';
+const FIELDS = [
+  ['entity', 'الجهة المختصة', 'text'],
+  ['who', 'من يحق له التقديم', 'text'],
+  ['docs', 'الأوراق المطلوبة', 'list'],
+  ['steps', 'الخطوات', 'list'],
+  ['fee', 'الرسم', 'text'],
+  ['time', 'المدة', 'text'],
+  ['mistakes', 'أخطاء شائعة يجب تجنّبها', 'list'],
+  ['source', 'المصدر الرسمي (رابط أو اسم الجهة)', 'text'],
+  ['verified', 'تاريخ آخر تحقق (YYYY-MM-DD)', 'text'],
+  ['notes', 'ملاحظات', 'text']
+];
+const STATUS = { default: 'افتراضي', review: 'قيد المراجعة', confirmed: 'مؤكد' };
+const blank = () => ({ entity: '', who: '', docs: [], steps: [], fee: '', time: '', mistakes: [], source: '', verified: '', notes: '' });
+const mk = (id, title, keywords, status, o) => Object.assign(blank(), { id, title, keywords, status }, o || {});
+const DEFAULTS = [
+  mk('passport', 'تجديد جواز السفر', 'جواز سفر تجديد منتهي هجرة جوازات بعثة سفارة قنصلية أنجز', 'review', {
+    entity: 'داخل سوريا: وزارة الداخلية — إدارة الهجرة والجوازات (عبر منصة «أنجز» وفق مصادر غير رسمية). خارج سوريا: وزارة الخارجية والمغتربين عبر السفارة أو القنصلية.',
+    who: 'المواطنون السوريون ومن في حكمهم.',
+    docs: [
+      '(خارج سوريا) نسخة تأكيد الموعد من تطبيق MOFA SY',
+      '(خارج سوريا) استمارة الطلب مطبوعة بالألوان من التطبيق',
+      'الجواز القديم',
+      'صورتان شخصيتان ملونتان حديثتان بخلفية بيضاء ولباس داكن، مقاس 4×4',
+      'إن لم يكن الرقم الوطني على الجواز القديم: نسخة عن الهوية أو إخراج قيد',
+      'نسخة عن الإقامة أو الفيزا للحصول على صلاحية أطول (حسب صفحة الخارجية)',
+      '(داخل سوريا — غير مؤكد) نسخة عن الهوية وحساب مصرفي للدفع الإلكتروني'
+    ],
+    steps: [
+      '(خارج سوريا) احجز موعدًا عبر تطبيق MOFA SY',
+      'قدّم الطلب في الموعد مع الأوراق',
+      'التوقيع الإلكتروني وأخذ البصمة',
+      'ادفع الرسوم',
+      '(داخل سوريا) الحجز والدفع عبر منصة «أنجز» ثم المراجعة — الخطوات الفعلية تحتاج تأكيدًا من المالك'
+    ],
+    fee: 'لا يوجد رقم مؤكد. صفحة الخارجية لا تذكر مبلغًا. أرقام غير رسمية متضاربة (مثلًا 200 دولار عادي و400 مستعجل خارج سوريا؛ داخل سوريا 3,127 ل.س جديدة = 312,700 قديمة). حُذف الصفران من الليرة اعتبارًا من 2026-01-01 حسب المصادر — اقسم أي رقم قديم على 100. تحقق من الرسم المعروض عند الحجز.',
+    time: 'غير مؤكدة. داخل سوريا (غير رسمي): عادي 30–45 يومًا، مستعجل 15 يومًا، فوري يومان. خارجها: نحو 40–50 يومًا (سفارة باريس).',
+    mistakes: ['صورة غير مطابقة للمواصفات', 'نقص وثيقة أو نسخة', 'موعد أو دفع في غير القناة الرسمية'],
+    source: 'mofaex.gov.sy — صفحة «تجديد جواز السفر بدل عن منتهي» (آخر تحديث على الصفحة 2026-03-29)',
+    notes: 'القاصر: حضور الأب أو الجد لأب مع نسخة جوازه. الأم: وثيقة وصاية شرعية مصدّقة من الخارجية لا يزيد عمرها عن 3 أشهر (أو موافقة الوصي بمكالمة فيديو).'
+  }),
+  mk('lost-id', 'فقدان الهوية الشخصية', 'هوية هويتي بطاقة شخصية ضياع ضاعت ضيعت فقدان فقدت بدل فاقد سجل مدني أحوال مدنية', 'default', {
+    entity: 'السجل المدني / الأحوال المدنية التابعة لمكان القيد (افتراضي)',
+    notes: 'قالب افتراضي: لم تُجمع أي تفاصيل بعد.'
+  }),
+  mk('travel-countries', 'الدول التي يمكن السفر إليها بالجواز السوري', 'سفر فيزا تأشيرة دول جواز سوري وجهة', 'default', {
+    entity: 'سفارة أو وزارة خارجية بلد الوجهة',
+    fee: 'لا ينطبق',
+    time: 'تتغير الشروط باستمرار',
+    notes: 'لا توجد قائمة ثابتة صالحة دائمًا. قبل السفر تحقق من موقع سفارة بلد الوجهة أو وزارة خارجيتها، ومن شروط الترانزيت أيضًا. لا تُعرض قائمة دول إلا مع مصدر وتاريخ.'
+  }),
+  mk('irregular-crossing', 'العبور غير المشروع للحدود (معلومات قانونية فقط)', 'عبور حدود غير شرعي تهريب مخالفة عقوبة', 'default', {
+    entity: 'محامٍ مختص أو جهة مساعدة قانونية أو البعثة القنصلية',
+    notes: 'موضوع حسّاس: تُعرض هنا العواقب القانونية والحقوق وطرق تسوية الوضع وجهات المساعدة فقط. لا يُقدَّم أي إرشاد للتحايل أو لتجاوز الحدود. يُملأ لاحقًا من مصدر قانوني.'
+  }),
+  mk('deported', 'ماذا أفعل إذا تم ترحيلي من دولة', 'ترحيل ابعاد عودة قسرية قنصلية', 'default', {
+    entity: 'السفارة أو القنصلية السورية، ومنظمات مساعدة قانونية (افتراضي)',
+    notes: 'قالب افتراضي: احتفظ بكل الأوراق التي سُلّمت إليك، واطلب نسخة من قرار الترحيل. التفاصيل تُملأ لاحقًا.'
+  }),
+  mk('loan', 'الحصول على قرض', 'قرض تمويل مصرف بنك اقتراض', 'default', { entity: 'المصرف المقرِض', notes: 'قالب افتراضي: الشروط تختلف بين المصارف.' }),
+  mk('building-permit', 'رخصة بناء', 'ترخيص بناء رخصة عقار بلدية مجلس مدينة', 'default', { entity: 'البلدية أو مجلس المدينة المختص (افتراضي)', notes: 'قالب افتراضي.' }),
+  mk('buy-property', 'شراء عقار', 'شراء عقار بيع سجل عقاري كاتب عدل نقل ملكية', 'default', { entity: 'السجل العقاري وكاتب العدل (افتراضي)', notes: 'قالب افتراضي.' }),
+  mk('meters', 'عداد ماء وكهرباء', 'عداد ماء كهرباء اشتراك مؤسسة', 'default', { entity: 'مؤسسة المياه ومؤسسة الكهرباء/التوزيع (افتراضي)', notes: 'قالب افتراضي.' }),
+  mk('support', 'الحصول على دعم', 'دعم مساعدة اعانة استحقاق', 'default', { entity: 'تختلف حسب نوع الدعم', notes: 'قالب افتراضي: حدّد نوع الدعم أولًا.' })
+];
+
+let store = { entries: [] };
+const mem = {};
+function lsGet() { try { return localStorage.getItem(KEY); } catch (e) { return mem[KEY] || null; } }
+function lsSet(v) { try { localStorage.setItem(KEY, v); } catch (e) { mem[KEY] = v; } }
+function load() {
+  try { const s = JSON.parse(lsGet()); if (s && Array.isArray(s.entries) && s.entries.length) { store = s; return; } } catch (e) {}
+  store = { entries: JSON.parse(JSON.stringify(DEFAULTS)) };
+}
+function save() { lsSet(JSON.stringify(store)); }
+
+const norm = s => String(s || '').toLowerCase()
+  .replace(/[ً-ْـ]/g, '').replace(/[أإآٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه');
+function match(e, q) {
+  const toks = norm(q).split(/\s+/).filter(Boolean);
+  if (!toks.length) return true;
+  const hay = norm([e.title, e.keywords, e.entity, e.notes, e.docs.join(' '), e.steps.join(' ')].join(' '));
+  return toks.every(t => hay.includes(t));
+}
+
+const app = document.getElementById('app');
+const modeBtn = document.getElementById('modeBtn');
+let editMode = false, current = null, query = '';
+
+function el(tag, attrs, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === 'class') n.className = v; else if (k === 'text') n.textContent = v;
+    else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v);
+  }
+  for (const k of kids) if (k != null) n.append(k);
+  return n;
+}
+const badge = s => el('span', { class: 'badge b-' + s, text: STATUS[s] || s });
+
+function renderList() {
+  app.replaceChildren();
+  const input = el('input', { class: 'search', type: 'search', placeholder: 'اكتب سؤالك أو اسم المعاملة، مثلًا: ضاعت هويتي', 'aria-label': 'بحث', value: query });
+  input.addEventListener('input', () => { query = input.value; drawResults(); });
+  const box = el('div', { class: 'list', id: 'results' });
+  app.append(input, box);
+  const tools = el('div', { class: 'row' });
+  if (editMode) {
+    tools.append(
+      el('button', { type: 'button', class: 'primary', id: 'addBtn', text: '+ معاملة جديدة', onclick: addEntry }),
+      el('button', { type: 'button', id: 'exportBtn', text: 'تصدير نسخة JSON', onclick: exportJson }),
+      el('label', { class: 'f', style: 'margin:0;display:inline-flex;align-items:center;min-height:44px' }, 'استيراد: ',
+        el('input', { type: 'file', accept: 'application/json', id: 'importFile', onchange: importJson, style: 'max-width:60vw' })),
+      el('button', { type: 'button', class: 'danger', id: 'resetBtn', text: 'إعادة الافتراضي' })
+    );
+    twoStep(tools.querySelector('#resetBtn'), '', resetAll);
+    app.append(tools, el('div', { class: 'msg', id: 'msg', role: 'status' }), el('div', { id: 'exportBox' }));
+  }
+  drawResults();
+}
+function drawResults() {
+  const box = document.getElementById('results');
+  box.replaceChildren();
+  const found = store.entries.filter(e => match(e, query));
+  if (!found.length) box.append(el('div', { class: 'card empty muted', text: 'لا توجد نتيجة. جرّب كلمة أخرى.' }));
+  for (const e of found) {
+    box.append(el('button', { type: 'button', class: 'item', 'data-id': e.id, onclick: () => { current = e.id; render(); window.scrollTo(0, 0); } },
+      el('b', { text: e.title }), badge(e.status)));
+  }
+}
+
+function valNode(f, v) {
+  if (f[2] === 'list') {
+    if (!v.length) return el('p', { class: 'val muted', text: NA });
+    return el('ol', {}, ...v.map(x => el('li', { text: x })));
+  }
+  return el('p', { class: 'val' + (v ? '' : ' muted'), text: v || NA });
+}
+function checklistText(e) {
+  return e.title + '\n\nالأوراق المطلوبة:\n' + (e.docs.length ? e.docs.map(d => '☐ ' + d).join('\n') : '(لم تُملأ بعد)') +
+    '\n\nالجهة: ' + (e.entity || NA) + '\nالمصدر: ' + (e.source || NA) + '\nآخر تحقق: ' + (e.verified || 'غير مؤكد') +
+    '\n\n(دليلي — نسخة تجريبية، تحقق من الجهة المختصة)';
+}
+async function copyText(t, msgEl) {
+  try { await navigator.clipboard.writeText(t); msgEl.textContent = 'تم النسخ'; msgEl.style.color = 'var(--ok)'; }
+  catch (e) { const ta = el('textarea', {}); ta.value = t; document.body.append(ta); ta.select(); try { document.execCommand('copy'); msgEl.textContent = 'تم النسخ'; msgEl.style.color = 'var(--ok)'; } catch (_) { msgEl.textContent = 'تعذّر النسخ'; } ta.remove(); }
+}
+
+function renderDetail() {
+  const e = store.entries.find(x => x.id === current);
+  if (!e) { current = null; return renderList(); }
+  app.replaceChildren();
+  const msg = el('div', { class: 'msg', id: 'msg', role: 'status' });
+  const top = el('div', { class: 'row' },
+    el('button', { type: 'button', id: 'backBtn', text: '← رجوع', onclick: () => { current = null; render(); } }));
+  if (!editMode) {
+    top.append(
+      el('button', { type: 'button', id: 'copyBtn', text: 'نسخ قائمة الأوراق', onclick: () => copyText(checklistText(e), msg) }));
+    const card = el('article', { class: 'card' }, el('h2', { text: e.title }), badge(e.status));
+    for (const f of FIELDS) { card.append(el('h3', { text: f[1] }), valNode(f, e[f[0]])); }
+    app.append(top, msg, card);
+    return;
+  }
+  const form = el('form', { class: 'card', id: 'form' });
+  form.addEventListener('submit', ev => { ev.preventDefault(); saveEntry(e, form, msg); });
+  form.append(
+    el('label', { class: 'f', for: 'f-title', text: 'العنوان' }), el('input', { type: 'text', id: 'f-title', value: e.title }),
+    el('label', { class: 'f', for: 'f-kw', text: 'كلمات للبحث (افصل بمسافة)' }), el('input', { type: 'text', id: 'f-kw', value: e.keywords }),
+    el('label', { class: 'f', for: 'f-status', text: 'الحالة' }),
+    (() => { const s = el('select', { id: 'f-status' }); for (const [k, v] of Object.entries(STATUS)) { const o = el('option', { value: k, text: v }); if (k === e.status) o.selected = true; s.append(o); } return s; })());
+  for (const f of FIELDS) {
+    const id = 'f-' + f[0];
+    form.append(el('label', { class: 'f', for: id, text: f[1] + (f[2] === 'list' ? ' (سطر لكل عنصر)' : '') }));
+    if (f[2] === 'list') { const t = el('textarea', { id }); t.value = e[f[0]].join('\n'); form.append(t); }
+    else { const t = el('input', { type: 'text', id }); t.value = e[f[0]]; form.append(t); }
+  }
+  form.append(el('div', { class: 'row' },
+    el('button', { type: 'submit', class: 'primary', id: 'saveBtn', text: 'حفظ' }),
+    el('button', { type: 'button', class: 'danger', id: 'delBtn', text: 'حذف هذه المعاملة' })));
+  twoStep(form.querySelector('#delBtn'), '', () => { store.entries = store.entries.filter(x => x !== e); save(); current = null; render(); });
+  app.append(top, msg, form);
+}
+function saveEntry(e, form, msg) {
+  const g = id => form.querySelector('#' + id).value.trim();
+  const upd = { title: g('f-title') || e.title, keywords: g('f-kw'), status: g('f-status') };
+  for (const f of FIELDS) upd[f[0]] = f[2] === 'list' ? form.querySelector('#f-' + f[0]).value.split('\n').map(s => s.trim()).filter(Boolean) : g('f-' + f[0]);
+  let note = 'تم الحفظ';
+  if (upd.status === 'confirmed' && (!upd.source || !/^\d{4}-\d{2}-\d{2}$/.test(upd.verified))) {
+    upd.status = 'review'; note = 'حُفظت الحالة «قيد المراجعة»: لا يمكن وسم «مؤكد» دون مصدر وتاريخ تحقق بصيغة YYYY-MM-DD.';
+  }
+  Object.assign(e, upd); save();
+  msg.textContent = note; msg.style.color = note === 'تم الحفظ' ? 'var(--ok)' : 'var(--err)';
+  form.querySelector('#f-status').value = e.status;
+}
+function addEntry() {
+  const id = 'n' + Date.now().toString(36);
+  store.entries.unshift(mk(id, 'معاملة جديدة', '', 'default'));
+  save(); current = id; render();
+}
+function exportJson() {
+  const box = document.getElementById('exportBox'); box.replaceChildren();
+  const ta = el('textarea', { id: 'exportText', readonly: 'readonly', 'aria-label': 'نسخة JSON', style: 'min-height:140px;direction:ltr;text-align:left' });
+  ta.value = JSON.stringify(store, null, 2);
+  const m = document.getElementById('msg');
+  box.append(ta, el('div', { class: 'row' }, el('button', { type: 'button', class: 'primary', id: 'copyJsonBtn', text: 'نسخ النص', onclick: () => copyText(ta.value, m) })));
+  m.textContent = 'انسخ هذا النص واحتفظ به أو أرسله لي لأعتمده'; m.style.color = 'var(--mut)';
+}
+function importJson(ev) {
+  const f = ev.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    const m = document.getElementById('msg');
+    try {
+      const s = JSON.parse(r.result);
+      if (!s || !Array.isArray(s.entries) || !s.entries.every(x => x && typeof x.id === 'string' && typeof x.title === 'string')) throw new Error('bad');
+      store = { entries: s.entries.map(x => Object.assign(blank(), { keywords: '', status: 'default' }, x)) };
+      save(); render(); document.getElementById('msg').textContent = 'تم الاستيراد';
+    } catch (e) { m.textContent = 'ملف غير صالح'; m.style.color = 'var(--err)'; }
+  };
+  r.readAsText(f);
+}
+function resetAll() {
+  store = { entries: JSON.parse(JSON.stringify(DEFAULTS)) }; save(); current = null; render();
+}
+function twoStep(btn, label, action) {
+  let armed = false, t = null; const orig = btn.textContent;
+  btn.addEventListener('click', () => {
+    if (!armed) { armed = true; btn.textContent = 'اضغط مرة أخرى للتأكيد'; t = setTimeout(() => { armed = false; btn.textContent = orig; }, 4000); return; }
+    clearTimeout(t); armed = false; btn.textContent = orig; action();
+  });
+}
+function render() { current ? renderDetail() : renderList(); }
+modeBtn.addEventListener('click', () => {
+  editMode = !editMode; modeBtn.setAttribute('aria-pressed', String(editMode));
+  modeBtn.textContent = editMode ? 'إنهاء التعديل' : 'وضع التعديل'; render();
+});
+load(); render();
+</script>
+</body>
+</html>
