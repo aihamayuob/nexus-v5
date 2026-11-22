@@ -40,6 +40,11 @@ textarea,input[type=text],select{width:100%;padding:10px 12px;border-radius:10px
 textarea{min-height:84px;resize:vertical}
 .msg{min-height:1.4em;color:var(--err);font-size:.92rem}
 .empty{padding:18px;text-align:center}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.chip{min-height:44px;border-radius:99px;padding:6px 14px;font-size:.92rem}
+.chip[aria-pressed=true]{background:var(--brand);color:var(--onbrand);border-color:var(--brand);font-weight:600}
+.b-live{background:var(--revbg);color:var(--rev)}
+.livenote{background:var(--revbg);color:var(--rev);border-radius:10px;padding:10px 12px;margin:10px 0;font-size:.93rem}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media print{header button,.row,.search,.banner{display:none!important}body{background:#fff;color:#000}}
 </style>
@@ -70,7 +75,13 @@ const FIELDS = [
   ['notes', 'ملاحظات', 'text']
 ];
 const STATUS = { default: 'افتراضي', review: 'قيد المراجعة', confirmed: 'مؤكد' };
-const blank = () => ({ entity: '', who: '', docs: [], steps: [], fee: '', time: '', mistakes: [], source: '', verified: '', notes: '' });
+const CATS = [
+  ['civil', 'الهوية والأحوال المدنية'], ['travel', 'السفر والجواز'], ['justice', 'القضاء والعدل'], ['mofa', 'الخارجية والتصديق'],
+  ['finance', 'المصارف والمال'], ['edu', 'التعليم'], ['gov', 'المحافظات والبلديات'], ['housing', 'العقارات والسكن'],
+  ['tourism', 'السياحة والفنادق'], ['health', 'الصحة'], ['other', 'أخرى']
+];
+const catName = k => (CATS.find(c => c[0] === k) || CATS[CATS.length - 1])[1];
+const blank = () => ({ cat: 'other', live: false, entity: '', who: '', docs: [], steps: [], fee: '', time: '', mistakes: [], source: '', verified: '', notes: '' });
 const mk = (id, title, keywords, status, o) => Object.assign(blank(), { id, title, keywords, status }, o || {});
 const DEFAULTS = [
   mk('passport', 'تجديد جواز السفر', 'جواز سفر تجديد منتهي هجرة جوازات بعثة سفارة قنصلية أنجز', 'review', {
@@ -123,13 +134,57 @@ const DEFAULTS = [
   mk('support', 'الحصول على دعم', 'دعم مساعدة اعانة استحقاق', 'default', { entity: 'تختلف حسب نوع الدعم', notes: 'قالب افتراضي: حدّد نوع الدعم أولًا.' })
 ];
 
-let store = { entries: [] };
+const LIVE_NOTE = 'هذا الصنف يحتاج بيانات حيّة. الصفحة غير متصلة بأي مصدر الآن، لذلك لا تُعرض أرقام أو أسعار أو توفّر. لا يُعرض أي رقم مستقبلًا إلا مع مصدره ووقت تحديثه.';
+const CATOF = { passport: 'travel', 'lost-id': 'civil', 'travel-countries': 'travel', 'irregular-crossing': 'travel', deported: 'travel',
+  loan: 'finance', 'building-permit': 'gov', 'buy-property': 'housing', meters: 'gov', support: 'gov' };
+DEFAULTS.forEach(e => { e.cat = CATOF[e.id] || e.cat; });
+DEFAULTS.push(
+  mk('court-record', 'وثيقة عدم محكومية / سجل عدلي', 'قضاء عدل محكومية سجل عدلي وثيقة وزارة العدل محكمة', 'default', { cat: 'justice', entity: 'وزارة العدل أو القصر العدلي المختص (افتراضي)', notes: 'قالب افتراضي.' }),
+  mk('file-lawsuit', 'رفع دعوى أمام المحاكم', 'دعوى محكمة قضاء رفع دعوى قاضي محامي', 'default', { cat: 'justice', entity: 'المحكمة المختصة حسب نوع الدعوى (افتراضي)', notes: 'قالب افتراضي. هذه معلومات عامة وليست استشارة قانونية؛ يُنصح بمراجعة محامٍ.' }),
+  mk('power-of-attorney', 'وكالة عند كاتب العدل', 'وكالة كاتب عدل توكيل وكيل موكل', 'default', { cat: 'justice', entity: 'كاتب العدل (افتراضي)', notes: 'قالب افتراضي.' }),
+  mk('court-status', 'الاستعلام عن دعوى أو موعد جلسة', 'استعلام دعوى جلسة موعد قضية رقم أساس', 'default', { cat: 'justice', entity: 'قلم المحكمة أو منصة وزارة العدل إن وُجدت (افتراضي)', notes: 'قالب افتراضي.' }),
+  mk('legal-faq', 'أسئلة شائعة في القضاء ووزارة العدل', 'أسئلة شائعة قضاء عدل قانون حقوق', 'default', { cat: 'justice', entity: 'وزارة العدل (افتراضي)', notes: 'قالب افتراضي: تُجمع هنا أكثر الأسئلة تكرارًا من المواطنين مع جوابها ومصدرها.' }),
+  mk('attest-docs', 'تصديق الأوراق والوثائق', 'تصديق وثائق أوراق خارجية مصدقة ختم تصديقات', 'default', { cat: 'mofa', entity: 'وزارة الخارجية والمغتربين (صالة التصديقات) وجهات إصدار الوثيقة (افتراضي)', notes: 'قالب افتراضي: تختلف سلسلة التصديق حسب نوع الوثيقة وبلد الاستعمال.' }),
+  mk('attest-degree', 'تصديق شهادة جامعية للاستخدام خارج سوريا', 'تصديق شهادة جامعية تخرج مغتربين وزارة التعليم العالي الخارجية', 'default', { cat: 'mofa', entity: 'الجامعة، فوزارة التعليم العالي، فوزارة الخارجية (افتراضي)', notes: 'قالب افتراضي.' }),
+  mk('consular', 'الخدمات القنصلية للمغتربين', 'قنصلية سفارة مغتربين خارج سوريا وكالة قيد', 'default', { cat: 'mofa', entity: 'السفارة أو القنصلية السورية، وتطبيق MOFA SY', source: 'mofaex.gov.sy', notes: 'قالب افتراضي: الخدمات تختلف بين البعثات.' }),
+  mk('banks', 'المصارف العامة والخاصة: الفروق والخدمات', 'مصرف مصارف بنك عام خاص خدمات حساب فروع', 'default', { cat: 'finance', entity: 'المصارف العامة والخاصة المرخّصة (افتراضي)', notes: 'قالب افتراضي: يُقارَن بين المصارف بشروطها المعلنة فقط، ومع ذكر المصدر.' }),
+  mk('loans-facilities', 'القروض والتسهيلات المصرفية', 'قرض تسهيلات ائتمان تمويل مصرف عام خاص ضمانات', 'default', { cat: 'finance', entity: 'المصرف المقرِض (افتراضي)', notes: 'قالب افتراضي: الشروط تختلف بين المصارف ولا تُعرض أرقام فوائد دون مصدر.' }),
+  mk('open-account', 'فتح حساب مصرفي', 'حساب مصرفي فتح حساب بنك بطاقة صراف', 'default', { cat: 'finance', entity: 'المصرف المختار (افتراضي)', notes: 'قالب افتراضي.' }),
+  mk('fx-rates', 'سعر صرف العملات (آني)', 'سعر صرف دولار يورو ليرة عملات دولار تداول نشرة', 'default', { cat: 'finance', live: true, entity: 'مصرف سورية المركزي أو مصدر سوق معتمد (يحدّده المالك)', notes: 'المصدر المطلوب: نشرة أسعار رسمية أو واجهة بيانات معتمدة، مع وقت التحديث.' }),
+  mk('gold-price', 'سعر الذهب (آني)', 'ذهب غرام عيار 21 سعر الذهب صاغة ليرة ذهبية', 'default', { cat: 'finance', live: true, entity: 'نشرة أسعار معتمدة (يحدّدها المالك)', notes: 'المصدر المطلوب: نشرة رسمية أو واجهة بيانات معتمدة، مع وقت التحديث.' }),
+  mk('univ-admission', 'المفاضلة الجامعية', 'مفاضلة جامعية تسجيل جامعة علامات قبول وزارة التعليم العالي', 'default', { cat: 'edu', entity: 'وزارة التعليم العالي والبحث العلمي (افتراضي)', notes: 'قالب افتراضي: المواعيد والشروط تتغير كل عام، فتُعرض مع تاريخ التحقق.' }),
+  mk('private-univ', 'الجامعات الخاصة والرسوم', 'جامعة خاصة رسوم أقساط اختصاصات تسجيل', 'default', { cat: 'edu', entity: 'الجامعات الخاصة المرخّصة (افتراضي)', notes: 'قالب افتراضي: الرسوم تُعرض من إعلان كل جامعة مع تاريخه، ولا تُعرض أرقام دونه.' }),
+  mk('degree-equivalence', 'معادلة الشهادات', 'معادلة شهادة تعليم عال معادلة خارجية اعتراف', 'default', { cat: 'edu', entity: 'وزارة التعليم العالي (افتراضي)', notes: 'قالب افتراضي.' }),
+  mk('school-services', 'وزارة التربية: تسجيل ونقل الطلاب والشهادات', 'تربية مدرسة تسجيل نقل طالب شهادة صف مديرية التربية', 'default', { cat: 'edu', entity: 'وزارة التربية ومديرية التربية في المحافظة (افتراضي)', notes: 'قالب افتراضي.' }),
+  mk('governorate-services', 'خدمات المحافظة وخططها المستقبلية', 'محافظة خدمات مجلس محافظة خطط مشاريع بلدية', 'default', { cat: 'gov', entity: 'المحافظة المعنيّة (افتراضي)', notes: 'المحافظات الأربع عشرة: دمشق، ريف دمشق، حلب، حمص، حماة، اللاذقية، طرطوس، إدلب، دير الزور، الحسكة، الرقة، درعا، السويداء، القنيطرة. تحتاج كل محافظة بطاقة خاصة بها بخدماتها وخططها ومصدرها.' }),
+  mk('rent-apartment', 'استئجار شقة: الإجراءات وعقد الإيجار', 'ايجار استئجار شقة عقد إيجار مستأجر مؤجر', 'default', { cat: 'housing', entity: 'المؤجر والجهات المعنية بتوثيق العقد (افتراضي)', notes: 'قالب افتراضي: معلومات عامة وليست استشارة قانونية.' }),
+  mk('rent-listings', 'عروض الشقق المتاحة للإيجار', 'ايجار شقق عروض متاح سكن', 'default', { cat: 'housing', live: true, entity: 'غير محدد', notes: 'المصدر المطلوب: شركاء عقاريون أو إعلانات موثوقة بتواريخها. لا تُعرض عروض قبل وجود مصدر ومسؤول عن التحديث.' }),
+  mk('hotels', 'حجوزات الفنادق والمتاح منها', 'فندق فنادق حجز غرف اقامة سياحة', 'default', { cat: 'tourism', live: true, entity: 'غير محدد', notes: 'المصدر المطلوب: اتفاق مع فنادق أو منصة حجز تقدّم التوفّر والأسعار آنيًا.' }),
+  mk('hospitals', 'المشافي الخاصة والعامة وعناوينها', 'مشفى مستشفى مشافي خاص عام عنوان طوارئ هاتف', 'default', { cat: 'health', entity: 'وزارة الصحة والمشافي نفسها (افتراضي)', notes: 'دليل ثابت نسبيًا: يحتاج قائمة معتمدة بالعناوين والهواتف وتاريخ آخر تحقق.' }),
+  mk('doctors', 'الأطباء والاختصاصات', 'طبيب أطباء اختصاص عيادة نقابة الأطباء', 'default', { cat: 'health', entity: 'نقابة الأطباء (افتراضي)', notes: 'دليل يحتاج مصدرًا معتمدًا ولا يُنشر دون موافقة أصحاب البيانات.' }),
+  mk('duty-pharmacies', 'الصيدليات المناوبة', 'صيدلية صيدليات مناوبة مناوب نقابة الصيادلة', 'default', { cat: 'health', live: true, entity: 'نقابة الصيادلة في المحافظة (افتراضي)', notes: 'المصدر المطلوب: جدول المناوبة اليومي لكل محافظة من النقابة، مع التاريخ.' })
+);
+
+const clone = x => JSON.parse(JSON.stringify(x));
+let store = { entries: [], removed: [] };
 const mem = {};
 function lsGet() { try { return localStorage.getItem(KEY); } catch (e) { return mem[KEY] || null; } }
 function lsSet(v) { try { localStorage.setItem(KEY, v); } catch (e) { mem[KEY] = v; } }
 function load() {
-  try { const s = JSON.parse(lsGet()); if (s && Array.isArray(s.entries) && s.entries.length) { store = s; return; } } catch (e) {}
-  store = { entries: JSON.parse(JSON.stringify(DEFAULTS)) };
+  let st = null;
+  try { st = JSON.parse(lsGet()); } catch (e) {}
+  if (st && Array.isArray(st.entries) && st.entries.length) {
+    store = { entries: st.entries, removed: Array.isArray(st.removed) ? st.removed : [] };
+    const have = new Set(store.entries.map(e => e.id));
+    for (const d of DEFAULTS) if (!have.has(d.id) && !store.removed.includes(d.id)) store.entries.push(clone(d));
+    for (const e of store.entries) {
+      const d = DEFAULTS.find(x => x.id === e.id);
+      if (!e.cat) e.cat = d ? d.cat : 'other';
+      if (typeof e.live !== 'boolean') e.live = d ? d.live : false;
+    }
+    return;
+  }
+  store = { entries: clone(DEFAULTS), removed: [] };
 }
 function save() { lsSet(JSON.stringify(store)); }
 
@@ -144,7 +199,7 @@ function match(e, q) {
 
 const app = document.getElementById('app');
 const modeBtn = document.getElementById('modeBtn');
-let editMode = false, current = null, query = '';
+let editMode = false, current = null, query = '', catSel = '';
 
 function el(tag, attrs, ...kids) {
   const n = document.createElement(tag);
@@ -156,13 +211,19 @@ function el(tag, attrs, ...kids) {
   return n;
 }
 const badge = s => el('span', { class: 'badge b-' + s, text: STATUS[s] || s });
+const liveBadge = () => el('span', { class: 'badge b-live', text: 'بيانات حيّة — غير متصلة' });
 
 function renderList() {
   app.replaceChildren();
   const input = el('input', { class: 'search', type: 'search', placeholder: 'اكتب سؤالك أو اسم المعاملة، مثلًا: ضاعت هويتي', 'aria-label': 'بحث', value: query });
   input.addEventListener('input', () => { query = input.value; drawResults(); });
+  const chips = el('div', { class: 'chips', role: 'group', 'aria-label': 'التصنيفات' });
+  const mkChip = (k, label) => { const b = el('button', { type: 'button', class: 'chip', 'data-cat': k, 'aria-pressed': String(catSel === k), text: label });
+    b.addEventListener('click', () => { catSel = k; chips.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.cat === catSel))); drawResults(); }); return b; };
+  chips.append(mkChip('', 'الكل'));
+  for (const c of CATS) if (store.entries.some(e => e.cat === c[0])) chips.append(mkChip(c[0], c[1]));
   const box = el('div', { class: 'list', id: 'results' });
-  app.append(input, box);
+  app.append(input, chips, box);
   const tools = el('div', { class: 'row' });
   if (editMode) {
     tools.append(
@@ -180,11 +241,11 @@ function renderList() {
 function drawResults() {
   const box = document.getElementById('results');
   box.replaceChildren();
-  const found = store.entries.filter(e => match(e, query));
+  const found = store.entries.filter(e => (!catSel || e.cat === catSel) && match(e, query));
   if (!found.length) box.append(el('div', { class: 'card empty muted', text: 'لا توجد نتيجة. جرّب كلمة أخرى.' }));
   for (const e of found) {
     box.append(el('button', { type: 'button', class: 'item', 'data-id': e.id, onclick: () => { current = e.id; render(); window.scrollTo(0, 0); } },
-      el('b', { text: e.title }), badge(e.status)));
+      el('b', { text: e.title }), el('span', {}, e.live ? liveBadge() : null, e.live ? ' ' : null, badge(e.status))));
   }
 }
 
@@ -215,7 +276,8 @@ function renderDetail() {
   if (!editMode) {
     top.append(
       el('button', { type: 'button', id: 'copyBtn', text: 'نسخ قائمة الأوراق', onclick: () => copyText(checklistText(e), msg) }));
-    const card = el('article', { class: 'card' }, el('h2', { text: e.title }), badge(e.status));
+    const card = el('article', { class: 'card' }, el('h2', { text: e.title }), el('p', { class: 'muted', style: 'margin:0 0 6px', text: catName(e.cat) }), badge(e.status), e.live ? liveBadge() : null);
+    if (e.live) card.append(el('div', { class: 'livenote', role: 'note', text: LIVE_NOTE }));
     for (const f of FIELDS) { card.append(el('h3', { text: f[1] }), valNode(f, e[f[0]])); }
     app.append(top, msg, card);
     return;
@@ -225,8 +287,12 @@ function renderDetail() {
   form.append(
     el('label', { class: 'f', for: 'f-title', text: 'العنوان' }), el('input', { type: 'text', id: 'f-title', value: e.title }),
     el('label', { class: 'f', for: 'f-kw', text: 'كلمات للبحث (افصل بمسافة)' }), el('input', { type: 'text', id: 'f-kw', value: e.keywords }),
+    el('label', { class: 'f', for: 'f-cat', text: 'التصنيف' }),
+    (() => { const s = el('select', { id: 'f-cat' }); for (const [k, v] of CATS) { const o = el('option', { value: k, text: v }); if (k === e.cat) o.selected = true; s.append(o); } return s; })(),
+    el('label', { class: 'f', for: 'f-live', style: 'display:flex;align-items:center;gap:8px;min-height:44px' }, el('input', { type: 'checkbox', id: 'f-live', style: 'width:22px;height:22px' }), 'هذا الصنف يحتاج بيانات حيّة (أسعار/توفّر/مناوبات)'),
     el('label', { class: 'f', for: 'f-status', text: 'الحالة' }),
     (() => { const s = el('select', { id: 'f-status' }); for (const [k, v] of Object.entries(STATUS)) { const o = el('option', { value: k, text: v }); if (k === e.status) o.selected = true; s.append(o); } return s; })());
+  form.querySelector('#f-live').checked = !!e.live;
   for (const f of FIELDS) {
     const id = 'f-' + f[0];
     form.append(el('label', { class: 'f', for: id, text: f[1] + (f[2] === 'list' ? ' (سطر لكل عنصر)' : '') }));
@@ -236,12 +302,12 @@ function renderDetail() {
   form.append(el('div', { class: 'row' },
     el('button', { type: 'submit', class: 'primary', id: 'saveBtn', text: 'حفظ' }),
     el('button', { type: 'button', class: 'danger', id: 'delBtn', text: 'حذف هذه المعاملة' })));
-  twoStep(form.querySelector('#delBtn'), '', () => { store.entries = store.entries.filter(x => x !== e); save(); current = null; render(); });
+  twoStep(form.querySelector('#delBtn'), '', () => { store.entries = store.entries.filter(x => x !== e); if (DEFAULTS.some(d => d.id === e.id)) store.removed.push(e.id); save(); current = null; render(); });
   app.append(top, msg, form);
 }
 function saveEntry(e, form, msg) {
   const g = id => form.querySelector('#' + id).value.trim();
-  const upd = { title: g('f-title') || e.title, keywords: g('f-kw'), status: g('f-status') };
+  const upd = { title: g('f-title') || e.title, keywords: g('f-kw'), status: g('f-status'), cat: g('f-cat'), live: form.querySelector('#f-live').checked };
   for (const f of FIELDS) upd[f[0]] = f[2] === 'list' ? form.querySelector('#f-' + f[0]).value.split('\n').map(s => s.trim()).filter(Boolean) : g('f-' + f[0]);
   let note = 'تم الحفظ';
   if (upd.status === 'confirmed' && (!upd.source || !/^\d{4}-\d{2}-\d{2}$/.test(upd.verified))) {
@@ -253,7 +319,7 @@ function saveEntry(e, form, msg) {
 }
 function addEntry() {
   const id = 'n' + Date.now().toString(36);
-  store.entries.unshift(mk(id, 'معاملة جديدة', '', 'default'));
+  store.entries.unshift(mk(id, 'معاملة جديدة', '', 'default', { cat: catSel || 'other' }));
   save(); current = id; render();
 }
 function exportJson() {
@@ -272,14 +338,15 @@ function importJson(ev) {
     try {
       const s = JSON.parse(r.result);
       if (!s || !Array.isArray(s.entries) || !s.entries.every(x => x && typeof x.id === 'string' && typeof x.title === 'string')) throw new Error('bad');
-      store = { entries: s.entries.map(x => Object.assign(blank(), { keywords: '', status: 'default' }, x)) };
+      const ents = s.entries.map(x => Object.assign(blank(), { keywords: '', status: 'default' }, x));
+      store = { entries: ents, removed: DEFAULTS.filter(d => !ents.some(x => x.id === d.id)).map(d => d.id) };
       save(); render(); document.getElementById('msg').textContent = 'تم الاستيراد';
     } catch (e) { m.textContent = 'ملف غير صالح'; m.style.color = 'var(--err)'; }
   };
   r.readAsText(f);
 }
 function resetAll() {
-  store = { entries: JSON.parse(JSON.stringify(DEFAULTS)) }; save(); current = null; render();
+  store = { entries: clone(DEFAULTS), removed: [] }; save(); catSel = ''; current = null; render();
 }
 function twoStep(btn, label, action) {
   let armed = false, t = null; const orig = btn.textContent;
